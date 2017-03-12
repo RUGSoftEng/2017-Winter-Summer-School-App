@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class='full'>
+<% include partials/loggedin_header %>
+<body class="full">
+  <div id='wrap' class='full'>
+      <nav id='menu-bar' class="navbar navbar-default">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="/main">
+                      <img alt="Brand" class="no-select" src="https://3.basecamp.com/3141640/buckets/2744886/uploads/403602869/download/versions/BAh7CEkiCGdpZAY6BkVUSSIpZ2lkOi8vYmMzL1VwbG9hZC8xODAyNzQxMz9leHBpcmVzX2luBjsAVEkiDHB1cnBvc2UGOwBUSSIPYXR0YWNoYWJsZQY7AFRJIg9leHBpcmVzX2F0BjsAVDA=--9afb219b35df04ccd5f0ce07e565c60e92aa97d4/c_206452-l_1-k_rugr_logoen_rood_rgb.jpg">
+                  </a>
+              </div>
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a> <%= user.username %></a>
+                  </li>
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a class="test" href="../announcepage">Announcements</a></li>
+                          <li><a href="#">General Information</a></li>
+                          <li><a href="#">Schedule</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="../logout">Log out</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+      <div class="row" id="event-screen">
+          <div class="col-md-4">
+            <div class="inner-event">
+              <h3 class="underline-title">Announcements</h3>
+              <div class="list-group">
+                <div class="list-group ">
+                  <%announcements.forEach(function(announcement){%>
+                    <button type="button" class="list-group-item list-group-item-text  change-announcement" data-description = "<%=announcement.description%>" ><%=announcement.title %> </button>
+                  <%});%>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-md-8">
+          <div class="inner-event">
+            <h3 class="underline-title">View Announcement</h3>
+            <h4 id="changingH1">Click a title to select an announcement</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

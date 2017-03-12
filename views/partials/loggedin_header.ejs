@@ -1,0 +1,204 @@
+<head>
+<meta charset="utf-8">
+<title>Summer and Winter schools - University of Groningen</title>
+<link rel="icon" href="https://nestor.rug.nl/ui/bb-icon2.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style>
+    .full {
+        height: 100%;
+        width: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    #wrap {
+        background-color: #e3e3e3;
+    }
+
+    .col-md-4 {
+        padding: 10px;
+    }
+    .col-md-8 {
+        padding: 10px;
+    }
+    .lead {
+	    display: block;
+	    display: -webkit-box;
+	    max-width: 100%;
+	    height: 75px;
+	    margin: 0 auto;
+	    line-height: 1.2;
+	    -webkit-line-clamp: 3;
+	    -webkit-box-orient: vertical;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+    }
+    img {
+        height: 100%;
+        top: 0;
+        position: absolute;
+    }
+
+    .navbar {
+        background-color: #0A9BEB;
+        border-radius: 0px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar-brand {
+        position: relative;
+        left: 0;
+        background-color: #fff;
+    }
+
+    #menu-bar .navbar-brand:hover,
+    #menu-bar .navbar-brand:focus {
+        background-color: #fff;
+        outline: none;
+    }
+
+    .navbar-header {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    #event-screen {
+        background-color: #f0f0f0;
+        padding: 30px;
+        min-height: 100%;
+    }
+
+    #event-screen .cols .inner-event:first-child {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+    
+    #event-screen .cols .inner-event:last-child {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .announce {
+        width: 100%;
+        margin: 0;
+        height: 155px;
+        margin-top: 15px;
+        padding: 0;
+    }
+    .announce .panel-heading {
+	    margin: 0;
+    }
+    
+    .announce .panel-body {
+	    cursor:pointer;
+    }
+
+
+    .underline-title {
+        padding-bottom: 10px;
+        border-bottom: 2px solid #333;
+    }
+
+    .innerrow {
+        width: 100%;
+        margin: 0;
+    }
+    .no-select {
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .inner-event {
+        background-color: #fff;
+        padding: 8px;
+        -webkit-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+        -moz-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+        box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+    }
+
+    .announce h4>.badge {
+        vertical-align: middle;
+    }
+
+    .read-more {
+        color: #0A9BEB;
+        cursor: pointer;
+    }
+    .list-group-item-text {
+      font-size: 25px;
+      margin-bottom: 0;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+    #wrap .navbar-nav>li>a {
+        color: #fff;
+    }
+
+    #wrap .navbar-nav>li>a:focus {
+        color: #0A9BEB;
+        background-color: #fafafa;
+    }
+    .list-group-item {
+      position: relative;
+      display: block;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      width: 100%
+    }
+    .glyphicon-plus {
+        cursor: pointer;
+    }
+
+    .dropdown-menu>li>a:hover{
+      background-color: #0A9BEB;
+    }
+
+    .glyphicon-plus:hover {
+        color: #0A9BEB;
+    }
+
+    .modal-body textarea {
+        max-width: 100%;
+    }
+</style>
+ <script>
+    var titles = ["Add an announcement", "Add general information"];
+    var buttonTexts = ["Post announcement", "Add section"];
+    var sectionHeaders = ["Title of announcement", "Information header"];
+    var links = ["/announcement/add", "/generalinfo/add"]
+    $(document).ready(function() {
+	    $('.open-modal').click(function(){
+		   $type = $(this).data("type");
+		   $('#add-announcement .modal-title').html("<p>" + titles[$type] + "</p>");
+		   $('#add-announcement #section-header').html(sectionHeaders[$type]);
+		   $('#add-announcement .finish').html(buttonTexts[$type]);
+		   $('#add-announcement form').attr('action', links[$type])
+		   if($type == 1) {
+			   $('#add-announcement .target').hide();
+		   } else {
+			   $('#add-announcement .target').show();
+		   }
+	    });
+    });
+    </script>
+
+
+    <script>
+       $(document).ready(function() {
+         $('.change-announcement').click(function(){
+           var description = $(this).data('description');
+          $('#changingH1').html(description);
+         });
+       });
+       </script>
+</head>
