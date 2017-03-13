@@ -43,6 +43,7 @@
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 1].description %>
                                     </p>
+                                    <div class='data-text'><%- announcements[announcements.length - 1].description %></div>
                                     <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
                                 </div>
                             </div>
@@ -53,6 +54,7 @@
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 2].description %>
                                     </p>
+                                    <div class='data-text'><%- announcements[announcements.length - 2].description %></div>
                                     <small class='read-more'><a data-toggle="modal" data-target="#myModal">Read more...</a></small>
                                 </div>
                             </div>
@@ -63,6 +65,7 @@
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 3].description %>
                                     </p>
+                                    <div class='data-text'><%- announcements[announcements.length - 3].description %></div>
                                     <small class='read-more'><a data-toggle="modal" data-target="#myModal">Read more...</a></small>
                                 </div>
                             </div>
@@ -75,11 +78,10 @@
                         <div class='row innerrow'>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=0 data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <%= generalinfo[generalinfo.length - 1].title %><span class="label label-primary pull-right">New</span></h4>
+                                    <%-generalinfo[generalinfo.length - 1].title %><span class="label label-primary pull-right">New</span></h4>
                                 <div class='panel-body'>
-                                    <p class='lead'>
-                                        <%= generalinfo[generalinfo.length - 1].description %>
-                                    </p>
+                                <p class='lead'><%= generalinfo[generalinfo.length - 1].description %></p>
+                                        <div class='data-text'><%- generalinfo[generalinfo.length - 1].description %></div>
                                     <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
                                 </div>
                             </div>
@@ -90,6 +92,8 @@
                                     <p class='lead'>
                                         <%= generalinfo[generalinfo.length - 2].description %>
                                     </p>
+                                    <div class='data-text'><%- generalinfo[generalinfo.length - 2].description %></div>
+
                                     <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
                                 </div>
                             </div>
@@ -100,6 +104,7 @@
                                     <p class='lead'>
                                         <%= generalinfo[generalinfo.length - 3].description %>
                                     </p>
+                                    <div class='data-text'><%- generalinfo[generalinfo.length - 3].description %></div>
                                     <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
                                 </div>
                             </div>

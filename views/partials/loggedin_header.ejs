@@ -201,7 +201,12 @@
 	#add-announcement .modal-show-body .jumbotron {
 		margin-bottom:0;
 	}
-
+	#add-announcement .read-more {
+		display:none;
+	}
+	.data-text {
+		display:none;
+	}
 </style>
  <script>
     var titles = ["Add an announcement", "Add general information"];
@@ -231,7 +236,7 @@
 		   	   $('#add-announcement .modal-add-body').hide();
 		   	   $('#add-announcement .modal-show-body').show();
 		   	   $('#add-announcement .modal-title').html($(this).children('.panel-heading').html());
-			   $('#add-announcement .modal-show-body .jumbotron').html($(this).children('.panel-body').children('.lead').html());
+			   $('#add-announcement .modal-show-body .jumbotron').html($(this).find('.data-text').html());
 			   $('#add-announcement .edit').show();
 			   $('#add-announcement .finish').hide();
 			   $('#add-announcement .preview').hide();
