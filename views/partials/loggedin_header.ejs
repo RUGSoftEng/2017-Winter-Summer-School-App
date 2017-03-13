@@ -176,6 +176,32 @@
 	.panel:hover {
 		transform: scale(1.02);
 	}
+	.scheduleCol .list-group-item {
+		cursor:pointer;
+		padding:0;
+	}
+	.scheduleCol .list-group-item h5{
+		font-size: 110%;
+		margin:0;
+		padding:10px 15px;
+	}
+	.scheduleCol .list-group-item .panel-collapse{
+		border-top:1px solid #ddd;
+		cursor:auto;
+	}
+	body, #wrap {
+		background-color:#f0f0f0;
+	}
+	#add-announcement .modal-header h4 span {
+		display:none;
+	}
+	#add-announcement .modal-show-body {
+		padding:0;
+	}
+	#add-announcement .modal-show-body .jumbotron {
+		margin-bottom:0;
+	}
+
 </style>
  <script>
     var titles = ["Add an announcement", "Add general information"];
@@ -184,15 +210,33 @@
     var links = ["/announcement/add", "/generalinfo/add"]
     $(document).ready(function() {
 	    $('.open-modal').click(function(){
-		   $type = $(this).data("type");
-		   $('#add-announcement .modal-title').html("<p>" + titles[$type] + "</p>");
-		   $('#add-announcement #section-header').html(sectionHeaders[$type]);
-		   $('#add-announcement .finish').html(buttonTexts[$type]);
-		   $('#add-announcement form').attr('action', links[$type])
-		   if($type == 1) {
-			   $('#add-announcement .target').hide();
+	       if($(this).data("show") != "overview") {
+			   $type = $(this).data("type");
+			   $('#add-announcement .modal-title').html("<p>" + titles[$type] + "</p>");
+			   $('#add-announcement #section-header').html(sectionHeaders[$type]);
+			   $('#add-announcement .finish').html(buttonTexts[$type]);
+			   $('#add-announcement .edit').hide();
+			   $('#add-announcement .finish').show();
+			   $('#add-announcement .preview').show();
+			   $('#add-announcement form').attr('action', links[$type]);
+			   $('#add-announcement .modal-add-body').show();
+		   	   $('#add-announcement .modal-show-body').hide();
+			   if($type == 1) {
+				   $('#add-announcement .target').hide();
+			   } else {
+				   $('#add-announcement .target').show();
+			   }
 		   } else {
-			   $('#add-announcement .target').show();
+		   	   $('#add-announcement .target').hide();
+		   	   $('#add-announcement .modal-add-body').hide();
+		   	   $('#add-announcement .modal-show-body').show();
+		   	   $('#add-announcement .modal-title').html($(this).children('.panel-heading').html());
+			   $('#add-announcement .modal-show-body .jumbotron').html($(this).children('.panel-body').children('.lead').html());
+			   $('#add-announcement .edit').show();
+			   $('#add-announcement .finish').hide();
+			   $('#add-announcement .preview').hide();
+
+			   
 		   }
 	    });
     });
@@ -203,8 +247,9 @@
        $(document).ready(function() {
          $('.change-announcement').click(function(){
            var description = $(this).data('description');
-          $('#changingH1').html(description);
+           $('#changingH1').html(description);
          });
+         
        });
        </script>
 </head>
