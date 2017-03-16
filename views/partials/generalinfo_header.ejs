@@ -140,6 +140,10 @@
         color: #0A9BEB;
         background-color: #fafafa;
     }
+    .list-group-item:focus{
+      border: 1px solid #0a9beb;
+    }
+    
     .list-group-item {
       position: relative;
       display: block;
@@ -149,20 +153,16 @@
       border: 1px solid #ddd;
       width: 100%
     }
-    .list-group-item:focus{
-      border: 1px solid #0a9beb;
-    }
     .dropdown-menu>li>a:hover{
       background-color: #0A9BEB;
     }
 </style>
     <script>
        $(document).ready(function() {
-         $('.change-announcement').click(function(){
+         $('.change-generalinfo').click(function(){
            var description = $(this).data('description');
            var poster = $(this).data('poster');
           $('#changingDescription').html(description);
-          $('#changingPoster').html("Posted by:" + poster);
          });
        });
     </script>

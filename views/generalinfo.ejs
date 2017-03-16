@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class='full'>
-<% include partials/announcement_header %>
+<% include partials/generalinfo_header %>
 <% generalinfo.reverse()%>
 <body class="full">
   <div id='wrap' class='full'>
@@ -19,8 +19,8 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                           <li><a class="test" href="../announcepage">Announcements</a></li>
-                          <li><a href="#">General Information</a></li>
-                          <li><a href="#">Schedule</a></li>
+                          <li><a href="../generalinfo">General Information</a></li>
+                          <li><a href="../schedulepage">Schedule</a></li>
                           <li role="separator" class="divider"></li>
                           <li><a href="../logout">Log out</a></li>
                       </ul>
@@ -28,6 +28,41 @@
               </ul>
           </div>
       </nav>
+      <div class="row" id="event-screen">
+          <div class="col-md-4">
+            <div class="inner-event">
+              <h3 class="underline-title">Announcements</h3>
+              <div id="content" class="list-group">
+                  <%generalinfo.forEach(function(generalinfo){%>
+                    <button
+                      type="button" class="list-group-item list-group-item-text  change-generalinfo"
+                      data-description = "<%=generalinfo.description%>"
+                      data-poster = "<%=generalinfo.poster%>">
+                      <%=generalinfo.title %>
+                    </button>
+                  <%});%>
+              </div>
+              <ul class="pager">
+                <li class="previous">
+                    <a>&larr; Newer</a>
+                </li>
+                <li class="next">
+                  <a>Older &rarr;</a>
+                </li>
+            </ul>
+            </div>
+          </div>
+        <div class="col-md-8">
+          <div class="inner-event">
+            <h3 class="underline-title">View Announcement
+            <div class="pull-right" >
+              <button type="button" class="btn btn-warning">Edit</button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+            </h3>
+            <h4 id="changingDescription">Click a title to select an announcement</h4>
+            <h5 class="details" id="changingPoster"></h5>
+          </div>
         </div>
       </div>
     </div>
