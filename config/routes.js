@@ -32,6 +32,15 @@ module.exports = function(app,db, passport) {
         });
       });
     });
+    app.get('/generalinfo',isLoggedIn,function(req,res){
+      db.generalinfo.find(function(err,docs){
+        res.render('generalinfo.ejs',{
+            user: req.user,
+            generalinfo: docs
+        });
+      });
+    });
+
 
     app.get('/logout', function(req, res) {
         req.logout();
