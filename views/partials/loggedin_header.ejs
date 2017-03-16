@@ -219,9 +219,22 @@
     var sectionHeaders = ["Title of announcement", "Information header"];
     var links = ["/announcement/add", "/generalinfo/add"]
     $(document).ready(function() {
+    	$('.edit').click(function() {
+    		    	$('#add-announcement').modal('toggle');
+
+    		if($('#add-announcement').data('type') == 0) {
+	    		$('#announcecol span.open-modal').click();
+    		} else {
+	    		$('#announcecol span.open-modal').click();
+    		}
+    			
+	    	
+	    	
+    	});
 	    $('.open-modal').click(function(){
+	       $type = $(this).data("type");
+
 	       if($(this).data("show") != "overview") {
-			   $type = $(this).data("type");
 			   $('#add-announcement .modal-title').html("<p>" + titles[$type] + "</p>");
 			   $('#add-announcement #section-header').html(sectionHeaders[$type]);
 			   $('#add-announcement .finish').html(buttonTexts[$type]);
@@ -237,11 +250,13 @@
 				   $('#add-announcement .target').show();
 			   }
 		   } else {
+		   		
 		   	   $('#add-announcement .target').hide();
 		   	   $('#add-announcement .modal-add-body').hide();
 		   	   $('#add-announcement .modal-show-body').show();
 		   	   $('#add-announcement .modal-title').html($(this).children('.panel-heading').html());
 			   $('#add-announcement .modal-show-body .jumbotron').html($(this).find('.data-text').html());
+   		   	   $('#add-announcement').data("type", $type);
 			   $('#add-announcement .edit').show();
 			   $('#add-announcement .finish').hide();
 			   $('#add-announcement .preview').hide();
