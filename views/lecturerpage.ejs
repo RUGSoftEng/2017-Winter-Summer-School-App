@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/lecturerpage_header %>
+<body class="full">
+  <div id='wrap' class='full'>
+    <% include partials/general_navigationbar.ejs %>
+    <div class="inner-event">
+      <h3 class="underline-title">Lecturers</h3>
+      <div class='row innerrow' id='event-screen'>
+        <% for(var i=0; i<15; i++) {%>
+        <div class="col-md-3">
+            <div class="thumbnail inner-event">
+              <h4 id="lecturer-name">Lecturer Name</h4>
+              <img class = "img-thumbnail" src="https://scontent.xx.fbcdn.net/v/t1.0-9/12552686_10208252896177278_5477187980523402056_n.jpg?oh=5a1e9f481eb67fcdaa9e9b29ffbb72c6&oe=5959A659" alt="Lights">
+              <div class="caption">
+                <p class="lead">A general description</p>
+              </div>
+              <div>
+                <button type="button" class="btn btn-warning">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+</div>
+</body>
+</html>

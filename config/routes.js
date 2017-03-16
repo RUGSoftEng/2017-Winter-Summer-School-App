@@ -40,7 +40,11 @@ module.exports = function(app,db, passport) {
         });
       });
     });
-
+    app.get('/lecturerpage',isLoggedIn,function(req,res){
+        res.render('lecturerpage.ejs',{
+            user: req.user,
+      });
+    });
 
     app.get('/logout', function(req, res) {
         req.logout();
