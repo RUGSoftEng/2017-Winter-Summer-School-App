@@ -93,7 +93,7 @@
 	    margin: 0;
     }
 
-    .announce .panel-body {
+    #event-screen .panel {
 	    cursor:pointer;
     }
 
@@ -197,9 +197,6 @@
 	body, #wrap {
 		background-color:#f0f0f0;
 	}
-	#add-announcement .modal-header h4 span {
-		display:none;
-	}
 	#add-announcement .modal-show-body {
 		padding:0;
 	}
@@ -215,66 +212,126 @@
 </style>
  <script>
     var titles = ["Add an announcement", "Add general information"];
+    var editTitles = ["Edit the announcement", "Edit general information"];
     var buttonTexts = ["Post announcement", "Add section"];
     var sectionHeaders = ["Title of announcement", "Information header"];
-    var links = ["/announcement/add", "/generalinfo/add"]
-    $(document).ready(function() {
-    	$('.edit').click(function() {
-    		    	$('#add-announcement').modal('toggle');
-
-    		if($('#add-announcement').data('type') == 0) {
-	    		$('#announcecol span.open-modal').click();
-    		} else {
-	    		$('#announcecol span.open-modal').click();
-    		}
-    			
-	    	
-	    	
-    	});
-	    $('.open-modal').click(function(){
-	       $type = $(this).data("type");
-
-	       if($(this).data("show") != "overview") {
-			   $('#add-announcement .modal-title').html("<p>" + titles[$type] + "</p>");
-			   $('#add-announcement #section-header').html(sectionHeaders[$type]);
-			   $('#add-announcement .finish').html(buttonTexts[$type]);
-			   $('#add-announcement .edit').hide();
-			   $('#add-announcement .finish').show();
-			   $('#add-announcement .preview').show();
-			   $('#add-announcement form').attr('action', links[$type]);
-			   $('#add-announcement .modal-add-body').show();
-		   	   $('#add-announcement .modal-show-body').hide();
-			   if($type == 1) {
-				   $('#add-announcement .target').hide();
-			   } else {
-				   $('#add-announcement .target').show();
-			   }
-		   } else {
-		   		
-		   	   $('#add-announcement .target').hide();
+    var links = ["/announcement/item", "/generalinfo/item"];
+    
+    
+    function addNewItem(type, edit) {
+    	$('.back').hide();
+    	if(edit) {
+    		$('#add-announcement .finish').data('type', 'edit');
+	    	$('#add-announcement .delete').show();
+    	}  else {
+    		$('#add-announcement .finish').data('type', 'add');
+	    	$('#add-announcement .delete').hide();
+    	}
+	    $('#add-announcement .modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
+		$('#add-announcement #section-header').html(sectionHeaders[$type]);
+		$('#add-announcement .finish').html((edit ? "Edit" : buttonTexts[$type]));
+		$('#add-announcement .edit').hide();
+		$('#add-announcement .finish').show();
+		$('#add-announcement .preview').show();
+		$('#add-announcement form').attr('action', links[$type]);
+		$('#add-announcement .modal-add-body').show();
+		$('#add-announcement .modal-show-body').hide();
+		if($type == 1) {
+			 $('#add-announcement .target').hide();
+		} else {
+			$('#add-announcement .target').show();
+		}
+    };
+    
+    function displayItem(title, text, $type) {
+    		   $('.back').hide();
+	    	   $('#add-announcement .target').hide();
 		   	   $('#add-announcement .modal-add-body').hide();
 		   	   $('#add-announcement .modal-show-body').show();
-		   	   $('#add-announcement .modal-title').html($(this).children('.panel-heading').html());
-			   $('#add-announcement .modal-show-body .jumbotron').html($(this).find('.data-text').html());
+		   	   $('#add-announcement .modal-title').html(title);
+			   $('#add-announcement .modal-show-body .jumbotron').html(text);
    		   	   $('#add-announcement').data("type", $type);
 			   $('#add-announcement .edit').show();
 			   $('#add-announcement .finish').hide();
 			   $('#add-announcement .preview').hide();
+			   $('#add-announcement .delete').hide();
+    };
+    
+    
+    $(function(){
+	    $('.finish').click(function(event) {
+	    $type = $(this).data('type');
+	    	if(confirm("Are you sure that you want to " + $type + "?")) {
+		        if(!$('#announcementDescription').val() || !$('#announcementTitle').val()) {
+		        	event.preventDefault();
+		        	alert("Please fill in a title and content");
+		        } else if($type== "edit"){
+			        event.preventDefault();
+			        $.ajax({
+				    url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id') + '&description=' + $('#announcementDescription').val() + '&title=' + $('#announcementTitle').val(),
+				    type: 'PUT',
+				    success: function(result) {
+				        location.reload();
+				 }
+				});
+				}
+		    } else {
+			    event.preventDefault();
+		    }
+	    });
+	    $('.back').click(function(){
+		    addNewItem($('#add-announcement').data('type'), false);
+	    });
+    	$('#add-announcement .delete').click(function() {
+    		if(confirm("Are you sure you want to delete?")) {
+    			$.ajax({
+				    url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id'),
+				    type: 'DELETE',
+				    success: function(result) {
+				        location.reload();
+				        
+				 }
+				 });
+				 event.preventDefault();
+    		} else {
+	    		event.preventDefault();
+    		}
 
+    	});
+    	$('.edit').click(function() {
+    		var editTitleValue = $('#add-announcement .modal-title').text();
+    		var editTextValue = $('#add-announcement .modal-show-body .jumbotron').html();
+    		addNewItem($('#add-announcement').data('type'), true);
+    		$('#add-announcement form').attr('action', links[$('#add-announcement').data('type')]);
+    		$('#announcementTitle').val(editTitleValue);
+    		$('#announcementDescription').val(editTextValue);
+    	});
+    	$('.preview').click(function() {
+    	    
+    		$add = $('#add-announcement').data('show');
+    		displayItem($('#announcementTitle').val(), $('#announcementDescription').val(), $('#add-announcement').data("type"));
+    		if($add == 'new') {
+	    		$('.back').show();
+	    		$('.edit').hide();
+    		}
+			
+    	});
+	    $('.open-modal').click(function(){	    	
+	       $('#add-announcement').data('id', $(this).data('id'));
+	       $('#add-announcement .delete').hide();
+	       $type = $(this).data("type");
 
+	       if($(this).data("show") != "overview") {
+			   addNewItem($type, false);
+			    $('#announcementTitle').val('');
+				$('#announcementDescription').val('');
+				$('#add-announcement').data('show', 'new');
+		   } else {
+		   		$('#add-announcement').data('show', 'known');
+		   		displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
 		   }
 	    });
     });
     </script>
 
-
-    <script>
-       $(document).ready(function() {
-         $('.change-announcement').click(function(){
-           var description = $(this).data('description');
-           $('#changingH1').html(description);
-         });
-
-       });
-       </script>
 </head>
