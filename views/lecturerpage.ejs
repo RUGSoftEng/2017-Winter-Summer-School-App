@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/lecturerpage_header %>
+<body class="full">
+  <div id='wrap' class='full'>
+    <% include partials/general_navigationbar.ejs %>
+    <div class="inner-event">
+      <h3 class="underline-title">Lecturers
+      <span class="glyphicon glyphicon-plus pull-right open-modal"aria-hidden="true" data-toggle="modal" data-target="#add-lecturer"></span>
+      </h3>
+      <div class='row innerrow' id='event-screen'>
+        <%lecturers.forEach(function(lecturer){%>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="thumbnail inner-event">
+              <h4 id="lecturer-name"><%=lecturer.name%></h4>
+              <img class = "img-thumbnail" src="/images/placeholder.png" alt="Placeholder">
+              <div class="caption">
+                <p class="lead"><%=lecturer.description%></p>
+              </div>
+              <div>
+                <button type="button" class="btn btn-warning">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+        </div>
+        <%});%>
+      </div>
+    </div>
+    <div class="modal fade" id="add-lecturer" tabindex="-1" role="dialog" aria-labelledby="addLecturer">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Lecturer</h4>
+                </div>
+                <form method="post" action="/lecturer/add">
+                    <div class="modal-body modal-add-body">
+                        <div class="form-group">
+                            <input id="files" type="file" name="img[]" class="file">
+                            <div class= "row">
+                              <img id= "modal-thumbnail" class = "img-thumbnail" src="/images/placeholder.png" alt="Placeholder">
+                            </div>
+                            <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                            <div>
+                              <label for="lecturerName" id='section-header'>Lecturer Name</label>
+                              <input type="text" class="form-control" id="lecturerName" name="name" placeholder="Name">
+                              <label for="lectureDescription">Lecture description</label>
+                              <textarea type="text" class="form-control" id="lecturerDescription" name="description" placeholder="Description" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary finish">Add Lecturer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

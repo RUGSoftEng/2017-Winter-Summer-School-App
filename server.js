@@ -28,8 +28,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
+app.use(express.static('views'));
 require('./config/routes.js')(app,db,passport, mongojs);
+
+
+
 
 
 app.listen(8080);
