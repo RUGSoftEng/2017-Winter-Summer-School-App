@@ -1,6 +1,6 @@
-module.exports = function(app,db, passport) {
+module.exports = function(app,db, passport, mongojs) {
 
-
+	
 
     app.get('/', function(req, res) {
         if(req.isAuthenticated()) {
@@ -22,6 +22,38 @@ module.exports = function(app,db, passport) {
           })
           });
         });
+    });
+    app.delete('/generalinfo/item', isLoggedIn, function(req,res){
+		db.generalinfo.remove({'_id' : mongojs.ObjectId(req.param('id'))}, function(err, user) {
+			if(err) throw err;
+			res.redirect('/main');
+		});
+        
+    });
+    
+    app.put('/generalinfo/item', isLoggedIn, function(req,res){
+		db.generalinfo.update({'_id' : mongojs.ObjectId(req.param('id'))},{title:req.param('title'), description:req.param('description')}, function(err, user) {
+			if(err) throw err;
+			res.redirect('/main');
+		});
+        
+    });
+    
+    app.put('/announcement/item', isLoggedIn, function(req,res){
+		db.announcements.update({'_id' : mongojs.ObjectId(req.param('id'))},{title:req.param('title'), description:req.param('description')}, function(err, user) {
+			if(err) throw err;
+			res.redirect('/main');
+		});
+        
+    });
+    
+    
+    app.delete('/announcement/item', isLoggedIn, function(req,res){
+		db.announcements.remove({'_id' : mongojs.ObjectId(req.param('id'))}, function(err, user) {
+			if(err) throw err;
+			res.redirect('/main');
+		});
+        
     });
 
     app.get('/announcepage',isLoggedIn,function(req,res){
@@ -63,7 +95,7 @@ module.exports = function(app,db, passport) {
 
 
 
-    app.post('/announcement/add',function(req,res){
+    app.post('/announcement/item',function(req,res){
       var newAnnouncement = {
         title: req.body.title,
         description: req.body.description,
@@ -78,11 +110,11 @@ module.exports = function(app,db, passport) {
       });
     });
 
-    app.post('/generalinfo/add',function(req,res){
+    app.post('/generalinfo/item',function(req,res){
       var newGeneralInfo = {
         title: req.body.title,
         description: req.body.description,
-        }
+      }
       db.generalinfo.insert(newGeneralInfo,function(err,result){
         if(err){
           console.log(err);
@@ -90,7 +122,7 @@ module.exports = function(app,db, passport) {
         res.redirect('/main');
       });
     });
-
+	
 
 
 

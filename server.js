@@ -9,10 +9,10 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var mongojs = require('mongojs')
+var mongojs = require('mongojs');
 //this is the database connected to the app the first part of the parenthesis
 //is the mongodb database and the second part the collections you use
-var db = mongojs('mongodb://admin:summerwinter@ds119370.mlab.com:19370/summerwinter',['announcements','generalinfo'])
+var db = mongojs('mongodb://admin:summerwinter@ds119370.mlab.com:19370/summerwinter',['announcements','generalinfo']);
 
 require('./config/passport')(passport);
 
@@ -28,8 +28,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(express.static('views'))
-require('./config/routes.js')(app,db,passport);
+app.use(express.static('views'));
+require('./config/routes.js')(app,db,passport, mongojs);
+
+
+
 
 
 app.listen(8080);
