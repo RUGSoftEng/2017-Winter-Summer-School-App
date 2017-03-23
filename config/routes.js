@@ -41,8 +41,11 @@ module.exports = function(app,db, passport) {
       });
     });
     app.get('/lecturerpage',isLoggedIn,function(req,res){
+      db.lecturers.find(function(err,docs){
         res.render('lecturerpage.ejs',{
             user: req.user,
+            lecturers: docs
+        });
       });
     });
 
