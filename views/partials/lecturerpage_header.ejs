@@ -20,6 +20,12 @@
     #lecturer-name{
       text-align: center;
     }
+    .glyphicon-plus {
+        cursor: pointer;
+    }
+    .glyphicon-plus:hover {
+        color: #0A9BEB;
+    }
     .thumbnail{
       width: 250px;
       height: 400px;
@@ -137,14 +143,35 @@
     .dropdown-menu>li>a:hover{
       background-color: #0A9BEB;
     }
-  .panel {
+    .browse{
+      display: block;
+      margin:0 auto;
+    }
+    .row{
+      padding-bottom: 15px;
+    }
+    #modal-thumbnail{
+      display: block;
+      margin: 0 auto;
+    }
+    .file {
+      visibility: hidden;
+      position: absolute;
+    }
+    .panel {
     	transition: all .15s ease-in-out;
     }
-	.panel:hover {
-		transform: scale(1.02);
-	}
+	  .panel:hover {
+  		transform: scale(1.02);
+	   }
 	body, #wrap {
 		background-color:#f0f0f0;
 	}
 </style>
+<script>
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+</script>
 </head>
