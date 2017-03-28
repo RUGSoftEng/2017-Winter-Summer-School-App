@@ -24,32 +24,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-img {
-    height: 100%;
-    top: 0;
-    position: absolute;
-}
-.navbar {
-    background-color: #0A9BEB;
-    border-radius: 0px;
-    margin: 0;
-    padding: 0;
-}
-.navbar-brand {
-    position: relative;
-    left: 0;
-    background-color: #fff;
-}
-#menu-bar .navbar-brand:hover,
-#menu-bar .navbar-brand:focus {
-    background-color: #fff;
-    outline: none;
-}
-.navbar-header {
-    background-color: #fff;
-    margin: 0;
-    padding: 0;
-}
 #event-screen {
     background-color: #f0f0f0;
     padding: 30px;
@@ -112,9 +86,6 @@ img {
     text-overflow: ellipsis;
     text-align: left;
 }
-#wrap .navbar-nav>li>a {
-    color: #fff;
-}
 a:link {
     color: black;
 }
@@ -142,9 +113,6 @@ a:active {
 }
 .glyphicon-plus {
     cursor: pointer;
-}
-.dropdown-menu>li>a:hover {
-    background-color: #0A9BEB;
 }
 .glyphicon-plus:hover {
     color: #0A9BEB;
