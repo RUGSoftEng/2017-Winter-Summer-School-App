@@ -13,7 +13,7 @@
                         <div class='row innerrow'>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-toggle="modal" data-type=0 data-id=<%- announcements[announcements.length - 1]._id%>   data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%= announcements[announcements.length - 1].title %></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%= announcements[announcements.length - 1].title %></span><span class="label label-primary pull-right first-new">New</span></h4>
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 1].description %>
@@ -22,32 +22,45 @@
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 1].description %></div>
                                  
-                                    <div class='announce-date'><%= announcements[announcements.length - 1].date %></div>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 1].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
+                             <%= announcements[announcements.length - 1].date.toString().substring(0,25) %>
+
+                                  <%  if(dt >= newDt) {%>
+                    <script>$('.first-new').show();</script>
+                    <% } } %></div>
                                 </div>
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=0 data-id=<%- announcements[announcements.length - 2]._id%> data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%= announcements[announcements.length - 2].title%></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%= announcements[announcements.length - 2].title%></span><span class="label label-primary pull-right second-new">New</span></h4>
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 2].description %>
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 2].description %></div>
                                     
-                                    <div class='announce-date'><%= announcements[announcements.length - 2].date %></div>
-                                </div>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 2].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
+                             <%= announcements[announcements.length - 2].date.toString().substring(0,25) %>
+
+                                  <%  if(dt >= newDt) {%>                    
+                                  <script>$('.second-new').show();</script>
+                    <% } } %></div>                                </div>
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=0 data-id=<%- announcements[announcements.length - 3]._id%> data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%= announcements[announcements.length - 3].title%></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%= announcements[announcements.length - 3].title%></span><span class="label label-primary pull-right third-new">New</span></h4>
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 3].description %>
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 3].description %></div>
                                    
-                                    <div class='announce-date'><%= announcements[announcements.length - 3].date %></div>
-                                </div>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 3].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
+                             <%= announcements[announcements.length - 3].date.toString().substring(0,25) %>
+
+                                  <%  if(dt >= newDt) {%>
+                    <script>$('.third-new').show();</script>
+                    <% } } %></div>                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +71,7 @@
                         <div class='row innerrow'>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=1 data-id=<%- generalinfo[generalinfo.length - 1]._id%> data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%-generalinfo[generalinfo.length - 1].title %></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%-generalinfo[generalinfo.length - 1].title %></span></h4>
                                 <div class='panel-body'>
                                 <p class='lead'><%= generalinfo[generalinfo.length - 1].description %>
                                 </p>
@@ -68,7 +81,7 @@
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=1 data-id=<%- generalinfo[generalinfo.length - 2]._id%> data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%= generalinfo[generalinfo.length - 2].title %></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%= generalinfo[generalinfo.length - 2].title %></span></h4>
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= generalinfo[generalinfo.length - 2].description %>
@@ -80,7 +93,7 @@
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=1 data-id=<%- generalinfo[generalinfo.length - 3]._id%> data-toggle="modal" data-target="#add-announcement">
                                 <h4 class='panel-heading'>
-                                    <span class ='title'><%= generalinfo[generalinfo.length - 3].title %></span><span class="label label-primary pull-right">New</span></h4>
+                                    <span class ='title'><%= generalinfo[generalinfo.length - 3].title %></span></h4>
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= generalinfo[generalinfo.length - 3].description %>
