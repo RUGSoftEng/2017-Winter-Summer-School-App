@@ -187,3 +187,20 @@ body,
 .data-text {
     display: none;
 }
+.panel-body ul {
+	list-style-type: none;
+	padding: 0;
+}
+.panel-body ul li span:first-child{
+	padding-right:10px;
+	color:#777;
+}
+
+
+
+
+
+
+
+
+

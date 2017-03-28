@@ -3,6 +3,7 @@
  var buttonTexts = ["Post announcement", "Add section"];
  var sectionHeaders = ["Title of announcement", "Information header"];
  var links = ["/announcement/item", "/generalinfo/item"];
+ var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 
  function addNewItem(type, edit) {
@@ -46,6 +47,9 @@
 
 
  $(function() {
+ 	 $today = days[new Date().getDay()-1];
+ 	 $('#' + $today).addClass('in'); // open the schedule corresponding to the current day
+ 	 
      $('.finish').click(function(event) {
          $type = $(this).data('type');
          if (confirm("Are you sure that you want to " + $type + "?")) {
