@@ -22,8 +22,8 @@
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 1].description %></div>
                                  
-                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 1].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
-                             <%= announcements[announcements.length - 1].date.toString().substring(0,25) %>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 1].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); %> 
+                             <%= announcements[announcements.length - 1].date.toString().substring(0,21) %>
 
                                   <%  if(dt >= newDt) {%>
                     <script>$('.first-new').show();</script>
@@ -39,8 +39,8 @@
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 2].description %></div>
                                     
-                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 2].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
-                             <%= announcements[announcements.length - 2].date.toString().substring(0,25) %>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 2].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); %> 
+                             <%= announcements[announcements.length - 2].date.toString().substring(0,21) %>
 
                                   <%  if(dt >= newDt) {%>                    
                                   <script>$('.second-new').show();</script>
@@ -55,8 +55,8 @@
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 3].description %></div>
                                    
-                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 3].date; if (dt) { var newDt = new Date(dt); newDt.setDate(newDt.getDate() - 1); %> 
-                             <%= announcements[announcements.length - 3].date.toString().substring(0,25) %>
+                                    <div class='announce-date'> <% var dt = announcements[announcements.length - 3].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); console.log(dt); console.log(newDt); console.log(dt >= newDt);%> 
+                             <%= announcements[announcements.length - 3].date.toString().substring(0,21) %>
 
                                   <%  if(dt >= newDt) {%>
                     <script>$('.third-new').show();</script>
