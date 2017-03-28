@@ -24,7 +24,7 @@ router.put('/announcement/item', data.isLoggedIn, function(req,res){
         title: req.body.title,
         description: req.body.description,
         poster: "Nikolas Hadjipanayi",
-        date: new Date()
+        date: new Date().toString().substring(0,25)
       }
       data.db.announcements.insert(newAnnouncement,function(err,result){
         if(err){
