@@ -40,7 +40,7 @@
 .announce {
     width: 100%;
     margin: 0;
-    height: 155px;
+    height: 167px;
     margin-top: 15px;
     padding: 0;
 }
@@ -52,7 +52,7 @@
 }
 .underline-title {
     padding-bottom: 10px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid #0A9BEB;
 }
 .innerrow {
     width: 100%;
@@ -94,6 +94,10 @@ a:visited {
 }
 a:hover {
     color: black;
+    border-bottom: none;
+}
+a {
+	text-decoration: none !important;
 }
 a:active {
     color: black;
@@ -162,6 +166,16 @@ body,
 .panel-body ul li span:first-child{
 	padding-right:10px;
 	color:#777;
+}
+.announce-date {
+	position: absolute;
+	bottom: 0;
+	right:0;
+	border-top:1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-top-left-radius: 3px;
+	background-color: #f5f5f5;
+	padding: 3px;
 }
 
 

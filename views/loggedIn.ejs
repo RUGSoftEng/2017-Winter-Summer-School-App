@@ -17,11 +17,12 @@
                                 <div class='panel-body'>
                                     <p class='lead'>
                                         <%= announcements[announcements.length - 1].description %>
-                                        <%= announcements[announcements.length - 1].date %>
+                                        
 
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 1].description %></div>
-                                    <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
+                                 
+                                    <div class='announce-date'><%= announcements[announcements.length - 1].date %></div>
                                 </div>
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=0 data-id=<%- announcements[announcements.length - 2]._id%> data-toggle="modal" data-target="#add-announcement">
@@ -32,7 +33,8 @@
                                         <%= announcements[announcements.length - 2].description %>
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 2].description %></div>
-                                    <small class='read-more'><a data-toggle="modal" data-target="#myModal">Read more...</a></small>
+                                    
+                                    <div class='announce-date'><%= announcements[announcements.length - 2].date %></div>
                                 </div>
                             </div>
                             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=0 data-id=<%- announcements[announcements.length - 3]._id%> data-toggle="modal" data-target="#add-announcement">
@@ -43,7 +45,8 @@
                                         <%= announcements[announcements.length - 3].description %>
                                     </p>
                                     <div class='data-text'><%- announcements[announcements.length - 3].description %></div>
-                                    <small class='read-more'><a data-toggle="modal" data-target="#myModal">Read more...</a></small>
+                                   
+                                    <div class='announce-date'><%= announcements[announcements.length - 3].date %></div>
                                 </div>
                             </div>
                         </div>
