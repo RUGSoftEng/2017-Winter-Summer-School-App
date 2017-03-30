@@ -26,7 +26,7 @@ router.delete('/announcement/item', data.isLoggedIn, function(req, res) {
 
 });
 
-router.post('/announcement/item', function(req, res) {
+router.post('/announcement/item', data.isLoggedIn, function(req, res) {
     var newAnnouncement = {
         title: req.body.title,
         description: req.body.description,
@@ -39,6 +39,19 @@ router.post('/announcement/item', function(req, res) {
         }
         res.redirect('/main');
     });
+});
+
+router.get('/announcement/item', function(req, res) {
+	// set the limit of query results to 200 by default
+	// set it to the parameter count if it is provided
+    var count = parseInt((req.param('count') ? req.param('count') : 200));
+    data.db.announcements.find({}, {}, {
+        limit: count
+    }).sort({$natural:-1}, function(err, docs) {
+    	if(err) console.log(err);
+        else res.send(docs);
+    });
+
 });
 
 
