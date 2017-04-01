@@ -1,8 +1,9 @@
- var titles = ["Add an announcement", "Add general information"];
+ var titles = ["Add an announcement", "Add general information", "Add a new appointment"];
  var editTitles = ["Edit the announcement", "Edit general information"];
- var buttonTexts = ["Post announcement", "Add section"];
- var sectionHeaders = ["Title of announcement", "Information header"];
+ var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
+ var sectionHeaders = ["Title of announcement", "Information header", "Appointment title"];
  var links = ["/announcement/item", "/generalinfo/item"];
+ var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 
  function addNewItem(type, edit) {
@@ -15,6 +16,7 @@
          $('#add-announcement .delete').hide();
      }
      $('#add-announcement .modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
+     $('.description-form').show();
      $('#add-announcement #section-header').html(sectionHeaders[$type]);
      $('#add-announcement .finish').html((edit ? "Edit" : buttonTexts[$type]));
      $('#add-announcement .edit').hide();
@@ -23,10 +25,16 @@
      $('#add-announcement form').attr('action', links[$type]);
      $('#add-announcement .modal-add-body').show();
      $('#add-announcement .modal-show-body').hide();
+     $('.datetime-form').hide();
      if ($type == 1) {
          $('#add-announcement .target').hide();
      } else {
          $('#add-announcement .target').show();
+     }
+     if($type == 2) {
+	     $('.preview').hide();
+	     $('.description-form').hide();
+	     $('.datetime-form').show();
      }
  };
 
@@ -46,6 +54,12 @@
 
 
  $(function() {
+ 	 $today = days[new Date().getDay()-1];
+ 	 $('#' + $today).addClass('in'); // open the schedule corresponding to the current day
+     $( "#scheduleDate" ).datepicker({
+	     dateFormat: 'DD dd MM yy'
+     });
+     
      $('.finish').click(function(event) {
          $type = $(this).data('type');
          if (confirm("Are you sure that you want to " + $type + "?")) {
