@@ -15,9 +15,13 @@
                                     <% if(!schedule[i].length) { %>
                                         No events planned today!
                                     <% } %>
-                                    <% for(var j = 0; j < schedule[i].length; ++j) { %>
+                                    <% for(var j = 0; j < schedule[i].length; ++j) { 
+                                    	var sdt = new Date(schedule[i][j].start.dateTime);
+                                    	var edt = new Date(schedule[i][j].end.dateTime);
+                                    	
+                                    	%>
                                     	<li>
-                                            <span><%= new Date(schedule[i][j].start.dateTime) %> - <%= new Date(schedule[i][j].end.dateTime) %></span><span><%= schedule[i][j].description %></span>
+                                            <span><%= sdt.getHours() + ":" + sdt.getMinutes() %> - <%= edt.getHours() + ":" + edt.getMinutes() %></span><span><%= schedule[i][j].description %></span>
 										</li>
                                     <% } %>
                                 </ul>
