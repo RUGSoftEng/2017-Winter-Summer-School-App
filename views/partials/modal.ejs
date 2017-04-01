@@ -19,10 +19,13 @@
                     <div class="form-group datetime-form">
                         <label for="announcementDescription">Date</label>
                         <input type="text" class="form-control" id="scheduleDate" name="date" placeholder="Date">
+
                         <div class="form-inline">
+                        	<label class='up-label'>Start time</label>
+
                             <div class="form-group">
                                 <label>Hour</label>
-                                <select class="form-control">
+                                <select class="form-control" name='startHour'>
 									  	  	  <option>00</option>
 									  		  <option>01</option>
 									  		  <option>02</option>
@@ -50,8 +53,8 @@
 									  		</select>
                             </div>
                             <div class="form-group">
-                                <label>Minute</label>
-                                <select class="form-control">
+                                <label class='time-minute'>Minute</label>
+                                <select class="form-control" name='startMinute'>
 			                                  <option>00</option>
 									  	  	  <option>05</option>
 									  		  <option>10</option>
@@ -66,6 +69,55 @@
 									  		  <option>55</option>
 									  		</select>
                             </div>
+                            <label class='up-label end-time'>End time</label>
+
+                            <div class="form-group">
+                                <label>Hour</label>
+                                <select class="form-control" name='endHour'>
+									  	  	  <option>00</option>
+									  		  <option>01</option>
+									  		  <option>02</option>
+									  		  <option>03</option>
+									  		  <option>04</option>
+									  		  <option>05</option>
+									  		  <option>06</option>
+									  		  <option>07</option>
+									  		  <option>08</option>
+									  		  <option>09</option>
+									  		  <option>10</option>
+									  		  <option>11</option>
+									  		  <option>12</option>
+									  		  <option>13</option>
+									  		  <option>14</option>
+									  		  <option>15</option>
+									  		  <option>16</option>
+									  		  <option>17</option>
+									  		  <option>18</option>
+									  		  <option>19</option>
+									  		  <option>20</option>
+									  		  <option>21</option>
+									  		  <option>22</option>
+									  		  <option>23</option>
+									  		</select>
+                            </div>
+                            <div class="form-group">
+                                <label class='time-minute'>Minute</label>
+                                <select class="form-control" name='endMinute'>
+			                                  <option>00</option>
+									  	  	  <option>05</option>
+									  		  <option>10</option>
+									  		  <option>15</option>
+									  		  <option>20</option>
+									  		  <option>25</option>
+									  		  <option>30</option>
+									  		  <option>35</option>
+									  		  <option>40</option>
+									  		  <option>45</option>
+									  		  <option>50</option>
+									  		  <option>55</option>
+									  		</select>
+                            </div>
+
                         </div>
                     </div>
 
