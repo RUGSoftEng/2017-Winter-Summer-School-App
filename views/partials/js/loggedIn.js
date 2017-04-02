@@ -2,7 +2,7 @@
  var editTitles = ["Edit the announcement", "Edit general information"];
  var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
  var sectionHeaders = ["Title of announcement", "Information header", "Appointment title"];
- var links = ["/announcement/item", "/generalinfo/item"];
+ var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
  var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 
@@ -54,16 +54,17 @@
 
 
  $(function() {
- 	 $today = days[new Date().getDay()-1];
+ 	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7];
  	 $('#' + $today).addClass('in'); // open the schedule corresponding to the current day
      $( "#scheduleDate" ).datepicker({
-	     dateFormat: 'DD dd MM yy'
+	     //dateFormat: 'DD dd MM yy' 
+	     dateFormat: 'yy-mm-dd'
      });
      
      $('.finish').click(function(event) {
          $type = $(this).data('type');
          if (confirm("Are you sure that you want to " + $type + "?")) {
-             if (!$('#announcementDescription').val() || !$('#announcementTitle').val()) {
+             if (!$('#announcementTitle').val()) {
                  event.preventDefault();
                  alert("Please fill in a title and content");
              } else if ($type == "edit") {

@@ -24,6 +24,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.up-label {
+	display: block;
+}
+.end-time {
+	margin-top:5px;
+}
 #event-screen {
     background-color: #f0f0f0;
     padding: 30px;
@@ -43,7 +49,7 @@
 .modal-add-body .form-inline label{
 	padding-right: 8px;
 }
-.modal-add-body .form-inline .form-group:last-child label{
+.time-minute{
 	padding-left: 8px;
 }
 .announce {
