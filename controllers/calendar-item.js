@@ -46,12 +46,13 @@ function postEvent(summary, startDateTime, endDateTime) {
 
 
 router.post('/calendar/event', function(request, response) {
-    var params = request.query;
-    console.log("Posting event: " + params.summary + " starting at " + params.startDate + " and ending at " + params.endDate);
-    if (params.summary && params.startDate && params.endDate) {
-        var event = postEvent(params.summary, params.startDate, params.endDate);
-        response.send(event);
-    }
+
+    var summary = request.body.title;
+    var start = request.body.date + 'T' + request.body.startHour + ':' + request.body.startMinute + ':00.000Z';
+    var end = request.body.date + 'T' + request.body.endHour + ':' + request.body.endMinute + ':00.000Z';
+    console.log("Posting event: " + summary + " starting at " + start + " and ending at " + end);
+    var event = postEvent(summary, start, end);
+    response.redirect('/main');
 });
 
 /* Returns a JSON list of events. Query format: /calendar/event?startDate=startDate&endDate=endDate */
