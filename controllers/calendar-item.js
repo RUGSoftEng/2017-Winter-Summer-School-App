@@ -52,7 +52,7 @@ router.post('/calendar/event', function(request, response) {
     var end = request.body.date + 'T' + request.body.endHour + ':' + request.body.endMinute + ':00.000Z';
     console.log("Posting event: " + summary + " starting at " + start + " and ending at " + end);
     var event = postEvent(summary, start, end);
-    res.redirect('/main');
+    response.redirect('/main');
 });
 
 /* Returns a JSON list of events. Query format: /calendar/event?startDate=startDate&endDate=endDate */
