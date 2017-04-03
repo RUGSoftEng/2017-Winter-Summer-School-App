@@ -16,6 +16,7 @@
     "morgan": "~1.0.0",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
-    "require-dir": "latest"
+    "require-dir": "latest",
+    "googleapis": "*"
   }
 }
