@@ -20,6 +20,7 @@
      $('#add-announcement #section-header').html(sectionHeaders[$type]);
      $('#add-announcement .finish').html((edit ? "Edit" : buttonTexts[$type]));
      $('#add-announcement .edit').hide();
+     $('#add-announcement #thumbnailDiv').hide();
      $('#add-announcement .finish').show();
      $('#add-announcement .preview').show();
      $('#add-announcement form').attr('action', links[$type]);
@@ -60,7 +61,7 @@
 	     //dateFormat: 'DD dd MM yy' 
 	     dateFormat: 'yy-mm-dd'
      });
-     
+
      $('.finish').click(function(event) {
          $type = $(this).data('type');
          if (confirm("Are you sure that you want to " + $type + "?")) {
