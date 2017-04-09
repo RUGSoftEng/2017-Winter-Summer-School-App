@@ -3,6 +3,7 @@ var router = express.Router();
 var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
 var gcs = require('../config/calendar/googleCalendarService')(googleapis, googleAuth);
+var gct = require('../config/calendar/googleCalendarTools')(gcs);
 var clientAccount = require('../config/calendar/clientAccount.json');
 var serviceAccount = require('../config/calendar/serviceAccount.json');
 var calendarService = require('../config/calendar/calendarService.json');
@@ -52,10 +53,16 @@ function listCalendarEvents(startDateTime, endDateTime, callback) {
     });
 }
 
+function listCalendarWeekEvents(week, callback) {
+    gct.getWeekEvents(week, listCalendarEvents, function(data) {
+        callback(JSON.stringify(data));
+    });
+}
+
 router.post('/calendar/event', function(request, response) {
     var summary = request.body.title;
     var location = "Nettelbosje 2, 9747 AC Groningen";
-    var ssid = "GDS";
+    var ssid = request.body.ssid;
     var start = request.body.date + 'T' + request.body.startHour + ':' + request.body.startMinute + ':00.000Z';
     var end = request.body.date + 'T' + request.body.endHour + ':' + request.body.endMinute + ':00.000Z';
 
@@ -66,10 +73,16 @@ router.post('/calendar/event', function(request, response) {
 
 router.get('/calendar/event', function(request, response) {
     var params = request.query;
-    if (params.startDate && params.endDate) {
-        listCalendarEvents(params.startDate, params.endDate, function(data) {
-            response.send(data);
-        });
+    if (params.hasOwnProperty('startDate') && params.hasOwnProperty('endDate')) {
+        if (params.hasOwnProperty('week') && !isNaN(params.week)) {
+            listCalendarWeekEvents(parseInt(params.week), function(data) {
+                response.send(data);
+            })
+        } else {
+            listCalendarEvents(params.startDate, params.endDate, function(data) {
+                response.send(data);
+            });
+        }
     }
 });
 
