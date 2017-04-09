@@ -14,7 +14,7 @@
         <div class="col-md-3 col-sm-6 col-xs-6 panel open-modal" data-show="overview" data-toggle="modal" data-target="#add-announcement"data-id=<%- lecturer._id%> >
             <div class="thumbnail inner-event">
               <h4 class="title"><%=lecturer.name%></h4>
-              <img class = "img-thumbnail" src=<%= lecturer.imagepath ? lecturer.imagepath : "/images/placeholder.png"%> alt="Placeholder">
+              <img class = "img-thumbnail" src=<%= lecturer.imagepath ? lecturer.imagepath : "/images/default/placeholder.jpeg"%> alt="Placeholder">
               <div class="caption">
                 <p class="lead data-text"><%=lecturer.description%></p>
               </div>

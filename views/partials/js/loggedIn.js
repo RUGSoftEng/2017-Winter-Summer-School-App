@@ -43,6 +43,7 @@
      $('.back').hide();
      $('#add-announcement .target').hide();
      $('#add-announcement .modal-add-body').hide();
+     $('#add-announcement #modal-thumbnail').hide();
      $('#add-announcement .modal-show-body').show();
      $('#add-announcement .modal-title').html(title);
      $('#add-announcement .modal-show-body .jumbotron').html(text);
@@ -58,7 +59,7 @@
  	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7];
  	 $('#' + $today).addClass('in'); // open the schedule corresponding to the current day
      $( "#scheduleDate" ).datepicker({
-	     //dateFormat: 'DD dd MM yy' 
+	     //dateFormat: 'DD dd MM yy'
 	     dateFormat: 'yy-mm-dd'
      });
 

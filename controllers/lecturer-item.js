@@ -4,6 +4,7 @@ var data = require.main.require('./config/database.js');
 var multer = require('multer');
 var crypto = require('crypto');
 var mime = require('mime');
+var fs = require('fs');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './views/images/')},
@@ -13,38 +14,35 @@ var storage = multer.diskStorage({
       });
   }
 });
-
 var upload = multer({ storage: storage });
 
-router.put('/lecturer/item',data.isLoggedIn, function(req, res) {
-    data.db.lecturers.update({
-        '_id': data.mongojs.ObjectId(req.param('id'))
-    }, {
-        title: req.param('title'),
-        description: req.param('description')
-    }, function(err, user) {
-        if (err) throw err;
-        res.redirect('/main');
-    });
-
-});
-
-
 router.delete('/lecturer/item', data.isLoggedIn, function(req, res) {
-    data.db.lecturers.remove({
-        '_id': data.mongojs.ObjectId(req.param('id'))
+    //first get the document so you can delete the old picture path.
+    data.db.lecturers.findOne({
+        _id: data.mongojs.ObjectId(req.param('id'))
     }, function(err, user) {
-        if (err) throw err;
-        res.redirect('/main');
+        if (err) console.log(err);
+        else {
+          fs.unlink('.' + '/views/' + user.imagepath,function(err,result){
+            if (err){
+              console.log(err);
+            }
+          });
+          data.db.lecturers.remove({
+              '_id': user._id
+          }, function(err, user) {
+              if (err) throw err;
+              res.redirect('/lecturerpage');
+          });
+        }
     });
-
 });
 
 router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(req, res) {
     var newLecturer = {
         name: req.body.title,
         description: req.body.description,
-        imagepath: '/images/placeholder.png'
+        imagepath: undefined
     }
     if(typeof req.file != "undefined"){
       newLecturer.imagepath = '/images/' + req.file.filename ;
@@ -57,7 +55,19 @@ router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(re
 });
 
 });
+router.put('/lecturer/item', data.isLoggedIn, function(req, res) {
+    data.db.lecturers.update({
+        '_id': data.mongojs.ObjectId(req.param('id'))
+    }, {
+        name: req.param('title'),
+        description: req.param('description'),
+        imagepath: req.param('imagepath')
+    }, function(err, user) {
+        if (err) throw err;
+        res.redirect('/main');
+    });
 
+});
 router.get('/lecturer/item', function(req, res) {
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided

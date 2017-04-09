@@ -13,7 +13,7 @@ function addNewItem(edit) {
     $('#add-announcement #announcementTitle').attr('placeholder','Name')
     $('#add-announcement #announcementDescription').attr('placeholder','General Info')
     $('#add-announcement #thumbnailDiv').show();
-    $('#modal-thumbnail').attr('src', '/images/placeholder.png');
+    $('#modal-thumbnail').attr('src', '/images/default/placeholder.jpeg');
     $('#add-announcement .finish').html((edit ? "Edit" : "Add Lecturer"));
     $('#add-announcement .edit').hide();
     $('#add-announcement .finish').show();
@@ -25,12 +25,13 @@ function addNewItem(edit) {
     $('#add-announcement .target').hide();
 };
 
-function displayItem(title, text) {
+function displayItem(title, text,img) {
     $('.back').hide();
     $('#add-announcement .target').hide();
     $('#add-announcement .modal-add-body').hide();
     $('#add-announcement .modal-show-body').show();
     $('#add-announcement #thumbnailDiv').show();
+    $('#add-announcement #modal-thumbnail').attr('src',img);
     $('#add-announcement .modal-title').html(title);
     $('#add-announcement .modal-show-body .jumbotron').html(text);
     $('#add-announcement .edit').show();
@@ -56,21 +57,36 @@ $(function() {
     $('#files').change(function(){
       readURL(this);
     });
+
     $('.finish').click(function(event) {
         $type = $(this).data('type');
         if (confirm("Are you sure that you want to " + $type + "?")) {
             if (!$('#announcementDescription').val() || !$('#announcementTitle').val()) {
                 event.preventDefault();
                 alert("Please fill in a Name and content");
-            } else if ($type == "edit") {
-                event.preventDefault();
-                $.ajax({
-                    url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id') + '&description=' + $('#announcementDescription').val() + '&title=' + $('#announcementTitle').val(),
-                    type: 'PUT',
-                    success: function(result) {
-                        location.reload();
-                    }
-                });
+            }
+            //if the avatar was modified delete old lecturer and create new one
+            //as files can only be passed through a post and not a put
+            else if (($type == "edit") && ($('#files').val())) {
+              $.ajax({
+                  url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id'),
+                  type: 'DELETE',
+                  success: function(result) {
+                      location.reload();
+
+                  }
+              });
+            }
+            //if the avatar was not modified just update the db document.
+            else if (($type == "edit") && !($('#files').val())){
+              event.preventDefault();
+              $.ajax({
+                  url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id') + '&description=' + $('#announcementDescription').val() + '&title=' + $('#announcementTitle').val()+'&imagepath=' + $('#modal-thumbnail').attr('src'),
+                  type: 'PUT',
+                  success: function(result) {
+                      location.reload();
+                  }
+              });
             }
         } else {
             event.preventDefault();
@@ -82,7 +98,7 @@ $(function() {
     $('#add-announcement .delete').click(function() {
         if (confirm("Are you sure you want to delete?")) {
             $.ajax({
-                url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id'),
+                url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id'),
                 type: 'DELETE',
                 success: function(result) {
                     location.reload();
@@ -95,14 +111,18 @@ $(function() {
         }
 
     });
+
     $('.edit').click(function() {
         var editTitleValue = $('#add-announcement .modal-title').text();
         var editTextValue = $('#add-announcement .modal-show-body .jumbotron').html();
+        var editImgValue = $('#add-announcement #modal-thumbnail').attr('src');
         addNewItem(true);
-        $('#add-announcement form').attr('action', links[$('#add-announcement').data('type')]);
+        $('#add-announcement form').attr('action', 'lecturer/item');
         $('#announcementTitle').val(editTitleValue);
         $('#announcementDescription').val(editTextValue);
+        $('#modal-thumbnail').attr('src',editImgValue);
     });
+
     $('.preview').click(function() {
 
         $add = $('#add-announcement').data('show');
@@ -123,7 +143,7 @@ $(function() {
             $('#add-announcement').data('show', 'new');
         } else {
             $('#add-announcement').data('show', 'known');
-            displayItem($(this).find('h4.title').html(), $(this).find('.data-text').html());
+            displayItem($(this).find('h4.title').html(), $(this).find('.data-text').html(),$(this).find('.img-thumbnail').attr('src'));
         }
     });
 });
