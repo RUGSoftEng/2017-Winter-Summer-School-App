@@ -54,5 +54,4 @@ router.get('/announcement/item', function(req, res) {
 
 });
 
-
 module.exports = router;

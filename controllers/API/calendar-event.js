@@ -7,11 +7,11 @@ var rr = require('request');
 var bodyParser = require('body-parser');
 var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
-var googleCalendarService = require('../config/calendar/googleCalendarService')(googleapis, googleAuth);
-var clientAccount = require('../config/calendar/clientAccount.json');
-var serviceAccount = require('../config/calendar/serviceAccount.json');
-var calendarService = require('../config/calendar/calendarService.json');
-var sampleEvents = require('../config/calendar/sampleEvents.json');
+var googleCalendarService = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
+var clientAccount = require.main.require('./config/calendar/clientAccount.json');
+var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
+var calendarService = require.main.require('./config/calendar/calendarService.json');
+var sampleEvents = require.main.require('./config/calendar/sampleEvents.json');
 var fs = require('fs');
 
 /* Scope of all access to be performed */

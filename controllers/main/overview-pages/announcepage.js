@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var data = require('../config/database.js');
+var data = require.main.require('./config/database.js');
 	
 router.get('/announcepage',data.isLoggedIn,function(req,res){
       data.db.announcements.find(function(err,docs){
