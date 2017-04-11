@@ -40,6 +40,7 @@
      $(modalSelector + '#section-header').html(sectionHeaders[$type]);
      getButton('f').html((edit ? "Edit" : buttonTexts[$type]));
      $(modalSelector + 'form').attr('action', links[$type]);
+     $('#thumbnailDiv').hide();
      toggleShow(false);
      $('.datetime-form').hide();
      $(modalSelector + '.target').show();
@@ -51,6 +52,7 @@
  };
 
  function displayItem(title, text, $type) {
+ 	$('#modal-thumbnail').hide();
      $(modalSelector + '.target').hide();
      $(modalSelector + '.modal-title').html(title);
      $(modalSelector + '.modal-show-body .jumbotron').html(text);
