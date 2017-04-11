@@ -13,9 +13,9 @@ module.exports = function(googleapis, googleAuth) {
     }
 
     /**
-     * Authorizes a JWT object and stores the returned access token in the oauth2Client object.
+     * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Returns JWT object.
      * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
-     * @param {object} serviceAccountPrivateKey - The Oauth2 object to contain the access token.
+     * @param {object} oauth2Client - The Oauth2 object to contain the access token.
      */
     services.authorizeOAuth2Client = function(jwt, oauth2Client) {
         jwt.authorize(function(err, result) {
@@ -25,7 +25,26 @@ module.exports = function(googleapis, googleAuth) {
                 oauth2Client.setCredentials({access_token: result.access_token});
             }
         });
+
+        return jwt;
     }
+
+    /**
+     * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Executes callback.
+     * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
+     * @param {object} oauth2Client - The Oauth2 object to contain the access token.
+     * @param {function} callback - The callback to execute.
+     */
+     services.didReauthorizeOAuth2Client = function(jwt, oauth2Client, callback) {
+         jwt.authorize(function(err, result) {
+             if (err) {
+                 console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
+             } else {
+                 oauth2Client.setCredentials({access_token: result.access_token});
+                 callback();
+             }
+         });
+     }
 
     /**
      * Attempts to insert a new Calendar event into the Calendar associated with the supplied Calendar Id.
