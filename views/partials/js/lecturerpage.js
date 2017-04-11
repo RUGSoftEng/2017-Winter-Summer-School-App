@@ -126,7 +126,7 @@ $(function() {
     $('.preview').click(function() {
 
         $add = $('#add-announcement').data('show');
-        displayItem($('#announcementTitle').val(), $('#announcementDescription').val(), $('#add-announcement').data("type"));
+        displayItem($('#announcementTitle').val(), $('#announcementDescription').val(), $('#modal-thumbnail').attr('src'));
         if ($add == 'new') {
             $('.back').show();
             $('.edit').hide();

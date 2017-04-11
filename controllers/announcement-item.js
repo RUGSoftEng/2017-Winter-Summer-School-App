@@ -1,6 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var data = require.main.require('./config/database.js');
+var multer = require('multer');
+var crypto = require('crypto');
+var mime = require('mime');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './views/images/')},
+    filename: function(req, file, cb) {
+      crypto.pseudoRandomBytes(16, function(err, raw) {
+          cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
+      });
+  }
+});
+var upload = multer({ storage: storage });
 
 router.put('/announcement/item', data.isLoggedIn, function(req, res) {
     data.db.announcements.update({
@@ -26,7 +39,9 @@ router.delete('/announcement/item', data.isLoggedIn, function(req, res) {
 
 });
 
-router.post('/announcement/item', data.isLoggedIn, function(req, res) {
+router.post('/announcement/item',upload.single('img[]'), data.isLoggedIn, function(req, res) {
+    console.log(req.body.title);
+    console.log(req.body.description);
     var newAnnouncement = {
         title: req.body.title,
         description: req.body.description,
