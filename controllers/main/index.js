@@ -5,14 +5,9 @@ var dateManipulator = require.main.require('./config/dayManipulation.js');
 
 
 router.get('/main', data.isLoggedIn, function(req, res) {
-    var startDate = dateManipulator.getMondayOfThisWeek(new Date());
-    endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 7);
-
     data.db.announcements.find(function(err, docs) {
         data.db.generalinfo.find(function(err, docs2) {
-            var weekSchedule = [];
-            dateManipulator.setEveryDayOfTheWeek(weekSchedule, startDate, 0, function() {
+            dateManipulator.getWeekEvents(function(weekSchedule) {
                 res.render('loggedIn.ejs', {
                     user: req.user,
                     announcements: docs,
