@@ -37,6 +37,7 @@
 	     $('.description-form').hide();
 	     $('.datetime-form').show();
      }
+
  };
 
  function displayItem(title, text, $type) {

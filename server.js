@@ -35,10 +35,10 @@ app.use(express.static('views'));
 
 
 
-var controllers = requireDir('./controllers'); 
+var controllers = requireDir('./controllers');
 for (var i in controllers) {
 	app.use('/', controllers[i]);
-}	
+}
 
 
 require('./controllers/404/wrongURL.js')(app);
