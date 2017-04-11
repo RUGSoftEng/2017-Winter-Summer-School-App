@@ -16,7 +16,6 @@
 	margin:5px 0 5px 0;
 }
 .markItUpContainer  {
-	background:#FFF url(images/bg-container.png) repeat-x top left;
 	padding:5px 5px 2px 5px;
 }
 .markItUpEditor {
@@ -46,10 +45,7 @@
 .markItUpHeader ul li:hover > ul{
 	display:block;
 }
-.markItUpHeader ul .markItUpDropMenu {
-	background:transparent url(images/menu.png) no-repeat 115% 50%;
-	margin-right:5px;
-}
+
 .markItUpHeader ul .markItUpDropMenu li {
 	margin-right:0px;
 }
@@ -77,9 +73,7 @@
 	float:none;
 	border-bottom:1px solid #3C769D;
 }
-.markItUpHeader ul ul .markItUpDropMenu {
-	background:#F5F5F5 url(images/submenu.png) no-repeat 100% 50%;
-}
+
 /* next rows of buttons */
 .markItUpHeader ul ul ul {
 	position:absolute;
@@ -106,21 +100,4 @@
 .markItUpHeader ul ul a:hover  {
 	color:#FFF;
 	background-color:#3C769D;
-}
-/***************************************************************************************/
-.html .markItUpEditor {
-	background-image:url(images/bg-editor-html.png);
-}
-.markdown .markItUpEditor {
-	background-image:url(images/bg-editor-markdown.png);
-}
-.textile .markItUpEditor {
-	background-image:url(images/bg-editor-textile.png);
-}
-.bbcode .markItUpEditor {
-	background-image:url(images/bg-editor-bbcode.png);
-}
-.wiki .markItUpEditor,
-.dotclear .markItUpEditor {
-	background-image:url(images/bg-editor-wiki.png);
 }

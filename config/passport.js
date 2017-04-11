@@ -1,4 +1,4 @@
-var LocalStrategy   = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // hard coded users
 // TODO: encrypt this
@@ -8,8 +8,6 @@ var users = [{
 	'password' : 'admin'
 }];
 
-
-// expose this function to our app using module.exports
 module.exports = function(passport) {
     
 	passport.use('login', new LocalStrategy(

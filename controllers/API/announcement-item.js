@@ -3,6 +3,8 @@ var router = express.Router();
 var data = require.main.require('./config/database.js');
 
 router.put('/announcement/item', data.isLoggedIn, function(req, res) {
+	// updates the description and title of an announcement
+	// corresponding to the given id param.
     data.db.announcements.update({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, {
@@ -15,8 +17,8 @@ router.put('/announcement/item', data.isLoggedIn, function(req, res) {
 
 });
 
-
 router.delete('/announcement/item', data.isLoggedIn, function(req, res) {
+	// deletes the announcements corresponding to the given id param
     data.db.announcements.remove({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, function(err, user) {
@@ -27,6 +29,7 @@ router.delete('/announcement/item', data.isLoggedIn, function(req, res) {
 });
 
 router.post('/announcement/item', data.isLoggedIn, function(req, res) {
+	// adds a new announcement
     var newAnnouncement = {
         title: req.body.title,
         description: req.body.description,
@@ -42,6 +45,7 @@ router.post('/announcement/item', data.isLoggedIn, function(req, res) {
 });
 
 router.get('/announcement/item', function(req, res) {
+	// retrieve a list of announcements
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
     var count = parseInt((req.param('count') ? req.param('count') : 200));

@@ -1,3 +1,8 @@
+ /*
+ 	This script handles all UI manipulations for the modal. It dynamically changes
+ 	the input fields, buttons and texts of the modal depending on where is clicked.
+  */
+ 
  var titles = ["Add an announcement", "Add general information", "Add a new appointment"];
  var editTitles = ["Edit the announcement", "Edit general information"];
  var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
@@ -5,132 +10,91 @@
  var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
  var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
-
+ var modalSelector = '#add-announcement ';
+ var titleSelector = '#announcementTitle ';
+ var descriptionSelector = '#announcementDescription ';
+ 
+ 
+ 
+ function toggleShow(display) {
+	 if(display) {
+		 $(modalSelector + '.modal-add-body').hide();
+		 $(modalSelector + '.modal-show-body').show();
+	 } else {
+		 $(modalSelector + '.modal-add-body').show();
+		 $(modalSelector + '.modal-show-body').hide();
+	 }
+ }
+ 
  function addNewItem(type, edit) {
-     $('.back').hide();
+     toggleButtons('bDeFP');
+     
      if (edit) {
-         $('#add-announcement .finish').data('type', 'edit');
-         $('#add-announcement .delete').show();
+         getButton('f').data('type', 'edit');
      } else {
-         $('#add-announcement .finish').data('type', 'add');
-         $('#add-announcement .delete').hide();
+         getButton('f').data('type', 'add');
+         toggleButtons('d'); // hide delete if we're not editing
      }
-     $('#add-announcement .modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
+     $(modalSelector + '.modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
      $('.description-form').show();
-     $('#add-announcement #section-header').html(sectionHeaders[$type]);
-     $('#add-announcement .finish').html((edit ? "Edit" : buttonTexts[$type]));
-     $('#add-announcement .edit').hide();
-     $('#add-announcement .finish').show();
-     $('#add-announcement .preview').show();
-     $('#add-announcement form').attr('action', links[$type]);
-     $('#add-announcement .modal-add-body').show();
-     $('#add-announcement .modal-show-body').hide();
+     $(modalSelector + '#section-header').html(sectionHeaders[$type]);
+     getButton('f').html((edit ? "Edit" : buttonTexts[$type]));
+     $(modalSelector + 'form').attr('action', links[$type]);
+     toggleShow(false);
      $('.datetime-form').hide();
-     if ($type == 1) {
-         $('#add-announcement .target').hide();
-     } else {
-         $('#add-announcement .target').show();
-     }
-     if($type == 2) {
-	     $('.preview').hide();
+     $(modalSelector + '.target').show();
+     if($type == 2) { // adding a schedule event
+     	 toggleButtons('p'); // no preview button for scheduling
 	     $('.description-form').hide();
 	     $('.datetime-form').show();
      }
  };
 
  function displayItem(title, text, $type) {
-     $('.back').hide();
-     $('#add-announcement .target').hide();
-     $('#add-announcement .modal-add-body').hide();
-     $('#add-announcement .modal-show-body').show();
-     $('#add-announcement .modal-title').html(title);
-     $('#add-announcement .modal-show-body .jumbotron').html(text);
-     $('#add-announcement').data("type", $type);
-     $('#add-announcement .edit').show();
-     $('#add-announcement .finish').hide();
-     $('#add-announcement .preview').hide();
-     $('#add-announcement .delete').hide();
+     $(modalSelector + '.target').hide();
+     $(modalSelector + '.modal-title').html(title);
+     $(modalSelector + '.modal-show-body .jumbotron').html(text);
+     $(modalSelector).data("type", $type);
+     toggleShow(true);
+     toggleButtons('bEfpd');
  };
-
-
- $(function() {
- 	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7];
- 	 $('#' + $today).addClass('in'); // open the schedule corresponding to the current day
-     $( "#scheduleDate" ).datepicker({
-	     //dateFormat: 'DD dd MM yy' 
+ 
+ function openTodaysSchedule() {
+	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7]; // take the positive modulo
+ 	 $('#' + $today).addClass('in');
+ }
+ 
+ function initialiseScheduleDatePicker() {
+	 $( "#scheduleDate" ).datepicker({
 	     dateFormat: 'yy-mm-dd'
      });
-     
-     $('.finish').click(function(event) {
-         $type = $(this).data('type');
-         if (confirm("Are you sure that you want to " + $type + "?")) {
-             if (!$('#announcementTitle').val()) {
-                 event.preventDefault();
-                 alert("Please fill in a title and content");
-             } else if ($type == "edit") {
-                 event.preventDefault();
-                 $.ajax({
-                     url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id') + '&description=' + $('#announcementDescription').val() + '&title=' + $('#announcementTitle').val(),
-                     type: 'PUT',
-                     success: function(result) {
-                         location.reload();
-                     }
-                 });
-             }
-         } else {
-             event.preventDefault();
-         }
-     });
-     $('.back').click(function() {
-         addNewItem($('#add-announcement').data('type'), false);
-     });
-     $('#add-announcement .delete').click(function() {
-         if (confirm("Are you sure you want to delete?")) {
-             $.ajax({
-                 url: links[$('#add-announcement').data('type')] + '?id=' + $('#add-announcement').data('id'),
-                 type: 'DELETE',
-                 success: function(result) {
-                     location.reload();
-
-                 }
-             });
-             event.preventDefault();
-         } else {
-             event.preventDefault();
-         }
-
-     });
-     $('.edit').click(function() {
-         var editTitleValue = $('#add-announcement .modal-title').text();
-         var editTextValue = $('#add-announcement .modal-show-body .jumbotron').html();
-         addNewItem($('#add-announcement').data('type'), true);
-         $('#add-announcement form').attr('action', links[$('#add-announcement').data('type')]);
-         $('#announcementTitle').val(editTitleValue);
-         $('#announcementDescription').val(editTextValue);
-     });
-     $('.preview').click(function() {
-
-         $add = $('#add-announcement').data('show');
-         displayItem($('#announcementTitle').val(), $('#announcementDescription').val(), $('#add-announcement').data("type"));
-         if ($add == 'new') {
-             $('.back').show();
-             $('.edit').hide();
-         }
-
-     });
-     $('.open-modal').click(function() {
-         $('#add-announcement').data('id', $(this).data('id'));
-         $('#add-announcement .delete').hide();
+ }
+ 
+ function emptyContainer(selector) {
+	 $(selector).val('');
+ }
+ 
+ function initialiseModalOpeners() {
+	 $('.open-modal').click(function() {
+         $(modalSelector).data('id', $(this).data('id'));
+         toggleButtons('d');
          $type = $(this).data("type");
 
          if ($(this).data("show") != "overview") {
              addNewItem($type, false);
-             $('#announcementTitle').val('');
-             $('#announcementDescription').val('');
-             $('#add-announcement').data('show', 'new');
+             emptyContainer(titleSelector);
+             emptyContainer(descriptionSelector)
+             $(modalSelector).data('show', 'new');
          } else {
-             $('#add-announcement').data('show', 'known');
+             $(modalSelector).data('show', 'known');
              displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
          }
      });
+ }
+ 
+ $(function() {
+	 openTodaysSchedule();
+	 initialiseScheduleDatePicker();
+	 initialiseButtons();
+	 initialiseModalOpeners();
  });
