@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 	
+// Redirect the user if they are already logged in.
 router.get('/', function(req, res) {
         if(req.isAuthenticated()) {
 	   		res.redirect('/main');
@@ -12,6 +13,7 @@ router.get('/', function(req, res) {
         }
 });
 
+// User tries to login
 router.post('/', passport.authenticate('login', {
         successRedirect: '/main',
         failureRedirect: '/',

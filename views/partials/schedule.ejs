@@ -4,7 +4,7 @@
         <div class='row innerrow'>
             <ul class="list-group" id='sched-acc'>
                 <% var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-             for(var i = 0; i < 7; ++i) { %>
+             for(var i = 0; i < days.length; ++i) { %>
                     <li class="list-group-item" data-toggle="collapse" data-parent="#sched-acc" href="#<%= days[i] %>" aria-expanded="true" aria-controls="<%= days[i] %>">
                         <h5>
                             <%= days[i].charAt(0).toUpperCase() + days[i].slice(1) %>
@@ -15,13 +15,17 @@
                                     <% if(!schedule[i].length) { %>
                                         No events planned today!
                                     <% } %>
-                                    <% for(var j = 0; j < schedule[i].length; ++j) { 
+                                    <% var printTime = function(date) {
+	                                    return date.getHours() + ":" + (date.getMinutes() == '0' ? '00' : date.getMinutes());
+                                    }
+                                    
+                                    for(var j = 0; j < schedule[i].length; ++j) { 
                                     	var sdt = new Date(schedule[i][j].start.dateTime);
                                     	var edt = new Date(schedule[i][j].end.dateTime);
                                     	
                                     	%>
                                     	<li>
-                                            <span><%= sdt.getHours() + ":" + sdt.getMinutes() %> - <%= edt.getHours() + ":" + edt.getMinutes() %></span><span><%= schedule[i][j].summary %></span>
+                                            <span><%= printTime(sdt) %> - <%= printTime(edt) %></span><span><%= schedule[i][j].summary %></span>
 										</li>
                                     <% } %>
                                 </ul>

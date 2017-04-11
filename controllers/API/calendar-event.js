@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
+
+/* Scope of all access to be performed */
+/* Note: Had to "Share" the Calendar with the Google Service Account before it could be used */
 var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
-var gcs = require('../config/calendar/googleCalendarService')(googleapis, googleAuth);
-var clientAccount = require('../config/calendar/clientAccount.json');
-var serviceAccount = require('../config/calendar/serviceAccount.json');
-var calendarService = require('../config/calendar/calendarService.json');
-var calendarEvent = require('../config/calendar/calendarEvent.json');
+var gcs = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
+var clientAccount = require.main.require('./config/calendar/clientAccount.json');
+var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
+var calendarService = require.main.require('./config/calendar/calendarService.json');
+var calendarEvent = require.main.require('./config/calendar/calendarEvent.json');
 
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2();
