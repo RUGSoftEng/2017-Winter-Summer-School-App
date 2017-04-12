@@ -93,6 +93,8 @@
  }
  
  $(function() {
+ 	 $('.img-thumbnail').hide();
+ 	 $('#thumbnailDiv').hide();
 	 openTodaysSchedule();
 	 initialiseScheduleDatePicker();
 	 initialiseButtons();
