@@ -16,7 +16,6 @@ var app = express();
 var passport = require('passport');
 var session = require('express-session');
 
-
 require('./config/passport')(passport);
 
 app.set('view engine', 'ejs');
@@ -35,15 +34,16 @@ app.use(express.static('views'));
 
 
 
-var controllers = requireDir('./controllers'); 
+var controllers = requireDir('./controllers');
 for (var i in controllers) {
 	app.use('/', controllers[i]);
-}	
+}
 
 
 require('./controllers/404/wrongURL.js')(app);
 
 
 
-app.listen(8080);
-console.log('8080 is the port');
+app.listen(process.env.PORT || 8080, function() {
+    console.log('Our app is running on port:' + 8080);
+});

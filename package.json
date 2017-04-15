@@ -2,6 +2,9 @@
   "name": "summer-and-winter-schools",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+      "node": "6.10.0"
+    },
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
