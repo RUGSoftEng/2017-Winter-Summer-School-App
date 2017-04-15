@@ -20,9 +20,7 @@ function fillWeek(result, startDate, i, callback) {
         tomorrow.setDate(startDate.getDate() + 1);
         json.getJSON({
             type: 'GET',
-            path: '/calendar/event?startDate=' + startDate.toISOString() + '&endDate=' + tomorrow.toISOString(),
-            host: 'localhost',
-            port: 8080,
+            url:'https://summer-winter-schools.herokuapp.com'+'/calendar/event?startDate=' + startDate.toISOString() + '&endDate=' + tomorrow.toISOString(),
             async: false,
             dataType: 'json',
 
