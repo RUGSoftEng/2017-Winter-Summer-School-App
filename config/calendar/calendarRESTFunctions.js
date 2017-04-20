@@ -4,6 +4,7 @@ var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
 var gcs = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
 var gct = require.main.require('./config/calendar/googleCalendarTools')(gcs);
+var cache = require.main.require('./config/calendar/eventCache')(4);
 var clientAccount = require.main.require('./config/calendar/clientAccount.json');
 var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
 var calendarService = require.main.require('./config/calendar/calendarService.json');
@@ -41,6 +42,7 @@ exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, 
             }
         } else {
             console.log('Event ' + summary + ' inserted');
+            cache.flush();
             return event;
         }
     });
@@ -69,12 +71,20 @@ exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
     });
 }
 
+var lastGot = 0;
 /* Invokes the getWeekEvents function of the googleCalendarTools module to extract events for a given week parameter.
  * returns a JSON string of the extracted events, or an empty string of events per day if an error was encountered.
  * JSON format: { {Date, [e1, ... , e1i]}, {Date, [e2, ... , e2i]}, ... }
  */
 exports.listCalendarWeekEvents = function (week, callback) {
-    gct.getWeekEvents(week, exports.listCalendarEvents, function(data) {
-        callback(JSON.stringify(data));
+    cache.get(week, function(data) {
+        if (data != null) {
+            callback(data);
+        } else {
+            gct.getWeekEvents(week, exports.listCalendarEvents, function(data) {
+                cache.cache(week, JSON.stringify(data));
+                callback(JSON.stringify(data));
+            });
+        }
     });
 }

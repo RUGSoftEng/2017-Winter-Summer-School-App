@@ -10,8 +10,8 @@ router.post('/calendar/event', function(request, response) {
     var start = b.date + 'T' + b.startHour + ':' + b.startMinute + ':00.000Z';
     var end = b.date + 'T' + b.endHour + ':' + b.endMinute + ':00.000Z';
 
-    console.log("Posting event: " + b.summary + " for school " + b.ssid + " starting at " + b.start + " and ending at " + b.end);
-    var event = calendarFunctions.insertCalendarEvent(b.summary, b.ssid, location, start, end);
+    console.log("Posting event: " + request.body.title + " for school " + b.ssid + " starting at " + start + " and ending at " + end);
+    var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, location, start, end);
     response.redirect('/main');
 });
 
