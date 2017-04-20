@@ -6,6 +6,7 @@
                 <% var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]; %>
                 <% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
                 <% for(var i = 0; i < days.length; ++i) { %>
+                <%      if (schedule == null) continue %>
                 <%      var day = new Date(schedule[i][0]); %>
                 <%      var events = schedule[i][1];        %>
                     <li class="list-group-item" data-toggle="collapse" data-parent="#sched-acc" href="#<%= days[i] %>" aria-expanded="true" aria-controls="<%= days[i] %>">
