@@ -7,7 +7,6 @@ exports.getWeekEvents = function(callback) {
     json.getJSON({
         type: 'GET',
         path: '/calendar/event?startDate=' + date + '&endDate=' + date + "&week=" + week,
-        host: 'localhost',
         port: 8080,
         async: false,
         dataType: 'json'
