@@ -5,9 +5,9 @@
         <div id='wrap' class='full'>
             <% include partials/general_navigationbar.ejs %>
             <div class='row' id='event-screen'>
-                <% include partials/announcements %>
-                <% include partials/generalinfo %>
-                <% include partials/schedule %>
+                <span id='announcementsModule'> <% include partials/announcements %> </span>
+                <span id='generalinfoModule'> <% include partials/generalinfo %> </span>
+                <span id='scheduleModule'> <% include partials/schedule %> </span>
             </div>
 
             <% include partials/modal %>

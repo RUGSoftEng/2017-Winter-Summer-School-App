@@ -2,7 +2,7 @@
  	This script handles all UI manipulations for the modal. It dynamically changes
  	the input fields, buttons and texts of the modal depending on where is clicked.
   */
- 
+
  var titles = ["Add an announcement", "Add general information", "Add a new appointment"];
  var editTitles = ["Edit the announcement", "Edit general information"];
  var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
@@ -13,9 +13,9 @@
  var modalSelector = '#add-announcement ';
  var titleSelector = '#announcementTitle ';
  var descriptionSelector = '#announcementDescription ';
- 
- 
- 
+
+
+
  function toggleShow(display) {
 	 if(display) {
 		 $(modalSelector + '.modal-add-body').hide();
@@ -25,10 +25,10 @@
 		 $(modalSelector + '.modal-show-body').hide();
 	 }
  }
- 
+
  function addNewItem(type, edit) {
      toggleButtons('bDeFP');
-     
+
      if (edit) {
          getButton('f').data('type', 'edit');
      } else {
@@ -58,22 +58,22 @@
      toggleShow(true);
      toggleButtons('bEfpd');
  };
- 
+
  function openTodaysSchedule() {
 	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7]; // take the positive modulo
  	 $('#' + $today).addClass('in');
  }
- 
+
  function initialiseScheduleDatePicker() {
 	 $( "#scheduleDate" ).datepicker({
 	     dateFormat: 'yy-mm-dd'
      });
  }
- 
+
  function emptyContainer(selector) {
 	 $(selector).val('');
  }
- 
+
  function initialiseModalOpeners() {
 	 $('.open-modal').click(function() {
          $(modalSelector).data('id', $(this).data('id'));
@@ -91,12 +91,13 @@
          }
      });
  }
- 
+
  $(function() {
  	 $('.img-thumbnail').hide();
  	 $('#thumbnailDiv').hide();
 	 openTodaysSchedule();
 	 initialiseScheduleDatePicker();
+     initialiseScheduleButtons();
 	 initialiseButtons();
 	 initialiseModalOpeners();
  });

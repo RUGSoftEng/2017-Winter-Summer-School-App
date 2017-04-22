@@ -11,7 +11,7 @@
 		 	button.show();
 	 }
  }
- 
+
  function getButton(letter) {
 	 	switch(letter) {
 	 		case 'b':
@@ -30,11 +30,11 @@
  function isLowerCase(letter) {
 	 return letter == letter.toLowerCase();
  }
- 
+
  function isEmptyContainer(selector) {
 	 return !$(selector).val();
  }
- 
+
  function initialiseFinishButton() {
 	 getButton('f').click(function(event) {
          $type = $(this).data('type');
@@ -42,7 +42,7 @@
              if (isEmptyContainer(titleSelector)) { // no title, prevent the POST request
                  event.preventDefault();
                  alert("Please fill in a title and content");
-             } else if ($type == "edit") { 
+             } else if ($type == "edit") {
              	 // send a PUT request instead of POST if an existing item is edited.
                  event.preventDefault();
                  $.ajax({
@@ -58,13 +58,13 @@
          }
      });
  }
- 
+
  function initialiseBackButton() {
 	 getButton('b').click(function() {
          addNewItem($(modalSelector).data('type'), false);
      });
  }
- 
+
  function initialiseDeleteButton() {
 	 getButton('d').click(function() {
          if (confirm("Are you sure you want to delete?")) {
@@ -82,7 +82,7 @@
 
      });
  }
- 
+
  function initialiseEditButton() {
 	 getButton('e').click(function() {
          var editTitleValue = $(modalSelector + '.modal-title').text();
@@ -93,7 +93,7 @@
          $(descriptionSelector).val(editTextValue);
      });
  }
- 
+
  function initialisePreviewButton() {
 	 getButton('p').click(function() {
          $addType = $(modalSelector).data('show');
@@ -103,11 +103,10 @@
          }
      });
  }
- 
+
  function initialiseButtons() {
 	 initialiseFinishButton();
      initialiseBackButton();
      initialiseDeleteButton();
      initialiseEditButton();
-     initialisePreviewButton();
  }
