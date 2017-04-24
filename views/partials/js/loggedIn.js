@@ -60,7 +60,7 @@
  };
 
  function openTodaysSchedule() {
-	 $today = days[(((new Date().getDay()-1) % 7) + 7) % 7]; // take the positive modulo
+	 $today = days[new Date().getDay()]; // take the positive modulo
  	 $('#' + $today).addClass('in');
  }
 

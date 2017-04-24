@@ -4,6 +4,7 @@ var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
 var gcs = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
 var gct = require.main.require('./config/calendar/googleCalendarTools')(gcs);
+var cache = require.main.require('./config/calendar/eventCache.js')(8);
 var clientAccount = require.main.require('./config/calendar/clientAccount.json');
 var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
 var calendarService = require.main.require('./config/calendar/calendarService.json');
@@ -56,6 +57,7 @@ exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, 
             }
         } else {
             console.log('calendarRESTFunctions: Inserted event: ' + summary + ' successfully.');
+            cache.flush();
             return event;
         }
     });
@@ -92,7 +94,15 @@ exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
  * @param {Function} callback - Callback function to execute upon completion.
  */
 exports.listCalendarWeekEvents = function (week, callback) {
-    gct.getExtendedWeekEvents(week, exports.listCalendarEvents, function(data) {
-        callback(JSON.stringify(data));
+    cache.get(week, function(data) {
+        if (data != null) {
+            callback(data);
+        } else {
+            gct.getExtendedWeekEvents(week, exports.listCalendarEvents, function(data) {
+                var serializedData = JSON.stringify(data);
+                cache.cache(week, serializedData);
+                callback(serializedData);
+            });
+        }
     });
 }

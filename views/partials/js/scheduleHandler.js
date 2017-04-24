@@ -7,7 +7,7 @@ function initialisePreviousButton() {
         week -= 1;
         $.ajax({url: "/calendar/event?week=" + week + '&rendered=true', success: function (result) {
             $('#scheduleModule').html(result);
-            initialiseScheduleButtons();
+            refreshModalAndSchedule();
         }});
     });
 }
@@ -17,9 +17,16 @@ function initialiseNextButton() {
         week += 1;
         $.ajax({url: "/calendar/event?week=" + week + '&rendered=true', success: function (result) {
             $('#scheduleModule').html(result);
-            initialiseScheduleButtons();
+            refreshModalAndSchedule();
         }});
     });
+}
+
+function refreshModalAndSchedule() {
+    initialisePreviousButton();
+    initialiseNextButton();
+    initialiseModalOpeners();
+    openTodaysSchedule();
 }
 
 function initialiseScheduleButtons() {

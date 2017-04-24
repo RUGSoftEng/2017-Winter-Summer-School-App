@@ -67,7 +67,7 @@ module.exports = function(gcs) {
      */
     tools.getSaturday = function(offset = 0, midnight) {
         var d = new Date();
-        var t = d.getDate() - (d.getDay() == 0 ? 6 : d.getDay() - 1) - 2;
+        var t = d.getDate() - (d.getDay() == 0 ? 1 : (d.getDay() + 1));
         (midnight ? d.setHours(23,59,59,999) : d.setHours(0,0,0,0));
         d.setDate(t + offset * 7);
         return d;
