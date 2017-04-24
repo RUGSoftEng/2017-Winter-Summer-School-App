@@ -1,7 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 
 // hard coded users
-// TODO: encrypt this
+// TODO: hash this
 var users = [
 	{
 		'_id' : 1,

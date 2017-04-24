@@ -44,7 +44,6 @@
                  alert("Please fill in a title and content");
              } else if ($type == "edit") { 
              	 // send a PUT request instead of POST if an existing item is edited.
-                 event.preventDefault();
                  $.ajax({
                      url: links[$(modalSelector).data('type')] + '?id=' + $(modalSelector).data('id') + '&description=' + $(descriptionSelector).val() + '&title=' + $(titleSelector).val(),
                      type: 'PUT',
@@ -75,7 +74,6 @@
                      location.reload();
                  }
              });
-             event.preventDefault();
          } else {
              event.preventDefault();
          }
@@ -86,7 +84,7 @@
  function initialiseEditButton() {
 	 getButton('e').click(function() {
          var editTitleValue = $(modalSelector + '.modal-title').text();
-         var editTextValue = $(modalSelector + '.modal-show-body .jumbotron').html();
+         var editTextValue = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
          addNewItem($(modalSelector).data('type'), true);
          $(modalSelector + 'form').attr('action', links[$(modalSelector).data('type')]);
          $(titleSelector).val(editTitleValue);

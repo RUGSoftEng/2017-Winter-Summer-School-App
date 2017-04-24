@@ -22,16 +22,14 @@ router.get('/calendar/event', function(request, response) {
     var params = request.query;
 
     /* If 'week' parameter is not provided, then extract across range of dates. Else ignore and use the 'week' parameter */
-    if (params.hasOwnProperty('startDate') && params.hasOwnProperty('endDate')) {
-        if (params.hasOwnProperty('week') && !isNaN(params.week)) {
-            calendarFunctions.listCalendarWeekEvents(parseInt(params.week), function(data) {
-                response.send(data);
-            })
-        } else {
-            calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
-                response.send(data);
-            });
-        }
+    if (params.hasOwnProperty('week') && !isNaN(params.week)) {
+        calendarFunctions.listCalendarWeekEvents(parseInt(params.week), function(data) {
+            response.send(data);
+        })
+    } else {
+        calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
+            response.send(data);
+        });
     }
 });
 
