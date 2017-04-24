@@ -7,6 +7,7 @@ $(document).ready(function() {
   $('.next').click(function(){
     if ((multiplier+1)*perPage <= numItems + perPage-1){
       items.hide();
+      $('#list-header').show();
       items.slice(perPage*multiplier,perPage*(multiplier+1)).show();
       multiplier++;
     }
@@ -15,6 +16,7 @@ $(document).ready(function() {
     if (multiplier-1 >0){
       multiplier--;
       items.hide();
+      $('#list-header').show();
       items.slice(perPage*(multiplier-1),perPage*multiplier).show();
     }
   });

@@ -7,16 +7,20 @@
     <% include partials/general_navigationbar.ejs %>
       <div class="row" id="event-screen">
           <div class="col-md-4">
-            <div class="inner-event">
-              <h3 class="underline-title">Announcements</h3>
               <div id="content" class="list-group">
+                  <button
+                      type="button" class="list-group-item list-group-item-text" id="list-header">
+                      Announcements
+                    </button>
+
                   <%announcements.forEach(function(announcement){%>
                     <button
                       type="button" class="list-group-item list-group-item-text  change-announcement"
                       data-description = "<%=announcement.description%>"
-                      data-poster = "<%=announcement.poster%>">
-                      <%=announcement.title %>
-                      <h5 class="details pull-right"><%= (""+announcement.date).substring(0,21)%></h5>
+                      data-poster = "<%=announcement.poster%>"
+                      data-title = "<%=announcement.title %>">
+                      <span class='pull-left announcement-title'><%=announcement.title %></span>
+                      <h5 class="details pull-right"><% if(typeof announcement.date === "undefined") { %> Unknown date <%} else {%><%= (""+ announcement.date).substring(0,21)%><% } %></h5>
                     </button>
                   <%});%>
               </div>
@@ -28,14 +32,13 @@
                   <a>Older &rarr;</a>
                 </li>
             </ul>
-            </div>
           </div>
         <div class="col-md-8">
           <div class="inner-event">
-            <h3 class="underline-title">View Announcement
+            <h3 id='changingTitle' class="underline-title">View Announcement
             </h3>
-            <h4 id="changingDescription">Click a title to select an announcement</h4>
-            <h5 class="details" id="changingPoster"></h5>
+            <p class='lead' id="changingDescription">Click a title to select an announcement</p>
+            <div id='authorContainer'><h5 class="details" id="changingPoster"></h5></div>
           </div>
         </div>
       </div>
