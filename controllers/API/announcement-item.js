@@ -25,7 +25,7 @@ router.put('/announcement/item', data.isLoggedIn, function(req, res) {
         description: req.param('description')
     }, function(err, user) {
         if (err) throw err;
-        res.redirect('/main');
+        res.send(200);
     });
 
 });
@@ -36,7 +36,7 @@ router.delete('/announcement/item', data.isLoggedIn, function(req, res) {
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, function(err, user) {
         if (err) throw err;
-        res.redirect('/main');
+        res.send(200);
     });
 
 });

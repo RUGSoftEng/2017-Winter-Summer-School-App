@@ -65,7 +65,8 @@
  }
  
  function initialiseDeleteButton() {
-	 getButton('d').click(function() {
+	 getButton('d').click(function(event) {
+	     event.preventDefault();
          if (confirm("Are you sure you want to delete?")) {
              $.ajax({
                  url: links[$(modalSelector).data('type')] + '?id=' + $(modalSelector).data('id'),
@@ -74,10 +75,7 @@
                      location.reload();
                  }
              });
-         } else {
-             event.preventDefault();
-         }
-
+         } 
      });
  }
  
