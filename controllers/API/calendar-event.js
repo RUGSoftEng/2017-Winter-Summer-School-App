@@ -20,18 +20,20 @@ router.post('/calendar/event', function(request, response) {
  */
 router.get('/calendar/event', function(request, response) {
     var params = request.query;
-
-    /* If 'week' parameter is not provided, then extract across range of dates. Else ignore and use the 'week' parameter */
-    if (params.hasOwnProperty('startDate') && params.hasOwnProperty('endDate')) {
-        if (params.hasOwnProperty('week') && !isNaN(params.week)) {
-            calendarFunctions.listCalendarWeekEvents(parseInt(params.week), function(data) {
+    if (params.hasOwnProperty('week') && !isNaN(params.week)) {
+        calendarFunctions.listCalendarWeekEvents(parseInt(params.week), function(data) {
+            if (params.hasOwnProperty('rendered') && params.rendered == 'true') {
+                response.render('partials/schedule.ejs', {schedule: JSON.parse(data)});
+            } else {
                 response.send(data);
-            })
-        } else {
-            calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
-                response.send(data);
-            });
-        }
+            }
+        });
+    } else if (params.hasOwnProperty('startDate') && params.hasOwnProperty('endDate')) {
+        calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
+            response.send(data);
+        });
+    } else {
+        console.error('calendar-event.js: received an invalid get request\n');
     }
 });
 
