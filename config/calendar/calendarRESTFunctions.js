@@ -4,7 +4,11 @@ var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
 var gcs = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
 var gct = require.main.require('./config/calendar/googleCalendarTools')(gcs);
+<<<<<<< HEAD
 var cache = require.main.require('./config/calendar/eventCache.js')(8);
+=======
+var cache = require.main.require('./config/calendar/eventCache')(4);
+>>>>>>> development
 var clientAccount = require.main.require('./config/calendar/clientAccount.json');
 var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
 var calendarService = require.main.require('./config/calendar/calendarService.json');
@@ -18,6 +22,7 @@ var oauth2Client = new auth.OAuth2();
 var calendar = googleapis.calendar('v3');
 var jwt = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.client_email, serviceAccount.private_key), oauth2Client);
 
+<<<<<<< HEAD
 /**
  * Overwrites properties of the local JSON event template with the supplied arguments.
  * @param {String} summary - The event summary.
@@ -27,12 +32,17 @@ var jwt = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.clie
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
 function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
+=======
+/* Configures the default calendar event object with the supplied parameters */
+configureEvent = function(summary, ssid, location, startDateTime, endDateTime) {
+>>>>>>> development
     calendarEvent['summary'] = summary;
     calendarEvent['extendedProperties'].shared.ssid = ssid;
     calendarEvent['location'] = location;
     calendarEvent['start'].dateTime = startDateTime;
     calendarEvent['end'].dateTime = endDateTime;
 }
+
 
 /**
  * Performs a call to googleCalendarService module to insert an event. Re-authenticates recursively if access-token rejected.
