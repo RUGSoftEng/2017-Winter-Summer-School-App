@@ -15,3 +15,53 @@ node server.js
 ```
 
 By default the server is listening on port 8080. Therefore, the webinterface can be accessed on [localhost:8080/](localhost:8080/).
+
+
+
+## API
+#### Announcements
+Retrieve a list of the latest announcements (by default 200)
+```bash
+GET http://localhost:8080/announcement/item[?count=<numberOfAnnouncements>]
+```
+The following requests require the user to be logged in:
+Delete an announcement
+```bash
+DELETE http://localhost:8080/announcement/item?id=<announcementId>
+```
+Edit an announcement
+```bash
+PUT http://localhost:8080/announcement/item?id=<announcementId>&title=<newTitle>&description=<newDescription>
+```
+Add an announcement
+```bash
+POST http://localhost:8080/announcement/item?title=<title>&description=<description>
+```
+#### General information
+Retrieve a list of the latest general information (by default 200)
+```bash
+GET http://localhost:8080/generalinfo/item[?count=<numberOfPost>]
+```
+The following requests require the user to be logged in:
+Delete general information
+```bash
+DELETE http://localhost:8080/generalinfo/item?id=<announcementId>
+```
+Edit general information
+```bash
+PUT http://localhost:8080/generalinfo/item?id=<announcementId>&title=<newTitle>&description=<newDescription>
+```
+Add general information
+```bash
+POST http://localhost:8080/generalinfo/item?title=<title>&description=<description>
+```
+#### Schedule
+Retrieve the events in a week. Passing a 0 for week represents the current week, whereas 1 would represent next week. Negative values are also possible to retrieve past events.
+```bash
+GET http://localhost:8080//calendar/event?week=<integer>
+```
+The following request requires the user to be logged in:
+Add an event
+```bash
+POST http://localhost:8080//calendar/event?title=<title>&ssid=<schoolName>&date=<date>&startHour=<startingHour>&startMinute=<startingMinute>&endHour=<endingHour>&endMinute=<endingMinute>
+```
