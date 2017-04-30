@@ -3,20 +3,12 @@ module.exports = function(gcs) {
     var tools = {};
 
     /**
-     * Returns the value of a day as: (365 * year + 31 * month + day)
-     * @param {Date} d - The date.
-     */
-    tools.dayValue = function(d) {
-        return (365 * d.getFullYear() + 31 * d.getMonth() + d.getDate());
-    }
-
-    /**
      * Returns the difference in days between two dates (a - b).
      * @param {Date} a - The first date.
      * @param {Date} b - The second date.
      */
     tools.dayDifference = function(a, b) {
-        return ((a = tools.dayValue(a)) == (b = tools.dayValue(b))) ? 0 : a - b;
+        return Math.floor((a - b) / (1000 * 60 * 60 * 24));
     }
 
     /**
@@ -36,14 +28,14 @@ module.exports = function(gcs) {
 
     /**
      * Creates and returns an array of Dates starting from 'start' and and extending 'count' days into the future.
-     * @param {Date} start - The date to start from.
+     * @param {Date} start - The date to start from. Date will be copied and set to midnight.
      * @param {Integer} count - The amount of days to extend to (including start).
      */
     tools.getDays = function(start, count) {
-        var days = [start];
+        var s = tools.midnightOn(start), days = [s];
         for (var i = 1; i < count; i++) {
-            days[i] = new Date(start.getTime());
-            days[i].setDate(start.getDate() + i);
+            days[i] = new Date(s.getTime());
+            days[i].setTime(s.getTime() + i * (1000 * 60 * 60 * 24));
         }
         return days;
     }
@@ -86,16 +78,25 @@ module.exports = function(gcs) {
     }
 
     /**
+     * Creates and returns a new Date instance of the given Date set to midnight.
+     * @param {Date} date - Date to obtain copy of at midnight.
+     */
+     tools.midnightOn = function(date) {
+         var d = new Date(date);
+         d.setHours(23,59,59,999);
+         return d;
+     }
+
+    /**
      * Returns the events of a custom (startDay -> endDay) week separated by day. The result of this function is in form: [[Date,[Events]]]
      * @param {Date} startDay - The starting day of the week.
      * @param {Date} endDay - The ending day of the week.
-     * @param {Integer} weekLength - The number of days in the week.
      * @param {Function} f - Function that will return the events for the supplied start and end date.
      * @param {Function} callback - The callback to be performed with the result.
      */
-    tools.getCustomWeekEvents = function(startDay, endDay, weekLength, f, callback) {
-        var weekDays = tools.getDays(startDay, weekLength);
-        var weekEvents = Array(weekLength).fill().map(_ => []);
+    tools.getSortedWeekEvents = function(startDay, endDay, f, callback) {
+        var weekDays = tools.getDays(startDay, tools.dayDifference(endDay, startDay) + 1);
+        var weekEvents = Array(weekDays.length).fill().map(_ => []);
         var result;
 
         f (startDay.toISOString(), endDay.toISOString(), function(events) {
@@ -125,17 +126,17 @@ module.exports = function(gcs) {
      * @param {Function} callback - The callback to be performed with the result.
      */
     tools.getWeekEvents = function (offset = 0, f, callback) {
-        tools.getCustomWeekEvents(tools.getMonday(offset), tools.getSunday(offset), 7, f, callback);
+        tools.getSortedWeekEvents(tools.getMonday(offset), tools.getSunday(offset), f, callback);
     }
 
     /**
-     * Returns the events of a custom (Saturday -> Saturday) week. The result of this function is in form: [[Date,[Events]]]
+     * Returns the events of a custom (Saturday -> next Sunday) week. The result of this function is in form: [[Date,[Events]]]
      * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
      * @param {Function} f - Function that will return the events for the supplied start and end date.
      * @param {Function} callback - The callback to be performed with the result.
      */
     tools.getExtendedWeekEvents = function (offset = 0, f, callback) {
-        tools.getCustomWeekEvents(tools.getSaturday(offset, false), tools.getSaturday(offset + 1, true), 8, f, callback);
+        tools.getSortedWeekEvents(tools.getSaturday(offset, false), tools.getSunday(offset + 1), f, callback);
     }
 
     return tools;

@@ -66,17 +66,17 @@ exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, 
 
 /**
  * Performs a call to googleCalendarService module to fetch events between the provided dates. Re-authenticates recursively if access-token rejected.
- * Returns a raw array of JSON encoded events if successful. Else returns an empty array.
+ * Returns a custom JSON array of tuples containing a date and its corresponding array of events if successful. Else returns an empty array.
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
-exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gcs.listCalendarEvents(calendar, calendarService.calendar_id, oauth2Client, startDateTime, endDateTime, function(err, data) {
+exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
+    gcs.getCalendarEvents(calendar, calendarService.calendar_id, oauth2Client, startDateTime, endDateTime, function(err, data) {
         if (err) {
-            console.error('calendarRESTFunctions.js (listCalendarEvents): The Google API returned code ' + err.code + ' for error: ' + err);
+            console.error('calendarRESTFunctions.js (getCalendarEvents): The Google API returned code ' + err.code + ' for error: ' + err);
             if (gcs.isExpiredTokenError(err)) {
                 gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(){
-                    exports.listCalendarEvents(startDateTime, endDateTime); /* WARNING: Potential infinite loop */
+                    exports.getCalendarEvents(startDateTime, endDateTime); /* WARNING: Potential infinite loop */
                 });
             } else {
                 return '[]';
@@ -88,21 +88,39 @@ exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
 }
 
 /**
- * Performs a call to googleCalendarTools module to fetch events for a week (Defined as Saturday -> Saturday). Uses googleCalendarService module to perform
+ * Performs a call to googleCalendarTools module to fetch events for the custom date range. Uses googleCalendarService module to perform
  * request. Returns a custom JSON array of tuples containing a date and its corresponding array of events if successful. Else returns an array of dates without
  * any events.
+ * Note: This function does not cache events, please do not use it unless necessary.
+ * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
+ * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
+ */
+exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
+    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime), exports.getCalendarEvents, function(data) {
+        var serializedData = JSON.stringify(data);
+        callback(serializedData);
+    })
+}
+
+/**
+ * Performs a call to googleCalendarTools module to fetch events for a week. Uses googleCalendarService module to perform
+ * request. Adjust the data to either a normal or extended week, and returns a custom JSON array of tuples containing a date
+ * and its corresponding array of events if successful. Else returns an array of dates without any events.
+ * Note: This function caches events for faster response times.
  * @param {Integer} week - An integer representing the current week offset.
+ * @param {Boolean} extended - A boolean indicating whether or not to return the extended week (Saturday -> Saturday).
  * @param {Function} callback - Callback function to execute upon completion.
  */
-exports.listCalendarWeekEvents = function (week, callback) {
+exports.listCalendarWeekEvents = function (week, extended, callback) {
     cache.get(week, function(data) {
         if (data != null) {
-            callback(data);
+            var dup = data.slice();
+            callback(JSON.stringify(extended ? dup.splice(0,8) : dup.splice(2,7)));
         } else {
-            gct.getExtendedWeekEvents(week, exports.listCalendarEvents, function(data) {
-                var serializedData = JSON.stringify(data);
-                cache.cache(week, serializedData);
-                callback(serializedData);
+            gct.getExtendedWeekEvents(week, exports.getCalendarEvents, function(data) {
+                cache.cache(week, data);
+                var dup = data.slice();
+                callback(JSON.stringify(extended ? dup.splice(0,8) : dup.splice(2,7)));
             });
         }
     });

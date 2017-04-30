@@ -91,7 +91,7 @@ module.exports = function(googleapis, googleAuth) {
      * @param {int} endDate - The date from which to cutoff events.
      * @param {function} callback - The callback function for the API.
      */
-    services.listCalendarEvents = function(calendar, calendarId, oauth2Client, startDate, endDate, callback) {
+    services.getCalendarEvents = function(calendar, calendarId, oauth2Client, startDate, endDate, callback) {
         calendar.events.list({
             auth: oauth2Client,
             calendarId: calendarId,
