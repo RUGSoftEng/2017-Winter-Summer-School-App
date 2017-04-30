@@ -11,8 +11,7 @@ module.exports = function(cacheSize) {
     /**
      * Empties the cache array
      */
-    cache.flush = function(callback) {
-        console.log("Flushed cache!");
+    cache.flush = function() {
         array = [];
     }
 
