@@ -3,7 +3,7 @@ var router = express.Router();
 var calendarFunctions = require.main.require('./config/calendar/calendarRESTFunctions.js');
 
 
-/* Extracts information from post request to place on the calendar. Obtains event object if successful */
+/** Extracts information from post request to place on the calendar. Obtains event object if successful */
 router.post('/calendar/event', function(request, response) {
     var b = request.body;
     var location = "Nettelbosje 2, 9747 AC Groningen";
@@ -15,18 +15,51 @@ router.post('/calendar/event', function(request, response) {
     response.redirect('/main');
 });
 
-/* Returns a JSON string of dates and their corresponding events for the encoded request of form:
- * /startDate=startDate&endDate=endDate&week=week where week is an optional parameter.
- */
+ /** Returns a serialized JSON array of events.
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *             Option                  Action                                          Cached
+  *             ------                  ------                                          ------
+  *            'week=(int)'             Specifies which week's events to return.        YES
+  *                                     Current week = 0. Next = n. Last = -n.
+  *                                     Data encoded [(Date, [events]), ... ].
+  *                                     Ranges: (Monday -> Sunday)
+  *
+  *            'extended=true'          Returns events across an extended week.
+  *                                     Ranges: (Saturday -> Saturday)                  YES
+  *
+  *            'rendered=true'          Returns events rendered into HTML object.
+  *                                     For internal use only.                          YES
+  *
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *
+  *  'startDate=(date)&endDate=(date)'  Returns events across a custom range.           NO
+  *                                     Sorts events by day. Returns format:
+  *                                     [(Date, [events]), ... ]
+  *
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *             Examples
+  *             --------
+  *             '/calendar/event/week=0'                    - Returns this week's events.
+  *             '/calendar/event/week=-2&extended=true'     - Returns the extended week's events of
+  *
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                                                           two weeks ago.
+  */
 router.get('/calendar/event', function(request, response) {
     var params = request.query;
+    var forWeek = params.hasOwnProperty('week') && !isNaN(params.week);
+    var extended = params.hasOwnProperty('extended') && params.extended == 'true';
+    var rendered = params.hasOwnProperty('rendered') && params.rendered == 'true';
+    var withStartDate = params.hasOwnProperty('startDate'), withEndDate = params.hasOwnProperty('endDate');
 
-    /* If 'week' parameter is not provided, then extract across range of dates. Else ignore and use the 'week' parameter */
-    if (params.hasOwnProperty('week') && !isNaN(params.week)) {
-        calendarFunctions.listCalendarWeekEvents(parseInt(params.week), function(data) {
-            response.send(data);
-        })
-    } else {
+    if (forWeek) {
+        calendarFunctions.listCalendarWeekEvents(parseInt(params.week), extended, function(data) {
+            if (rendered) {
+                response.render('partials/schedule.ejs', {schedule: JSON.parse(data)});
+            } else {
+                response.send(data);
+            }
+        });
+    } else if (withStartDate && withEndDate) {
         calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
             response.send(data);
         });
