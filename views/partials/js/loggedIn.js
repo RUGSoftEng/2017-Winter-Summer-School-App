@@ -3,10 +3,10 @@
  	the input fields, buttons and texts of the modal depending on where is clicked.
   */
 
- var titles = ["Add an announcement", "Add general information", "Add a new appointment"];
+ var titles = ["Add an announcement", "Add general information", "Add a new event"];
  var editTitles = ["Edit the announcement", "Edit general information"];
  var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
- var sectionHeaders = ["Title of announcement", "Information header", "Appointment title"];
+ var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
  var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
  var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
@@ -65,7 +65,7 @@
  }
 
  function initialiseScheduleDatePicker() {
-	 $( "#scheduleDate" ).datepicker({
+	 $( "#scheduleStartDate, #scheduleEndDate" ).datepicker({
 	     dateFormat: 'yy-mm-dd'
      });
  }
