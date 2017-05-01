@@ -11,6 +11,7 @@ router.post('/calendar/event', function(request, response) {
     var end = b.date + 'T' + b.endHour + ':' + b.endMinute + ':00.000Z';
 
     console.log("Posting event: " + request.body.title + " for school " + b.ssid + " starting at " + start + " and ending at " + end);
+
     var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, location, start, end);
     response.redirect('/main');
 });
