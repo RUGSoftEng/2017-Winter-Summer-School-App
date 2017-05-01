@@ -21,7 +21,7 @@
                                         No events planned today!
                                     <% } %>
                                     <% var printTime = function(date) {
-	                                    return date.getHours() + ":" + (date.getMinutes() == '0' ? '00' : date.getMinutes());
+	                                    return date.getHours() + ":" + (date.getMinutes() <= '9' ? '0' + date.getMinutes() : date.getMinutes());
                                     }
 
                                     for(var j = 0; j < events.length; ++j) {

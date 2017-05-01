@@ -63,8 +63,7 @@ router.get('/calendar/event', function(request, response) {
         calendarFunctions.listCalendarEvents(params.startDate, params.endDate, function(data) {
             response.send(data);
         });
-    } else {
-        console.error('calendar-event.js: received an invalid get request\n');
+
     }
 });
 
