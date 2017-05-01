@@ -6,7 +6,7 @@
   height: 400px;
 }
 .data-text {
-  display:none;
+  display:block;
 }
 .img-thumbnail {
   width:225px;
@@ -66,4 +66,3 @@ a>img {
 .panel:hover {
   transform: scale(1.02);
 }
-
