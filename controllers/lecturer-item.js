@@ -42,7 +42,8 @@ router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(re
     var newLecturer = {
         name: req.body.title,
         description: req.body.description,
-        imagepath: undefined
+        imagepath: undefined,
+        website: req.body.website
     }
     if(typeof req.file != "undefined"){
       newLecturer.imagepath = '/images/' + req.file.filename ;
@@ -61,7 +62,8 @@ router.put('/lecturer/item', data.isLoggedIn, function(req, res) {
     }, {
         name: req.param('title'),
         description: req.param('description'),
-        imagepath: req.param('imagepath')
+        imagepath: req.param('imagepath'),
+        website: req.param('website')
     }, function(err, user) {
         if (err) throw err;
         res.redirect('/main');

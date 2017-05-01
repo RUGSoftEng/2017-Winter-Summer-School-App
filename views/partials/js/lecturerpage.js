@@ -1,43 +1,41 @@
 function addNewItem(edit) {
     $('.back').hide();
     if (edit) {
-        $('#add-announcement .finish').data('type', 'edit');
-        $('#add-announcement .delete').show();
+        $('#add-lecturer .finish').data('type', 'edit');
+        $('#add-lecturer .delete').show();
     } else {
-        $('#add-announcement .finish').data('type', 'add');
-        $('#add-announcement .delete').hide();
+        $('#add-lecturer .finish').data('type', 'add');
+        $('#add-lecturer .delete').hide();
     }
-    $('#add-announcement .modal-title').html("<p>" + (edit ? "Edit Lecturer" : "Add Lecturer") + "</p>");
+    $('#add-lecturer .modal-title').html("<p>" + (edit ? "Edit Lecturer" : "Add Lecturer") + "</p>");
     $('.description-form').show();
-    $('#add-announcement #section-header').html("Lecturer Name");
-    $('#add-announcement #announcementTitle').attr('placeholder','Name')
-    $('#add-announcement #announcementDescription').attr('placeholder','General Info')
-    $('#add-announcement #thumbnailDiv').show();
+    $('#add-lecturer #section-header').html("Lecturer Name");
+    $('#add-lecturer #lecturerTitle').attr('placeholder','Name')
+    $('#add-lecturer #lecturerDescription').attr('placeholder','General Info')
+    $('#add-lecturer #thumbnailDiv').show();
     $('#modal-thumbnail').attr('src', '/images/default/placeholder.jpeg');
-    $('#add-announcement .finish').html((edit ? "Edit" : "Add Lecturer"));
-    $('#add-announcement .edit').hide();
-    $('#add-announcement .finish').show();
-    $('#add-announcement .preview').show();
-    $('#add-announcement form').attr('action', "lecturer/item");
-    $('#add-announcement .modal-add-body').show();
-    $('#add-announcement .modal-show-body').hide();
-    $('.datetime-form').hide();
-    $('#add-announcement .target').hide();
+    $('#add-lecturer .finish').html((edit ? "Edit" : "Add Lecturer"));
+    $('#add-lecturer .edit').hide();
+    $('#add-lecturer .finish').show();
+    $('#add-lecturer .preview').show();
+    $('#add-lecturer form').attr('action', "lecturer/item");
+    $('#add-lecturer .modal-add-body').show();
+    $('#add-lecturer .modal-show-body').hide();
 };
 
-function displayItem(title, text,img) {
+function displayItem(title, text,img,website) {
     $('.back').hide();
-    $('#add-announcement .target').hide();
-    $('#add-announcement .modal-add-body').hide();
-    $('#add-announcement .modal-show-body').show();
-    $('#add-announcement #thumbnailDiv').show();
-    $('#add-announcement #modal-thumbnail').attr('src',img);
-    $('#add-announcement .modal-title').html(title);
-    $('#add-announcement .modal-show-body .jumbotron').html(text);
-    $('#add-announcement .edit').show();
-    $('#add-announcement .finish').hide();
-    $('#add-announcement .preview').hide();
-    $('#add-announcement .delete').hide();
+    $('#add-lecturer .modal-add-body').hide();
+    $('#add-lecturer .modal-show-body').show();
+    $('#add-lecturer #thumbnailDiv').show();
+    $('#add-lecturer #modal-thumbnail').attr('src',img);
+    $('#add-lecturer .modal-title').html(title);
+    $('#add-lecturer .modal-show-body .jumbotron').html(text);
+    $('#add-lecturer .modal-show-body .jumbotron2').html(website);
+    $('#add-lecturer .edit').show();
+    $('#add-lecturer .finish').hide();
+    $('#add-lecturer .preview').hide();
+    $('#add-lecturer .delete').hide();
 };
 
 function readURL(input) {
@@ -61,7 +59,7 @@ $(function() {
     $('.finish').click(function(event) {
         $type = $(this).data('type');
         if (confirm("Are you sure that you want to " + $type + "?")) {
-            if (!$('#announcementDescription').val() || !$('#announcementTitle').val()) {
+            if (!$('#lecturerDescription').val() || !$('#lecturerTitle').val()) {
                 event.preventDefault();
                 alert("Please fill in a Name and content");
             }
@@ -69,7 +67,7 @@ $(function() {
             //as files can only be passed through a post and not a put
             else if (($type == "edit") && ($('#files').val())) {
               $.ajax({
-                  url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id'),
+                  url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id'),
                   type: 'DELETE',
                   success: function(result) {
                       location.reload();
@@ -81,7 +79,7 @@ $(function() {
             else if (($type == "edit") && !($('#files').val())){
               event.preventDefault();
               $.ajax({
-                  url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id') + '&description=' + $('#announcementDescription').val() + '&title=' + $('#announcementTitle').val()+'&imagepath=' + $('#modal-thumbnail').attr('src'),
+                  url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id') + '&description=' + $('#lecturerDescription').val() + '&title=' + $('#lecturerTitle').val()+'&imagepath=' + $('#modal-thumbnail').attr('src')+'&website=' + $('#lecturerWebsite').val(),
                   type: 'PUT',
                   success: function(result) {
                       location.reload();
@@ -93,12 +91,13 @@ $(function() {
         }
     });
     $('.back').click(function() {
+        $("#files").trigger("change");
         addNewItem(false);
     });
-    $('#add-announcement .delete').click(function() {
+    $('#add-lecturer .delete').click(function() {
         if (confirm("Are you sure you want to delete?")) {
             $.ajax({
-                url: 'lecturer/item' + '?id=' + $('#add-announcement').data('id'),
+                url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id'),
                 type: 'DELETE',
                 success: function(result) {
                     location.reload();
@@ -113,20 +112,22 @@ $(function() {
     });
 
     $('.edit').click(function() {
-        var editTitleValue = $('#add-announcement .modal-title').text();
-        var editTextValue = $('#add-announcement .modal-show-body .jumbotron').html();
-        var editImgValue = $('#add-announcement #modal-thumbnail').attr('src');
+        var editTitleValue = $('#add-lecturer .modal-title').text();
+        var editTextValue = $('#add-lecturer .modal-show-body .jumbotron').html();
+        var editWebsiteValue = $('#add-lecturer .modal-show-body .jumbotron2').html();
+        var editImgValue = $('#add-lecturer #modal-thumbnail').attr('src');
         addNewItem(true);
-        $('#add-announcement form').attr('action', 'lecturer/item');
-        $('#announcementTitle').val(editTitleValue);
-        $('#announcementDescription').val(editTextValue);
+        $('#add-lecturer form').attr('action', 'lecturer/item');
+        $('#lecturerTitle').val(editTitleValue);
+        $('#lecturerDescription').val(editTextValue);
+        $('#lecturerWebsite').val(editWebsiteValue);
         $('#modal-thumbnail').attr('src',editImgValue);
     });
 
     $('.preview').click(function() {
 
-        $add = $('#add-announcement').data('show');
-        displayItem($('#announcementTitle').val(), $('#announcementDescription').val(), $('#modal-thumbnail').attr('src'));
+        $add = $('#add-lecturer').data('show');
+        displayItem($('#lecturerTitle').val(), $('#lecturerDescription').val(), $('#modal-thumbnail').attr('src'),$('#lecturerWebsite').val());
         if ($add == 'new') {
             $('.back').show();
             $('.edit').hide();
@@ -134,16 +135,17 @@ $(function() {
 
     });
     $('.open-modal').click(function() {
-        $('#add-announcement').data('id', $(this).data('id'));
-        $('#add-announcement .delete').hide();
+        $('#add-lecturer').data('id', $(this).data('id'));
+        $('#add-lecturer .delete').hide();
         if ($(this).data("show") != "overview") {
             addNewItem(false);
-            $('#announcementTitle').val('');
-            $('#announcementDescription').val('');
-            $('#add-announcement').data('show', 'new');
+            $('#lecturerTitle').val('');
+            $('#lecturerDescription').val('');
+            $('#lecturerWebsite').val('');
+            $('#add-lecturer').data('show', 'new');
         } else {
-            $('#add-announcement').data('show', 'known');
-            displayItem($(this).find('h4.title').html(), $(this).find('.data-text').html(),$(this).find('.img-thumbnail').attr('src'));
+            $('#add-lecturer').data('show', 'known');
+            displayItem($(this).find('h4.title').html(), $(this).find('.data-text').html(),$(this).find('.img-thumbnail').attr('src'),$(this).find('.website').html());
         }
     });
 });
