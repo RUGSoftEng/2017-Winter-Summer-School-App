@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class='full'>
-<% include partials/generalinfo_header %>
+<head>
+	<% include partials/web_header %>
+	<style><% include partials/css/generalinfo.css %></style>
+	<script><% include partials/js/generalinfo.js %></script>
+	<script><% include partials/js/contentDivider.js %></script>
+</head>
 <% generalinfo.reverse()%>
 <body class="full">
   <div id='wrap' class='full'>
