@@ -2,12 +2,9 @@ var requireDir = require('require-dir');
 var json = require.main.require('./config/getJSON.js');
 
 exports.getWeekEvents = function(callback) {
-    var date = "NULL";
-    var week = 0;
     json.getJSON({
         type: 'GET',
-        path: '/calendar/event?startDate=' + date + '&endDate=' + date + "&week=" + week,
-        host: 'localhost',
+        path: '/calendar/event?week=' + 0 + '&extended=true',
         port: 8080,
         async: false,
         dataType: 'json'
