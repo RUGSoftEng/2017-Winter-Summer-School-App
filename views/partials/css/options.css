@@ -1,0 +1,17 @@
+.details {
+	color:#fff;
+}
+#wrap .manage:focus {
+	outline: none;
+}
+#wrap:active {
+	outline: none;
+}
+#wrap .manage:hover, #wrap .manage:focus {
+	background-color: #fff;
+	border-color: #0A9BEB;
+}
+.btn-group-wrapper {
+	width:100%;
+	text-align: center;
+}

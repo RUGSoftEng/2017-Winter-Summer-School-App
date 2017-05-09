@@ -33,7 +33,6 @@
 #event-screen {
     background-color: #f0f0f0;
     padding: 30px;
-    min-height: 100%;
 }
 #event-screen .cols .inner-event:first-child {
     border-bottom-left-radius: 4px;
