@@ -99,21 +99,28 @@ module.exports = function(gcs) {
         var weekEvents = Array(weekDays.length).fill().map(_ => []);
         var result;
 
-        f (startDay.toISOString(), endDay.toISOString(), function(events) {
+        f (startDay.toISOString(), endDay.toISOString(), function(err, events) {
             var i, j;
-            for (i = 0, j = 0; i < events.length; i++) {
-                var d = new Date(events[i].start.dateTime);
-                while (tools.dayDifference(weekDays[j], d) < 0) {
-                    j++;
+
+            if (err != null) {
+                callback(err, events);
+            }
+
+            if (events != null) {
+                for (i = 0, j = 0; i < events.length; i++) {
+                    var d = new Date(events[i].start.dateTime);
+                    while (tools.dayDifference(weekDays[j], d) < 0) {
+                        j++;
+                    }
+                    weekEvents[j].push(events[i]);
                 }
-                weekEvents[j].push(events[i]);
             }
 
             result = tools.zipWith(weekDays, weekEvents, function (d, e) {
                 return [d,e];
             });
 
-            return callback(result.map(function(x) {
+            callback(err, result.map(function(x) {
                 return [x[0].toISOString(), x[1]];
             }));
         });

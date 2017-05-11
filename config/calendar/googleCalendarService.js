@@ -33,7 +33,7 @@ module.exports = function(googleapis, googleAuth) {
      * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Executes callback.
      * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
      * @param {object} oauth2Client - The Oauth2 object to contain the access token.
-     * @param {function} callback - The callback to execute.
+     * @param {function} callback - The callback to execute. Contains an error if one was encountered.
      */
      services.didReauthorizeOAuth2Client = function(jwt, oauth2Client, callback) {
          jwt.authorize(function(err, result) {
@@ -41,8 +41,8 @@ module.exports = function(googleapis, googleAuth) {
                  console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
              } else {
                  oauth2Client.setCredentials({access_token: result.access_token});
-                 callback();
              }
+             callback(err);
          });
      }
 
