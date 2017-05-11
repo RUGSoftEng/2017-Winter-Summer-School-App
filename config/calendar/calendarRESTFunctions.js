@@ -19,14 +19,6 @@ var calendar = googleapis.calendar('v3');
 var jwt = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.client_email, serviceAccount.private_key), oauth2Client);
 var error = null;
 
-/*
-if (gcs.isExpiredTokenError(err)) {
-    gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(){
-        exports.getCalendarEvents(startDateTime, endDateTime);
-    });
-}
-*/
-
 /**
  * Overwrites properties of the local JSON event template with the supplied arguments.
  * @param {String} summary - The event summary.
