@@ -9,13 +9,15 @@ var calendarFunctions = require.main.require('./config/calendar/calendarRESTFunc
 /** Extracts information from post request to place on the calendar. Obtains event object if successful */
 router.post('/calendar/event', function(request, response) {
     var b = request.body;
+    console.log(b);
     var location = "Nettelbosje 2, 9747 AC Groningen";
-    var start = b.date + 'T' + b.startHour + ':' + b.startMinute + ':00.000Z';
-    var end = b.date + 'T' + b.endHour + ':' + b.endMinute + ':00.000Z';
-
+    var start = b.startDate + 'T' + b.startHour + ':' + b.startMinute + ':00.000Z';
+    var end = (b.endDate ? b.endDate : b.startDate) + 'T' + b.endHour + ':' + b.endMinute + ':00.000Z';
     console.log("Posting event: " + request.body.title + " for school " + b.ssid + " starting at " + start + " and ending at " + end);
 
-    var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, location, start, end);
+    var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, location, start, end, function(err, data) {
+
+    });
     response.redirect('/main');
 });
 

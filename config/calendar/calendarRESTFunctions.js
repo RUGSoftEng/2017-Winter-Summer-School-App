@@ -46,7 +46,7 @@ function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
  */
-exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime) {
+exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime, callback) {
     configureEvent(summary, ssid, location, startDateTime, endDateTime);
     gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
         var event = null;
