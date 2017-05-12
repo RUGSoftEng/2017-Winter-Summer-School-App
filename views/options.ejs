@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class='full'>
+<head>
+	<% include partials/web_header %>
+	<style><% include partials/css/announcement.css %></style>
+	<style><% include partials/css/options.css %></style>
+	<script><% include partials/js/announcement.js %></script>
+	<script><% include partials/js/contentDivider.js %></script>
+	<script><% include partials/js/manageModal.js %></script>
+</head>
+<body class="full">
+  <div id='wrap' class='full'>
+    <% include partials/general_navigationbar.ejs %>
+      <div class="row" id="event-screen">
+          <div class="col-md-4">
+              <div id="content" class="list-group">
+                  <button
+                      type="button" class="list-group-item list-group-item-text" id="list-header">
+                      Options
+                    </button>
+
+                    <button
+                      type="button" class="list-group-item list-group-item-text  change-announcement"
+                      data-description = "<div class='btn-group-wrapper'>
+                      <div class='btn-group btn-group-lg' role='group' aria-label='Manage administrators'>
+                      	<button class='btn btn-default manage open-modal' data-title='Add an administrator' data-button='Add administrator' data-toggle='modal' data-target='#manageModal' type='button'>
+                      		Add an administrator
+                      	</button>
+                      	<button class='btn btn-default manage open-modal' data-title='List of administrators' data-button='Close' data-toggle='modal' data-target='#manageModal' type='button'>
+                      		View list of administrators
+                      	</button>
+                      	<button class='btn btn-default manage' type='button'>
+                      		Do funky stuff
+                      	</button>
+                      </div><div>"
+                      data-poster = ""
+                      data-title = "Manage administrators">
+                      <span class='pull-left announcement-title'>Manage administrators</span>
+                      <h5 class="details pull-right">a</h5>
+                    </button>
+                    
+                    <button
+                      type="button" class="list-group-item list-group-item-text  change-announcement"
+                      data-description = "Hello"
+                      data-poster = ""
+                      data-title = "Manage users">
+                      <span class='pull-left announcement-title'>Manage users</span>
+                      <h5 class="details pull-right">a</h5>
+                    </button>
+              </div>
+          </div>
+        <div class="col-md-8">
+          <div class="inner-event">
+            <h3 id='changingTitle' class="underline-title">View options
+            </h3>
+            <p class='lead' id="changingDescription">Select an option</p>
+            <div id='authorContainer'><h5 class="details"></h5></div>
+          </div>
+        </div>
+      </div>
+      <% include partials/manageModal %>
+    </div>
+</body>

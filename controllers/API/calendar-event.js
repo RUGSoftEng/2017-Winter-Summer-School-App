@@ -18,6 +18,7 @@ router.post('/calendar/event', function(request, response) {
     var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, location, start, end, function(err, data) {
 
     });
+
     response.redirect('/main');
 });
 
