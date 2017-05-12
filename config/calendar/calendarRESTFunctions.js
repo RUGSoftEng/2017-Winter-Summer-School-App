@@ -17,6 +17,7 @@ var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2();
 var calendar = googleapis.calendar('v3');
 var jwt = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.client_email, serviceAccount.private_key), oauth2Client);
+var error = null;
 
 /**
  * Overwrites properties of the local JSON event template with the supplied arguments.
@@ -36,92 +37,107 @@ function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
 
 
 /**
- * Performs a call to googleCalendarService module to insert an event. Re-authenticates recursively if access-token rejected.
+ * Performs a call to googleCalendarService module to insert an event.
  * Returns an event object if successful; else null.
  * @param {String} summary - The event summary.
  * @param {String} ssid - The summer-school-id
  * @param {String} location - An address for the event.
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
+ * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
  */
-exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime) {
+exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime, callback) {
     configureEvent(summary, ssid, location, startDateTime, endDateTime);
-    gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, event) {
-        if (err) {
+    gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
+        var event = null;
+        if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
-            if (gcs.isExpiredTokenError(err)) {
-                gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(){
-                    exports.insertCalendarEvent(summary, ssid, location, startDateTime, endDateTime); /* WARNING: Potential infinite loop */
-                });
-            } else {
-                return null;
-            }
         } else {
             console.log('calendarRESTFunctions: Inserted event: ' + summary + ' successfully.');
             cache.flush();
-            return event;
+            event = data;
         }
+        callback(err, event);
     });
 }
 
 /**
- * Performs a call to googleCalendarService module to fetch events between the provided dates. Re-authenticates recursively if access-token rejected.
+ * Performs a call to googleCalendarService module to fetch events between the provided dates.
  * Returns a custom JSON array of tuples containing a date and its corresponding array of events if successful. Else returns an empty array.
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
+ * @param {Function} callback - A callback executed on completion. Parameters are error object and events object. If error, events is null.
  */
 exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
     gcs.getCalendarEvents(calendar, calendarService.calendar_id, oauth2Client, startDateTime, endDateTime, function(err, data) {
-        if (err) {
+        var events = null;
+        if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (getCalendarEvents): The Google API returned code ' + err.code + ' for error: ' + err);
-            if (gcs.isExpiredTokenError(err)) {
-                gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(){
-                    exports.getCalendarEvents(startDateTime, endDateTime); /* WARNING: Potential infinite loop */
-                });
-            } else {
-                return '[]';
-            }
         } else {
-            callback(data.items);
+            events = data.items;
         }
+        callback(err, events);
     });
 }
 
 /**
  * Performs a call to googleCalendarTools module to fetch events for the custom date range. Uses googleCalendarService module to perform
- * request. Returns a custom JSON array of tuples containing a date and its corresponding array of events if successful. Else returns an array of dates without
- * any events.
+ * request. Executes a callback with an error object and an events object. The events object is a JSON array of tuples
+ * containing a date and its corresponding array of events. If an error occured, the events object is null.
+ *
  * Note: This function does not cache events, please do not use it unless necessary.
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
 exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime), exports.getCalendarEvents, function(data) {
-        var serializedData = JSON.stringify(data);
-        callback(serializedData);
+    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime), exports.getCalendarEvents, function(err, data) {
+        var events = null;
+        if ((error = err) != null) {
+            callback(error, events);
+        }
+        events = JSON.stringify(data);
+        callback(error, events);
     })
 }
 
 /**
  * Performs a call to googleCalendarTools module to fetch events for a week. Uses googleCalendarService module to perform
- * request. Adjust the data to either a normal or extended week, and returns a custom JSON array of tuples containing a date
- * and its corresponding array of events if successful. Else returns an array of dates without any events.
+ * request. Executes a callback with an error object and an events object. The events object is a JSON array of tuples
+ * containing a date and its corresponding array of events. If an error occured, the events object is null.
+ *
  * Note: This function caches events for faster response times.
  * @param {Integer} week - An integer representing the current week offset.
  * @param {Boolean} extended - A boolean indicating whether or not to return the extended week (Saturday -> Saturday).
  * @param {Function} callback - Callback function to execute upon completion.
  */
 exports.listCalendarWeekEvents = function (week, extended, callback) {
-    cache.get(week, function(data) {
-        if (data != null) {
-            var dup = data.slice();
-            callback(JSON.stringify(extended ? dup.splice(0,8) : dup.splice(2,7)));
-        } else {
-            gct.getExtendedWeekEvents(week, exports.getCalendarEvents, function(data) {
-                cache.cache(week, data);
-                var dup = data.slice();
-                callback(JSON.stringify(extended ? dup.splice(0,8) : dup.splice(2,7)));
-            });
-        }
-    });
+    if (error) {
+        /* Attempt to reauthorize */
+        gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(err) {
+            if ((error = err) != null) {
+                callback(error, null);
+            } else {
+                exports.listCalendarWeekEvents(week, extended, callback);
+            }
+        });
+    } else {
+        /* Fetch from cache if it exists, else retrieve */
+        cache.get(week, function(data) {
+            if (data != null) {
+                var events = data.slice();
+                callback(null, JSON.stringify(extended ? events.splice(0,8) : events.splice(2,7)));
+            } else {
+                gct.getExtendedWeekEvents(week, exports.getCalendarEvents, function(err, data) {
+                    var events = null;
+                    if ((error = err) != null) {
+                        callback(error, events);
+                    } else {
+                        cache.cache(week, data);
+                        events = data.slice();
+                        callback(error, JSON.stringify(extended ? events.splice(0,8) : events.splice(2,7)));
+                    }
+                });
+            }
+        });
+    }
 }
