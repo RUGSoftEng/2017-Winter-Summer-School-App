@@ -7,7 +7,7 @@ var dateManipulator = require.main.require('./config/dayManipulation.js');
 router.get('/main', data.isLoggedIn, function(req, res) {
     data.db.announcements.find(function(err, docs) {
         data.db.generalinfo.find(function(err, docs2) {
-            dateManipulator.getWeekEvents(function(weekSchedule) {
+            dateManipulator.getWeekEvents(req.get('host'),function(weekSchedule) {
                 res.render('loggedIn.ejs', {
                     user: req.user,
                     announcements: docs,
