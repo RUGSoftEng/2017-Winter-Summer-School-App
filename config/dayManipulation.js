@@ -8,7 +8,11 @@ exports.getWeekEvents = function(callback) {
         port: 8080,
         async: false,
         dataType: 'json'
-    }, function(statusCode, res) {
-        callback(res);
+    }, function(statusCode, data) {
+        var result = null;
+        if (data && data.error == null) {
+            result = JSON.parse(data.data);
+        }
+        callback(result);
     });
 }
