@@ -12,6 +12,12 @@
 .col-md-8 {
     padding: 10px;
 }
+.alert {
+	width:65%;
+	margin: 0 auto;
+	margin-top: 15px;
+	display:none;
+}
 .lead {
     display: block;
     display: -webkit-box;
