@@ -65,3 +65,35 @@ Add an event
 ```bash
 POST http://localhost:8080//calendar/event?title=<title>&ssid=<schoolName>&date=<date>&startHour=<startingHour>&startMinute=<startingMinute>&endHour=<endingHour>&endMinute=<endingMinute>
 ```
+#### Forum
+Retrieve a list of the latest threads in the forum (by default 200)
+```bash
+GET http://localhost:8080/forum/item[?count=<numberOfPost>]
+```
+Create new thread
+In the body of the post request there must be the fields: title,description,author,posterID
+```bash
+POST http://localhost:8080/forum/thread/item
+```
+
+Create new comment
+In the body of the post request there must be the fields: threadID,author,posterID,text
+```bash
+POST http://localhost:8080/forum/comment/item
+```
+Edit thread
+```bash
+PUT http://localhost:8080/forum/thread/item?threadID=<id of the thread>&title=<new title>&description=<new description>
+```
+Edit comment
+```bash
+PUT http://localhost:8080/forum/comment/item?threadID=<id of the thread>&arrayPos=<position of the comment in arr>&text=<edited text>
+```
+Delete thread
+```bash
+PUT http://localhost:8080/forum/thread/item?threadID=<id of the thread>
+```
+Delete comment
+```bash
+PUT http://localhost:8080/forum/comment/item?threadID=<id of the thread>&arrayPos=<position of the comment in array>
+```
