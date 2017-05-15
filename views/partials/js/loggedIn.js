@@ -5,7 +5,7 @@
 
  var titles = ["Add an announcement", "Add general information", "Add a new event"];
  var editTitles = ["Edit the announcement", "Edit general information"];
- var buttonTexts = ["Post announcement", "Add section", "Add appointment"];
+ var buttonTexts = ["Post announcement", "Add section", "Submit event"];
  var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
  var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
  var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
