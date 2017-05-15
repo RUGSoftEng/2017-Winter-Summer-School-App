@@ -27,14 +27,24 @@ var error = null;
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
-function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
+function configureEvent (summary, ssid, location, description, startDateTime, endDateTime) {
     calendarEvent['summary'] = summary;
     calendarEvent['extendedProperties'].shared.ssid = ssid;
     calendarEvent['location'] = location;
+    calendarEvent['description'] = description;
     calendarEvent['start'].dateTime = startDateTime;
     calendarEvent['end'].dateTime = endDateTime;
 }
 
+/**
+ * Returns the UTC offset for the current time zone as a string.
+ */
+exports.getOffsetUTC = function() {
+    var date = new Date();
+    var hourOffset = date.getTimezoneOffset() / 60;
+    var sign = (hourOffset > 0 ? '-' : '+'); /* Correct orientation */
+    return (Math.abs(hourOffset) > 10) ? (sign + Math.abs(hourOffset) + ':00') : (sign + '0' + Math.abs(hourOffset) + ':00');
+}
 
 /**
  * Performs a call to googleCalendarService module to insert an event.
@@ -46,8 +56,8 @@ function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
  */
-exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime, callback) {
-    configureEvent(summary, ssid, location, startDateTime, endDateTime);
+exports.insertCalendarEvent = function (summary, ssid, location, description, startDateTime, endDateTime, callback) {
+    configureEvent(summary, ssid, location, description, startDateTime, endDateTime);
     gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
         var event = null;
         if ((error = err) != null) {
