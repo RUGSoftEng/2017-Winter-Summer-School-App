@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
         if(req.isAuthenticated()) {
 	   		res.redirect('/main');
    		} else {
-	        res.render('file', {
+	        res.render('logIn', {
 	            message: req.flash('error')
 	        });
         }
