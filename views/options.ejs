@@ -40,8 +40,6 @@
   <ul class='nav nav-tabs' role='tablist'>
     <li role='presentation' class='active'><a href='#home' aria-controls='home' role='tab' data-toggle='tab'>Add</a></li>
     <li role='presentation'><a href='#view' aria-controls='view' role='tab' data-toggle='tab'>View</a></li>
-    <li role='presentation'><a href='#messages' aria-controls='messages' role='tab' data-toggle='tab'>Messages</a></li>
-    <li role='presentation'><a href='#settings' aria-controls='settings' role='tab' data-toggle='tab'>Settings</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -54,12 +52,12 @@
 
 	                <div class='form-group'>
 					    <label for='username'>Username</label>
-					    <input type='name' class='form-control' id='username' placeholder='Name'>
+					    <input type='name' class='form-control' id='username' placeholder='Name' name='username'>
 					</div>
 					
 					<div class='form-group'>
 					    <label for='password'>Password</label>
-					    <input type='password' class='form-control' id='password' placeholder='Password'>
+					    <input type='password' class='form-control' id='password' placeholder='Password' name='password'>
 					</div>
 					
 					<div class='form-group'>
@@ -80,14 +78,13 @@
 				<tr><th>#</th><th>Username</th> </tr>
 			</thead>
 			<tbody>
-				<tr><td>1</td><td>John</td> </tr>
-				<tr><td>2</td><td>Admin</td> </tr>
-				<tr><td>3</td><td>Smith</td> </tr>
+				<% for(var i=0; i<accounts.length; i++) { %>
+					<tr><td><%= i + 1 %></td><td><%= accounts[i].username %></td> </tr>
+				<% } %>
 			</tbody>
 		</table>
     </div>
-    <div role='tabpanel' class='tab-pane fade' id='messages'>...</div>
-    <div role='tabpanel' class='tab-pane fade' id='settings'>...</div>
+    
   </div>
 </div>
 </div>
