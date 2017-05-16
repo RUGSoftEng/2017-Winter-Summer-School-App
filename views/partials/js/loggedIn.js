@@ -4,7 +4,7 @@
   */
 
  var titles = ["Add an announcement", "Add general information", "Add a new event"];
- var editTitles = ["Edit the announcement", "Edit general information"];
+ var editTitles = ["Edit the announcement", "Edit general information", "Edit event"];
  var buttonTexts = ["Post announcement", "Add section", "Submit event"];
  var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
  var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
@@ -81,10 +81,18 @@
          $type = $(this).data("type");
 
          if ($(this).data("show") != "overview") {
-             addNewItem($type, false);
-             emptyContainer(titleSelector);
-             emptyContainer(descriptionSelector)
-             $(modalSelector).data('show', 'new');
+         	 if($(this).data("spec") != "schedule") {
+             	addNewItem($type, false);
+             	emptyContainer(titleSelector);
+			 	emptyContainer(descriptionSelector)
+			 	$(modalSelector).data('show', 'new');
+             }
+             else {
+             	addNewItem($type, true);
+             	var sc = '.modal-add-body .form-group ';
+             	$(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", true);
+             }
+             
          } else {
              $(modalSelector).data('show', 'known');
              displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
@@ -93,8 +101,6 @@
  }
 
  $(function() {
- 	 $('.img-thumbnail').hide();
- 	 $('#thumbnailDiv').hide();
 	 openTodaysSchedule();
 	 initialiseScheduleDatePicker();
      initialiseScheduleButtons();

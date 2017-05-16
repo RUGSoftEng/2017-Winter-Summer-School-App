@@ -4,6 +4,10 @@
 	    all: unset;
 	  }
 }
+.time-slot:hover {
+	background-color:#e3e3e3;
+	cursor:pointer;
+}
 .full {
     height: 100%;
     width: auto !important;
