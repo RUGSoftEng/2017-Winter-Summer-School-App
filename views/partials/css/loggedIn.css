@@ -1,3 +1,9 @@
+.remove-style * {
+	  all: initial;
+	  * {
+	    all: unset;
+	  }
+}
 .full {
     height: 100%;
     width: auto !important;
@@ -180,9 +186,6 @@ body,
 #add-announcement .read-more {
     display: none;
 }
-.data-text {
-    display: none;
-}
 .panel-body ul {
 	list-style-type: none;
 	padding: 0;
@@ -201,6 +204,7 @@ body,
 	background-color: #f5f5f5;
 	padding: 3px;
 }
+
 
 
 
