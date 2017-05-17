@@ -73,6 +73,17 @@
  function emptyContainer(selector) {
 	 $(selector).val('');
  }
+ 
+ function disableScheduleInput() {
+ 	 var sc = '.modal-add-body .form-group ';
+	 $(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", true);
+
+ }
+ 
+ function fillScheduleInput(clicked) {
+	 var title = clicked.children('span:last-child').text();
+	 $('#announcementTitle').val(title);
+ }
 
  function initialiseModalOpeners() {
 	 $('.open-modal').click(function() {
@@ -89,8 +100,11 @@
              }
              else {
              	addNewItem($type, true);
-             	var sc = '.modal-add-body .form-group ';
-             	$(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", true);
+             	$(modalSelector).data("type", $type);
+             	//$(modalSelector).data("id", $id); put calendar id here 
+             	toggleButtons('bEfpd');
+             	disableScheduleInput();
+             	fillScheduleInput($(this));
              }
              
          } else {
