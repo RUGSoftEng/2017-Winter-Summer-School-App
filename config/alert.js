@@ -38,9 +38,9 @@ Alert.prototype.passToNextPage = function(req) {
 
 Alert.prototype.initiate = function(req) {
 	this.success = req.session.success;
-	this.message = req.session.alertMessage;
+	this.message = req.session.errorMessage;
 	req.session.success = null;
-	req.session.alertMessage = null;
+	req.session.errorMessage = null;
 }
 
 

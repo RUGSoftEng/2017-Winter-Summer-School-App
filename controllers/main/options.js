@@ -4,10 +4,13 @@ var data = require.main.require('./config/database.js');
 var Alert = require.main.require('./config/alert.js');
 
 router.get('/options', data.isLoggedIn, function(req, res) {
+	var alert = new Alert();
+	alert.initiate(req);
 	data.db.accounts.find(function(err, docs) {
 	    res.render('options.ejs', {
 	        user: req.user,
-	        accounts: docs
+	        accounts: docs,
+	        alert: alert
 	    });
 	});
 });
@@ -17,20 +20,34 @@ router.post('/options', data.isLoggedIn, function(req, res) {
         username: req.body.username,
         password: req.body.password,
     }
-    console.log(req.body.username);
-    data.db.accounts.insert(newAccount, function(err, result) {
-    	var alert = null;
-        if (err) {
-            console.log(err);
-            var alertMessage = "Failed to insert to database.<br>" + err;
-            alert = new Alert(false, alertMessage);
-        } else {
-        	console.log('nois');
-            alert = new Alert(true, "The announcement was successfully added");
-        }
-        //alert.passToNextPage(req);
-        res.redirect('/options');
-    });
+    data.db.accounts.find(function(err, users) {
+    		var alert = null;
+    		var user = users.find(function(user) {
+			        return user.username == newAccount.username;
+		    }); 
+		    if(typeof user === 'undefined') {
+			    data.db.accounts.insert(newAccount, function(err, result) {
+			    	
+			        if (err) {
+			            console.log(err);
+			            var alertMessage = "Failed to insert to database.<br>" + err;
+			            alert = new Alert(false, alertMessage);
+			            alert.passToNextPage(req);
+			        } else {
+			        	console.log('nois');
+			            alert = new Alert(true, "The announcement was successfully added");
+			            alert.passToNextPage(req);
+			        }
+			        			        
+			    });
+			} else {
+				alert = new Alert(false, "Chosen username is already in use");
+				alert.passToNextPage(req);
+			}
+				
+			res.redirect('/options');
+
+	});
 });
 
 
