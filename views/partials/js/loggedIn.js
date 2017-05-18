@@ -13,7 +13,8 @@
  var modalSelector = '#add-announcement ';
  var titleSelector = '#announcementTitle ';
  var descriptionSelector = '#announcementDescription ';
-
+ var eventDetailsSelector = '#details ';
+ var eventLocationSelector = '#location ';
 
 
  function toggleShow(display) {
@@ -83,7 +84,15 @@
 
  function fillScheduleInput(clicked) {
 	 var title = clicked.children('span:last-child').text();
-	 $('#announcementTitle').val(title);
+	 $(titleSelector).val(title);
+	 $(eventLocationSelector).val(clicked.data('event-location'));
+	 $(eventDetailsSelector).val(clicked.data('event-description'));
+	 $('#scheduleStartDate').val(clicked.data('event-start-date').substring(0,10));
+	 $('#scheduleEndDate').val(clicked.data('event-end-date').substring(0,10));
+	 $('#startHour').val(clicked.data('event-start-date').substring(11,13));
+	 $('#startMinute').val(clicked.data('event-start-date').substring(14,16));
+	 $('#endHour').val(clicked.data('event-end-date').substring(11,13));
+	 $('#endMinute').val(clicked.data('event-end-date').substring(14,16));
  }
 
  function initialiseModalOpeners() {
@@ -93,20 +102,22 @@
          $type = $(this).data("type");
 
          if ($(this).data("show") != "overview") {
+         	 emptyContainer(eventDetailsSelector);
+			 emptyContainer(eventLocationSelector);
          	 if($(this).data("spec") != "schedule") {
              	addNewItem($type, false);
              	emptyContainer(titleSelector);
-			 	emptyContainer(descriptionSelector)
+			 	emptyContainer(descriptionSelector);
 			 	$(modalSelector).data('show', 'new');
              }
              else {
              	addNewItem($type, true);
              	$(modalSelector).data("type", $type);
-             	//$(modalSelector).data("id", $id); put calendar id here 
              	toggleButtons('bEfpd');
              	toggleScheduleInput(true);
              	fillScheduleInput($(this));
              }
+             
              
          } else {
              $(modalSelector).data('show', 'known');
