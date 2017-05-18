@@ -48,6 +48,8 @@
 	     $('.description-form').hide();
 	     $('.datetime-form').show();
      }
+     toggleScheduleInput(false);
+
  };
 
  function displayItem(title, text, $type) {
@@ -74,12 +76,11 @@
 	 $(selector).val('');
  }
  
- function disableScheduleInput() {
+ function toggleScheduleInput(disabled) {
  	 var sc = '.modal-add-body .form-group ';
-	 $(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", true);
-
+	 $(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", disabled);
  }
- 
+
  function fillScheduleInput(clicked) {
 	 var title = clicked.children('span:last-child').text();
 	 $('#announcementTitle').val(title);
@@ -103,13 +104,14 @@
              	$(modalSelector).data("type", $type);
              	//$(modalSelector).data("id", $id); put calendar id here 
              	toggleButtons('bEfpd');
-             	disableScheduleInput();
+             	toggleScheduleInput(true);
              	fillScheduleInput($(this));
              }
              
          } else {
              $(modalSelector).data('show', 'known');
              displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
+             
          }
      });
  }

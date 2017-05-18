@@ -1,9 +1,12 @@
 .remove-style * {
-	  all: initial;
+	  all: inherit;
+	  height: auto;
 	  * {
 	    all: unset;
 	  }
+	  
 }
+
 .time-slot:hover {
 	background-color:#e3e3e3;
 	cursor:pointer;
@@ -39,6 +42,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.lead h4 {
+	font-size: 16px;
+    font-weight: 300;
 }
 .up-label {
 	display: block;
