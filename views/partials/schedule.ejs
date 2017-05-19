@@ -29,7 +29,7 @@
                                     	var edt = new Date(events[j].end.dateTime);
 
                                     	%>
-                                    	<li>
+                                    	<li class='open-modal time-slot' data-toggle='modal' data-target='#add-announcement' data-type='2' data-spec='schedule' data-event-id='<%= events[j].id %>' data-event-summary='<%= events[j].summary %>' data-event-start-date='<%= events[j].start.dateTime %>' data-event-end-date='<%= events[j].end.dateTime %>' data-event-location='<%= events[j].location %>' data-event-description='<%= events[j].description %>'>
                                             <span><%= printTime(sdt) %> - <%= printTime(edt) %></span><span><%= events[j].summary %></span>
 										</li>
                                     <% } %>

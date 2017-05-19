@@ -105,4 +105,5 @@
      initialiseBackButton();
      initialiseDeleteButton();
      initialiseEditButton();
+     initialisePreviewButton();
  }

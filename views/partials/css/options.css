@@ -16,12 +16,21 @@
 	text-align: center;
 }
 .tab-content {
-	position: absolute;
 	max-width: 90%;
 	min-width:700px;
-	padding: 90px;
-	padding-top:12px;
+	padding: 12px 90px;
 }
-.inner-event, #innerContent {
-	height: 550px;
+#fix:after {
+    clear:both;
+    content: ".";
+    display:block;
+    height: 0;
+    visibility: hidden;    
+}
+#changingDescription {
+	font-size: 21px;
+	font-weight: 300;
+}
+.nav-tabs>li {
+	width:50%;
 }

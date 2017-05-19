@@ -9,8 +9,10 @@
 	<script><% include partials/js/manageModal.js %></script>
 </head>
 <body class="full">
+<div class='tooltip' role='tooltip'><div class='tooltip-arrow'></div><div class='tooltip-inner'>Hello my name is Daan</div></div>
   <div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
+    <% include partials/alertMessage.ejs %>
       <div class="row" id="event-screen">
           <div class="col-md-4">
               <div id="content" class="list-group">
@@ -33,7 +35,7 @@
                       		Do funky stuff
                       	</button>
                       </div><div>-->
-                      
+                      <div id='fix'>
                       <div id='innerContent'>
 
   <!-- Nav tabs -->
@@ -43,7 +45,6 @@
   </ul>
 
   <!-- Tab panes -->
-  <div>
   <div class='tab-content'>
     <div role='tabpanel' class='tab-pane fade in active' id='home'>
     	<h3>Add an administrator</h2>
@@ -51,8 +52,9 @@
 				<div class='modal-body modal-add-body'>
 
 	                <div class='form-group'>
-					    <label for='username'>Username</label>
+					    <label class='control-label' for='username'>Username</label>
 					    <input type='name' class='form-control' id='username' placeholder='Name' name='username'>
+					    <span class='help-block' style='display:none;'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span> Username may only contain lowercase letters and must contain between 5 and 20 characters</span>
 					</div>
 					
 					<div class='form-group'>
@@ -61,8 +63,10 @@
 					</div>
 					
 					<div class='form-group'>
-					    <label for='cpassword'>Confirm password</label>
+					    <label class='control-label' for='cpassword'>Confirm password</label>
 					    <input type='password' class='form-control' id='cpassword' placeholder='Password'>
+					    <span class='help-block' style='display:none;'>  <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+Passwords do not match</span>
 					</div>
 	                
 	                <div class='modal-footer'>
@@ -73,13 +77,18 @@
             </form>
     </div>
     <div role='tabpanel' class='tab-pane fade' id='view'>
+    
     	<table class='table table-striped table-hover'>
     		<thead>
-				<tr><th>#</th><th>Username</th> </tr>
+				<tr><th>#</th><th>Username</th><th>Actions</th> </tr>
 			</thead>
 			<tbody>
 				<% for(var i=0; i<accounts.length; i++) { %>
-					<tr><td><%= i + 1 %></td><td><%= accounts[i].username %></td> </tr>
+					<tr><td><%= i + 1 %></td><td><%= accounts[i].username %></td><td><div class='btn-group' role='group' aria-label='...'>
+   <button type='button' class='btn btn-default' aria-label='Profile' data-toggle='tooltip' data-placement='bottom' title='Profile'><span class='glyphicon glyphicon-user' aria-hidden='true'></span></button>	
+   <button type='button' class='btn btn-default' aria-label='View' data-toggle='tooltip' data-placement='bottom' title='View'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></button>			
+  <button type='button' class='btn btn-default' aria-label='Delete' data-toggle='tooltip' data-placement='bottom' title='Delete'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
+</div></td> </tr>
 				<% } %>
 			</tbody>
 		</table>
@@ -87,12 +96,54 @@
     
   </div>
 </div>
-</div>
-                      
+  </div>                    
                       <script>
                       $('.nav-tabs a').click(function (e) {
 					  	e.preventDefault()
 					  	$(this).tab('show')
+					  	})
+					  	
+					  	$('.finish').click(function (e) {
+						  	if($('#cpassword').val() != $('#password')) {
+						  		e.preventDefault();
+						  		$('#cpassword').parent().addClass('has-error');
+						  		$('#cpassword').next().show();
+						  	}
+					  	})
+					  	
+					  	$('.finish').click(function (e) {
+						  	if($('#cpassword').val() != $('#password')) {
+						  		e.preventDefault();
+						  		$('#cpassword').parent().addClass('has-error');
+						  		$('#cpassword').next().show();
+						  	}
+					  	})
+					  	$('#username').focusout(function() {
+					  		if(! /^[a-z]{5,20}$/.test($(this).val())) { //only lower-case letters with at least 5 characters and no more than 20 characters
+					  			$('#username').parent().addClass('has-error');
+					  			$('#username').parent().removeClass('has-success');
+					  			$('#username').next().show();
+					  		}
+					  		else {
+					  			$('#username').parent().removeClass('has-error');
+					  			$('#username').parent().addClass('has-success');
+					  			$('#username').next().hide();
+					  		}
+					  	});
+					  	$('#cpassword').focusout(function(){
+					  		if($('#cpassword').val() != $('#password')) {
+					  			$('#cpassword').parent().removeClass('has-success');
+						  		$('#cpassword').parent().addClass('has-error');
+						  		$('#cpassword').next().show();
+						  	} else {
+						  		$('#cpassword').parent().removeClass('has-error');
+						  		$('#username').parent().addClass('has-success');
+						  		$('#cpassword').next().hide();
+						  	}
+					  	});
+					  	
+					  	$(function () {
+					  		$('[data-toggle=\'tooltip\']').tooltip({container:'body', template:'<div class=\'tooltip\' role=\'tooltip\'><div class=\'tooltip-arrow\'></div><div class=\'tooltip-inner\'></div></div>'})
 					  	})
                       </script>
                       
@@ -117,7 +168,7 @@
           <div class="inner-event">
             <h3 id='changingTitle' class="underline-title">View options
             </h3>
-            <p class='lead' id="changingDescription">Select an option</p>
+            <div id="changingDescription">Select an option</div>
             <div id='authorContainer'><h5 class="details"></h5></div>
           </div>
         </div>
