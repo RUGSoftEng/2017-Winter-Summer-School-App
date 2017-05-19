@@ -63,12 +63,30 @@ exports.insertCalendarEvent = function (summary, ssid, location, description, st
         if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
         } else {
-            console.log('calendarRESTFunctions: Inserted event: ' + summary + ' successfully.');
+            console.log('calendarRESTFunctions.js (insertCalendarEvent): Inserted event: ' + summary + ' successfully.');
             cache.flush();
             event = data;
         }
         callback(err, event);
     });
+}
+
+/**
+ * Performs a call to googleCalendarService module to remove an event.
+ * Returns empty if successful, else an error.
+ * @param {String} id - The event id.
+ * @param {Function} callback - A callback executed on completion. Parameters are error object.
+ */
+exports.deleteCalendarEvent = function(id, callback) {
+    gcs.deleteCalendarEvent(id, calendar, calendarService.calendar_id, oauth2Client, function(err) {
+        if ((error = err) != null) {
+            console.error('calendarRESTFunctions.js (deleteCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
+        } else {
+            cache.flush();
+            console.log('calendarRESTFunctions.js (deleteCalendarEvent): Deleted the event identified by id: ' + id + ' successfully.');
+        }
+        callback(err);
+    })
 }
 
 /**

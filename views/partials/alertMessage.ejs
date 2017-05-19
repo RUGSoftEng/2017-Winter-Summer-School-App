@@ -1,25 +1,28 @@
 <div class='row'>
 	<% if(typeof alert !== 'undefined') { %>
+        <% console.log('GOT:' + alert.message); %>
 	    <% if(alert.success) { %>
 	        <script>
 	            $(function() {
 	                $('#successMessage').show();
 	                <% if (alert.message) {%>
-	                	$('#successMessage').text(alert.message);
+                        <% var msg = 'Success: ' + alert.message %>
+                        <% console.log("Setting text!"); %>
+	                	$('#successMessage').text(<%= msg %>);
 	                <% } %>
 	            })
 	        </script>
-	
+
 	        <% } if(alert.success === false) { %>
 	            <script>
 	                $(function() {
 	                    $('#errorMessage').show();
 	                    <% if (alert.message) {%>
-	                		$('#errorMessage').text(alert.message);
+	                		$('#errorMessage').text(<%= alert.message %>);
 						<% } %>
 	                })
 	            </script>
-	
+
 	         <% } %>
 	    <% } %>
                 <div id='errorMessage' class="alert alert-danger alert-dismissible" role="alert">
