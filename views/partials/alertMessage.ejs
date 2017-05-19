@@ -1,14 +1,11 @@
 <div class='row'>
 	<% if(typeof alert !== 'undefined') { %>
-        <% console.log('GOT:' + alert.message); %>
 	    <% if(alert.success) { %>
 	        <script>
 	            $(function() {
 	                $('#successMessage').show();
 	                <% if (alert.message) {%>
-                        <% var msg = 'Success: ' + alert.message %>
-                        <% console.log("Setting text!"); %>
-	                	$('#successMessage').text(<%= msg %>);
+	                	$('#successMessage').text(`<%- alert.message %>`); /* Note: ` ` template literal string is needed! */
 	                <% } %>
 	            })
 	        </script>
@@ -18,7 +15,7 @@
 	                $(function() {
 	                    $('#errorMessage').show();
 	                    <% if (alert.message) {%>
-	                		$('#errorMessage').text(<%= alert.message %>);
+	                		$('#errorMessage').text(`<%- alert.message %>`);
 						<% } %>
 	                })
 	            </script>

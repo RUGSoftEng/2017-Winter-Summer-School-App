@@ -21,9 +21,9 @@ router.post('/calendar/event', function(request, response) {
             var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, b.location, b.details, start, end, function(err, data) {
                 var a;
                 if (err) {
-                    a = new Alert(false, "The event could not be submitted at this time. Receiving error code: " + err.code);
+                    a = new Alert(false, 'The event "' + b.title + '" could not be submitted at this time. Receiving error code: ' + err.code);
                 } else {
-                    a = new Alert(true, "The event '" + b.title + "' was successfully submitted for the " + b.ssid + " school!");
+                    a = new Alert(true, 'The event "' + b.title + '" was successfully submitted for the "' + b.ssid + '" school!');
                 }
                 a.passToNextPage(request);
                 console.log(a.message);
