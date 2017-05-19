@@ -34,3 +34,6 @@
 .nav-tabs>li {
 	width:50%;
 }
+.help-block {
+	display: none;
+}

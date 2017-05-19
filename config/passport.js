@@ -1,7 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy;
 var data = require.main.require('./config/database.js');
+var bcrypt = require('bcrypt');
 
-var User = data.db.collection('accounts')
+var User = data.db.collection('accounts');
 
 module.exports = function(passport) {
     
@@ -11,10 +12,18 @@ module.exports = function(passport) {
 		        var user = users.find(function(user) {
 			        return user.username === username;
 		        }); 
-		        if(typeof user != 'undefined' && user.password === password) {
-			        return done(null, user);
+		        
+		        if(typeof user != 'undefined') {
+		        	bcrypt.compare(password, user.password, function(err, res) {
+						if(res == true) {
+							return done(null, user);
+						} else {
+							return done(null, false, {"message": "Invalid password."});
+						}
+					});
+			        
 		        } else {
-			        return done(null, false, {"message": "Invalid username or password."});
+			        return done(null, false, {"message": "Invalid username."});
 	 	        }
 	 	   });
  	        
