@@ -21,7 +21,7 @@ router.post('/calendar/event', function(request, response) {
             var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, b.location, b.details, start, end, function(err, data) {
                 var a;
                 if (err) {
-                    a = new Alert(false, 'The event "' + b.title + '" could not be submitted at this time. Receiving error code: ' + err.code);
+                    a = new Alert(false, 'The event "' + b.title + '" could not be submitted at this time. Receiving error ' + err.code + ': "' + err.message + '"');
                 } else {
                     a = new Alert(true, 'The event "' + b.title + '" was successfully submitted for the "' + b.ssid + '" school!');
                 }
@@ -31,7 +31,15 @@ router.post('/calendar/event', function(request, response) {
             });
         }
     });
+});
 
+/** Extracts information from put request to edit an existing calendar event. */
+router.put('/calendar/event', function(request, response) {
+    console.log("Received a put request!");
+    var b = request.body;
+    console.log("The body received is: ");
+    console.log(b);
+    response.redirect('/main');
 });
 
  /** Returns a serialized JSON object with an error object and an array of event tuples.

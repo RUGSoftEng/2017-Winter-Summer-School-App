@@ -44,6 +44,7 @@
                  alert("Please fill in a title and content");
              } else if ($type == "edit") {
              	 // send a PUT request instead of POST if an existing item is edited.
+                 event.preventDefault();
                  $.ajax({
                      url: links[$(modalSelector).data('type')] + '?id=' + $(modalSelector).data('id') + '&description=' + $(descriptionSelector).val() + '&title=' + $(titleSelector).val(),
                      type: 'PUT',
@@ -75,7 +76,7 @@
                      location.reload();
                  }
              });
-         } 
+         }
      });
  }
 
