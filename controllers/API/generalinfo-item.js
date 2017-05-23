@@ -29,8 +29,10 @@ router.put('/generalinfo/item', data.isLoggedIn, function(req, res) {
     data.db.generalinfo.update({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, {
-        title: req.param('title'),
-        description: req.param('description')
+    	$set: {
+	        title: req.param('title'),
+	        description: req.param('description')
+	    }
     }, function(err, user) {
         if (err) throw err;
         res.send(200);

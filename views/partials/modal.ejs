@@ -9,13 +9,6 @@
 
                 <div class="modal-body modal-add-body">
                     <div class="form-group">
-                        <div id="thumbnailDiv">
-                          <input id="files" type="file" name="img[]" class="file">
-                            <div class= "row">
-                              <img id= "modal-thumbnail" class = "img-thumbnail" src="/images/default/placeholder.jpeg" alt="Placeholder">
-                            </div>
-                          <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-                        </div>
                         <label for="announcementTitle" id='section-header'></label>
                         <input type="text" class="form-control" id="announcementTitle" name="title" placeholder="Title">
                     </div>
@@ -25,31 +18,32 @@
                     </div>
                     <div class="form-group datetime-form">
 
-                        <div class="form-group description-form">
+                        <div class="form-group event-location">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter event address">
+                        </div>
+
+                        <div class="form-group event-description-form">
                             <label for="details">Details</label>
-                            <textarea type="text" class="form-control" id="details" name="details" placeholder="Enter event detail" rows="4"></textarea>
+                            <textarea type="text" class="form-control" id="details" name="details" placeholder="Enter event details" rows="4"></textarea>
                         </div>
 
-                        <label>Dates</label>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="scheduleStartDate" name="startDate" placeholder="Start Date">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="scheduleEndDate" name="endDate" placeholder="End Date">
-                            </div>
-                        </div>
-
-
-                        <div class="form-inline">
-                        	<% var s = ['start', 'end'];
+                        <% var s = ['start', 'end'];
                         	   for(var i = 0; i < 2; ++i) { %>
-                        	<label class='up-label'><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> time</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date</label>
+                                    <input type="text" class="form-control" id="schedule<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>Date" name="<%= s[i]%>Date" placeholder="<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date">
+                                </div>
 
-                            <div class="form-group">
-                                <label>Hour</label>
-                                <select class="form-control" name='<%= s[i] %>Hour'>
+                                <div class="col-md-6">
+                                    <div class="form-inline">
+
+                                        <label class='up-label'><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> time</label>
+
+                                        <div class="form-group">
+                                            <label>Hour</label>
+                                            <select class="form-control" name='<%= s[i] %>Hour' id='<%= s[i] %>Hour'>
 									  	  	  <option>00</option>
 									  		  <option>01</option>
 									  		  <option>02</option>
@@ -75,10 +69,10 @@
 									  		  <option>22</option>
 									  		  <option>23</option>
 									  		</select>
-                            </div>
-                            <div class="form-group">
-                                <label class='time-minute'>Minute</label>
-                                <select class="form-control" name='<%= s[i] %>Minute'>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class='time-minute'>Minute</label>
+                                            <select class="form-control" name='<%= s[i] %>Minute' id='<%= s[i] %>Minute'>
 			                                  <option>00</option>
 									  	  	  <option>05</option>
 									  		  <option>10</option>
@@ -92,15 +86,18 @@
 									  		  <option>50</option>
 									  		  <option>55</option>
 									  		</select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <% } %>
 
-                        </div>
-                    </div>
 
-                    <div class="form-group target">
-                        <label for="targetItem">Target</label>
-                        <select class="form-control" id='targetItem' name='ssid'>
+
+
+                                <div class="form-group target">
+                                    <label for="targetItem">Target</label>
+                                    <select class="form-control" id='targetItem' name='ssid'>
 							  	  	  <option>All students</option>
 							  		  <option>Spatial Sciences</option>
 							  		  <option>Gender and Diversity</option>
@@ -108,13 +105,11 @@
 							  		  <option>Human Resource Management</option>
 							  		  <option>Artificial Intelligence</option>
 							  		</select>
-                    </div>
+                                </div>
 
+                    </div>
                 </div>
                 <div class="modal-body modal-show-body">
-                    <div class= "row">
-                      <img id= "modal-thumbnail" class = "img-thumbnail" src="/images/placeholder.png" alt="Placeholder">
-                    </div>
                     <div class="jumbotron">
                     </div>
                 </div>

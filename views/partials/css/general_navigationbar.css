@@ -24,8 +24,8 @@
     margin: 0;
     padding: 0;
 }
-.dropdown-menu>li>a:hover {
-    background-color: #0A9BEB;
+.dropdown-menu>li:hover {
+    background-color: #efefef;
 }
 #menu-bar .navbar-nav>li>a {
     color: #fff;

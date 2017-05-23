@@ -1,3 +1,4 @@
+var express = require('express');
 var requireDir = require('require-dir');
 var controllerLocation = './../controllers';
 
@@ -27,6 +28,7 @@ module.exports = function(app) {
 			}
 		}
 		recursiveAdd(controllerLocation);
+		app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'))
 		app.use('/', require(controllerLocation + '/404'))
 	};
 	
