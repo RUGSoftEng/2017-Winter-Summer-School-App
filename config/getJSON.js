@@ -8,7 +8,7 @@ var http = require("http");
 exports.getJSON = function (options, callback) {
     // protocol to be used
     var prot = options.port == 443 ? https : http;
-    var req = prot.request(options, function (res) {
+    var req  = prot.request(options, function (res) {
         var output = '';
         res.setEncoding('utf8');
 

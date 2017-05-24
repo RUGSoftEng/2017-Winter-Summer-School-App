@@ -1,9 +1,9 @@
-$('.nav-tabs a').click(function(e) {
+$('.nav-tabs a').click(function (e) {
     e.preventDefault()
     $(this).tab('show')
 })
 
-$('.finish').click(function(e) {
+$('.finish').click(function (e) {
     if ($('#cpassword').val() != $('#password').val()) {
         e.preventDefault();
         $('#cpassword').parent().addClass('has-error');
@@ -11,7 +11,7 @@ $('.finish').click(function(e) {
     }
 })
 
-$('#username').focusout(function() {
+$('#username').focusout(function () {
     if (!/^[a-z]{5,20}$/.test($(this).val())) { //only lower-case letters with at least 5 characters and no more than 20 characters
         $('#username').parent().addClass('has-error');
         $('#username').parent().removeClass('has-success');
@@ -22,7 +22,7 @@ $('#username').focusout(function() {
         $('#username').next().hide();
     }
 });
-$('#cpassword').focusout(function() {
+$('#cpassword').focusout(function () {
     if ($('#cpassword').val() != $('#password').val()) {
         $('#cpassword').parent().removeClass('has-success');
         $('#cpassword').parent().addClass('has-error');
@@ -34,11 +34,11 @@ $('#cpassword').focusout(function() {
     }
 });
 
-$('.deleteAccount').click(function(){
-	$.trim($(this).parent().parent().prev().text());
+$('.deleteAccount').click(function () {
+    $.trim($(this).parent().parent().prev().text());
 });
 
-$(function() {
+$(function () {
     $('[data-toggle=\'tooltip\']').tooltip({
         container: 'body',
         template: '<div class=\'tooltip\' role=\'tooltip\'><div class=\'tooltip-arrow\'></div><div class=\'tooltip-inner\'></div></div>'
