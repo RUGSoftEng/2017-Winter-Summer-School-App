@@ -35,7 +35,17 @@ $('#cpassword').focusout(function () {
 });
 
 $('.deleteAccount').click(function () {
-    $.trim($(this).parent().parent().prev().text());
+    $.ajax({
+        url: '/admin/?id=' + $(this).data('id'),
+        type: 'DELETE',
+        success: function (result) {
+            location.reload();
+        },
+        error: function () {
+            alert('Error: could not delete account.');
+        }
+    });
+
 });
 
 $(function () {
