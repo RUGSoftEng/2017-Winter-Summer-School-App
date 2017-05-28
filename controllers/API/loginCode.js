@@ -44,7 +44,7 @@ router.delete('/loginCode', function (req, res) {
     data.db.loginCodes.remove({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, function (err, user) {
-        if (err) throw err;
+        if (err) res.send(400);
         res.send(200);
     });
 });

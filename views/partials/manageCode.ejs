@@ -56,7 +56,7 @@
                         </td>
                         <td>
                             <button type='button' class='btn btn-default deleteAccount' aria-label='Delete'
-                                    data-toggle='tooltip' data-placement='bottom' title='Delete'><span
+                                    data-toggle='tooltip' data-placement='bottom' data-id='<%= loginCodes[i]._id %>' title='Delete'><span
                                         class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
                         </td>
                     </tr>
@@ -69,5 +69,5 @@
     </div>
 </div>
 <script>
-    <% include js/manageAdmins.js %>
+    <% include js/manageCodes.js %>
 </script>
