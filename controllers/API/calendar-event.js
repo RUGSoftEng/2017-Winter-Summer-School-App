@@ -1,10 +1,12 @@
+
+=======
 var express           = require('express');
 var router            = express.Router();
 var ejs               = require('ejs');
 var fs                = require('fs');
 var schedule          = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
-var calendarFunctions = require.main.require('./config/calendar/calendarRESTFunctions.js');
-var verify            = require.main.require('./config/verify.js');
+var calendarFunctions = require('../../config/calendar/calendarRESTFunctions.js');
+var verify            = require('../../config/verify.js');
 
 /** Extracts information from post request to place on the calendar. Obtains event object if successful */
 router.post('/calendar/event', function (request, response) {

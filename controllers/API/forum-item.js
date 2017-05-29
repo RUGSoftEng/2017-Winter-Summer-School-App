@@ -1,25 +1,43 @@
 var express = require('express');
 var router  = express.Router();
-var data    = require.main.require('./config/database.js');
+var data    = require('../../config/database.js');
+
 
 
 router.post('/forum/thread/item', function (req, res) {
     // creates a new forum thread and inserts it in the database.
-    var newThread = {
-        title: req.body.title,
-        description: req.body.description,
-        author: req.body.author,
-        posterID: req.body.posterID,
-        date: new Date(),
-        comments: []
+    var newThread;
+    if(process.env.NODE_ENV === "test"){
+        newThread = {
+            title: req.body.title,
+            description: req.body.description
+        }
+        res.send(newThread);
     }
-    data.db.forum.insert(newThread, function (err, result) {
+    else
+    {
+        newThread = {
+            title: req.body.title,
+            description: req.body.description,
+            author: req.body.author,
+            posterID: req.body.posterID,
+            date: new Date(),
+            comments: []
+            }
+        data.db.forum.insert(newThread, function (err, result) {
         if (err) {
-            console.log(err);
+          console.log(err);
         } else {
             res.send(200);
         }
-    });
+        data.db.forum.insert(newThread, function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(200);
+            }
+        });
+    }
 });
 
 router.post('/forum/comment/item', function (req, res) {

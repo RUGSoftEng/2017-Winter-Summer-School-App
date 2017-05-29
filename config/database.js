@@ -1,13 +1,13 @@
-var testing = false;
-process.argv.forEach(function (val, index, array) {
-    if(val === 'test') testing = true;
-});
 
-exports.isLoggedIn = function (req, res, next) {
-    if (testing === true || req.isAuthenticated())
-        return next();
+exports.isLoggedIn = function(req, res, next) {
+		if (process.env.NODE_ENV === "test"){
+			return next();
+		}
+	    if (req.isAuthenticated())
+	        return next();
+	
+	    res.redirect('/');
 
-    res.redirect('/');
 };
 
 exports.mongojs = require('mongojs');

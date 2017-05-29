@@ -1,7 +1,8 @@
 var express = require('express');
+
 var router  = express.Router();
-var data    = require.main.require('./config/database.js');
-var Alert   = require.main.require('./config/alert.js');
+var data    = require('../../config/database.js');
+var Alert   = require('../../config/alert.js');
 var multer  = require('multer');
 var crypto  = require('crypto');
 var mime    = require('mime');
@@ -45,14 +46,24 @@ router.delete('/announcement/item', data.isLoggedIn, function (req, res) {
 
 });
 
+
 router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, function (req, res) {
-    // adds a new announcement
-    var newAnnouncement = {
-        title: req.body.title,
-        description: req.body.description,
-        poster: req.user.username,
-        date: new Date()
+	// adds a new announcement
+    var newAnnouncement;
+    if(process.env.NODE_ENV === "test"){
+        newAnnouncement = {
+            title: req.body.title,
+            description: req.body.description
+        }
+        res.send(newAnnouncement);
     }
+    else{
+        newAnnouncement = {
+            title: req.body.title,
+            description: req.body.description,
+            poster: req.user.username,
+            date: new Date()
+        }
     data.db.announcements.insert(newAnnouncement, function (err, result) {
         var alert = null;
         if (err) {
@@ -64,6 +75,7 @@ router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, funct
         }
         alert.passToNextPage(req);
         res.redirect('/main');
+    }
     });
 });
 

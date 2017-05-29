@@ -1,5 +1,7 @@
 var requireDir = require('require-dir');
-var json       = require.main.require('./config/getJSON.js');
+
+var json = require('../config/getJSON.js');
+
 
 exports.getWeekEvents = function (path, callback) {
     var hostname = path.split(':')[0];

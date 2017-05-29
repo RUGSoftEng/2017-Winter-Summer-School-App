@@ -1,6 +1,7 @@
 var express = require('express');
+
 var router  = express.Router();
-var data    = require.main.require('./config/database.js');
+var data    = require('../config/database.js');
 var multer  = require('multer');
 var crypto  = require('crypto');
 var mime    = require('mime');

@@ -1,18 +1,26 @@
 var express = require('express');
+
 var router  = express.Router();
-var data    = require.main.require('./config/database.js');
-var Alert   = require.main.require('./config/alert.js');
+var data    = require('../../config/database.js');
+var Alert   = require('../../config/alert.js');
 var bcrypt  = require('bcrypt');
 
 var saltRounds = 8;
 
 router.get('/options', function (req, res) {
+    var user;
+    if (req.user === undefined){
+        user = "tester";
+    }
+    else {
+        user = req.user
+    }
     var alert = new Alert();
     alert.initiate(req);
     data.db.accounts.find(function (err, docs) {
         data.db.loginCodes.find(function (err, docs2) {
             res.render('options.ejs', {
-                user: req.user,
+                user: user,
                 accounts: docs,
                 loginCodes: docs2,
                 alert: alert
