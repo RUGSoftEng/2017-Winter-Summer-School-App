@@ -6,13 +6,13 @@ var Alert   = require.main.require('./config/alert.js');
 var codeLength = 8;
 
 router.post('/loginCode', function (req, res) {
-    if(typeof req.body.code !== 'undefined' && req.body.code.length === codeLength) {
+    var alert = null;
+    if (typeof req.body.code !== 'undefined' && req.body.code.length === codeLength) {
         var code = {
             code: req.body.code,
             date: new Date()
         };
         data.db.loginCodes.insert(code, function (err, result) {
-            var alert = null;
             if (err) {
                 console.log(err);
                 var alertMessage = "Failed to insert to database.<br>" + err;
@@ -25,7 +25,9 @@ router.post('/loginCode', function (req, res) {
         });
     }
     else {
-        res.send(400);
+        alert = new Alert(false, "Code should be 8 characters long");
+        alert.passToNextPage(req);
+        res.redirect('/options');
     }
 });
 
