@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/web_header %>
+    <style>
+        <% include partials/css/logIn.css %>
+    </style>
+</head>
+<body style='background-color:#fff;'>
+
+<h2>Enter a username and password</h2>
+<div class="container form-signin">
+
+</div>
+
+<div class="container">
+
+    <form class="form-signin" role="form" action="/" method="post">
+        <h4 class="form-signin-heading">
+            <% if (message.length) { %>
+            <div class="alert alert-danger">
+                <%= message %>
+            </div>
+            <% } %>
+        </h4>
+        <input type="text" class="form-control" name="username" placeholder="Username" autofocus></br>
+        <input type="password" class="form-control" name="password" placeholder="Password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Log in</button>
+    </form>
+
+
+</div>
+
+
+</body>
+
+</html>

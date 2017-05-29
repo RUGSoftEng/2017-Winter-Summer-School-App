@@ -13,11 +13,11 @@ var calendarEvent = require('../calendar/calendarEvent.json');
 /**
  * Initializes authenticated service account.
  */
-var auth = new googleAuth();
+var auth         = new googleAuth();
 var oauth2Client = new auth.OAuth2();
-var calendar = googleapis.calendar('v3');
-var jwt = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.client_email, serviceAccount.private_key), oauth2Client);
-var error = null;
+var calendar     = googleapis.calendar('v3');
+var jwt          = gcs.authorizeOAuth2Client(gcs.getServiceAccountJWT(serviceAccount.client_email, serviceAccount.private_key), oauth2Client);
+var error        = null;
 
 /**
  * Overwrites properties of the local JSON event template with the supplied arguments.
@@ -27,14 +27,25 @@ var error = null;
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
-function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
-    calendarEvent['summary'] = summary;
+function configureEvent(summary, ssid, location, description, startDateTime, endDateTime) {
+    calendarEvent['summary']                        = summary;
     calendarEvent['extendedProperties'].shared.ssid = ssid;
-    calendarEvent['location'] = location;
-    calendarEvent['start'].dateTime = startDateTime;
-    calendarEvent['end'].dateTime = endDateTime;
+    calendarEvent['location']                       = location;
+    calendarEvent['description']                    = description;
+    calendarEvent['start'].dateTime                 = startDateTime;
+    calendarEvent['end'].dateTime                   = endDateTime;
 }
 
+/**
+ * Returns the UTC offset for the current time zone as a string.
+ */
+exports.getOffsetUTC = function () {
+    var date       = new Date();
+    var hourOffset = date.getTimezoneOffset() / 60;
+    var sign       = (hourOffset > 0 ? '-' : '+');
+    /* Correct orientation */
+    return (Math.abs(hourOffset) > 10) ? (sign + Math.abs(hourOffset) + ':00') : (sign + '0' + Math.abs(hourOffset) + ':00');
+}
 
 /**
  * Performs a call to googleCalendarService module to insert an event.
@@ -46,9 +57,9 @@ function configureEvent (summary, ssid, location, startDateTime, endDateTime) {
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
  */
-exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, endDateTime, callback) {
-    configureEvent(summary, ssid, location, startDateTime, endDateTime);
-    gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
+exports.insertCalendarEvent = function (summary, ssid, location, description, startDateTime, endDateTime, callback) {
+    configureEvent(summary, ssid, location, description, startDateTime, endDateTime);
+    gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function (err, data) {
         var event = null;
         if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
@@ -69,7 +80,7 @@ exports.insertCalendarEvent = function (summary, ssid, location, startDateTime, 
  * @param {Function} callback - A callback executed on completion. Parameters are error object and events object. If error, events is null.
  */
 exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gcs.getCalendarEvents(calendar, calendarService.calendar_id, oauth2Client, startDateTime, endDateTime, function(err, data) {
+    gcs.getCalendarEvents(calendar, calendarService.calendar_id, oauth2Client, startDateTime, endDateTime, function (err, data) {
         var events = null;
         if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (getCalendarEvents): The Google API returned code ' + err.code + ' for error: ' + err);
@@ -90,7 +101,7 @@ exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
 exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime), exports.getCalendarEvents, function(err, data) {
+    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime), exports.getCalendarEvents, function (err, data) {
         var events = null;
         if ((error = err) != null) {
             callback(error, events);
@@ -113,7 +124,7 @@ exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
 exports.listCalendarWeekEvents = function (week, extended, callback) {
     if (error) {
         /* Attempt to reauthorize */
-        gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function(err) {
+        gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function (err) {
             if ((error = err) != null) {
                 callback(error, null);
             } else {
@@ -122,19 +133,19 @@ exports.listCalendarWeekEvents = function (week, extended, callback) {
         });
     } else {
         /* Fetch from cache if it exists, else retrieve */
-        cache.get(week, function(data) {
+        cache.get(week, function (data) {
             if (data != null) {
                 var events = data.slice();
-                callback(null, JSON.stringify(extended ? events.splice(0,8) : events.splice(2,7)));
+                callback(null, JSON.stringify(extended ? events.splice(0, 8) : events.splice(2, 7)));
             } else {
-                gct.getExtendedWeekEvents(week, exports.getCalendarEvents, function(err, data) {
+                gct.getExtendedWeekEvents(week, exports.getCalendarEvents, function (err, data) {
                     var events = null;
                     if ((error = err) != null) {
                         callback(error, events);
                     } else {
                         cache.cache(week, data);
                         events = data.slice();
-                        callback(error, JSON.stringify(extended ? events.splice(0,8) : events.splice(2,7)));
+                        callback(error, JSON.stringify(extended ? events.splice(0, 8) : events.splice(2, 7)));
                     }
                 });
             }

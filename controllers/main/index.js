@@ -1,5 +1,7 @@
+
 var express = require('express');
 var router = express.Router();
+var Alert           = require('../../config/alert.js');
 var data = require('../../config/database.js');
 var dateManipulator = require('../../config/dayManipulation.js');
 
@@ -15,11 +17,13 @@ router.get('/main', data.isLoggedIn, function(req, res) {
     data.db.announcements.find(function(err, docs) {
         data.db.generalinfo.find(function(err, docs2) {
             dateManipulator.getWeekEvents(req.get('host'),function(weekSchedule) {
+
                 res.render('loggedIn.ejs', {
                     user: user,
                     announcements: docs,
                     generalinfo: docs2,
-                    schedule: weekSchedule
+                    schedule: weekSchedule,
+                    alert: alert
                 });
             });
         });

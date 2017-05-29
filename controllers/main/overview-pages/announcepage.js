@@ -15,7 +15,7 @@ router.get('/announcepage',data.isLoggedIn,function(req,res){
             user: user,
             announcements: docs
         });
-      });
+    });
 });
 
 module.exports = router;
