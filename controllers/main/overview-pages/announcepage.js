@@ -1,14 +1,14 @@
 var express = require('express');
-var router = express.Router();
-var data = require.main.require('./config/database.js');
-	
-router.get('/announcepage',data.isLoggedIn,function(req,res){
-      data.db.announcements.find(function(err,docs){
-        res.render('announcements.ejs',{
+var router  = express.Router();
+var data    = require.main.require('./config/database.js');
+
+router.get('/announcepage', data.isLoggedIn, function (req, res) {
+    data.db.announcements.find(function (err, docs) {
+        res.render('announcements.ejs', {
             user: req.user,
             announcements: docs
         });
-      });
+    });
 });
 
 module.exports = router;
