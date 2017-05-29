@@ -21,13 +21,21 @@ var error = null;
 
 /**
  * Overwrites properties of the local JSON event template with the supplied arguments.
+ * @param {String} id - The event identifier.
  * @param {String} summary - The event summary.
- * @param {String} ssid - The summer-school-id
+ * @param {String} ssid - The summer-school-id.
  * @param {String} location - An address for the event.
  * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
  */
-function configureEvent (summary, ssid, location, description, startDateTime, endDateTime) {
+function configureEvent (id, summary, ssid, location, description, startDateTime, endDateTime) {
+    if (id) {
+        calendarEvent['id'] = id;
+    } else {
+        if (calendarEvent.id) {
+            delete calendarEvent.id;
+        }
+    }
     calendarEvent['summary'] = summary;
     calendarEvent['extendedProperties'].shared.ssid = ssid;
     calendarEvent['location'] = location;
@@ -57,13 +65,39 @@ exports.getOffsetUTC = function() {
  * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
  */
 exports.insertCalendarEvent = function (summary, ssid, location, description, startDateTime, endDateTime, callback) {
-    configureEvent(summary, ssid, location, description, startDateTime, endDateTime);
+    configureEvent(null, summary, ssid, location, description, startDateTime, endDateTime);
     gcs.insertCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
         var event = null;
         if ((error = err) != null) {
             console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
         } else {
             console.log('calendarRESTFunctions.js (insertCalendarEvent): Inserted event: ' + summary + ' successfully.');
+            cache.flush();
+            event = data;
+        }
+        callback(err, event);
+    });
+}
+
+/**
+ * Performs a call to googleCalendarService module to update an event.
+ * Returns an event object if successful; else null.
+ * @param {String} id - The event id.
+ * @param {String} summary - The event summary.
+ * @param {String} ssid - The summer-school-id
+ * @param {String} location - An address for the event.
+ * @param {String} startDateTime - An ISO-8601 formatted dateTime string.
+ * @param {String} endDateTime - An ISO-8601 formatted dateTime string.
+ * @param {Function} callback - A callback executed on completion. Parameters are error object and event object. If error, event is null.
+ */
+exports.updateCalendarEvent = function (id, summary, ssid, location, description, startDateTime, endDateTime, callback) {
+    configureEvent(id, summary, ssid, location, description, startDateTime, endDateTime);
+    gcs.updateCalendarEvent(calendarEvent, calendar, calendarService.calendar_id, oauth2Client, function(err, data) {
+        var event = null;
+        if ((error = err) != null) {
+            console.error('calendarRESTFunctions.js (updateCalendarEvent): The Google API returned code ' + err.code + ' for error: ' + err);
+        } else {
+            console.log('calendarRESTFunctions.js (updateCalendarEvent): Updated event: ' + summary + ' successfully.');
             cache.flush();
             event = data;
         }

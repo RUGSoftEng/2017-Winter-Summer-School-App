@@ -76,15 +76,14 @@
  function emptyContainer(selector) {
 	 $(selector).val('');
  }
- 
+
  function toggleScheduleInput(disabled) {
  	 var sc = '.modal-add-body .form-group ';
 	 $(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", disabled);
  }
 
  function fillScheduleInput(clicked) {
-	 var title = clicked.children('span:last-child').text();
-	 $(titleSelector).val(title);
+	 $(titleSelector).val(clicked.data('event-summary'));
 	 $(eventLocationSelector).val(clicked.data('event-location'));
 	 $(eventDetailsSelector).val(clicked.data('event-description'));
 	 $('#scheduleStartDate').val(clicked.data('event-start-date').substring(0,10));
@@ -118,12 +117,12 @@
              	toggleScheduleInput(true);
              	fillScheduleInput($(this));
              }
-             
-             
+
+
          } else {
              $(modalSelector).data('show', 'known');
              displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
-             
+
          }
      });
  }
