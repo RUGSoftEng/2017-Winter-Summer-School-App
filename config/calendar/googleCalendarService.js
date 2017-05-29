@@ -1,4 +1,4 @@
-module.exports = function(googleapis, googleAuth) {
+module.exports = function (googleapis, googleAuth) {
 
     var services = {};
 
@@ -7,7 +7,7 @@ module.exports = function(googleapis, googleAuth) {
      * @param {string} serviceAccountEmail - The email associated with the service account.
      * @param {string} serviceAccountPrivateKey - The private key of the service account.
      */
-    services.getServiceAccountJWT = function(serviceAccountEmail, serviceAccountPrivateKey) {
+    services.getServiceAccountJWT = function (serviceAccountEmail, serviceAccountPrivateKey) {
         var scopes = ['https://www.googleapis.com/auth/calendar'];
         return new googleapis.auth.JWT(serviceAccountEmail, null, serviceAccountPrivateKey, scopes);
     }
@@ -17,8 +17,8 @@ module.exports = function(googleapis, googleAuth) {
      * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
      * @param {object} oauth2Client - The Oauth2 object to contain the access token.
      */
-    services.authorizeOAuth2Client = function(jwt, oauth2Client) {
-        jwt.authorize(function(err, result) {
+    services.authorizeOAuth2Client = function (jwt, oauth2Client) {
+        jwt.authorize(function (err, result) {
             if (err) {
                 console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
             } else {
@@ -35,16 +35,16 @@ module.exports = function(googleapis, googleAuth) {
      * @param {object} oauth2Client - The Oauth2 object to contain the access token.
      * @param {function} callback - The callback to execute.
      */
-     services.didReauthorizeOAuth2Client = function(jwt, oauth2Client, callback) {
-         jwt.authorize(function(err, result) {
-             if (err) {
-                 console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
-             } else {
-                 oauth2Client.setCredentials({access_token: result.access_token});
-                 callback();
-             }
-         });
-     }
+    services.didReauthorizeOAuth2Client = function (jwt, oauth2Client, callback) {
+        jwt.authorize(function (err, result) {
+            if (err) {
+                console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
+            } else {
+                oauth2Client.setCredentials({access_token: result.access_token});
+                callback();
+            }
+        });
+    }
 
     /**
      * Attempts to insert a new Calendar event into the Calendar associated with the supplied Calendar Id.
@@ -54,12 +54,12 @@ module.exports = function(googleapis, googleAuth) {
      * @param {object} oauth2Client - The Oauth2 object containing the access token.
      * @param {function} callback - The callback function for the API.
      */
-    services.insertCalendarEvent = function(calendarEvent, calendar, calendarId, oauth2Client, callback) {
+    services.insertCalendarEvent = function (calendarEvent, calendar, calendarId, oauth2Client, callback) {
         calendar.events.insert({
             auth: oauth2Client,
             calendarId: calendarId,
             resource: calendarEvent
-        }, function(err, event) {
+        }, function (err, event) {
             callback(err, event);
         });
     }
@@ -72,12 +72,12 @@ module.exports = function(googleapis, googleAuth) {
      * @param {object} oauth2Client - The Oauth2 object containing the access token.
      * @param {function} callback - The callback function for the API.
      */
-    services.deleteCalendarEvent = function(calendarEventId, calendar, calendarId, oauth2Client, callback) {
+    services.deleteCalendarEvent = function (calendarEventId, calendar, calendarId, oauth2Client, callback) {
         calendar.events.delete({
             auth: oauth2Client,
             calendarId: calendarId,
             eventId: calendarEventId
-        }, function(err) {
+        }, function (err) {
             callback(err);
         });
     }
@@ -91,7 +91,7 @@ module.exports = function(googleapis, googleAuth) {
      * @param {int} endDate - The date from which to cutoff events.
      * @param {function} callback - The callback function for the API.
      */
-    services.getCalendarEvents = function(calendar, calendarId, oauth2Client, startDate, endDate, callback) {
+    services.getCalendarEvents = function (calendar, calendarId, oauth2Client, startDate, endDate, callback) {
         calendar.events.list({
             auth: oauth2Client,
             calendarId: calendarId,
@@ -99,7 +99,7 @@ module.exports = function(googleapis, googleAuth) {
             timeMax: endDate,
             singleEvents: true,
             orderBy: 'startTime'
-        }, function(err, response) {
+        }, function (err, response) {
             callback(err, response);
         });
     }
@@ -108,7 +108,7 @@ module.exports = function(googleapis, googleAuth) {
      * Returns True if the given error object signals a bad request (data sent was formatted wrong).
      * @param {object} err - The error object returned from the API.
      */
-    services.isBadRequestError = function(err) {
+    services.isBadRequestError = function (err) {
         return (err.code == 400);
     }
 
@@ -116,7 +116,7 @@ module.exports = function(googleapis, googleAuth) {
      * Returns True if the given error object signals an expired token.
      * @param {object} err - The error object returned from the API.
      */
-    services.isExpiredTokenError = function(err) {
+    services.isExpiredTokenError = function (err) {
         return (err.code == 401);
     }
 
