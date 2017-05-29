@@ -29,6 +29,5 @@ module.exports = function(app) {
 		recursiveAdd(controllerLocation);
 		app.use('/', require(controllerLocation + '/404'))
 	};
-	
 	return module;
 };

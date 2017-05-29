@@ -8,5 +8,7 @@ control.addControllers();
 
 var defaultPort = process.env.PORT || 8080;
 app.listen(defaultPort, function() {
-    console.log('Our app is running on port:' + defaultPort); 
+    console.log('Our app is running on port:' + defaultPort);
 });
+
+module.exports = app;
