@@ -2,13 +2,13 @@
 /* Note: Had to "Share" the Calendar with the Google Service Account before it could be used */
 var googleapis = require('googleapis');
 var googleAuth = require('google-auth-library');
-var gcs = require.main.require('./config/calendar/googleCalendarService')(googleapis, googleAuth);
-var gct = require.main.require('./config/calendar/googleCalendarTools')(gcs);
-var cache = require.main.require('./config/calendar/eventCache.js')(8);
-var clientAccount = require.main.require('./config/calendar/clientAccount.json');
-var serviceAccount = require.main.require('./config/calendar/serviceAccount.json');
-var calendarService = require.main.require('./config/calendar/calendarService.json');
-var calendarEvent = require.main.require('./config/calendar/calendarEvent.json');
+var gcs = require('../calendar/googleCalendarService')(googleapis, googleAuth);
+var gct = require('../calendar/googleCalendarTools')(gcs);
+var cache = require('../calendar/eventCache.js')(8);
+var clientAccount = require('../calendar/clientAccount.json');
+var serviceAccount = require('../calendar/serviceAccount.json');
+var calendarService = require('../calendar/calendarService.json');
+var calendarEvent = require('../calendar/calendarEvent.json');
 
 /**
  * Initializes authenticated service account.

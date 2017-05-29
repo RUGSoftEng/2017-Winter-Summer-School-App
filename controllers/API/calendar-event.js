@@ -3,7 +3,7 @@ var router = express.Router();
 var ejs = require('ejs');
 var fs = require('fs');
 var schedule = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
-var calendarFunctions = require.main.require('./config/calendar/calendarRESTFunctions.js');
+var calendarFunctions = require('../../config/calendar/calendarRESTFunctions.js');
 
 
 /** Extracts information from post request to place on the calendar. Obtains event object if successful */

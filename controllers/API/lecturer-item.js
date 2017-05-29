@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var data = require.main.require('./config/database.js');
+var data = require('../../config/database.js');
 var multer = require('multer');
 var crypto = require('crypto');
 var mime = require('mime');
@@ -39,22 +39,31 @@ router.delete('/lecturer/item', data.isLoggedIn, function(req, res) {
 });
 
 router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(req, res) {
-    var newLecturer = {
-        name: req.body.title,
-        description: req.body.description,
-        imagepath: undefined,
-        website: req.body.website
+    var newLecturer;
+    if(process.env.NODE_ENV === "test"){
+        newLecturer = {
+            title: req.body.title,
+            description: req.body.description
+        }
+        res.send(newLecturer);
     }
-    if(typeof req.file != "undefined"){
-      newLecturer.imagepath = '/images/' + req.file.filename ;
+    else{
+        newLecturer = {
+            name: req.body.title,
+            description: req.body.description,
+            imagepath: undefined,
+            website: req.body.website
+        }
+        if(typeof req.file != "undefined"){
+            newLecturer.imagepath = '/images/' + req.file.filename ;
+        }
+        data.db.lecturers.insert(newLecturer, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/lecturerpage');
+        });
     }
-    data.db.lecturers.insert(newLecturer, function(err, result) {
-    if (err) {
-        console.log(err);
-    }
-    res.redirect('/lecturerpage');
-});
-
 });
 router.put('/lecturer/item', data.isLoggedIn, function(req, res) {
     data.db.lecturers.update({

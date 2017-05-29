@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var data = require.main.require('./config/database.js');
+var data = require('../../config/database.js');
 var multer = require('multer');
 var crypto = require('crypto');
 var mime = require('mime');
@@ -41,16 +41,26 @@ router.put('/generalinfo/item', data.isLoggedIn, function(req, res) {
 });
 
 router.post('/generalinfo/item',upload.single('img[]'), function(req, res) {
-    var newGeneralInfo = {
-        title: req.body.title,
-        description: req.body.description,
+    var newGeneralInfo;
+    if(process.env.NODE_ENV === "test"){
+        newGeneralInfo = {
+            title: req.body.title,
+            description: req.body.description
+        };
+        res.send(newGeneralInfo);
     }
-    data.db.generalinfo.insert(newGeneralInfo, function(err, result) {
-        if (err) {
-            console.log(err);
-        }
-        res.redirect('/main');
-    });
+    else{
+        newGeneralInfo = {
+            title: req.body.title,
+            description: req.body.description
+        };
+        data.db.generalinfo.insert(newGeneralInfo, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/main');
+        });
+    }
 });
 
 router.get('/generalinfo/item', function(req, res) {

@@ -11,4 +11,4 @@ app.listen(defaultPort, function() {
     console.log('Our app is running on port:' + defaultPort);
 });
 
-module.exports = app;
+exports.app = app;
