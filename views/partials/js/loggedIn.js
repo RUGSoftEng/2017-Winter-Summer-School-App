@@ -92,6 +92,7 @@
 	 $('#startMinute').val(clicked.data('event-start-date').substring(14,16));
 	 $('#endHour').val(clicked.data('event-end-date').substring(11,13));
 	 $('#endMinute').val(clicked.data('event-end-date').substring(14,16));
+     $('#targetItem').val(clicked.data('event-ssid'));
  }
 
  function initialiseModalOpeners() {
