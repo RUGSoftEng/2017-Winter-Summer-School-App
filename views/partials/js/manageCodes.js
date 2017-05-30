@@ -11,3 +11,7 @@ $('.deleteAccount').click(function () {
     });
 
 });
+
+$('#code').focusout(function() {
+
+})
