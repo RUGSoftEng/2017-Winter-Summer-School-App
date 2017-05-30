@@ -28,18 +28,16 @@ function toggleShow(display) {
 }
 
 function addNewItem(type, edit) {
-    toggleButtons('bDeFP');
-
+    toggleButtons('bdeFP');
     if (edit) {
         getButton('f').data('type', 'edit');
     } else {
         getButton('f').data('type', 'add');
-        toggleButtons('d'); // hide delete if we're not editing
     }
     $(modalSelector + '.modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
     $('.description-form').show();
     $(modalSelector + '#section-header').html(sectionHeaders[$type]);
-    getButton('f').html((edit ? "Edit" : buttonTexts[$type]));
+    getButton('f').html((edit ? "Save" : buttonTexts[$type]));
     $(modalSelector + 'form').attr('action', links[$type]);
     toggleShow(false);
     $('.datetime-form').hide();
@@ -59,7 +57,7 @@ function displayItem(title, text, $type) {
     $(modalSelector + '.modal-show-body .jumbotron').html(text);
     $(modalSelector).data("type", $type);
     toggleShow(true);
-    toggleButtons('bEfpd');
+    toggleButtons('bEfpD');
 };
 
 function openTodaysSchedule() {

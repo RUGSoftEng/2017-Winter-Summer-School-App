@@ -81,7 +81,7 @@ function initialiseDeleteButton() {
 
 function initialiseEditButton() {
     getButton('e').click(function () {
-        var editTitleValue = $(modalSelector + '.modal-title').text();
+        var editTitleValue = $(modalSelector).data('type') == 2 ? $('#announcementTitle').val() : $(modalSelector + '.modal-title').text();
         var editTextValue  = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
         addNewItem($(modalSelector).data('type'), true);
         $(modalSelector + 'form').attr('action', links[$(modalSelector).data('type')]);
