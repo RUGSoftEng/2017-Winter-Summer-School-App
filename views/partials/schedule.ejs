@@ -31,7 +31,7 @@
                                     for(var j = 0; j < events.length; ++j) {
                                     	var sdt = new Date(events[j].start.dateTime);
                                     	var edt = new Date(events[j].end.dateTime);
-
+                                        var ssid = events[j].extendedProperties ? events[j].extendedProperties.shared.ssid : 'All students';
                                     	%>
                                     	<li class='open-modal time-slot'
                                             data-toggle='modal'
@@ -44,7 +44,7 @@
                                             data-event-end-date='<%= events[j].end.dateTime %>'
                                             data-event-location='<%= events[j].location %>'
                                             data-event-description='<%= events[j].description %>'
-                                            data-event-ssid='<%= events[j].extendedProperties.shared.ssid %>'>
+                                            data-event-ssid='<%= ssid %>'>
                                             <span><%= printTime(sdt) %> - <%= printTime(edt) %></span><span><%= events[j].summary %></span>
 										</li>
                                     <% } %>
