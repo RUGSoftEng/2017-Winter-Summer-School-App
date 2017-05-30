@@ -11,9 +11,7 @@
     "dateTime": "Null",
     "timeZone": "Europe/Amsterdam"
   },
-  "recurrence": [
-    "RRULE:FREQ=DAILY;COUNT=1"
-  ],
+  "recurrence": [],
   "transparency": "transparent",
   "visibility": "public",
   "attendees": [],
