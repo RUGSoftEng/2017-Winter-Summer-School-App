@@ -1,19 +1,20 @@
+
  /*
  	This script handles all UI manipulations for the modal. It dynamically changes
  	the input fields, buttons and texts of the modal depending on where is clicked.
   */
 
- var titles = ["Add an announcement", "Add general information", "Add a new event"];
- var editTitles = ["Edit the announcement", "Edit general information", "Edit event"];
- var buttonTexts = ["Post announcement", "Add section", "Submit event"];
- var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
- var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
- var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+ var titles           = ["Add an announcement", "Add general information", "Add a new event"];
+ var editTitles       = ["Edit the announcement", "Edit general information", "Edit event"];
+ var buttonTexts      = ["Post announcement", "Add section", "Submit event"];
+ var sectionHeaders   = ["Title of announcement", "Information header", "Event summary"];
+ var links            = ["/announcement/item", "/generalinfo/item", "calendar/event"];
+ var days             = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
- var modalSelector = '#add-announcement ';
- var titleSelector = '#announcementTitle ';
- var descriptionSelector = '#announcementDescription ';
- var eventDetailsSelector = '#details ';
+ var modalSelector         = '#add-announcement ';
+ var titleSelector         = '#announcementTitle ';
+ var descriptionSelector   = '#announcementDescription ';
+ var eventDetailsSelector  = '#details ';
  var eventLocationSelector = '#location ';
 
 
@@ -131,7 +132,7 @@
  $(function() {
 	 openTodaysSchedule();
 	 initialiseScheduleDatePicker();
-     initialiseScheduleButtons();
+   initialiseScheduleButtons();
 	 initialiseButtons();
 	 initialiseModalOpeners();
  });

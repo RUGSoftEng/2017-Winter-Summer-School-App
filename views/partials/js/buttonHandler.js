@@ -1,39 +1,39 @@
- // This function takes in a string and for each character
- // it will either hide or show a button; an uppercase
- // letter shows the button, and lowercase hides it.
- function toggleButtons(buttonToggles) {
- 	 for (var i = 0; i < buttonToggles.length; ++i) {
-	 	 var firstChar = buttonToggles.charAt(i);
-	 	 var button = getButton(firstChar.toLowerCase());
-		 if(isLowerCase(firstChar))
-		 	button.hide();
-		 else
-		 	button.show();
-	 }
- }
+// This function takes in a string and for each character
+// it will either hide or show a button; an uppercase
+// letter shows the button, and lowercase hides it.
+function toggleButtons(buttonToggles) {
+    for (var i = 0; i < buttonToggles.length; ++i) {
+        var firstChar = buttonToggles.charAt(i);
+        var button    = getButton(firstChar.toLowerCase());
+        if (isLowerCase(firstChar))
+            button.hide();
+        else
+            button.show();
+    }
+}
 
- function getButton(letter) {
-	 	switch(letter) {
-	 		case 'b':
-	 			return $(modalSelector + '.back');
-		 	case 'd':
-		 		return $(modalSelector + '.delete');
-		 	case 'e':
-		 		return $(modalSelector + '.edit');
-		 	case 'f':
-		 		return $(modalSelector + '.finish');
-		 	case 'p':
-		 		return $(modalSelector + '.preview');
-	 	}
- }
+function getButton(letter) {
+    switch (letter) {
+        case 'b':
+            return $(modalSelector + '.back');
+        case 'd':
+            return $(modalSelector + '.delete');
+        case 'e':
+            return $(modalSelector + '.edit');
+        case 'f':
+            return $(modalSelector + '.finish');
+        case 'p':
+            return $(modalSelector + '.preview');
+    }
+}
 
- function isLowerCase(letter) {
-	 return letter == letter.toLowerCase();
- }
+function isLowerCase(letter) {
+    return letter == letter.toLowerCase();
+}
 
- function isEmptyContainer(selector) {
-	 return !$(selector).val();
- }
+function isEmptyContainer(selector) {
+    return !$(selector).val();
+}
 
  function initialiseFinishButton() {
 	 getButton('f').click(function(event) {
@@ -71,11 +71,11 @@
      });
  }
 
- function initialiseBackButton() {
-	 getButton('b').click(function() {
-         addNewItem($(modalSelector).data('type'), false);
-     });
- }
+function initialiseBackButton() {
+    getButton('b').click(function () {
+        addNewItem($(modalSelector).data('type'), false);
+    });
+}
 
  function initialiseDeleteButton() {
 	 getButton('d').click(function(event) {
@@ -103,20 +103,20 @@
      });
  }
 
- function initialisePreviewButton() {
-	 getButton('p').click(function() {
-         $addType = $(modalSelector).data('show');
-         displayItem($(titleSelector).val(), $(descriptionSelector).val(), $(modalSelector).data("type"));
-         if ($addType == 'new') {
-         	toggleButtons('Be') // if the content is not added yet, we can not edit it
-         }
-     });
- }
+function initialisePreviewButton() {
+    getButton('p').click(function () {
+        $addType = $(modalSelector).data('show');
+        displayItem($(titleSelector).val(), $(descriptionSelector).val(), $(modalSelector).data("type"));
+        if ($addType == 'new') {
+            toggleButtons('Be') // if the content is not added yet, we can not edit it
+        }
+    });
+}
 
- function initialiseButtons() {
-	 initialiseFinishButton();
-     initialiseBackButton();
-     initialiseDeleteButton();
-     initialiseEditButton();
-     initialisePreviewButton();
- }
+function initialiseButtons() {
+    initialiseFinishButton();
+    initialiseBackButton();
+    initialiseDeleteButton();
+    initialiseEditButton();
+    initialisePreviewButton();
+}

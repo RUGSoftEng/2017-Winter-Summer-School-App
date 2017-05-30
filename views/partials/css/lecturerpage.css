@@ -1,68 +1,81 @@
-#lecturer-name{
-  text-align: center;
-}
-.thumbnail{
-  width: 250px;
-  height: 400px;
-}
-.data-text {
-  display:block;
-}
-.img-thumbnail {
-  width:225px;
-  heigh:225px;
-}
-.thumbnail a>img, .thumbnail>img {
-    margin-right: auto;
-    margin-left: auto;
-    width: 125px;
-    height: 125px;
-}
-a>img {
-    height: 100%;
-    top: 0;
-    position: absolute;
-}
-.panel {
-    transition: all .15s ease-in-out;
-    width: initial;
-    margin-right: 30px;
-    margin-left: 30px;
-    padding: 18px;
-    padding-bottom: 18px;
-    background-color: transparent;
-    box-shadow: none;
-}
-.panel:hover{
-  cursor: pointer;
-}
-.read-more {
-    color: #0A9BEB;
-    cursor: pointer;
-}
-.list-group-item-text {
-  font-size: 25px;
-  margin-bottom: 0;
-  line-height: 1.3;
-  text-overflow: ellipsis;
-  text-align: left;
-}
-.browse{
-  display: block;
-  margin:0 auto;
+#lecturer-name {
+	text-align: center;
 }
 
-#modal-thumbnail{
-  display: block;
-  margin: 0 auto;
+.thumbnail {
+	width: 250px;
+	height: 400px;
 }
-.file {
-  visibility: hidden;
-  position: absolute;
+
+.data-text {
+	display: block;
 }
+
+.img-thumbnail {
+	width: 225px;
+	heigh: 225px;
+}
+
+.thumbnail a > img, .thumbnail > img {
+	margin-right: auto;
+	margin-left: auto;
+	width: 125px;
+	height: 125px;
+}
+
+a > img {
+	height: 100%;
+	top: 0;
+	position: absolute;
+}
+
 .panel {
-  transition: all .15s ease-in-out;
+	transition: all .15s ease-in-out;
+	width: initial;
+	margin-right: 30px;
+	margin-left: 30px;
+	padding: 18px;
+	padding-bottom: 18px;
+	background-color: transparent;
+	box-shadow: none;
 }
+
 .panel:hover {
-  transform: scale(1.02);
+	cursor: pointer;
+}
+
+.read-more {
+	color: #0A9BEB;
+	cursor: pointer;
+}
+
+.list-group-item-text {
+	font-size: 25px;
+	margin-bottom: 0;
+	line-height: 1.3;
+	text-overflow: ellipsis;
+	text-align: left;
+}
+
+.browse {
+	display: block;
+	margin: 0 auto;
+}
+
+#modal-thumbnail {
+	display: block;
+	margin: 0 auto;
+}
+
+.file {
+	visibility: hidden;
+	position: absolute;
+}
+
+.panel {
+	transition: all .15s ease-in-out;
+}
+
+.panel:hover {
+	transform: scale(1.02);
 }

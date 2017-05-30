@@ -1,27 +1,48 @@
 .details {
-	color:#fff;
+	color: #FFF;
 }
+
 #wrap .manage:focus {
 	outline: none;
 }
+
 #wrap:active {
 	outline: none;
 }
+
 #wrap .manage:hover, #wrap .manage:focus {
-	background-color: #fff;
+	background-color: #FFF;
 	border-color: #0A9BEB;
 }
+
 .btn-group-wrapper {
-	width:100%;
+	width: 100%;
 	text-align: center;
 }
+
 .tab-content {
-	position: absolute;
 	max-width: 90%;
-	min-width:700px;
-	padding: 90px;
-	padding-top:12px;
+	min-width: 700px;
+	padding: 12px 90px;
 }
-.inner-event, #innerContent {
-	height: 550px;
+
+#fix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+#changingDescription {
+	font-size: 21px;
+	font-weight: 300;
+}
+
+.nav-tabs > li {
+	width: 50%;
+}
+
+.help-block {
+	display: none;
 }

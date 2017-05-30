@@ -1,22 +1,22 @@
-var express = require('express');
-var router = express.Router();
-var ejs = require('ejs');
-var fs = require('fs');
-var schedule = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
-var calendarFunctions = require.main.require('./config/calendar/calendarRESTFunctions.js');
-var verify = require.main.require('./config/verify.js');
-var Alert = require.main.require('./config/alert.js');
+var express           = require('express');
+var router            = express.Router();
+var ejs               = require('ejs');
+var fs                = require('fs');
+var schedule          = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
+var calendarFunctions = require('../../config/calendar/calendarRESTFunctions.js');
+var verify            = require('../../config/verify.js');
+var Alert             = require('../../config/alert.js');
 
 /** Extracts information from post request to place on the calendar. Obtains event object if successful */
-router.post('/calendar/event', function(request, response) {
+router.post('/calendar/event', function (request, response) {
     var b = request.body;
-    verify.getUndefined([b.location, b.startDate, b.startHour, b.startMinute, b.endDate, b.endHour, b.endMinute, b.title, b.ssid, b.details], function(undef) {
+    verify.getUndefined([b.location, b.startDate, b.startHour, b.startMinute, b.endDate, b.endHour, b.endMinute, b.title, b.ssid, b.details], function (undef) {
         if (undef.length > 0) {
             console.error("calendar-event.js: Not posting submitted event due to undefined fields!");
             response.redirect('/main');
         } else {
             var start = b.startDate + 'T' + b.startHour + ':' + b.startMinute + ':00' + calendarFunctions.getOffsetUTC();
-            var end = (b.endDate ? b.endDate : b.startDate) + 'T' + b.endHour + ':' + b.endMinute + ':00' + calendarFunctions.getOffsetUTC();
+            var end   = (b.endDate ? b.endDate : b.startDate) + 'T' + b.endHour + ':' + b.endMinute + ':00' + calendarFunctions.getOffsetUTC();
             console.log("Posting event: " + request.body.title + " for school " + b.ssid + " starting at " + start + " and ending at " + end);
             var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, b.location, b.details, start, end, function(err, data) {
                 var a;
@@ -87,11 +87,11 @@ router.put('/calendar/event', function(request, response) {
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   */
 router.get('/calendar/event', function(request, response) {
-    var p = request.query;
-    var forWeek = p.hasOwnProperty('week') && !isNaN(p.week);
-    var extended = p.hasOwnProperty('extended') && p.extended == 'true';
-    var rendered = p.hasOwnProperty('rendered') && p.rendered == 'true';
-    var withStartDate = p.hasOwnProperty('startDate'), withEndDate = p.hasOwnProperty('endDate');
+    var p               = request.query;
+    var forWeek         = p.hasOwnProperty('week') && !isNaN(p.week);
+    var extended        = p.hasOwnProperty('extended') && p.extended == 'true';
+    var rendered        = p.hasOwnProperty('rendered') && p.rendered == 'true';
+    var withStartDate   = p.hasOwnProperty('startDate'), withEndDate = p.hasOwnProperty('endDate');
 
     if (forWeek) {
         calendarFunctions.listCalendarWeekEvents(parseInt(p.week), extended, function(err, data) {

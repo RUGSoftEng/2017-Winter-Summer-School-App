@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "latest",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
     "connect-flash": "~0.1.1",
@@ -21,5 +22,15 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "require-dir": "latest"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0",
+    "request": "^2.81.0",
+    "supertest": "^3.0.0"
+  },
+  "scripts": {
+    "start": "SET NODE_ENV = dev && node server.js",
+    "test": "SET NODE_ENV = test mocha"
   }
 }

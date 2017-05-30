@@ -2,19 +2,25 @@
 <html lang="en" class='full'>
 <% include partials/loggedin_header %>
 
-    <body class='full'>
-        <div id='wrap' class='full'>
-            <% include partials/general_navigationbar.ejs %>
-            	<% include partials/alertMessage.ejs %>
-                <div class='row' id='event-screen'>
-                    <span id='announcementsModule'> <% include partials/announcements %> </span>
-                    <span id='generalinfoModule'> <% include partials/generalinfo %> </span>
-                    <span id='scheduleModule'> <% include partials/schedule %> </span>
-                </div>
+<body class='full'>
+<div id='wrap' class='full'>
+    <% include partials/general_navigationbar.ejs %>
+    <% include partials/alertMessage.ejs %>
+    <div class='row' id='event-screen'>
+        <span id='announcementsModule'>
+            <% include partials/announcements %>
+        </span>
+        <span id='generalinfoModule'>
+            <% include partials/generalinfo %>
+        </span>
+        <span id='scheduleModule'>
+            <% include partials/schedule %>
+        </span>
+    </div>
 
-                <% include partials/modal %>
+    <% include partials/modal %>
 
-        </div>
-    </body>
+</div>
+</body>
 
 </html>
