@@ -54,29 +54,30 @@ router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, funct
         newAnnouncement = {
             title: req.body.title,
             description: req.body.description
-        }
+        };
         res.send(newAnnouncement);
     }
-    else{
+    else {
         newAnnouncement = {
             title: req.body.title,
             description: req.body.description,
             poster: req.user.username,
             date: new Date()
-        }
-    data.db.announcements.insert(newAnnouncement, function (err, result) {
-        var alert = null;
-        if (err) {
-            console.log(err);
-            var alertMessage = "Failed to insert to database.<br>" + err;
-            alert            = new Alert(false, alertMessage);
-        } else {
-            alert = new Alert(true, "The announcement was successfully added");
-        }
-        alert.passToNextPage(req);
-        res.redirect('/main');
+        };
+
+        data.db.announcements.insert(newAnnouncement, function (err, result) {
+            var alert = null;
+            if (err) {
+                console.log(err);
+                var alertMessage = "Failed to insert to database.<br>" + err;
+                alert            = new Alert(false, alertMessage);
+            } else {
+                alert = new Alert(true, "The announcement was successfully added");
+            }
+            alert.passToNextPage(req);
+            res.redirect('/main');
+        });
     }
-    });
 });
 
 router.get('/announcement/item', function (req, res) {

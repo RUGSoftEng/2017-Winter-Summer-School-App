@@ -11,11 +11,10 @@ router.post('/forum/thread/item', function (req, res) {
         newThread = {
             title: req.body.title,
             description: req.body.description
-        }
+        };
         res.send(newThread);
     }
-    else
-    {
+    else {
         newThread = {
             title: req.body.title,
             description: req.body.description,
@@ -23,19 +22,20 @@ router.post('/forum/thread/item', function (req, res) {
             posterID: req.body.posterID,
             date: new Date(),
             comments: []
-            }
+        };
         data.db.forum.insert(newThread, function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-            res.send(200);
-        }
-        data.db.forum.insert(newThread, function(err, result) {
             if (err) {
                 console.log(err);
             } else {
                 res.send(200);
             }
+            data.db.forum.insert(newThread, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(200);
+                }
+            });
         });
     }
 });
