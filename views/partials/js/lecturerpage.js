@@ -14,7 +14,7 @@ function addNewItem(edit) {
     $('#add-lecturer #lecturerDescription').attr('placeholder', 'General Info')
     $('#add-lecturer #thumbnailDiv').show();
     $('#modal-thumbnail').attr('src', '/images/default/placeholder.jpeg');
-    $('#add-lecturer .finish').html((edit ? "Edit" : "Add Lecturer"));
+    $('#add-lecturer .finish').html((edit ? "Save" : "Add Lecturer"));
     $('#add-lecturer .edit').hide();
     $('#add-lecturer .finish').show();
     $('#add-lecturer .preview').show();
@@ -30,8 +30,8 @@ function displayItem(title, text, img, website) {
     $('#add-lecturer #thumbnailDiv').show();
     $('#add-lecturer #modal-thumbnail').attr('src', img);
     $('#add-lecturer .modal-title').html(title);
-    $('#add-lecturer .modal-show-body .jumbotron').html(text);
-    $('#add-lecturer .modal-show-body .jumbotron2').html(website);
+    $('#modalDescription').html(text);
+    $('#modalWebsite').html(website);
     $('#add-lecturer .edit').show();
     $('#add-lecturer .finish').hide();
     $('#add-lecturer .preview').hide();
@@ -113,8 +113,8 @@ $(function () {
 
     $('.edit').click(function () {
         var editTitleValue   = $('#add-lecturer .modal-title').text();
-        var editTextValue    = $('#add-lecturer .modal-show-body .jumbotron').html();
-        var editWebsiteValue = $('#add-lecturer .modal-show-body .jumbotron2').html();
+        var editTextValue    = $('#modalDescription').html();
+        var editWebsiteValue = $('#modalWebsite').html();
         var editImgValue     = $('#add-lecturer #modal-thumbnail').attr('src');
         addNewItem(true);
         $('#add-lecturer form').attr('action', 'lecturer/item');
