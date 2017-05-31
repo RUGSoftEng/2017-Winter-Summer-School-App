@@ -19,11 +19,14 @@ router.get('/options', function (req, res) {
     alert.initiate(req);
     data.db.accounts.find(function (err, docs) {
         data.db.loginCodes.find(function (err, docs2) {
-            res.render('options.ejs', {
-                user: user,
-                accounts: docs,
-                loginCodes: docs2,
-                alert: alert
+            data.db.forum.find(function (err, docs3) {
+                res.render('options.ejs', {
+                    user: user,
+                    accounts: docs,
+                    loginCodes: docs2,
+                    forum: docs3,
+                    alert: alert
+                });
             });
         });
     });
