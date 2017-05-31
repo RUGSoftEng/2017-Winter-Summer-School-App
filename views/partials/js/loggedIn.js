@@ -16,17 +16,6 @@ var descriptionSelector   = '#announcementDescription ';
 var eventDetailsSelector  = '#details ';
 var eventLocationSelector = '#location ';
 
-
-function toggleShow(display) {
-    if (display) {
-        $(modalSelector + '.modal-add-body').hide();
-        $(modalSelector + '.modal-show-body').show();
-    } else {
-        $(modalSelector + '.modal-add-body').show();
-        $(modalSelector + '.modal-show-body').hide();
-    }
-}
-
 function addNewItem(type, edit) {
     toggleButtons('bdeFP');
     if (edit) {
