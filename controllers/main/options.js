@@ -3,7 +3,7 @@ var express = require('express');
 var router  = express.Router();
 var data    = require('../../config/database.js');
 var Alert   = require('../../config/alert.js');
-var bcrypt  = require('bcrypt');
+var bcrypt  = require('bcrypt-nodejs');
 
 var saltRounds = 8;
 
