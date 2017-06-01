@@ -92,6 +92,7 @@ function initialiseBackButton() {
      });
  }
 
+
  function initialiseEditButton() {
 	 getButton('e').click(function() {
          var editTitleValue = ($(modalSelector).data('type') == 2) ? $(titleSelector).val() : $(modalSelector + '.modal-title').text();
@@ -108,9 +109,19 @@ function initialisePreviewButton() {
         $addType = $(modalSelector).data('show');
         displayItem($(titleSelector).val(), $(descriptionSelector).val(), $(modalSelector).data("type"));
         if ($addType == 'new') {
-            toggleButtons('Be') // if the content is not added yet, we can not edit it
+            toggleButtons('Be'); // if the content is not added yet, we can not edit it
         }
     });
+}
+
+function toggleShow(display) {
+    if (display) {
+        $(modalSelector + '.modal-add-body').hide();
+        $(modalSelector + '.modal-show-body').show();
+    } else {
+        $(modalSelector + '.modal-add-body').show();
+        $(modalSelector + '.modal-show-body').hide();
+    }
 }
 
 function initialiseButtons() {

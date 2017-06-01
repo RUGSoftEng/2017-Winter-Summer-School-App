@@ -3,48 +3,85 @@ var router            = express.Router();
 var ejs               = require('ejs');
 var fs                = require('fs');
 var schedule          = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
-var calendarFunctions = require('../../config/calendar/calendarRESTFunctions.js');
+var restFunctions     = require('../../config/calendar/calendarRESTFunctions.js');
 var verify            = require('../../config/verify.js');
 var Alert             = require('../../config/alert.js');
 
-/** Extracts information from post request to place on the calendar. Obtains event object if successful */
+/**
+* Handles incoming HTTP POST requests to '/calendar/event'. Attempts to process event details from
+* the attached form in the body, and submit the event to the Google Calendar API. A success or
+* fail message is then attached to the session object of the request to be displayed in the '/main'
+* page upon redirect.
+* @param {Object} request  - an object containing request details.
+* @param {Object} response - an object to which a response may be written.
+*/
 router.post('/calendar/event', function (request, response) {
     var b = request.body;
-    verify.getUndefined([b.location, b.startDate, b.startHour, b.startMinute, b.endDate, b.endHour, b.endMinute, b.title, b.ssid, b.details], function (undef) {
+    var required = [b.location,
+             b.startDate,
+             b.startHour,
+             b.startMinute,
+             b.endDate,
+             b.endHour,
+             b.endMinute,
+             b.title,
+             b.ssid,
+             b.details];
+
+    verify.getUndefined(required, function (undef) {
         if (undef.length > 0) {
             console.error("calendar-event.js: Not posting submitted event due to undefined fields!");
             response.redirect('/main');
         } else {
-            var start = b.startDate + 'T' + b.startHour + ':' + b.startMinute + ':00' + calendarFunctions.getOffsetUTC();
-            var end   = (b.endDate ? b.endDate : b.startDate) + 'T' + b.endHour + ':' + b.endMinute + ':00' + calendarFunctions.getOffsetUTC();
-            console.log("Posting event: " + request.body.title + " for school " + b.ssid + " starting at " + start + " and ending at " + end);
-            var event = calendarFunctions.insertCalendarEvent(b.title, b.ssid, b.location, b.details, start, end, function(err, data) {
+            var startDate = restFunctions.buildDateTime(b.startDate, b.startHour, b.startMinute);
+            var endDate   = restFunctions.buildDateTime(b.endDate, b.endHour, b.endMinute);
+            var event     = restFunctions.insertCalendarEvent(
+                b.title, b.ssid, b.location, b.details, startDate, endDate, function(err, data) {
                 var a;
                 if (err) {
-                    a = new Alert(false, 'The event "' + b.title + '" could not be submitted at this time. Receiving error ' + err.code + ': "' + err.message + '"');
+                    a = new Alert(false, restFunctions.postErrorMessage(b.title, err.code, err.message));
                 } else {
-                    a = new Alert(true, 'The event "' + b.title + '" was successfully submitted for the "' + b.ssid + '" school!');
+                    a = new Alert(true, restFunctions.postSuccessMessage(b.title, b.ssid));
                 }
                 a.passToNextPage(request);
-                console.log(a.message);
+                //console.log(a.message);
                 response.redirect('/main');
             });
         }
     });
 });
 
-/** Extracts information from put request to edit an existing calendar event. */
+/**
+* Handles incoming HTTP PUT requests to '/calendar/event'. Attempts to process event details from
+* the URL parameters, and submit the updated event to the Google Calendar API. A success error code
+* is returned if no issues arise. Else, a response is written with the error object contained in
+* the body.
+* @param {Object} request  - an object containing request details.
+* @param {Object} response - an object to which a response may be written.
+*/
 router.put('/calendar/event', function(request, response) {
     var p = request.query;
-    verify.getUndefined([p.id, p.title, p.location, p.details, p.startDate, p.startHour, p.startMinute, p.endDate, p.endHour, p.endMinute, p.ssid], function(undef) {
+    var required = [p.id,
+        p.title,
+        p.location,
+        p.details,
+        p.startDate,
+        p.startHour,
+        p.startMinute,
+        p.endDate,
+        p.endHour,
+        p.endMinute,
+        p.ssid];
+
+    verify.getUndefined(required, function(undef) {
         if (undef.length > 0) {
-            console.error("calendar-event.js: Not updating submitted event due to undefined fields!");
-            response.writeHead(400, {'err': {'code': 400, 'message': 'Undefined parameters in the request options'}});
+            var err = {'code': 400, 'message': 'Required parameters must be defined'}
+            response.writeHead(400, {'err': err});
         } else {
-            var start = p.startDate + 'T' + p.startHour + ':' + p.startMinute + ':00' + calendarFunctions.getOffsetUTC();
-            var end = (p.endDate ? p.endDate : p.startDate) + 'T' + p.endHour + ':' + p.endMinute + ':00' + calendarFunctions.getOffsetUTC();
-            console.log("Updating event: " + p.title + " for school " + p.ssid + " starting at " + start + " and ending at " + end);
-            var event = calendarFunctions.updateCalendarEvent(p.id, p.title, p.ssid, p.location, p.details, start, end, function(err, data) {
+            var startDate = restFunctions.buildDateTime(p.startDate, p.startHour, p.startMinute);
+            var endDate   = restFunctions.buildDateTime(p.endDate, p.endHour, p.endMinute);
+            var event     = restFunctions.updateCalendarEvent(
+                p.id, p.title, p.ssid, p.location, p.details, startDate, endDate, function(err, data) {
                 if (err) {
                     response.writeHead(409, {'err': err});
                 } else {
@@ -55,65 +92,70 @@ router.put('/calendar/event', function(request, response) {
     });
 });
 
- /** Returns a serialized JSON object with an error object and an array of event tuples.
-  * FORM: {error: <object>, data: <string>}
-  * where data is a stringified JSON object. (So data must be parsed to be extracted)
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *             Option                  Action                                          Cached
-  *             ------                  ------                                          ------
-  *            'week=(int)'             Specifies which week's events to return.        YES
-  *                                     Current week = 0. Next = n. Last = -n.
-  *                                     Data encoded [(Date, [events]), ... ].
-  *                                     Ranges: (Monday -> Sunday)
-  *
-  *            'extended=true'          Returns events across an extended week.
-  *                                     Ranges: (Saturday -> Saturday)                  YES
-  *
-  *            'rendered=true'          Returns events rendered into HTML object.
-  *                                     For internal use only.                          YES
-  *
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *
-  *  'startDate=(date)&endDate=(date)'  Returns events across a custom range.           NO
-  *                                     Sorts events by day. Returns format:
-  *                                     [(Date, [events]), ... ]
-  *
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *             Examples
-  *             --------
-  *             '/calendar/event/week=0'                    - Returns this week's events.
-  *             '/calendar/event/week=-2&extended=true'     - Returns the extended week's events of
-  *                                                           two weeks ago.
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  */
+/**
+* Handles incoming HTTP GET requests to '/calendar/event'. Parses request parameters
+* and determines what kind of data to return. Unless the 'rendered' parameter is
+* specified, all data returned is in serialized JSON form: [(Date, [events]), ... ]
+* The data and any error that occured are packaged in response: {error: err, data: data}
+*
+* PARAM: week=x
+* Returns events for a week (Monday -> Friday). x = 0: current week,
+* x > 0: 'x' weeks from now. x < 0: 'x' weeks ago. All other parameters
+* are ignored except rendered.
+*
+* PARAM: rendered=true
+* If specified alongside 'week=x', returns an HTML string containing
+* the rendered schedule.ejs interface with the schedule data.
+*
+* PARAM: extended=true
+* If specified alongside 'week=x', this parameter extends week events
+* to span (Saturday -> Saturday).
+*
+* PARAM: startDate=x&endDate=y
+* Returns events across the custom range of dates. Both 'x' and 'y'
+* must be ISO-8601 compliant dateTime strings. Cannot be used with
+* the 'rendered' parameter.
+*
+* @param {Object} request  - an object containing request details.
+* @param {Object} response - an object to which a response may be written.
+*/
 router.get('/calendar/event', function(request, response) {
-    var p               = request.query;
-    var forWeek         = p.hasOwnProperty('week') && !isNaN(p.week);
-    var extended        = p.hasOwnProperty('extended') && p.extended == 'true';
-    var rendered        = p.hasOwnProperty('rendered') && p.rendered == 'true';
-    var withStartDate   = p.hasOwnProperty('startDate'), withEndDate = p.hasOwnProperty('endDate');
+    var p           = request.query;
+    var week        = p.hasOwnProperty('week') && !isNaN(p.week);
+    var extended    = p.hasOwnProperty('extended') && p.extended == 'true';
+    var rendered    = p.hasOwnProperty('rendered') && p.rendered == 'true';
+    var startDate   = p.hasOwnProperty('startDate');
+    var endDate     = p.hasOwnProperty('endDate');
 
-    if (forWeek) {
-        calendarFunctions.listCalendarWeekEvents(parseInt(p.week), extended, function(err, data) {
+    if (week) {
+        restFunctions.listCalendarWeekEvents(parseInt(p.week), extended, function(err, data) {
             if (rendered) {
-                response.send(JSON.stringify({error: err, data: ejs.render(schedule, {schedule: JSON.parse(data)})}));
+                response.send(JSON.stringify(
+                    {error: err,
+                     data: ejs.render(schedule, {schedule: JSON.parse(data)})}));
             } else {
                 response.send(JSON.stringify({error: err, data: data}));
             }
         });
-    } else if (withStartDate && withEndDate) {
-        calendarFunctions.listCalendarEvents(p.startDate, p.endDate, function(err, data) {
+    } else if (startDate && endDate) {
+        restFunctions.listCalendarEvents(p.startDate, p.endDate, function(err, data) {
             response.send(JSON.stringify({error: err, data: data}));
         });
     }
 });
 
-/** Attempts to delete an event for the given eventID */
+/**
+* Handles incoming HTTP DELETE requests to '/calendar/event'. Attempts to
+* delete an event whose id matches that given in the request parameters.
+* Returns a success code if the event could be deleted. Otherwise, an
+* error object is returned.
+* @param {Object} request  - an object containing request details.
+* @param {Object} response - an object to which a response may be written.
+*/
 router.delete('/calendar/event', function(request, response) {
     var p = request.query;
-    console.log("calendar-event.js: received delete request!");
     if (p.hasOwnProperty('id')) {
-        calendarFunctions.deleteCalendarEvent(p.id, function(err) {
+        restFunctions.deleteCalendarEvent(p.id, function(err) {
             if (err) {
                 response.writeHead(400, {'err': err});
             } else {
