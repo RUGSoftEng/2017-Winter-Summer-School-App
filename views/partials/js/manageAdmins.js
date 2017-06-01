@@ -3,35 +3,22 @@ $('.nav-tabs a').click(function (e) {
     $(this).tab('show')
 })
 
+
 $('.finish').click(function (e) {
     if ($('#cpassword').val() != $('#password').val()) {
         e.preventDefault();
         $('#cpassword').parent().addClass('has-error');
         $('#cpassword').next().show();
     }
-})
-
-$('#username').focusout(function () {
-    if (!/^[a-z]{5,20}$/.test($(this).val())) { //only lower-case letters with at least 5 characters and no more than 20 characters
-        $('#username').parent().addClass('has-error');
-        $('#username').parent().removeClass('has-success');
-        $('#username').next().show();
-    } else {
-        $('#username').parent().removeClass('has-error');
-        $('#username').parent().addClass('has-success');
-        $('#username').next().hide();
-    }
 });
+
+
+new InputValidator('#username', new UsernameValidator());
+new InputValidator('#password', new PasswordValidator());
+
 $('#cpassword').focusout(function () {
-    if ($('#cpassword').val() != $('#password').val()) {
-        $('#cpassword').parent().removeClass('has-success');
-        $('#cpassword').parent().addClass('has-error');
-        $('#cpassword').next().show();
-    } else {
-        $('#cpassword').parent().removeClass('has-error');
-        $('#username').parent().addClass('has-success');
-        $('#cpassword').next().hide();
-    }
+    var valid = $('#cpassword').val() === $('#password').val();
+    alterInputStyling('#cpassword', 'Passwords do not match.', valid);
 });
 
 $('.deleteAccount').click(function () {

@@ -1,6 +1,12 @@
 $('.deleteAccount').click(function () {
+    var type = $(this).data('type');
+    var link;
+    if(type === 'comment')
+        link = '/forum/comment/item?id=';
+    else
+        link = '/forum/thread/item?id=';
     $.ajax({
-        url: '/loginCode/?id=' + $(this).data('id'),
+        url: link + $(this).data('id'),
         type: 'DELETE',
         success: function (result) {
             location.reload();
@@ -11,5 +17,3 @@ $('.deleteAccount').click(function () {
     });
 
 });
-
-new InputValidator('#code', new CodeValidator());
