@@ -1,7 +1,7 @@
 var express = require('express');
 var router  = express.Router();
-var data    = require.main.require('./config/database.js');
-var Alert   = require.main.require('./config/alert.js');
+var data    = require('../../config/database.js');
+var Alert   = require('../../config/alert.js');
 
 router.delete('/admin', function (req, res) {
     data.db.accounts.remove({
