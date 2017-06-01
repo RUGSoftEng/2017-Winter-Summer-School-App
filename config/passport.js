@@ -1,5 +1,5 @@
 var LocalStrategy = require('passport-local').Strategy;
-var data = require.main.require('./config/database.js');
+var data = require('./database.js');
 var bcrypt = require('bcrypt-nodejs');
 
 var User = data.db.collection('accounts');

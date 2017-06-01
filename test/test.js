@@ -6,7 +6,7 @@ var server;
 describe('Server',function() {
     it('should start the server and initialize it properly',function(done){
         server = require('./../server.js');
-        done();
+        supertest(server.app).get('/').expect('Content-Type',"text/html; charset=utf-8").expect(200,done);
     });
 });
 
