@@ -29,8 +29,8 @@ module.exports = function (app) {
             }
         }
         recursiveAdd(controllerLocation);
-        app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'));
-        app.use('/*', require(controllerLocation + '/404'));
+        app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'))
+        app.use('/', require(controllerLocation + '/404'))
     };
 
     return module;
