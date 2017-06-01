@@ -19,6 +19,10 @@
 	overflow-x: hidden !important;
 }
 
+.help-block {
+	display: none;
+}
+
 #wrap {
 	background-color: #E3E3E3;
 }

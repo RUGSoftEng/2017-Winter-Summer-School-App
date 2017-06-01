@@ -35,41 +35,41 @@ function isEmptyContainer(selector) {
     return !$(selector).val();
 }
 
- function initialiseFinishButton() {
-	 getButton('f').click(function(event) {
-         $type = $(this).data('type');
-         if (confirm("Are you sure that you want to " + $type + "?")) {
-             if (isEmptyContainer(titleSelector)) { // no title, prevent the POST request
-                 event.preventDefault();
-                 alert("Please fill in a title and content");
-             } else if ($type == "edit") {
-             	 // send a PUT request instead of POST if an existing item is edited.
-                 $.ajax({
-                     url: links[$(modalSelector).data('type')] +
-                     '?id=' + $(modalSelector).data('id') +
-                     '&description=' + $(descriptionSelector).val() +
-                     '&title=' + $(titleSelector).val() +
-                     '&location=' + $('#location ').val() +
-                     '&details=' + $('#details ').val() +
-                     '&startDate=' + $('#scheduleStartDate ').val() +
-                     '&startHour=' + $('#startHour ').val() +
-                     '&startMinute=' + $('#startMinute ').val() +
-                     '&endDate=' + $('#scheduleEndDate ').val() +
-                     '&endHour=' + $('#endHour ').val() +
-                     '&endMinute=' + $('#endMinute ').val() +
-                     '&ssid=' + $('#targetItem ').val(),
-                     type: 'PUT',
-                     success: function(result) {
-                         location.reload();
-                     }
-                 });
-                 event.preventDefault();
-             }
-         } else { // user is not sure, prevent the POST request
-             event.preventDefault();
-         }
-     });
- }
+function initialiseFinishButton() {
+    getButton('f').click(function (event) {
+        $type = $(this).data('type');
+        if (confirm("Are you sure that you want to " + $type + "?")) {
+            if (isEmptyContainer(titleSelector)) { // no title, prevent the POST request
+                event.preventDefault();
+                alert("Please fill in a title and content");
+            } else if ($type == "edit") {
+                // send a PUT request instead of POST if an existing item is edited.
+                $.ajax({
+                    url: links[$(modalSelector).data('type')] +
+                    '?id=' + $(modalSelector).data('id') +
+                    '&description=' + $(descriptionSelector).val() +
+                    '&title=' + $(titleSelector).val() +
+                    '&location=' + $('#location ').val() +
+                    '&details=' + $('#details ').val() +
+                    '&startDate=' + $('#scheduleStartDate ').val() +
+                    '&startHour=' + $('#startHour ').val() +
+                    '&startMinute=' + $('#startMinute ').val() +
+                    '&endDate=' + $('#scheduleEndDate ').val() +
+                    '&endHour=' + $('#endHour ').val() +
+                    '&endMinute=' + $('#endMinute ').val() +
+                    '&ssid=' + $('#targetItem ').val(),
+                    type: 'PUT',
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+                event.preventDefault();
+            }
+        } else { // user is not sure, prevent the POST request
+            event.preventDefault();
+        }
+    });
+}
 
 function initialiseBackButton() {
     getButton('b').click(function () {
@@ -77,32 +77,32 @@ function initialiseBackButton() {
     });
 }
 
- function initialiseDeleteButton() {
-	 getButton('d').click(function(event) {
-	     event.preventDefault();
-         if (confirm("Are you sure you want to delete?")) {
-             $.ajax({
-                 url: links[$(modalSelector).data('type')] + '?id=' + $(modalSelector).data('id'),
-                 type: 'DELETE',
-                 success: function(result) {
-                     location.reload();
-                 }
-             });
-         }
-     });
- }
+function initialiseDeleteButton() {
+    getButton('d').click(function (event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete?")) {
+            $.ajax({
+                url: links[$(modalSelector).data('type')] + '?id=' + $(modalSelector).data('id'),
+                type: 'DELETE',
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
+    });
+}
 
 
- function initialiseEditButton() {
-	 getButton('e').click(function() {
-         var editTitleValue = ($(modalSelector).data('type') == 2) ? $(titleSelector).val() : $(modalSelector + '.modal-title').text();
-         var editTextValue = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
-         addNewItem($(modalSelector).data('type'), true);
-         $(modalSelector + 'form').attr('action', links[$(modalSelector).data('type')]);
-         $(titleSelector).val(editTitleValue);
-         $(descriptionSelector).val(editTextValue);
-     });
- }
+function initialiseEditButton() {
+    getButton('e').click(function () {
+        var editTitleValue = ($(modalSelector).data('type') == 2) ? $(titleSelector).val() : $(modalSelector + '.modal-title').text();
+        var editTextValue  = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
+        addNewItem($(modalSelector).data('type'), true);
+        $(modalSelector + 'form').attr('action', links[$(modalSelector).data('type')]);
+        $(titleSelector).val(editTitleValue);
+        $(descriptionSelector).val(editTextValue);
+    });
+}
 
 function initialisePreviewButton() {
     getButton('p').click(function () {
