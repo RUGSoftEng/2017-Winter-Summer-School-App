@@ -4,8 +4,8 @@ module.exports = function (gcs) {
 
     /**
      * Returns the difference in days between two dates (a - b).
-     * @param {Date} a - The first date.
-     * @param {Date} b - The second date.
+     * @param {Date} a  - The first date.
+     * @param {Date} b  - The second date.
      */
     tools.dayDifference = function (a, b) {
         return Math.floor((a - b) / (1000 * 60 * 60 * 24));
@@ -13,9 +13,9 @@ module.exports = function (gcs) {
 
     /**
      * Creates and returns an array composed of the zipped contents of the supplied arrays.
-     * @param {Object[]} a - The first list.
-     * @param {Object[]} b - The second list.
-     * @param {function} f - The function which supplies the combined form of an a and b element.
+     * @param {Object[]} a  - The first list.
+     * @param {Object[]} b  - The second list.
+     * @param {Function} f  - The function which supplies the combined form of an a and b element.
      */
     tools.zipWith = function (a, b, f) {
         const r = [];
@@ -27,9 +27,10 @@ module.exports = function (gcs) {
     }
 
     /**
-     * Creates and returns an array of Dates starting from 'start' and and extending 'count' days into the future.
-     * @param {Date} start - The date to start from. Date will be copied and set to midnight.
-     * @param {Integer} count - The amount of days to extend to (including start).
+     * Creates and returns an array of Dates starting from 'start' and and extending 'count'
+     * days into the future.
+     * @param {Date}    start   - The date to start from. Date will be copied and set to midnight.
+     * @param {Integer} count   - The amount of days to extend to (including start).
      */
     tools.getDays = function (start, count) {
         var s = tools.midnightOn(start), days = [s];
@@ -41,8 +42,10 @@ module.exports = function (gcs) {
     }
 
     /**
-     * Creates and returns a new Date instance containing the value of the last Monday. If it is Monday, the last Monday is today.
-     * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
+     * Creates and returns a new Date instance containing the value
+     * of the last Monday. If it is Monday, the last Monday is today.
+     * @param {Integer} offset - Optional offset in weeks.
+     *                           Supports both positive and negative values.
      */
     tools.getMonday = function (offset = 0) {
         var d = new Date();
@@ -53,8 +56,10 @@ module.exports = function (gcs) {
     }
 
     /**
-     * Creates and returns a new Date instance containing the value of the last Saturday. If it is Saturday, the last Saturday was last Saturday.
-     * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
+     * Creates and returns a new Date instance containing the value of the
+     * last Saturday. If it is Saturday, the last Saturday was last Saturday.
+     * @param {Integer} offset - Optional offset in weeks. Supports both positive
+     *                           and negative values.
      * @param {Boolean} midnight - Sets the time to midnight if true. Else morning
      */
     tools.getSaturday = function (offset = 0, midnight) {
@@ -66,8 +71,10 @@ module.exports = function (gcs) {
     }
 
     /**
-     * Creates and returns a new Date instance containing the value of the next Sunday. If it is Sunday, the next Sunday is today.
-     * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
+     * Creates and returns a new Date instance containing the value of the next Sunday.
+     * If it is Sunday, the next Sunday is today.
+     * @param {Integer} offset - Optional offset in weeks.
+     *                           Supports both positive and negative values.
      */
     tools.getSunday = function (offset = 0) {
         var d = new Date();
@@ -88,11 +95,13 @@ module.exports = function (gcs) {
     }
 
     /**
-     * Returns the events of a custom (startDay -> endDay) week separated by day. The result of this function is in form: [[Date,[Events]]]
-     * @param {Date} startDay - The starting day of the week.
-     * @param {Date} endDay - The ending day of the week.
-     * @param {Function} f - Function that will return the events for the supplied start and end date.
-     * @param {Function} callback - The callback to be performed with the result.
+     * Returns the events of a custom (startDay -> endDay) week separated by day.
+     * The result of this function is in form: [[Date,[Events]]]
+     * @param {Date}     startDay   - The starting day of the week.
+     * @param {Date}     endDay     - The ending day of the week.
+     * @param {Function} f          - Function that will return the events for
+     *                                the supplied start and end date.
+     * @param {Function} callback   - The callback to be performed with the result.
      */
     tools.getSortedWeekEvents = function (startDay, endDay, f, callback) {
         var weekDays   = tools.getDays(startDay, tools.dayDifference(endDay, startDay) + 1);
@@ -128,9 +137,9 @@ module.exports = function (gcs) {
 
     /**
      * Returns the events of a week separated by day. The result of this function is in form: [[Date,[Events]]]
-     * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
-     * @param {Function} f - Function that will return the events for the supplied start and end date.
-     * @param {Function} callback - The callback to be performed with the result.
+     * @param {Integer}  offset     - Optional offset in weeks. Supports both positive and negative values.
+     * @param {Function} f          - Function that will return the events for the supplied start and end date.
+     * @param {Function} callback   - The callback to be performed with the result.
      */
     tools.getWeekEvents = function (offset = 0, f, callback) {
         tools.getSortedWeekEvents(tools.getMonday(offset), tools.getSunday(offset), f, callback);
@@ -138,9 +147,9 @@ module.exports = function (gcs) {
 
     /**
      * Returns the events of a custom (Saturday -> next Sunday) week. The result of this function is in form: [[Date,[Events]]]
-     * @param {Integer} offset - Optional offset in weeks. Supports both positive and negative values.
-     * @param {Function} f - Function that will return the events for the supplied start and end date.
-     * @param {Function} callback - The callback to be performed with the result.
+     * @param {Integer}  offset     - Optional offset in weeks. Supports both positive and negative values.
+     * @param {Function} f          - Function that will return the events for the supplied start and end date.
+     * @param {Function} callback   - The callback to be performed with the result.
      */
     tools.getExtendedWeekEvents = function (offset = 0, f, callback) {
         tools.getSortedWeekEvents(tools.getSaturday(offset, false), tools.getSunday(offset + 1), f, callback);
