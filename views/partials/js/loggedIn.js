@@ -3,29 +3,18 @@
  	the input fields, buttons and texts of the modal depending on where is clicked.
   */
 
- var titles = ["Add an announcement", "Add general information", "Add a new event"];
- var editTitles = ["Edit the announcement", "Edit general information", "Edit event"];
- var buttonTexts = ["Post announcement", "Add section", "Submit event"];
- var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
- var links = ["/announcement/item", "/generalinfo/item", "calendar/event"];
- var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+ var titles           = ["Add an announcement", "Add general information", "Add a new event"];
+ var editTitles       = ["Edit the announcement", "Edit general information", "Edit event"];
+ var buttonTexts      = ["Post announcement", "Add section", "Submit event"];
+ var sectionHeaders   = ["Title of announcement", "Information header", "Event summary"];
+ var links            = ["/announcement/item", "/generalinfo/item", "calendar/event"];
+ var days             = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
- var modalSelector = '#add-announcement ';
- var titleSelector = '#announcementTitle ';
- var descriptionSelector = '#announcementDescription ';
- var eventDetailsSelector = '#details ';
+ var modalSelector         = '#add-announcement ';
+ var titleSelector         = '#announcementTitle ';
+ var descriptionSelector   = '#announcementDescription ';
+ var eventDetailsSelector  = '#details ';
  var eventLocationSelector = '#location ';
-
-
- function toggleShow(display) {
-	 if(display) {
-		 $(modalSelector + '.modal-add-body').hide();
-		 $(modalSelector + '.modal-show-body').show();
-	 } else {
-		 $(modalSelector + '.modal-add-body').show();
-		 $(modalSelector + '.modal-show-body').hide();
-	 }
- }
 
  function addNewItem(type, edit) {
      toggleButtons('bDeFP');
@@ -76,15 +65,14 @@
  function emptyContainer(selector) {
 	 $(selector).val('');
  }
- 
+
  function toggleScheduleInput(disabled) {
  	 var sc = '.modal-add-body .form-group ';
 	 $(sc + 'input, ' + sc + 'textarea, ' + sc + 'select').attr("disabled", disabled);
  }
 
  function fillScheduleInput(clicked) {
-	 var title = clicked.children('span:last-child').text();
-	 $(titleSelector).val(title);
+	 $(titleSelector).val(clicked.data('event-summary'));
 	 $(eventLocationSelector).val(clicked.data('event-location'));
 	 $(eventDetailsSelector).val(clicked.data('event-description'));
 	 $('#scheduleStartDate').val(clicked.data('event-start-date').substring(0,10));
@@ -93,6 +81,7 @@
 	 $('#startMinute').val(clicked.data('event-start-date').substring(14,16));
 	 $('#endHour').val(clicked.data('event-end-date').substring(11,13));
 	 $('#endMinute').val(clicked.data('event-end-date').substring(14,16));
+     $('#targetItem').val(clicked.data('event-ssid'));
  }
 
  function initialiseModalOpeners() {
@@ -118,12 +107,12 @@
              	toggleScheduleInput(true);
              	fillScheduleInput($(this));
              }
-             
-             
+
+
          } else {
              $(modalSelector).data('show', 'known');
              displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
-             
+
          }
      });
  }
@@ -131,7 +120,7 @@
  $(function() {
 	 openTodaysSchedule();
 	 initialiseScheduleDatePicker();
-     initialiseScheduleButtons();
+   initialiseScheduleButtons();
 	 initialiseButtons();
 	 initialiseModalOpeners();
  });
