@@ -26,10 +26,6 @@
 	padding: 12px 90px;
 }
 
-.tab-larger {
-	padding:0;
-}
-
 #fix:after {
 	clear: both;
 	content: ".";

@@ -12,4 +12,6 @@ $('.deleteAccount').click(function () {
 
 });
 
-new InputValidator('#code', new CodeValidator());
+$('#code').focusout(function() {
+
+})

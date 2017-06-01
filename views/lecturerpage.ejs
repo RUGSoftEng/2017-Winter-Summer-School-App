@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <% include partials/web_header %>
-    <style>
-        <% include partials/css/lecturerpage.css %>
-    </style>
-    <script>
-        <% include partials/js/buttonHandler.js %>
-        <% include partials/js/lecturerpage.js %>
-    </script>
-</head>
-
+<% include partials/lecturerpage_header %>
 <body class="full">
 <div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
@@ -25,13 +15,12 @@
             <div class="col-md-3 col-sm-6 col-xs-6 panel open-modal" data-show="overview" data-toggle="modal"
                  data-target="#add-lecturer" data-id=<%- lecturer._id %>>
                 <div class="thumbnail inner-event">
-
+                    <h4 class="title"><%= lecturer.name %></h4>
                     <img class="img-thumbnail"
                          src=<%= lecturer.imagepath ? lecturer.imagepath : "/images/default/placeholder.jpeg" %> alt="Placeholder">
-                    <h4 class="title"><%= lecturer.name %></h4>
                     <div class="caption">
                         <p class="lead data-text"><%= lecturer.description %></p>
-                        <a class="data-text website" href="<%= (lecturer.website.substring(0, 7) === "http://") ? lecturer.website : ("http://" + lecturer.website) %>"><%= lecturer.website %></a>
+                        <p class="lead data-text website"><%= lecturer.website %></p>
                     </div>
                 </div>
             </div>

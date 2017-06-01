@@ -1,3 +1,4 @@
+
  /*
  	This script handles all UI manipulations for the modal. It dynamically changes
  	the input fields, buttons and texts of the modal depending on where is clicked.
@@ -15,6 +16,17 @@
  var descriptionSelector   = '#announcementDescription ';
  var eventDetailsSelector  = '#details ';
  var eventLocationSelector = '#location ';
+
+
+ function toggleShow(display) {
+	 if(display) {
+		 $(modalSelector + '.modal-add-body').hide();
+		 $(modalSelector + '.modal-show-body').show();
+	 } else {
+		 $(modalSelector + '.modal-add-body').show();
+		 $(modalSelector + '.modal-show-body').hide();
+	 }
+ }
 
  function addNewItem(type, edit) {
      toggleButtons('bDeFP');

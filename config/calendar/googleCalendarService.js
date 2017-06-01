@@ -4,8 +4,8 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Creates and returns a new JSON Web Token (JWT) for the supplied Service Account.
-     * @param {string} serviceAccountEmail          - The email associated with the service account.
-     * @param {string} serviceAccountPrivateKey     - The private key of the service account.
+     * @param {string} serviceAccountEmail - The email associated with the service account.
+     * @param {string} serviceAccountPrivateKey - The private key of the service account.
      */
     services.getServiceAccountJWT = function (serviceAccountEmail, serviceAccountPrivateKey) {
         var scopes = ['https://www.googleapis.com/auth/calendar'];
@@ -14,8 +14,8 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Returns JWT object.
-     * @param {jwt}    jwt              - The JSON Web Token associaed with the Service Account to be authorized.
-     * @param {object} oauth2Client     - The Oauth2 object to contain the access token.
+     * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
+     * @param {object} oauth2Client - The Oauth2 object to contain the access token.
      */
     services.authorizeOAuth2Client = function (jwt, oauth2Client) {
         jwt.authorize(function (err, result) {
@@ -31,9 +31,9 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Executes callback.
-     * @param {jwt}      jwt            - The JSON Web Token associaed with the Service Account to be authorized.
-     * @param {object}   oauth2Client   - The Oauth2 object to contain the access token.
-     * @param {function} callback       - The callback to execute.
+     * @param {jwt} jwt - The JSON Web Token associaed with the Service Account to be authorized.
+     * @param {object} oauth2Client - The Oauth2 object to contain the access token.
+     * @param {function} callback - The callback to execute.
      */
     services.didReauthorizeOAuth2Client = function (jwt, oauth2Client, callback) {
         jwt.authorize(function (err, result) {
@@ -48,11 +48,11 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Attempts to insert a new Calendar event into the Calendar associated with the supplied Calendar Id.
-     * @param {object}   calendarEvent  - The JSON formatted calendar event.
-     * @param {object}   calendar       - The calendar object (googleapis.calendar).
-     * @param {string}   calendarId     - The identifier for the given calendar.
-     * @param {object}   oauth2Client   - The Oauth2 object containing the access token.
-     * @param {function} callback       - The callback function for the API.
+     * @param {object} calendarEvent - The JSON formatted calendar event.
+     * @param {object} calendar - The calendar object (googleapis.calendar).
+     * @param {string} calendarId - The identifier for the given calendar.
+     * @param {object} oauth2Client - The Oauth2 object containing the access token.
+     * @param {function} callback - The callback function for the API.
      */
     services.insertCalendarEvent = function (calendarEvent, calendar, calendarId, oauth2Client, callback) {
         calendar.events.insert({
@@ -66,11 +66,11 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Attempts to update an existing Calendar event within the Calendar associated with the supplied Calendar Id.
-     * @param {object}   calendarEvent  - The JSON formatted calendar event, with the Id already set.
-     * @param {object}   calendar       - The calendar object (googleapis.calendar).
-     * @param {string}   calendarId     - The identifier for the given calendar.
-     * @param {object}   oauth2Client   - The Oauth2 object containing the access token.
-     * @param {function} callback       - The callback function for the API.
+     * @param {object} calendarEvent - The JSON formatted calendar event, with the Id already set.
+     * @param {object} calendar - The calendar object (googleapis.calendar).
+     * @param {string} calendarId - The identifier for the given calendar.
+     * @param {object} oauth2Client - The Oauth2 object containing the access token.
+     * @param {function} callback - The callback function for the API.
      */
     services.updateCalendarEvent = function(calendarEvent, calendar, calendarId, oauth2Client, callback) {
         calendar.events.update({
@@ -85,11 +85,11 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Attempts to delete the event holding the supplied calendarEventId from the given calendar.
-     * @param {string}   calendarEventId    - The identifier for the event.
-     * @param {object}   calendar           - The calendar object (googleapis.calendar).
-     * @param {string}   calendarId         - The identifier for the given calendar.
-     * @param {object}   oauth2Client       - The Oauth2 object containing the access token.
-     * @param {function} callback           - The callback function for the API.
+     * @param {string} calendarEventId - The identifier for the event.
+     * @param {object} calendar - The calendar object (googleapis.calendar).
+     * @param {string} calendarId - The identifier for the given calendar.
+     * @param {object} oauth2Client - The Oauth2 object containing the access token.
+     * @param {function} callback - The callback function for the API.
      */
     services.deleteCalendarEvent = function (calendarEventId, calendar, calendarId, oauth2Client, callback) {
         calendar.events.delete({
@@ -103,12 +103,12 @@ module.exports = function (googleapis, googleAuth) {
 
     /**
      * Attempts to fetch a list of calendar events from the given calendar.
-     * @param {object}   calendar       - The calendar object (googleapis.calendar).
-     * @param {string}   calendarId     - The identifier for the given calendar.
-     * @param {object}   oauth2Client   - The Oauth2 object containing the access token.
-     * @param {string}   startDate      - The date from which to begin retrieving. I.E: (new Date()).toISOString()
-     * @param {int}      endDate        - The date from which to cutoff events.
-     * @param {function} callback       - The callback function for the API.
+     * @param {object} calendar - The calendar object (googleapis.calendar).
+     * @param {string} calendarId - The identifier for the given calendar.
+     * @param {object} oauth2Client - The Oauth2 object containing the access token.
+     * @param {string} startDate - The date from which to begin retrieving. I.E: (new Date()).toISOString()
+     * @param {int} endDate - The date from which to cutoff events.
+     * @param {function} callback - The callback function for the API.
      */
     services.getCalendarEvents = function (calendar, calendarId, oauth2Client, startDate, endDate, callback) {
         calendar.events.list({
