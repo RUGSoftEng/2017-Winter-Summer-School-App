@@ -65,6 +65,25 @@ module.exports = function (googleapis, googleAuth) {
     }
 
     /**
+     * Attempts to update an existing Calendar event within the Calendar associated with the supplied Calendar Id.
+     * @param {object} calendarEvent - The JSON formatted calendar event, with the Id already set.
+     * @param {object} calendar - The calendar object (googleapis.calendar).
+     * @param {string} calendarId - The identifier for the given calendar.
+     * @param {object} oauth2Client - The Oauth2 object containing the access token.
+     * @param {function} callback - The callback function for the API.
+     */
+    services.updateCalendarEvent = function(calendarEvent, calendar, calendarId, oauth2Client, callback) {
+        calendar.events.update({
+            auth: oauth2Client,
+            calendarId: calendarId,
+            eventId: calendarEvent.id,
+            resource: calendarEvent
+        }, function(err, event) {
+            callback(err, event);
+        });
+    }
+
+    /**
      * Attempts to delete the event holding the supplied calendarEventId from the given calendar.
      * @param {string} calendarEventId - The identifier for the event.
      * @param {object} calendar - The calendar object (googleapis.calendar).

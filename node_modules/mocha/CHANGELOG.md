@@ -1,3 +1,61 @@
+# 3.4.2 / 2017-05-24
+
+## :bug: Fixes
+
+- [#2802]: Remove call to deprecated os.tmpDir ([@makepanic])
+- [#2820]: Eagerly set process.exitCode ([@chrisleck])
+
+## :nut_and_bolt: Other
+
+- [#2778]: Move linting into an npm script ([@Munter])
+
+[@chrisleck]: https://github.com/chrisleck
+[@makepanic]: https://github.com/makepanic
+[@Munter]: https://github.com/Munter
+
+[#2802]: https://github.com/mochajs/mocha/issues/2802
+[#2820]: https://github.com/mochajs/mocha/pull/2820
+
+# 3.4.1 / 2017-05-14
+
+Fixed a publishing mishap with git's autocrlf settings.
+
+# 3.4.0 / 2017-05-14
+
+Mocha is now moving to a quicker release schedule: when non-breaking changes are merged, a release should happen that week.
+
+This week's highlights:
+
+- `allowUncaught` added to commandline as `--allow-uncaught` (and bugfixed)
+- warning-related Node flags
+
+## :tada: Enhancements
+
+- [#2793], [#2697]: add --allowUncaught to Node.js ([@lrowe])
+- [#2733]: Add `--no-warnings` and `--trace-warnings` flags ([@sonicdoe])
+
+## :bug: Fixes
+
+- [#2793], [#2697]: fix broken allowUncaught ([@lrowe])
+
+## :nut_and_bolt: Other
+
+- [#2778]: Add license report and scan status ([@xizhao])
+- [#2794]: no special case for macOS running Karma locally ([@boneskull])
+- [#2795]: reverts use of semistandard directly ([#2648]) ([@boneskull])
+
+[@lrowe]: https://github.com/lrowe
+[@sonicdoe]: https://github.com/sonicdoe
+[@xizhao]: https://github.com/xizhao
+[@boneskull]: https://github.com/boneskull
+
+[#2795]: https://github.com/mochajs/mocha/pull/2795
+[#2733]: https://github.com/mochajs/mocha/pull/2733
+[#2793]: https://github.com/mochajs/mocha/pull/2793
+[#2697]: https://github.com/mochajs/mocha/pull/2697
+[#2778]: https://github.com/mochajs/mocha/pull/2778
+[#2794]: https://github.com/mochajs/mocha/pull/2794
+
 # 3.3.0 / 2017-04-24
 
 Thanks to all our contributors, maintainers, sponsors, and users! ❤️

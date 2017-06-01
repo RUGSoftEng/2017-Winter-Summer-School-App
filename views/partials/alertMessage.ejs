@@ -13,21 +13,19 @@
         $(function () {
             $('#successMessage').show();
             <% if (alert.message) { %>
-            $('#successMessage .textMsg').text(" <%= alert.message %>");
+            $('#successMessage .textMsg').text(` <%- alert.message %>`);
             <% } %>
         })
     </script>
-
     <% } if(alert.success === false) { %>
     <script>
         $(function () {
             $('#errorMessage').show();
             <% if (alert.message) { %>
-            $('#errorMessage .textMsg').text(" <%= alert.message %>");
+            $('#errorMessage .textMsg').text(` <%- alert.message %>`);
             <% } %>
         })
     </script>
-
     <% } %>
     <% } %>
     <div id='errorMessage' class="alert alert-danger alert-dismissible" role="alert">
