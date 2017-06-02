@@ -72,6 +72,22 @@ exports.buildDateTime = function (startDate, startHour, startMinute) {
 }
 
 /**
+* Returns true if the supplied date strings can be parsed as RFC 3339
+* Date objects.
+* @param {String[]} dates     - a string of dates to check.
+*/
+exports.validDates = function (dates) {
+    try {
+        for (var i = 0; i < dates.count; i++) {
+            var date = dates[i].toISOString();
+        }
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+/**
  * Overwrites properties of the local JSON event template with the supplied arguments.
  * @param {String} id               - The event identifier.
  * @param {String} summary          - The event summary.
@@ -199,14 +215,16 @@ exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
  * and an events object. The events object is a JSON array of tuples containing a date and its
  * corresponding array of events. If an error occured, the events object is null.
  * Note: This function does not cache events, please do not use it unless necessary.
- * @param {String}   startDateTime  - An ISO-8601 formatted dateTime string.
- * @param {String}   endDateTime    - An ISO-8601 formatted dateTime string.
+ * @param {String}   startDate      - An ISO-8601 formatted dateTime string.
+ * @param {String}   endDate        - An ISO-8601 formatted dateTime string.
  * @param {Function} callback       - A callback executed on completion.
  *                                    Parameters are error object and events object.
  *                                    If error not null, events is null.
  */
-exports.listCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gct.getSortedWeekEvents(Date.parse(startDateTime), Date.parse(endDateTime),
+exports.listCalendarEvents = function (startDate, endDate, callback) {
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    gct.getSortedWeekEvents(startDate, endDate,
     exports.getCalendarEvents, function (err, data) {
         var events = null;
         if ((error = err) != null) {
