@@ -20,6 +20,7 @@ router.post('/forum/thread/item', function (req, res) {
             author: req.body.author,
             posterID: req.body.posterID,
             date: new Date(),
+            imgurl : req.body.imgurl,
             comments: []
         };
         data.db.forum.insert(newThread, function (err, result) {
@@ -45,7 +46,8 @@ router.post('/forum/comment/item', function (req, res) {
         author: req.body.author,
         posterID: req.body.posterID,
         date: new Date(),
-        text: req.body.text
+        text: req.body.text,
+        imgurl : req.body.imgurl
     }
     data.db.forum.update({
             '_id': data.mongojs.ObjectId(req.body.threadID)
