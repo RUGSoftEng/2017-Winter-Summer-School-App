@@ -44,7 +44,6 @@ router.post('/calendar/event', function (request, response) {
                     a = new Alert(true, restFunctions.postSuccessMessage(b.title, b.ssid));
                 }
                 a.passToNextPage(request);
-                //console.log(a.message);
                 response.redirect('/main');
             });
         }
@@ -75,15 +74,16 @@ router.put('/calendar/event', function(request, response) {
 
     verify.getUndefined(required, function(undef) {
         if (undef.length > 0) {
-            var err = {'code': 400, 'message': 'Required parameters must be defined'}
-            response.writeHead(400, {'err': err});
+            var err = {'code': 400, 'message': 'Required parameters must be defined'};
+            response.writeHead(400, JSON.stringify({error: err}));
         } else {
             var startDate = restFunctions.buildDateTime(p.startDate, p.startHour, p.startMinute);
             var endDate   = restFunctions.buildDateTime(p.endDate, p.endHour, p.endMinute);
+            console.log(endDate);
             var event     = restFunctions.updateCalendarEvent(
                 p.id, p.title, p.ssid, p.location, p.details, startDate, endDate, function(err, data) {
                 if (err) {
-                    response.writeHead(409, {'err': err});
+                    response.writeHead(409, JSON.stringify({error: err}));
                 } else {
                     response.send(201);
                 }
@@ -137,10 +137,13 @@ router.get('/calendar/event', function(request, response) {
                 response.send(JSON.stringify({error: err, data: data}));
             }
         });
-    } else if (startDate && endDate) {
+    } else if (startDate && endDate && restFunctions.validDates([p.startDate, p.endDate])) {
         restFunctions.listCalendarEvents(p.startDate, p.endDate, function(err, data) {
             response.send(JSON.stringify({error: err, data: data}));
         });
+    } else {
+        var err = {'code': 400, 'message': 'Invalid parameters'};
+        response.send(JSON.stringify({error: err}));
     }
 });
 
@@ -157,7 +160,7 @@ router.delete('/calendar/event', function(request, response) {
     if (p.hasOwnProperty('id')) {
         restFunctions.deleteCalendarEvent(p.id, function(err) {
             if (err) {
-                response.writeHead(400, {'err': err});
+                response.writeHead(400, JSON.stringify({error: err}));
             } else {
                 response.send(200);
             }
