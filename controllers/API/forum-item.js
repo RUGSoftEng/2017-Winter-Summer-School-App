@@ -65,24 +65,6 @@ router.post('/forum/comment/item', function (req, res) {
         });
 });
 
-router.delete('/forum/thread/item', function (req, res) {
-    // deletes the thread corresponding to the given id param
-    data.db.forum.remove({
-        '_id': data.mongojs.ObjectId(req.param('id'))
-    }, function (err, user) {
-        if (err) throw err;
-        res.send(200);
-    });
-});
-
-router.delete('/forum/comment/item', function (req, res) {
-    // deletes the comment corresponding to the given id param
-    var selector = "comments." + req.param('pos');
-    data.db.test.update({_id: req.param('id')}, {$unset: {selector: 1}});
-    data.db.test.update({_id: req.param('id')}, {$pull: {comments: null}});
-});
-
-
 
 router.put('/forum/thread/item', function (req, res) {
     // updates the description and title of a thread according to the id passed.
