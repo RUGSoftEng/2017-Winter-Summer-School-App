@@ -60,7 +60,7 @@ describe('API get request',function(){
                expect('contentType', /json/);
                expect(parsed).to.be.an('array');
                if (parsed.length > 0) {
-                   expect(parsed[0]).to.have.all.keys('_id', 'title', 'description','date','posterID','author', 'comments');
+                   expect(parsed[0]).to.have.all.keys('_id', 'title', 'description','date','posterID','author','imgurl', 'comments');
                }
                done();
            });
