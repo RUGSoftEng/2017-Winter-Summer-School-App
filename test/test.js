@@ -151,7 +151,7 @@ describe('Google Calendar API', function() {
     '&endHour='       + eventForm.endHour         +
     '&startMinute='   + eventForm.startMinute     +
     '&endMinute='     + eventForm.endMinute       +
-    '&ssid='           + eventForm.ssid;
+    '&ssid='          + eventForm.ssid;
 
     describe('Event insertion.', function() {
         it ('Creates and inserts an event into the Calendar.', function(done) {
