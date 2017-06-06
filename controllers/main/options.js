@@ -7,7 +7,7 @@ var bcrypt  = require('bcrypt-nodejs');
 
 var saltRounds = 8;
 
-router.get('/options', function (req, res) {
+router.get('/options',data.isLoggedIn, function (req, res) {
     var user;
     if (req.user === undefined){
         user = "tester";
@@ -31,7 +31,7 @@ router.get('/options', function (req, res) {
         });
     });
 });
-router.post('/options', function (req, res) {
+router.post('/options',data.isLoggedIn, function (req, res) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
         var newAccount = {
             username: req.body.username,

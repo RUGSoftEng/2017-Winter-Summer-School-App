@@ -43,7 +43,7 @@ router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
 });
 
 
-router.post('/generalinfo/item',upload.single('img[]'), function(req, res) {
+router.post('/generalinfo/item',data.isLoggedIn,upload.single('img[]'), function(req, res) {
     var newGeneralInfo;
     if(process.env.NODE_ENV === "test"){
         newGeneralInfo = {
