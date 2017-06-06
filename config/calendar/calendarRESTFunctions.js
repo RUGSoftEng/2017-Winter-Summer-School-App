@@ -78,8 +78,9 @@ exports.buildDateTime = function (startDate, startHour, startMinute) {
 */
 exports.validDates = function (dates) {
     try {
-        for (var i = 0; i < dates.count; i++) {
-            var date = dates[i].toISOString();
+        for (var i = 0; i < dates.length; i++) {
+            var date = new Date(dates[i]);
+            var dateString = date.toISOString();
         }
         return true;
     } catch (error) {

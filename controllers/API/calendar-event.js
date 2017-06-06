@@ -6,6 +6,7 @@ var schedule          = fs.readFileSync('./views/partials/schedule.ejs', 'ascii'
 var restFunctions     = require('../../config/calendar/calendarRESTFunctions.js');
 var verify            = require('../../config/verify.js');
 var Alert             = require('../../config/alert.js');
+var data    = require('../../config/database.js');
 
 /**
 * Handles incoming HTTP POST requests to '/calendar/event'. Attempts to process event details from
@@ -15,7 +16,7 @@ var Alert             = require('../../config/alert.js');
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.post('/calendar/event', function (request, response) {
+router.post('/calendar/event', data.isLoggedIn, function (request, response) {
     var b = request.body;
     var required = [b.location,
              b.startDate,
@@ -58,7 +59,7 @@ router.post('/calendar/event', function (request, response) {
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.put('/calendar/event', function(request, response) {
+router.put('/calendar/event', data.isLoggedIn, function(request, response) {
     var p = request.query;
     var required = [p.id,
         p.title,
@@ -79,7 +80,6 @@ router.put('/calendar/event', function(request, response) {
         } else {
             var startDate = restFunctions.buildDateTime(p.startDate, p.startHour, p.startMinute);
             var endDate   = restFunctions.buildDateTime(p.endDate, p.endHour, p.endMinute);
-            console.log(endDate);
             var event     = restFunctions.updateCalendarEvent(
                 p.id, p.title, p.ssid, p.location, p.details, startDate, endDate, function(err, data) {
                 if (err) {
@@ -155,7 +155,7 @@ router.get('/calendar/event', function(request, response) {
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.delete('/calendar/event', function(request, response) {
+router.delete('/calendar/event', data.isLoggedIn, function(request, response) {
     var p = request.query;
     if (p.hasOwnProperty('id')) {
         restFunctions.deleteCalendarEvent(p.id, function(err) {
