@@ -32,7 +32,7 @@ router.get('/options',data.isLoggedIn, function (req, res) {
     });
 });
 router.post('/options',data.isLoggedIn, function (req, res) {
-    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+    bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
         var newAccount = {
             username: req.body.username,
             password: hash
