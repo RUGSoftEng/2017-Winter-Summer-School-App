@@ -1,7 +1,6 @@
 var express        = require('express');
 var request        = require('request');
 var router         = express.Router();
-var serviceAccount = require("../../auth/firebaseConfig.json");
 var data           = require('../../config/database.js');
 var Alert          = require('../../config/alert.js');
 var multer         = require('multer');
