@@ -11,7 +11,8 @@ lib-cov
 pids
 logs
 results
-
+/config/calendar/calendarService.json
+/config/calendar/serviceAccount.json
 npm-debug.log
 
 auth
