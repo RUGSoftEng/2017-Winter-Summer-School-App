@@ -2,7 +2,7 @@ $('.deleteAccount').click(function () {
     var type = $(this).data('type');
     var link;
     if(type === 'comment'){
-        link = '/forum/comment/item?threadID='+ $(this).data('thread')+'&arrayPos='+$(this).data('comment');
+        link = '/forum/comment/item?threadID='+ $(this).data('thread')+'&commentID='+$(this).data('id');
     }
     else{
         link = '/forum/thread/item?threadID='+$(this).data('id');
