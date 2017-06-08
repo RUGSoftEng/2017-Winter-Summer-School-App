@@ -5,9 +5,8 @@ var googleAuth      = require('google-auth-library');
 var gcs             = require('../calendar/googleCalendarService')(googleapis, googleAuth);
 var gct             = require('../calendar/googleCalendarTools')(gcs);
 var cache           = require('../calendar/eventCache.js')(8);
-var clientAccount   = require('../calendar/clientAccount.json');
-var serviceAccount  = require('../calendar/serviceAccount.json');
-var calendarService = require('../calendar/calendarService.json');
+var serviceAccount  = require('../calendar/serviceAccount.json');   /* */
+var calendarService = require('../calendar/calendarService.json'); /* */
 var calendarEvent   = require('../calendar/calendarEvent.json');
 
 /**
