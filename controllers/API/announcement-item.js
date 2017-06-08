@@ -1,12 +1,13 @@
-var express = require('express');
-
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
-var multer  = require('multer');
-var crypto  = require('crypto');
-var mime    = require('mime');
-var storage = multer.diskStorage({
+var express        = require('express');
+var request        = require('request');
+var router         = express.Router();
+var serviceAccount = require("../../auth/firebaseConfig.json");
+var data           = require('../../config/database.js');
+var Alert          = require('../../config/alert.js');
+var multer         = require('multer');
+var crypto         = require('crypto');
+var mime           = require('mime');
+var storage        = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './views/images/')
     },
@@ -16,7 +17,8 @@ var storage = multer.diskStorage({
         });
     }
 });
-var upload  = multer({storage: storage});
+var upload         = multer({storage: storage});
+
 
 router.put('/announcement/item', data.isLoggedIn, function (req, res) {
     // updates the description and title of an announcement
@@ -48,9 +50,9 @@ router.delete('/announcement/item', data.isLoggedIn, function (req, res) {
 
 
 router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, function (req, res) {
-	// adds a new announcement
+    // adds a new announcement
     var newAnnouncement;
-    if(process.env.NODE_ENV === "test"){
+    if (process.env.NODE_ENV === "test") {
         newAnnouncement = {
             title: req.body.title,
             description: req.body.description
@@ -72,7 +74,26 @@ router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, funct
                 var alertMessage = "Failed to insert to database.<br>" + err;
                 alert            = new Alert(false, alertMessage);
             } else {
-                alert = new Alert(true, "The announcement was successfully added");
+                var jsonData = { "data": {
+                    "title": "Hello title",
+                    "description": "What is up"
+                },
+                    "to" : "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." // TODO:
+                };
+                /*request({
+                    url: "https://fcm.googleapis.com/fcm/send",
+                    method: "POST",
+                    json: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(post_data),
+                        'Authorization': 'key=' + serviceAccount.apiKey
+                    },
+                    body: jsonData
+                }, function (error, response, body){
+                    console.log(response);
+                });*/
+                alert       = new Alert(true, "The announcement was successfully added");
             }
             alert.passToNextPage(req);
             res.redirect('/main');

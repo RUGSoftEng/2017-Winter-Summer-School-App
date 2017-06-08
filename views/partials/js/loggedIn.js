@@ -53,8 +53,32 @@ function openTodaysSchedule() {
 }
 
 function initialiseScheduleDatePicker() {
-    $("#scheduleStartDate, #scheduleEndDate").datepicker({
+    $("#scheduleStartDate").datepicker({
         dateFormat: 'yy-mm-dd'
+    });
+
+    $("#scheduleEndDate").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function (dateText, obj) {
+            var valid = new Date($('#scheduleStartDate').val()) <= new Date($('#scheduleEndDate').val());
+            alterInputStyling('#scheduleEndDate', 'The starting date seems to be later than the ending date.', valid);
+        }
+    });
+
+    $('#endHour').change(function() {
+        var valid = $('#startHour').val() <= $('#endHour').val();
+        if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+            valid = true;
+        alterInputStyling('#endHour', 'The starting hour seems to be later than the ending hour.', valid);
+    });
+
+    $('#endMinute').change(function() {
+        var valid = $('#startMinute').val() <= $('#endMinute').val();
+        if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+            valid = true;
+        if(new Date($('#startHour').val()) < new Date($('#endHour').val()))
+            valid = true;
+        alterInputStyling('#endMinute', 'This starting time seems to be later than the ending time.', valid);
     });
 }
 
