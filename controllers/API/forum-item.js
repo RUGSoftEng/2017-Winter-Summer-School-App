@@ -44,7 +44,7 @@ router.post('/forum/comment/item', function (req, res) {
     // creates a new comment and adds it to the appropriate thread.
     var newComment = {
         author: req.body.author,
-        commentID: req.body.commendID,
+        commentID: req.body.commentID,
         posterID: req.body.posterID,
         date: new Date(),
         text: req.body.text,
