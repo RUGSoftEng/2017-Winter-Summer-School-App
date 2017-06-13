@@ -123,7 +123,7 @@ function initialiseModalOpeners() {
                 addNewItem($type, true);
                 $(modalSelector).data("type", $type);
                 $(modalSelector).data('id', $(this).data('event-id'));
-                toggleButtons('bEfpd');
+                toggleButtons('bEfpD');
                 toggleScheduleInput(true);
                 fillScheduleInput($(this));
             }
