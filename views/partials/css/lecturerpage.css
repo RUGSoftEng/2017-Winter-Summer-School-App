@@ -107,3 +107,11 @@
 #modalWebsite {
 	padding:8px;
 }
+
+.website {
+	width: 50px;
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

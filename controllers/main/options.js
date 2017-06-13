@@ -43,19 +43,24 @@ router.post('/options',data.isLoggedIn, function (req, res) {
                 return user.username == newAccount.username;
             });
             if (typeof user === 'undefined') {
-                data.db.accounts.insert(newAccount, function (err, result) {
+                if(newAccount.username.length >= 5) {
+                    data.db.accounts.insert(newAccount, function (err, result) {
 
-                    if (err) {
-                        console.log(err);
-                        var alertMessage = "Failed to insert to database.<br>" + err;
-                        alert            = new Alert(false, alertMessage);
-                        alert.passToNextPage(req);
-                    } else {
-                        alert = new Alert(true, "The announcement was successfully added");
-                        alert.passToNextPage(req);
-                    }
+                        if (err) {
+                            console.log(err);
+                            var alertMessage = "Failed to insert to database.<br>" + err;
+                            alert            = new Alert(false, alertMessage);
+                            alert.passToNextPage(req);
+                        } else {
+                            alert = new Alert(true, "The announcement was successfully added");
+                            alert.passToNextPage(req);
+                        }
 
-                });
+                    });
+                } else {
+                    alert = new Alert(false, "Username is too short");
+                    alert.passToNextPage(req);
+                }
             } else {
                 alert = new Alert(false, "Chosen username is already in use");
                 alert.passToNextPage(req);

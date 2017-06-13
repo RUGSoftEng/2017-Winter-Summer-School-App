@@ -24,7 +24,7 @@ function PasswordValidator() {
 
 function CodeValidator() {
     this.regExp                = /^[a-z0-9]{8}$/;
-    this.constraintDescription = 'A code needs to be 8 characters long and can only consists of numbers and lower case letters.';
+    this.constraintDescription = 'A code needs to be 8 characters long and can only consist of numbers and lower case letters.';
 }
 
 UsernameValidator.prototype = new Validator();
