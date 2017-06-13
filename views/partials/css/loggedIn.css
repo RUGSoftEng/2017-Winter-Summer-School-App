@@ -8,6 +8,10 @@
 
 }
 
+#weekOffset {
+    display:none;
+}
+
 .time-slot:hover {
 	background-color: #E3E3E3;
 	cursor: pointer;
@@ -261,13 +265,3 @@ body,
 	background-color: #F5F5F5;
 	padding: 3px;
 }
-
-
-
-
-
-
-
-
-
-

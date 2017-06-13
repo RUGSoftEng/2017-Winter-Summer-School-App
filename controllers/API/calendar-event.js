@@ -42,6 +42,7 @@ router.post('/calendar/event', data.isLoggedIn, function (request, response) {
                 if (err) {
                     a = new Alert(false, restFunctions.postErrorMessage(b.title, err.code, err.message));
                 } else {
+                    request.session.week = b.week;
                     a = new Alert(true, restFunctions.postSuccessMessage(b.title, b.ssid));
                 }
                 a.passToNextPage(request);
