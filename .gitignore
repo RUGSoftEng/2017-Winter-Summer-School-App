@@ -22,6 +22,7 @@ coverage
 auth
 calendarService.json
 serviceAccount.json
+ssl
 
 
 # nyc test coverage
