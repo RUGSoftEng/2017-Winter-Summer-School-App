@@ -17,8 +17,8 @@ router.get('/main', data.isLoggedIn, function (req, res) {
     +alert.initiate(req);
     data.db.announcements.find(function (err, docs) {
         data.db.generalinfo.find(function (err, docs2) {
-            dateManipulator.getWeekEvents(req.get('host'), function (weekSchedule) {
-
+            var week = req.session.week ? req.session.week : 0;
+            dateManipulator.getWeekEvents(req.get('host'), week, function (weekSchedule) {
                 res.render('loggedIn.ejs', {
                     user: user,
                     announcements: docs,
