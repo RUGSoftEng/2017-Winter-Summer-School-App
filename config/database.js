@@ -10,4 +10,9 @@ exports.isLoggedIn = function(req, res, next) {
 
 };
 exports.mongojs = require('mongojs');
-exports.db      = exports.mongojs('mongodb://admin:summerwinter@ds119370.mlab.com:19370/summerwinter', ['announcements', 'generalinfo']);
+
+if (process.env.NODE_ENV === "test"){
+	exports.db = exports.mongojs('mongodb://admin:summerwinter@ds119370.mlab.com:19370/summerwinter', ['announcements', 'generalinfo']);
+} else {
+	exports.db = exports.mongojs('summer-schools');
+}
