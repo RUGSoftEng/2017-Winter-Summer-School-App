@@ -4,7 +4,7 @@
                     class="glyphicon glyphicon-plus pull-right open-modal" data-toggle="modal" data-type=1
                     data-target="#add-announcement" aria-hidden="true"></span></h3>
         <div class='row innerrow'>
-            <% for(var i = 1; i < 4; i++) { if(typeof generalinfo[generalinfo.length - i] !== 'undefined') { %>
+            <% for(var i = 1; i < generalinfo.length; i++) { if(typeof generalinfo[generalinfo.length - i] !== 'undefined') { %>
 
             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=1
                  data-id=<%- generalinfo[generalinfo.length - i]._id %> data-toggle="modal"

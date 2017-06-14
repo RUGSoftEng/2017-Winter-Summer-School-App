@@ -6,7 +6,6 @@ require('./config/initialiseApp')(app);
 var control = require('./config/addControllers')(app);
 control.addControllers();
 
-
 var defaultPort = process.env.PORT || 8800;
 
 app.listen(defaultPort, function () {

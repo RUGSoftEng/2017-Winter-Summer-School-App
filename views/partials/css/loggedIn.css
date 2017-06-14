@@ -7,9 +7,13 @@
 }
 
 }
+.inner-event .innerrow {
+	max-height: 546px;
+	overflow-y: scroll;
+}
 
 #weekOffset {
-    display:none;
+	display: none;
 }
 
 .time-slot:hover {
@@ -156,25 +160,20 @@
 	text-align: left;
 }
 
-a:link {
+a:link, a:visited, a:hover, a:active {
 	color: black;
 }
 
-a:visited {
-	color: black;
+.jumbotron a {
+	color: #428BCA;
 }
 
 a:hover {
-	color: black;
 	border-bottom: none;
 }
 
 a {
 	text-decoration: none !important;
-}
-
-a:active {
-	color: black;
 }
 
 #wrap .navbar-nav > li > a:focus {

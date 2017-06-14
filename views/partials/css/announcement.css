@@ -14,6 +14,14 @@ img {
 	font-family: serif;
 }
 
+#weekOffset {
+	display: none;
+}
+
+#editSection {
+	display:none;
+}
+
 .change-announcement h5 {
 	font-size: 60%;
 }

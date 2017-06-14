@@ -131,7 +131,10 @@ function initialiseModalOpeners() {
 
         } else {
             $(modalSelector).data('show', 'known');
-            displayItem($(this).find('span.title').html(), $(this).find('.data-text').html(), $type);
+            var page = $(this).data('page') == true;
+            var title = page ? $(this).data('title') : $(this).find('span.title').html();
+            var text = page ? $(this).data('description') : $(this).find('.data-text').html();
+            displayItem(title, text, $type);
 
         }
     });

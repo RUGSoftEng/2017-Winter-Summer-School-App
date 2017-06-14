@@ -6,5 +6,14 @@ $(document).ready(function () {
         $('#changingTitle').html(title);
         $('#changingDescription').html(description);
         $('#changingPoster').html("Posted by:" + poster);
+        $('#editSection').data('title', title);
+        $('#editSection').data('description', description);
+        $('#editSection').data('id', $(this).data('id'));
+        $('#editSection').show();
     });
+    $('#announcementDescription').markItUp(mySettings);
+
 });
+
+function initialiseScheduleDatePicker() {}
+function initialiseScheduleButtons() {}

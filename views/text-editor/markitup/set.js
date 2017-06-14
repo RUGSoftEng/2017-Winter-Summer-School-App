@@ -25,12 +25,12 @@ var mySettings = {
 		{separator:'---------------' },
 		{name:'list-ul', openWith:'    <li>', closeWith:'</li>', multiline:true, openBlockWith:'<ul>\n', closeBlockWith:'\n</ul>'},
 		{name:'list-ol', openWith:'    <li>', closeWith:'</li>', multiline:true, openBlockWith:'<ol>\n', closeBlockWith:'\n</ol>'},
-		{name:'minus', key:'L', openWith:'	<li>', closeWith:'	</li>\n' },
-
+		{name:'minus', key:'W', openWith:'	<li>', closeWith:'	</li>\n' },
+        {separator:'---------------' },
 		
 		//{name:'Picture', key:'P', replaceWith:'<img src="[![Source:!:http://]!]" alt="[![Alternative text]!]" />' },
-		//{name:'Link', key:'L', openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
-		{separator:'---------------' }
+		{name:'link', key:'L', openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' }
+
 		//{name:'Clean', className:'clean', replaceWith:function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },		
 		//{name:'Preview', className:'preview',  call:'preview'}
 	]
