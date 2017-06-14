@@ -7,9 +7,9 @@
     </style>
     <script>
         <% include partials/js/announcement.js %>
-    </script>
-    <script>
         <% include partials/js/contentDivider.js %>
+        <% include partials/js/buttonHandler.js %>
+        <% include partials/js/loggedIn.js %>
     </script>
 </head>
 <% announcements.reverse() %>
@@ -29,7 +29,8 @@
                         type="button" class="list-group-item list-group-item-text  change-announcement"
                         data-description="<%= announcement.description %>"
                         data-poster="<%= announcement.poster %>"
-                        data-title="<%= announcement.title %>">
+                        data-title="<%= announcement.title %>"
+                        data-id="<%= announcement._id %>">
                     <span class='pull-left announcement-title'><%= announcement.title %></span>
                     <h5 class="details pull-right">
                         <% if(typeof announcement.date === "undefined") { %>
@@ -55,9 +56,13 @@
                 <h3 id='changingTitle' class="underline-title">View Announcement
                 </h3>
                 <p class='lead' id="changingDescription">Click a title to select an announcement</p>
+                <button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview' data-toggle="modal"
+                        data-type=0 data-target="#add-announcement" data-page="true">Edit</button>
                 <div id='authorContainer'><h5 class="details" id="changingPoster"></h5></div>
             </div>
         </div>
     </div>
 </div>
+<% include partials/modal %>
 </body>
+</html>

@@ -2,6 +2,9 @@ var modalSelector       = '#add-lecturer ';
 var titleSelector       = '#lecturerTitle';
 var descriptionSelector = '#lecturerDescription';
 
+function emptyContainer(selector) {
+    $(selector).val('');
+}
 
 function addNewItem(edit) {
     toggleButtons('bdeFP');

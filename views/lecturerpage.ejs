@@ -8,6 +8,9 @@
     <script>
         <% include partials/js/buttonHandler.js %>
         <% include partials/js/lecturerpage.js %>
+        $(function () {
+            $('#lecturerDescription').markItUp(mySettings);
+        });
     </script>
 </head>
 
