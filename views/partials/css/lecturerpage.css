@@ -22,7 +22,9 @@
 	border-radius: 50%;
 }
 
-
+.modal-show-body {
+	padding-bottom:50px;
+}
 .panel {
 	transition: all .15s ease-in-out;
 	width: initial;
