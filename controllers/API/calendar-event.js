@@ -6,7 +6,7 @@ var schedule          = fs.readFileSync('./views/partials/schedule.ejs', 'ascii'
 var restFunctions     = require('../../config/calendar/calendarRESTFunctions.js');
 var verify            = require('../../config/verify.js');
 var Alert             = require('../../config/alert.js');
-var data    = require('../../config/database.js');
+var data              = require('../../config/database.js');
 
 /**
 * Handles incoming HTTP POST requests to '/calendar/event'. Attempts to process event details from
@@ -42,7 +42,6 @@ router.post('/calendar/event', data.isLoggedIn, function (request, response) {
                 if (err) {
                     a = new Alert(false, restFunctions.postErrorMessage(b.title, err.code, err.message));
                 } else {
-                    request.session.week = b.week;
                     a = new Alert(true, restFunctions.postSuccessMessage(b.title, b.ssid));
                 }
                 a.passToNextPage(request);
@@ -131,6 +130,7 @@ router.get('/calendar/event', function(request, response) {
     if (week) {
         restFunctions.listCalendarWeekEvents(parseInt(p.week), extended, function(err, data) {
             if (rendered) {
+                request.session.week = parseInt(p.week);
                 response.send(JSON.stringify(
                     {error: err,
                      data: ejs.render(schedule, {schedule: JSON.parse(data)})}));
@@ -166,8 +166,9 @@ router.delete('/calendar/event', data.isLoggedIn, function(request, response) {
                 response.send(200);
             }
         });
+    } else {
+        response.send(200);
     }
-    response.send(200);
 });
 
 module.exports = router;
