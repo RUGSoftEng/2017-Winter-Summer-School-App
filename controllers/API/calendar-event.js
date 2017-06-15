@@ -29,13 +29,16 @@ router.post('/calendar/event', data.isLoggedIn, function (request, response) {
              b.ssid,
              b.details];
 
-    verify.getUndefined(required, function (undef) {
-        if (undef.length > 0) {
+    verify.getEmptyOrUndefinedStrings(required, function (undefOrEmpty) {
+        if (undefOrEmpty.length > 0) {
             console.error("calendar-event.js: Not posting submitted event due to undefined fields!");
             response.redirect('/main');
         } else {
             var startDate = restFunctions.buildDateTime(b.startDate, b.startHour, b.startMinute);
             var endDate   = restFunctions.buildDateTime(b.endDate, b.endHour, b.endMinute);
+            console.error('title = {' + b.title + '} and has length ' + b.title.length);
+            console.error('location = {' + b.location + '} and has length ' + b.location.length);
+            console.error('details = {' + b.details + '} and has length ' + b.details.length);
             var event     = restFunctions.insertCalendarEvent(
                 b.title, b.ssid, b.location, b.details, startDate, endDate, function(err, data) {
                 var a;
@@ -73,9 +76,9 @@ router.put('/calendar/event', data.isLoggedIn, function(request, response) {
         p.endMinute,
         p.ssid];
 
-    verify.getUndefined(required, function(undef) {
-        if (undef.length > 0) {
-            var err = {'code': 400, 'message': 'Required parameters must be defined'};
+    verify.getEmptyOrUndefinedStrings(required, function(undefOrEmpty) {
+        if (undefOrEmpty.length > 0) {
+            var err = {'code': 400, 'message': 'Not updating submitted event due to undefined fields!'};
             response.writeHead(400, JSON.stringify({error: err}));
         } else {
             var startDate = restFunctions.buildDateTime(p.startDate, p.startHour, p.startMinute);
