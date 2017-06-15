@@ -1,51 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" class='full'>
 <head>
-	<% include partials/web_header %>
-	<style><% include partials/css/announcement.css %></style>
-	<script><% include partials/js/announcement.js %></script>
-	<script><% include partials/js/contentDivider.js %></script>
+    <% include partials/web_header %>
+    <style>
+        <% include partials/css/announcement.css %>
+    </style>
+    <script>
+        <% include partials/js/announcement.js %>
+        <% include partials/js/contentDivider.js %>
+        <% include partials/js/buttonHandler.js %>
+        <% include partials/js/loggedIn.js %>
+    </script>
 </head>
-<% announcements.reverse()%>
+<% announcements.reverse() %>
 <body class="full">
-  <div id='wrap' class='full'>
+<div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
-      <div class="row" id="event-screen">
-          <div class="col-md-4">
-              <div id="content" class="list-group">
-                  <button
-                      type="button" class="list-group-item list-group-item-text" id="list-header">
-                      Announcements
-                    </button>
+    <div class="row" id="event-screen">
+        <div class="col-md-4">
+            <div id="content" class="list-group">
+                <button
+                        type="button" class="list-group-item list-group-item-text" id="list-header">
+                    Announcements
+                </button>
 
-                  <%announcements.forEach(function(announcement){%>
-                    <button
-                      type="button" class="list-group-item list-group-item-text  change-announcement"
-                      data-description = "<%=announcement.description%>"
-                      data-poster = "<%=announcement.poster%>"
-                      data-title = "<%=announcement.title %>">
-                      <span class='pull-left announcement-title'><%=announcement.title %></span>
-                      <h5 class="details pull-right"><% if(typeof announcement.date === "undefined") { %> Unknown date <%} else {%><%= (""+ announcement.date).substring(0,21)%><% } %></h5>
-                    </button>
-                  <%});%>
-              </div>
-              <ul class="pager">
+                <% announcements.forEach(function(announcement){ %>
+                <button
+                        type="button" class="list-group-item list-group-item-text  change-announcement"
+                        data-description="<%= announcement.description %>"
+                        data-poster="<%= announcement.poster %>"
+                        data-title="<%= announcement.title %>"
+                        data-id="<%= announcement._id %>">
+                    <span class='pull-left announcement-title'><%= announcement.title %></span>
+                    <h5 class="details pull-right">
+                        <% if(typeof announcement.date === "undefined") { %>
+                        Unknown date
+                        <% } else { %>
+                        <%= ("" + announcement.date).substring(0, 21) %>
+                        <% } %>
+                    </h5>
+                </button>
+                <% }); %>
+            </div>
+            <ul class="pager">
                 <li class="previous">
                     <a>&larr; Newer</a>
                 </li>
                 <li class="next">
-                  <a>Older &rarr;</a>
+                    <a>Older &rarr;</a>
                 </li>
             </ul>
-          </div>
-        <div class="col-md-8">
-          <div class="inner-event">
-            <h3 id='changingTitle' class="underline-title">View Announcement
-            </h3>
-            <p class='lead' id="changingDescription">Click a title to select an announcement</p>
-            <div id='authorContainer'><h5 class="details" id="changingPoster"></h5></div>
-          </div>
         </div>
-      </div>
+        <div class="col-md-8">
+            <div class="inner-event">
+                <h3 id='changingTitle' class="underline-title">View Announcement
+                </h3>
+                <p class='lead' id="changingDescription">Click a title to select an announcement</p>
+                <button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview' data-toggle="modal"
+                        data-type=0 data-target="#add-announcement" data-page="true">Edit</button>
+                <div id='authorContainer'><h5 class="details" id="changingPoster"></h5></div>
+            </div>
+        </div>
     </div>
+</div>
+<% include partials/modal %>
 </body>
+</html>

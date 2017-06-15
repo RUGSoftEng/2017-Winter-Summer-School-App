@@ -1,50 +1,70 @@
 <div class='col-md-4 cols scheduleCol'>
     <div class='inner-event'>
-        <h3 class='underline-title'><a href="../schedulepage">Schedule</a><span class="glyphicon glyphicon-plus pull-right open-modal" data-type=2 data-toggle="modal" data-target="#add-announcement" aria-hidden="true"></span></h3>
+        <h3 class='underline-title'><a href="#">Schedule</a><span
+                    class="glyphicon glyphicon-plus pull-right open-modal" data-type=2 data-toggle="modal"
+                    data-target="#add-announcement" aria-hidden="true"></span></h3>
         <div class='row innerrow'>
             <ul class="list-group" id='sched-acc'>
                 <% var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]; %>
                 <% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
                 <% var length = (schedule == null) ? 0 : schedule.length; %>
                 <% for (var i = 0; i < length; ++i) { %>
-                <%      var day = new Date(schedule[i][0]); %>
-                <%      var events = schedule[i][1];        %>
-                    <li class="list-group-item" data-toggle="collapse" data-parent="#sched-acc" href="#<%= days[i] %>" aria-expanded="true" aria-controls="<%= days[i] %>">
-                        <h5>
-                            <span> <%= days[day.getDay()].charAt(0).toUpperCase() + days[day.getDay()].slice(1) %>  </span>
-                            <span class="text-muted"> <%= ' (' +  months[day.getMonth()] + ' ' + day.getDate() + ')' %>  </span>
-                        </h5>
-                        <div id="<%= days[i] %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= days[i] %>Schedule">
-                            <div class="panel-body">
-                                <ul>
-                                    <% if(!events.length) { %>
-                                        No events planned today!
-                                    <% } %>
-                                    <% var printTime = function(date) {
-	                                    return date.getHours() + ":" + (date.getMinutes() <= '9' ? '0' + date.getMinutes() : date.getMinutes());
-                                    }
+                <% var day = new Date(schedule[i][0]); %>
+                <% var events = schedule[i][1]; %>
+                <li class="list-group-item" >
+                    <h5 data-toggle="collapse" data-parent="#sched-acc" href="#<%= days[i] %>"
+                        aria-expanded="true" aria-controls="<%= days[i] %>">
+                        <span> <%= days[day.getDay()].charAt(0).toUpperCase() + days[day.getDay()].slice(1) %>  </span>
+                        <span class="text-muted"> <%= ' (' + months[day.getMonth()] + ' ' + day.getDate() + ')' %>  </span>
+                    </h5>
+                    <div id="<%= days[i] %>" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="<%= days[i] %>Schedule">
+                        <div class="panel-body">
+                            <ul>
+                                <% if(!events.length) { %>
+                                No events planned today!
+                                <% } %>
+                                <% var printTime = function (date) {
+                                    return date.getHours() + ":" + (date.getMinutes() <= '9' ? '0' + date.getMinutes() : date.getMinutes());
+                                }
 
                                     for(var j = 0; j < events.length; ++j) {
                                     	var sdt = new Date(events[j].start.dateTime);
                                     	var edt = new Date(events[j].end.dateTime);
-
+                                        var ssid = events[j].extendedProperties ? events[j].extendedProperties.shared.ssid : 'All students';
                                     	%>
-                                    	<li class='open-modal time-slot' data-toggle='modal' data-target='#add-announcement' data-type='2' data-spec='schedule' data-event-id='<%= events[j].id %>' data-event-summary='<%= events[j].summary %>' data-event-start-date='<%= events[j].start.dateTime %>' data-event-end-date='<%= events[j].end.dateTime %>' data-event-location='<%= events[j].location %>' data-event-description='<%= events[j].description %>'>
+                                    	<li class='open-modal time-slot'
+                                            data-toggle='modal'
+                                            data-target='#add-announcement'
+                                            data-type='2'
+                                            data-spec='schedule'
+                                            data-event-id='<%= events[j].id %>'
+                                            data-event-summary='<%= events[j].summary %>'
+                                            data-event-start-date='<%= events[j].start.dateTime %>'
+                                            data-event-end-date='<%= events[j].end.dateTime %>'
+                                            data-event-location='<%= events[j].location %>'
+                                            data-event-description='<%= events[j].description %>'
+                                            data-event-ssid='<%= ssid %>'>
                                             <span><%= printTime(sdt) %> - <%= printTime(edt) %></span><span><%= events[j].summary %></span>
 										</li>
                                     <% } %>
                                 </ul>
-                            </div>
                         </div>
-                    </li>
-                    <% } %>
+                    </div>
+                </li>
+                <% } %>
             </ul>
         </div>
         <div>
             <ul class="pager" style="padding-left:10px !important; padding-right:10px !important;">
 
-                <li class="previous"><button type="button" class="btn btn-primary btn-sm" id='sched-getprevious'>&larr; Last Week</button></li>
-                <li class="next"><button type="button" class="btn btn-primary btn-sm" id='sched-getnext'>Next Week &rarr;</button></li>
+                <li class="previous">
+                    <button type="button" class="btn btn-primary btn-sm" id='sched-getprevious'>&larr; Last Week
+                    </button>
+                </li>
+                <li class="next">
+                    <button type="button" class="btn btn-primary btn-sm" id='sched-getnext'>Next Week &rarr;</button>
+                </li>
             </ul>
         </div>
 

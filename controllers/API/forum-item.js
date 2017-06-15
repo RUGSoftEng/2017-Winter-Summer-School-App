@@ -1,36 +1,55 @@
 var express = require('express');
-var router = express.Router();
-var data = require.main.require('./config/database.js');
+var router  = express.Router();
+var data    = require('../../config/database.js');
 
 
-
-router.post('/forum/thread/item', function(req, res) {
+router.post('/forum/thread/item', function (req, res) {
     // creates a new forum thread and inserts it in the database.
-    var newThread = {
-        title: req.body.title,
-        description: req.body.description,
-        author: req.body.author,
-        posterID: req.body.posterID,
-        date: new Date(),
-        comments: []
+    var newThread;
+    if (process.env.NODE_ENV === "test") {
+        newThread = {
+            title: req.body.title,
+            description: req.body.description
+        };
+        res.send(newThread);
     }
-    data.db.forum.insert(newThread, function(err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(200);
-        }
-    });
+    else {
+        newThread = {
+            title: req.body.title,
+            description: req.body.description,
+            author: req.body.author,
+            posterID: req.body.posterID,
+            date: new Date(),
+            imgurl : req.body.imgurl,
+            comments: []
+        };
+        data.db.forum.insert(newThread, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(200);
+            }
+            data.db.forum.insert(newThread, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(200);
+                }
+            });
+        });
+    }
 });
 
-router.post('/forum/comment/item', function(req, res) {
+router.post('/forum/comment/item', function (req, res) {
     // creates a new comment and adds it to the appropriate thread.
     var newComment = {
         author: req.body.author,
+        commentID: req.body.commentID,
         posterID: req.body.posterID,
         date: new Date(),
-        text: req.body.text
-    }
+        text: req.body.text,
+        imgurl : req.body.imgurl
+    };
     data.db.forum.update({
             '_id': data.mongojs.ObjectId(req.body.threadID)
         }, {
@@ -38,7 +57,7 @@ router.post('/forum/comment/item', function(req, res) {
                 comments: newComment
             }
         },
-        function(err, user) {
+        function (err, user) {
             if (err) {
                 console.log(err);
             } else {
@@ -47,9 +66,9 @@ router.post('/forum/comment/item', function(req, res) {
         });
 });
 
-router.put('/forum/thread/item', function(req, res) {
+
+router.put('/forum/thread/item', function (req, res) {
     // updates the description and title of a thread according to the id passed.
-    console.log(req.param('threadID'));
     data.db.forum.update({
         '_id': data.mongojs.ObjectId(req.param('threadID'))
     }, {
@@ -57,7 +76,7 @@ router.put('/forum/thread/item', function(req, res) {
             title: req.param('title'),
             description: req.param('description')
         }
-    }, function(err, user) {
+    }, function (err, user) {
         if (err) {
             console.log(err);
         } else {
@@ -66,67 +85,67 @@ router.put('/forum/thread/item', function(req, res) {
     });
 });
 
-router.put('/forum/comment/item', function(req, res) {
+router.put('/forum/comment/item', function (req, res) {
     // updates the modifies the comment.
     //comment is selected by its position in the array.
-    var update = {
-        "$set": {}
-    };
-    update["$set"]["comments." + req.param('arrayPos') + ".text"] = req.param("text")
-    data.db.forum.update({
-        '_id': data.mongojs.ObjectId(req.param('threadID'))
-    }, update, function(err, user) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(200);
+    data.db.forum.findOne({
+        _id: data.mongojs.ObjectID(req.param('threadID'))
+    }, function(err, doc) {
+        var array = doc.comments;
+        var i = 0;
+        var pos;
+        for (;i< array.length;i++){
+            if (array[i].commentID === req.param('commentID')){
+                pos = i;
+            }
         }
+        console.log(pos);
+        var update= {
+            "$set": {}
+        };
+        update["$set"]["comments." + pos + ".text"] = req.param("text");
+        data.db.forum.update({
+            '_id': data.mongojs.ObjectId(req.param('threadID'))
+        }, update, function (err, user) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(200);
+            }
+        });
     });
 });
 
 
-router.delete('/forum/thread/item', function(req, res) {
+router.delete('/forum/thread/item', function (req, res) {
     // deletes the thread using the id.
     data.db.forum.remove({
         '_id': data.mongojs.ObjectId(req.param('threadID'))
-    }, function(err, user) {
+    }, function (err, user) {
         if (err) throw err;
         res.send(200);
     });
 
 });
 
-router.delete('/forum/comment/item', function(req, res) {
-    // deletes the thread using array index.
-    var update = {
-        "$unset": {}
-    };
-    update["$unset"]["comments." + req.param('arrayPos')] = 1;
+router.delete('/forum/comment/item', function (req, res) {
+
     data.db.forum.update({
         '_id': data.mongojs.ObjectId(req.param('threadID'))
-    }, update, function(err, user) {
+    }, {
+        $pull: {
+            comments: {commentID:req.param('commentID')}
+        }
+    }, function (err, user) {
         if (err) {
             console.log(err);
         } else {
-            //unset leaves a null behind it, the code under cleans the nulls.
-            data.db.forum.update({
-                '_id': data.mongojs.ObjectId(req.param('threadID'))
-            }, {
-                $pull: {
-                    comments: null
-                }
-            }, function(err2, user2) {
-                if (err2) {
-                    console.log(err2);
-                } else {
-                    res.send(200);
-                }
-            });
+            res.send(200);
         }
     });
 });
 
-router.get('/forum/item', function(req, res) {
+router.get('/forum/item', function (req, res) {
     // retrieve a list of announcements
     // set the limit of query results to 200 by default
     // set it to the parameter count if it is provided
@@ -135,7 +154,7 @@ router.get('/forum/item', function(req, res) {
         limit: count
     }).sort({
         $natural: -1
-    }, function(err, docs) {
+    }, function (err, docs) {
         if (err) console.log(err);
         else res.send(docs);
     });
