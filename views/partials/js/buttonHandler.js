@@ -35,6 +35,19 @@ function isEmptyContainer(selector) {
     return !$(selector).val();
 }
 
+function validateScheduleInput() {
+    var valid = $('#startMinute').val() <= $('#endMinute').val();
+    if(new Date($('#startHour').val()) < new Date($('#endHour').val()))
+        valid = true;
+    else if(new Date($('#startHour').val()) > new Date($('#endHour').val()))
+        valid = false;
+    if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+        valid = true;
+    else if(new Date($('#scheduleStartDate').val()) > new Date($('#scheduleEndDate').val()))
+        valid = false;
+    return valid;
+}
+
 function isMissingScheduleFields() {
     return isEmptyContainer('#location ')           ||
            isEmptyContainer('#details ')            ||
@@ -44,8 +57,12 @@ function isMissingScheduleFields() {
 
 function initialiseFinishButton() {
     getButton('f').click(function (event) {
+        var cont = true;
+        if(!validateScheduleInput()) {
+            cont = confirm("It appears the selected time might be wrong. Are you sure you want to continue?");
+        }
         var action = $(this).data('type');
-        if (confirm("Are you sure that you want to " + action + "?")) {
+        if (cont && confirm("Are you sure that you want to " + action + "?")) {
             if (isEmptyContainer(titleSelector) || ($type == 2 && isMissingScheduleFields())) { // no title, prevent the POST request
                 event.preventDefault();
                 var alertMessage = ($type == 2) ? "Events require all fields be filled!": "Please fill in a title and content!";

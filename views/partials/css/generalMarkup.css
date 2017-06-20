@@ -143,6 +143,10 @@ a {
 	text-decoration: none !important;
 }
 
+.modal-show-body .jumbotron {
+	padding: 20px;
+}
+
 .nav a:active {
 	color: black;
 }

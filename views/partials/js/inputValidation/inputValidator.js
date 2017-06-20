@@ -18,10 +18,11 @@ function handleInput(selector, validator) {
 }
 
 function toggleAddButton(isValid) {
-    if(isValid)
-        $('.finish').removeClass('disabled');
+    /*if(isValid)
+        $('.finish').removeClass('disabledPop');
     else
-        $('.finish').addClass('disabled');
+        $('.finish').addClass('disabledPop');
+        */
 }
 function alterInputStyling(selector, text, isValid) {
     setHelpMessage(selector, text);

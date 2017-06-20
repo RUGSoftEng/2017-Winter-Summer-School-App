@@ -23,6 +23,7 @@ auth
 calendarService.json
 serviceAccount.json
 ssl
+views/images
 
 
 # nyc test coverage

@@ -40,6 +40,18 @@
 	cursor: pointer;
 }
 
+.data-text {
+	text-align:center;
+	font-size:135%;
+}
+
+#modalDescription {
+	font-size:120%;
+	text-align: justify;
+	line-height:1.5;
+	height: auto;
+}
+
 .browse {
 	display: block;
 	margin: 0 auto;
@@ -62,6 +74,11 @@
 
 .panel:hover {
 	transform: scale(1.02);
+}
+
+#event-screen {
+	padding-left:0;
+	padding-right:0;
 }
 
 #event-screen, #wrap, body, html, .inner-event {
