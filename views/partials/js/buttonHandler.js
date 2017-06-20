@@ -48,18 +48,26 @@ function validateScheduleInput() {
     return valid;
 }
 
+function isMissingScheduleFields() {
+    return isEmptyContainer('#location ')           ||
+           isEmptyContainer('#details ')            ||
+           isEmptyContainer('#scheduleStartDate ')  ||
+           isEmptyContainer('#scheduleEndDate ');
+}
+
 function initialiseFinishButton() {
     getButton('f').click(function (event) {
         var cont = true;
         if(!validateScheduleInput()) {
             cont = confirm("It appears the selected time might be wrong. Are you sure you want to continue?");
         }
-        $type = $(this).data('type');
-        if (cont && confirm("Are you sure that you want to " + $type + "?")) {
-            if (isEmptyContainer(titleSelector)) { // no title, prevent the POST request
+        var action = $(this).data('type');
+        if (cont && confirm("Are you sure that you want to " + action + "?")) {
+            if (isEmptyContainer(titleSelector) || ($type == 2 && isMissingScheduleFields())) { // no title, prevent the POST request
                 event.preventDefault();
-                alert("Please fill in a title and content");
-            } else if ($type == "edit") {
+                var alertMessage = ($type == 2) ? "Events require all fields be filled!": "Please fill in a title and content!";
+                alert(alertMessage);
+            } else if (action == "edit") {
                 // send a PUT request instead of POST if an existing item is edited.
                 $.ajax({
                     url: links[$(modalSelector).data('type')] +
