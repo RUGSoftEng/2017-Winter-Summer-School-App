@@ -35,10 +35,27 @@ function isEmptyContainer(selector) {
     return !$(selector).val();
 }
 
+function validateScheduleInput() {
+    var valid = $('#startMinute').val() <= $('#endMinute').val();
+    if(new Date($('#startHour').val()) < new Date($('#endHour').val()))
+        valid = true;
+    else if(new Date($('#startHour').val()) > new Date($('#endHour').val()))
+        valid = false;
+    if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+        valid = true;
+    else if(new Date($('#scheduleStartDate').val()) > new Date($('#scheduleEndDate').val()))
+        valid = false;
+    return valid;
+}
+
 function initialiseFinishButton() {
     getButton('f').click(function (event) {
+        var cont = true;
+        if(!validateScheduleInput()) {
+            cont = confirm("It appears the selected time might be wrong. Are you sure you want to continue?");
+        }
         $type = $(this).data('type');
-        if (confirm("Are you sure that you want to " + $type + "?")) {
+        if (cont && confirm("Are you sure that you want to " + $type + "?")) {
             if (isEmptyContainer(titleSelector)) { // no title, prevent the POST request
                 event.preventDefault();
                 alert("Please fill in a title and content");
