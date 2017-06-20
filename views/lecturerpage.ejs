@@ -25,7 +25,7 @@
         </h3>
         <div class='row innerrow' id='event-screen'>
             <% lecturers.forEach(function(lecturer){ %>
-            <div class="col-md-3 col-sm-6 col-xs-6 panel open-modal" data-show="overview" data-toggle="modal"
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 panel open-modal" data-show="overview" data-toggle="modal"
                  data-target="#add-lecturer" data-id=<%- lecturer._id %>>
                 <div class="thumbnail inner-event">
 
@@ -34,7 +34,8 @@
                     <h4 class="title"><%= lecturer.name %></h4>
                     <div class="caption">
                         <p class="lead data-text"><%= lecturer.description %></p>
-                        <a class="data-text website" href="<%= (lecturer.website.substring(0, 7) === "http://") ? lecturer.website : ("http://" + lecturer.website) %>"><%= lecturer.website %></a>
+                        <a class="data-text website"
+                           href="<%= (lecturer.website.substring(0, 7) === "http://") ? lecturer.website : ("http://" + lecturer.website) %>"><%= lecturer.website %></a>
                     </div>
                 </div>
             </div>
