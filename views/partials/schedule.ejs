@@ -5,17 +5,22 @@
                     data-target="#add-announcement" aria-hidden="true"></span></h3>
         <div class='row innerrow'>
             <ul class="list-group" id='sched-acc'>
-                <% var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]; %>
+                <% var isToday = function (date) {                                                                                                          %>
+                <%    var today = new Date();                                                                                                               %>
+                <%    return date.getDate() == today.getDate() && day.getMonth() == today.getMonth() && day.getFullYear() == today.getFullYear();           %>
+                <%}                                                                                                                                         %>
+                <% var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];                                               %>
                 <% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
-                <% var length = (schedule == null) ? 0 : schedule.length; %>
-                <% for (var i = 0; i < length; ++i) { %>
-                <% var day = new Date(schedule[i][0]); %>
-                <% var events = schedule[i][1]; %>
+                <% var length = (schedule == null) ? 0 : schedule.length;                                                                                   %>
+                <% for (var i = 0; i < length; ++i) {                                                                                                       %>
+                <% var day = new Date(schedule[i][0]);                                                                                                      %>
+                <% var events = schedule[i][1];                                                                                                             %>
                 <li class="list-group-item" >
                     <h5 data-toggle="collapse" data-parent="#sched-acc" href="#<%= days[i] %>"
                         aria-expanded="true" aria-controls="<%= days[i] %>">
                         <span> <%= days[day.getDay()].charAt(0).toUpperCase() + days[day.getDay()].slice(1) %>  </span>
                         <span class="text-muted"> <%= ' (' + months[day.getMonth()] + ' ' + day.getDate() + ')' %>  </span>
+                        <span class="label label-default" style= <%= isToday(day) ? "visibility:visible" : "visibility:hidden" %>  >Today</span>
                     </h5>
                     <div id="<%= days[i] %>" class="panel-collapse collapse" role="tabpanel"
                          aria-labelledby="<%= days[i] %>Schedule">

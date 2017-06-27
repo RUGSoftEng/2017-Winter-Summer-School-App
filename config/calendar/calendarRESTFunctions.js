@@ -23,6 +23,15 @@ var jwt          = gcs.authorizeOAuth2Client(
 var error        = null;
 
 /**
+ * Returns True if the token has expired. Else returns False.
+ */
+function tokenExpired () {
+    var expirationDate = new Date(jwt.credentials.expiry_date);
+    var currentDate = new Date();
+    return (currentDate.getTime() >= expirationDate.getTime());
+}
+
+/**
 * Returns an error string for a failure to submit an event.
 * @param {String} summary        - the title/summary of the event.
 * @param {Int}    errorCode      - the code given by the error object.
@@ -250,7 +259,7 @@ exports.listCalendarEvents = function (startDate, endDate, callback) {
  *                                If error not null, events is null.
  */
 exports.listCalendarWeekEvents = function (week, extended, callback) {
-    if (error) {
+    if (error || tokenExpired()) {
         /* Attempt to reauthorize */
         gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function (err) {
             if ((error = err) != null) {
