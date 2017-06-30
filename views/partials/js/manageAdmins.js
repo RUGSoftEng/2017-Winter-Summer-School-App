@@ -29,7 +29,7 @@ $('.deleteAccount').click(function () {
             location.reload();
         },
         error: function () {
-            alert('Error: could not delete account.');
+            alert('Error: could not delete account. Note that you can not delete an account on which you are logged in.');
         }
     });
 
