@@ -1,47 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" class='full'>
 <head>
-	<% include partials/web_header %>
-	<style><% include partials/css/generalinfo.css %></style>
-	<script><% include partials/js/generalinfo.js %></script>
-	<script><% include partials/js/contentDivider.js %></script>
+    <% include partials/web_header %>
+    <style>
+        <% include partials/css/announcement.css %>
+    </style>
+    <script>
+        <% include partials/js/announcement.js %>
+        <% include partials/js/contentDivider.js %>
+        <% include partials/js/buttonHandler.js %>
+        <% include partials/js/loggedIn.js %>
+    </script>
 </head>
-<% generalinfo.reverse()%>
+<% generalinfo.reverse() %>
 <body class="full">
-  <div id='wrap' class='full'>
+<div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
-      <div class="row" id="event-screen">
-          <div class="col-md-4">
-            <div class="inner-event">
-              <h3 class="underline-title">Announcements</h3>
-              <div id="content" class="list-group">
-                  <%generalinfo.forEach(function(generalinfo){%>
-                    <button
-                      type="button" class="list-group-item list-group-item-text  change-generalinfo"
-                      data-description = "<%=generalinfo.description%>"
-                      data-poster = "<%=generalinfo.poster%>">
-                      <%=generalinfo.title %>
-                    </button>
-                  <%});%>
-              </div>
-              <ul class="pager">
+    <div class="row" id="event-screen">
+        <div class="col-md-4">
+            <div id="content" class="list-group">
+                <button
+                        type="button" class="list-group-item list-group-item-text" id="list-header">
+                    General information
+                </button>
+                <% generalinfo.forEach(function(generalinfo){ %>
+                <button
+                        type="button" class="list-group-item list-group-item-text  change-announcement"
+                        data-description="<%= generalinfo.description %>"
+                        data-title="<%= generalinfo.title %>"
+                        data-id="<%= generalinfo._id %>"
+                        data-poster="<%= generalinfo.poster %>">
+                    <span class='pull-left announcement-title'><%= generalinfo.title %></span>
+                    <h5 class="details pull-right" style="width:6px; height:13px">
+
+                    </h5>
+                </button>
+                <% }); %>
+            </div>
+            <ul class="pager">
                 <li class="previous">
                     <a>&larr; Newer</a>
                 </li>
                 <li class="next">
-                  <a>Older &rarr;</a>
+                    <a>Older &rarr;</a>
                 </li>
             </ul>
-            </div>
-          </div>
-        <div class="col-md-8">
-          <div class="inner-event">
-            <h3 class="underline-title">View Announcement
-            </h3>
-            <h4 id="changingDescription">Click a title to select an announcement</h4>
-            <h5 class="details" id="changingPoster"></h5>
-          </div>
         </div>
-      </div>
+        <div class="col-md-8">
+            <div class="inner-event">
+                <h3 id="changingTitle" class="underline-title">View General Information
+                </h3>
+                <p class='lead' id="changingDescription">Click a title to select some information</p>
+                <button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview' data-toggle="modal"
+                        data-type=1 data-target="#add-announcement" data-page="true">Edit</button>
+                <div id='authorContainer'><h5 class="details"></h5></div>
+            </div>
+        </div>
     </div>
+</div>
+<% include partials/modal %>
+
 </body>
+</html>

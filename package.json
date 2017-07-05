@@ -2,8 +2,11 @@
   "name": "summer-and-winter-schools",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "6.10.3"
+  },
   "dependencies": {
-    "bcrypt-nodejs": "latest",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.0.0",
@@ -11,6 +14,7 @@
     "ejs": "~0.8.5",
     "express": "~4.0.0",
     "express-session": "~1.0.0",
+    "firebase-admin": "^5.0.0",
     "googleapis": "*",
     "method-override": "~1.0.0",
     "mime": "^1.3.4",
@@ -18,8 +22,21 @@
     "mongoose": "latest",
     "morgan": "~1.0.0",
     "multer": "^1.3.0",
+    "node-gyp": "^3.6.1",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
+    "request": "^2.81.0",
     "require-dir": "latest"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cross-env": "^5.0.0",
+    "mocha": "^3.3.0",
+    "request": "^2.81.0",
+    "supertest": "^3.0.0"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=dev nodemon server.js",
+    "test": "mocha"
   }
 }

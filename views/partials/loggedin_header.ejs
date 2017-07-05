@@ -1,17 +1,21 @@
 <head>
-	<% include web_header %>
-	
-	<style><% include css/loggedIn.css %></style>
-	
-	<script>
-		<% include js/buttonHandler.js %>
-		<% include js/scheduleHandler.js %>
-		<% include js/loggedIn.js %>
-	</script>
-	
-	<script type="text/javascript">
-		$(function() {
-			$('#announcementDescription').markItUp(mySettings);
-		});
-	</script>
+    <% include web_header %>
+
+    <style>
+        <% include css/loggedIn.css %>
+    </style>
+
+    <script>
+        <% include js/inputValidation/validators.js %>
+        <% include js/inputValidation/inputValidator.js %>
+        <% include js/buttonHandler.js %>
+        <% include js/scheduleHandler.js %>
+        <% include js/loggedIn.js %>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#announcementDescription').markItUp(mySettings);
+        });
+    </script>
 </head>
