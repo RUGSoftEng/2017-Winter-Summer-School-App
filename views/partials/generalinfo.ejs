@@ -15,7 +15,16 @@
                     <div class='lead remove-style data-text'>
                         <%- generalinfo[generalinfo.length - i].description %>
                     </div>
-                    <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
+                    <div class='announce-date'>
+                        <% var dt = generalinfo[generalinfo.length - i].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); %>
+                        <%= generalinfo[generalinfo.length - i].date.toString().substring(0, 21) %>
+
+                        <% if(dt >= newDt) { %>
+                        <script>
+                            $('.new<%= i %>').show();
+                        </script>
+                        <% } } %>
+                    </div>
                 </div>
             </div>
             <% } } %>
