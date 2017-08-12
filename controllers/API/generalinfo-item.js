@@ -34,6 +34,7 @@ router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
         $set: {
             title: req.param('title'),
             description: req.param('description'),
+            category: req.param('category'),
             date: new Date()
         }
     }, function (err, user) {
@@ -48,7 +49,8 @@ router.post('/generalinfo/item', data.isLoggedIn, upload.single('img[]'), functi
     var newGeneralInfo = {
         title: req.body.title,
         description: req.body.description,
-        date: new Date()
+        date: new Date(),
+        category: req.body.category
     };
     data.db.generalinfo.insert(newGeneralInfo, function (err, result) {
         if (err) {
