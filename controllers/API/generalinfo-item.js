@@ -33,7 +33,8 @@ router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
     }, {
         $set: {
             title: req.param('title'),
-            description: req.param('description')
+            description: req.param('description'),
+            date: new Date()
         }
     }, function (err, user) {
         if (err) throw err;
@@ -43,27 +44,18 @@ router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
 });
 
 
-router.post('/generalinfo/item',data.isLoggedIn,upload.single('img[]'), function(req, res) {
-    var newGeneralInfo;
-    if(process.env.NODE_ENV === "test"){
-        newGeneralInfo = {
-            title: req.body.title,
-            description: req.body.description
-        };
-        res.send(newGeneralInfo);
-    }
-    else{
-        newGeneralInfo = {
-            title: req.body.title,
-            description: req.body.description
-        };
-        data.db.generalinfo.insert(newGeneralInfo, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-            res.redirect('/main');
-        });
-    }
+router.post('/generalinfo/item', data.isLoggedIn, upload.single('img[]'), function (req, res) {
+    var newGeneralInfo = {
+        title: req.body.title,
+        description: req.body.description,
+        date: new Date()
+    };
+    data.db.generalinfo.insert(newGeneralInfo, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/main');
+    });
 
 });
 
