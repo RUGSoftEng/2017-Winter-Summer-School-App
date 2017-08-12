@@ -11,7 +11,7 @@ var data    = require('../../config/database.js');
 
 
 router.post('/token', function (req, res) {
-    // adds a new announcement
+    // adds a new token
     var newToken = {
         token: req.body.id,
         date: new Date()
