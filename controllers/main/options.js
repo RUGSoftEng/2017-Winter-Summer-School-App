@@ -1,15 +1,15 @@
 var express = require('express');
 
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
-var bcrypt  = require('bcrypt-nodejs');
+var router = express.Router();
+var data   = require('../../config/database.js');
+var Alert  = require('../../config/alert.js');
+var bcrypt = require('bcrypt-nodejs');
 
 var saltRounds = 8;
 
-router.get('/options',data.isLoggedIn, function (req, res) {
+router.get('/options', data.isLoggedIn, function (req, res) {
     var user;
-    if (req.user === undefined){
+    if (req.user === undefined) {
         user = "tester";
     }
     else {
@@ -20,18 +20,21 @@ router.get('/options',data.isLoggedIn, function (req, res) {
     data.db.accounts.find(function (err, docs) {
         data.db.loginCodes.find(function (err, docs2) {
             data.db.forum.find(function (err, docs3) {
-                res.render('options.ejs', {
-                    user: user,
-                    accounts: docs,
-                    loginCodes: docs2,
-                    forum: docs3,
-                    alert: alert
+                data.db.schools.find(function (err, docs4) {
+                    res.render('options.ejs', {
+                        user: user,
+                        accounts: docs,
+                        loginCodes: docs2,
+                        forum: docs3,
+                        schools: docs4,
+                        alert: alert
+                    });
                 });
             });
         });
     });
 });
-router.post('/options',data.isLoggedIn, function (req, res) {
+router.post('/options', data.isLoggedIn, function (req, res) {
     bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
         var newAccount = {
             username: req.body.username,
@@ -43,7 +46,7 @@ router.post('/options',data.isLoggedIn, function (req, res) {
                 return user.username == newAccount.username;
             });
             if (typeof user === 'undefined') {
-                if(newAccount.username.length >= 5) {
+                if (newAccount.username.length >= 5) {
                     data.db.accounts.insert(newAccount, function (err, result) {
 
                         if (err) {

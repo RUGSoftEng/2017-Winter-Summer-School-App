@@ -21,6 +21,8 @@ function addNewItem(type, edit) {
 
     getButton('f').data('type', edit ? 'edit' : 'add');
 
+    $('.category-form').hide();
+
     $(modalSelector + '.modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
     $('.description-form').show();
     $(modalSelector + '#section-header').html(sectionHeaders[$type]);
@@ -33,6 +35,8 @@ function addNewItem(type, edit) {
         toggleButtons('p'); // no preview button for scheduling
         $('.description-form').hide();
         $('.datetime-form').show();
+    } else if ($type == 1) {
+        $('.category-form').show();
     }
     toggleScheduleInput(false);
 
@@ -65,18 +69,18 @@ function initialiseScheduleDatePicker() {
         }
     });
 
-    $('#endHour').change(function() {
+    $('#endHour').change(function () {
         var valid = $('#startHour').val() <= $('#endHour').val();
-        if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+        if (new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
             valid = true;
         alterInputStyling('#endHour', 'The starting hour seems to be later than the ending hour.', valid);
     });
 
-    $('#endMinute').change(function() {
+    $('#endMinute').change(function () {
         var valid = $('#startMinute').val() <= $('#endMinute').val();
-        if(new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+        if (new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
             valid = true;
-        if(new Date($('#startHour').val()) < new Date($('#endHour').val()))
+        if (new Date($('#startHour').val()) < new Date($('#endHour').val()))
             valid = true;
         alterInputStyling('#endMinute', 'This starting time seems to be later than the ending time.', valid);
     });
@@ -131,11 +135,13 @@ function initialiseModalOpeners() {
 
         } else {
             $(modalSelector).data('show', 'known');
-            var page = $(this).data('page') == true;
+            var page  = $(this).data('page') == true;
             var title = page ? $(this).data('title') : $(this).find('span.title').html();
-            var text = page ? $(this).data('description') : $(this).find('.data-text').html();
+            var text  = page ? $(this).data('description') : $(this).find('.data-text').html();
             displayItem(title, text, $type);
-
+            if($type == 1) {
+                $(modalSelector).data("category", $(this).data('category'));
+            }
         }
     });
 }

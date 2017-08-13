@@ -7,15 +7,25 @@
             <% for(var i = 1; i <= generalinfo.length; i++) { if(typeof generalinfo[generalinfo.length - i] !== 'undefined') { %>
 
             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-type=1
-                 data-id=<%- generalinfo[generalinfo.length - i]._id %> data-toggle="modal"
+                 data-id="<%- generalinfo[generalinfo.length - i]._id %>" data-category="<%- generalinfo[generalinfo.length - i].category %>" data-toggle="modal"
                  data-target="#add-announcement">
                 <h4 class='panel-heading'>
-                    <span class='title'><%- generalinfo[generalinfo.length - i].title %></span></h4>
+                    <span class='title'><%- generalinfo[generalinfo.length - i].title %></span><span
+                            class="label label-primary pull-right new-general<%= i %>">New</span></h4>
                 <div class='panel-body'>
                     <div class='lead remove-style data-text'>
                         <%- generalinfo[generalinfo.length - i].description %>
                     </div>
-                    <small class='read-more'><a data-toggle="modal" data-target="#add-info">Read more...</a></small>
+                    <div class='announce-date'>
+                        <% var dt = generalinfo[generalinfo.length - i].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); %>
+                        <%= generalinfo[generalinfo.length - i].date.toString().substring(0, 21) %>
+
+                        <% if(dt >= newDt) { %>
+                        <script>
+                            $('.new-general<%= i %>').show();
+                        </script>
+                        <% } } %>
+                    </div>
                 </div>
             </div>
             <% } } %>

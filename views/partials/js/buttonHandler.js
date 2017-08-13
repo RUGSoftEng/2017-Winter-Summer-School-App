@@ -82,6 +82,7 @@ function initialiseFinishButton() {
                     '&endDate=' + $('#scheduleEndDate ').val() +
                     '&endHour=' + $('#endHour ').val() +
                     '&endMinute=' + $('#endMinute ').val() +
+                    '&category=' + $('#category ').val() +
                     '&ssid=' + $('#targetItem ').val(),
                     type: 'PUT',
                     success: function (result) {
@@ -126,6 +127,7 @@ function initialiseEditButton() {
         $(modalSelector + 'form').attr('action', links[$(modalSelector).data('type')]);
         $(titleSelector).val(editTitleValue);
         $(descriptionSelector).val(editTextValue);
+        $('#category').val($(modalSelector).data('category'));
     });
 }
 
