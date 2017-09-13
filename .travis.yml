@@ -5,7 +5,7 @@ before_script: chmod 0777 ./node_modules/.bin/mocha
 script:
 - npm test
 before_install:
-- openssl aes-256-cbc -K $encrypted_94dfc78e6b7d_key -iv $encrypted_94dfc78e6b7d_iv
-  -in calendarService.json.enc -out calendarService.json -d
-- openssl aes-256-cbc -K $encrypted_94dfc78e6b7d_key -iv $encrypted_94dfc78e6b7d_iv
-  -in serviceAccount.json.enc -out serviceAccount.json -d
+- openssl aes-256-cbc -K $encrypted_9c6402be0697_key -iv $encrypted_9c6402be0697_iv
+  -in serviceAccount.json.enc -out ./config/calendar/serviceAccount.json -d
+- openssl aes-256-cbc -K $encrypted_9c6402be0697_key -iv $encrypted_9c6402be0697_iv
+  -in calendarService.json.enc -out ./config/calendar/calendarService.json -d
