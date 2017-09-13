@@ -1,6 +1,11 @@
 language: node_js
 node_js:
-  - "7"
+- '7'
 before_script: chmod 0777 ./node_modules/.bin/mocha
 script:
-  - npm test
+- npm test
+before_install:
+- openssl aes-256-cbc -K $encrypted_94dfc78e6b7d_key -iv $encrypted_94dfc78e6b7d_iv
+  -in calendarService.json.enc -out calendarService.json -d
+- openssl aes-256-cbc -K $encrypted_94dfc78e6b7d_key -iv $encrypted_94dfc78e6b7d_iv
+  -in serviceAccount.json.enc -out serviceAccount.json -d
