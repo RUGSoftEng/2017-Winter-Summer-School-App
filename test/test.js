@@ -34,7 +34,7 @@ describe('API get request',function(){
           expect('content-Type',/html/);
           expect(parsed).to.be.an('array');
           if(parsed.length > 0){
-              expect(parsed[0]).to.have.all.keys('_id','title','description');
+              expect(parsed[0]).to.have.all.keys('_id','title','description', 'date', 'category');
           }
           done();
       });
