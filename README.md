@@ -5,7 +5,7 @@ A webinterface used by the coordinators of the Summer and Winter schools of the 
 ## Installation
 Install by cloning the repository:
 ```bash
-git clone https://github.com/jeroenbrandsma/2017-Winter-Summer-School-App.git
+git clone https://github.com/RUGSoftEng/2017-Winter-Summer-School-App.git
 ```
 Or download the ZIP file and extract it.
 ## Running the server
