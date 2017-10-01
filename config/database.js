@@ -1,3 +1,4 @@
+var UserRights = require("./userRights.js");
 
 exports.isLoggedIn = function(req, res, next) {
 		if (process.env.NODE_ENV === "test"){
@@ -9,10 +10,20 @@ exports.isLoggedIn = function(req, res, next) {
 	    res.redirect('/');
 
 };
-exports.mongojs = require('mongojs');
 
-if (process.env.NODE_ENV === "test"){
-	exports.db = exports.mongojs('mongodb://admin:summerwinter@ds119370.mlab.com:19370/summerwinter', ['announcements', 'generalinfo']);
-} else {
-	exports.db = exports.mongojs('summer-schools');
-}
+exports.isAuthorised = function(name) {
+	return function (req, res, next) {
+		if(req.isAuthenticated()) {
+			if(UserRights.userHasRights(req.user, name)) {
+				return next();
+			}
+			res.send(403);
+		} else {
+			res.redirect('/');
+		}
+	}
+};
+
+exports.mongojs = require('mongojs');
+exports.db = exports.mongojs('summer-schools');
+

@@ -4,17 +4,15 @@ var Alert           = require('../../config/alert.js');
 var data            = require('../../config/database.js');
 var dateManipulator = require('../../config/dayManipulation.js');
 
-
-router.get('/main', data.isLoggedIn, function (req, res) {
+router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
     var user;
     if (req.user === undefined) {
         user = "tester";
-    }
-    else {
+    } else {
         user = req.user
     }
     var alert = new Alert();
-    +alert.initiate(req);
+    alert.initiate(req);
     data.db.announcements.find(function (err, docs) {
         data.db.generalinfo.find(function (err, docs2) {
             var week = req.session.week ? req.session.week : 0;

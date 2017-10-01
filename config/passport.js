@@ -12,10 +12,14 @@ module.exports = function (passport) {
                 var user = users.find(function (user) {
                     return user.username === username;
                 });
+                if(!user.rank) {
+                    user.rank = "admin";
+                }
 
                 if (typeof user != 'undefined') {
                     bcrypt.compare(password, user.password, function (err, res) {
                         if (res == true) {
+                            console.log(user);
                             return done(null, user);
                         } else {
                             return done(null, false, {"message": "Invalid password."});
@@ -41,7 +45,7 @@ module.exports = function (passport) {
             });
             if (typeof user === 'undefined')
                 console.log('Error in deserializing user');
-
+            user.rank = "admin";
             done(null, user);
         });
     });
