@@ -1,13 +1,15 @@
 /* Scope of all access to be performed */
 /* Note: Had to "Share" the Calendar with the Google Service Account before it could be used */
-var googleapis      = require('googleapis');
-var googleAuth      = require('google-auth-library');
-var gcs             = require('../calendar/googleCalendarService')(googleapis, googleAuth);
-var gct             = require('../calendar/googleCalendarTools')(gcs);
-var cache           = require('../calendar/eventCache.js')(8);
-var serviceAccount  = require('../calendar/serviceAccount.json');   /* */
-var calendarService = require('../calendar/calendarService.json'); /* */
-var calendarEvent   = require('../calendar/calendarEvent.json');
+var googleapis     = require('googleapis');
+var googleAuth     = require('google-auth-library');
+var gcs            = require('../calendar/googleCalendarService')(googleapis, googleAuth);
+var gct            = require('../calendar/googleCalendarTools')(gcs);
+var cache          = require('../calendar/eventCache.js')(8);
+var serviceAccount = require('../calendar/serviceAccount.json');
+/* */
+var calendarService = require('../calendar/calendarService.json');
+/* */
+var calendarEvent = require('../calendar/calendarEvent.json');
 
 /**
  * Initializes authenticated service account.
@@ -17,83 +19,83 @@ var oauth2Client = new auth.OAuth2();
 var calendar     = googleapis.calendar('v3');
 var calendarId   = calendarService.calendar_id;
 var jwt          = gcs.authorizeOAuth2Client(
-                   gcs.getServiceAccountJWT(serviceAccount.client_email,
-                                            serviceAccount.private_key),
-                                            oauth2Client);
+	gcs.getServiceAccountJWT(serviceAccount.client_email,
+		serviceAccount.private_key),
+	oauth2Client);
 var error        = null;
 
 /**
  * Returns True if the token has expired. Else returns False.
  */
-function tokenExpired () {
-    var expirationDate = new Date(jwt.credentials.expiry_date);
-    var currentDate = new Date();
-    return (currentDate.getTime() >= expirationDate.getTime());
+function tokenExpired() {
+	var expirationDate = new Date(jwt.credentials.expiry_date);
+	var currentDate    = new Date();
+	return (currentDate.getTime() >= expirationDate.getTime());
 }
 
 /**
-* Returns an error string for a failure to submit an event.
-* @param {String} summary        - the title/summary of the event.
-* @param {Int}    errorCode      - the code given by the error object.
-* @param {String} errorMessage   - the error message given by the error object.
-*/
+ * Returns an error string for a failure to submit an event.
+ * @param {String} summary        - the title/summary of the event.
+ * @param {Int}    errorCode      - the code given by the error object.
+ * @param {String} errorMessage   - the error message given by the error object.
+ */
 exports.postErrorMessage = function (summary, errorCode, errorMessage) {
-    return 'The event "' + summary +
-            '" could not be submitted at this time. Receiving error ' +
-             errorCode + ': "' + errorMessage + '"';
+	return 'The event "' + summary +
+		'" could not be submitted at this time. Receiving error ' +
+		errorCode + ': "' + errorMessage + '"';
 }
 
 /**
-* Returns a success string for a successful event submission.
-* @param {String} summary   - the title/summary of the event.
-* @param {String} ssid      - the summer-school-id.
-*/
+ * Returns a success string for a successful event submission.
+ * @param {String} summary   - the title/summary of the event.
+ * @param {String} ssid      - the summer-school-id.
+ */
 exports.postSuccessMessage = function (summary, ssid) {
-    return 'The event "' + summary + '" was successfully submitted for the "'
-            + ssid + '" school!';
+	return 'The event "' + summary + '" was successfully submitted for the "'
+		+ ssid + '" school!';
 }
 
 /**
  * Returns the UTC offset for the current time zone as a string.
  */
-function getOffsetUTC () {
-    var date       = new Date();
-    var hourOffset = date.getTimezoneOffset() / 60;
-    var sign       = (hourOffset > 0 ? '-' : '+');
-    /* Correct orientation */
-    return (Math.abs(hourOffset) > 10) ?
-           (sign + Math.abs(hourOffset) + ':00') :
-           (sign + '0' + Math.abs(hourOffset) + ':00');
+function getOffsetUTC() {
+	var date       = new Date();
+	var hourOffset = date.getTimezoneOffset() / 60;
+	var sign       = (hourOffset > 0 ? '-' : '+');
+	/* Correct orientation */
+	return (Math.abs(hourOffset) > 10) ?
+		(sign + Math.abs(hourOffset) + ':00') :
+		(sign + '0' + Math.abs(hourOffset) + ':00');
 }
 
 /**
-* Concatenates the given date and time into an RFC 3339 compliant string,
-* then performs a time-zone adjustment (RFC 3339 is a profile of
-* ISO-8601 with some subtle differences).
-* @param {String} startDate     - a string representing the starting date.
-* @param {String} startHour     - a string representing the starting hour.
-* @param {String} startMinute   - a string representing the starting minute.
-*/
+ * Concatenates the given date and time into an RFC 3339 compliant string,
+ * then performs a time-zone adjustment (RFC 3339 is a profile of
+ * ISO-8601 with some subtle differences).
+ * @param {String} startDate     - a string representing the starting date.
+ * @param {String} startHour     - a string representing the starting hour.
+ * @param {String} startMinute   - a string representing the starting minute.
+ */
 exports.buildDateTime = function (startDate, startHour, startMinute) {
-    var dateTime = startDate + 'T' + startHour + ':' + startMinute + ':00';
-    return dateTime + getOffsetUTC();
+	var dateTime = startDate + 'T' + startHour + ':' + startMinute + ':00';
+	return dateTime + getOffsetUTC();
 }
 
 /**
-* Returns true if the supplied date strings can be parsed as RFC 3339
-* Date objects.
-* @param {String[]} dates     - a string of dates to check.
-*/
+ * Returns true if the supplied date strings can be parsed as RFC 3339
+ * Date objects.
+ * @param {String[]} dates     - a string of dates to check.
+ */
 exports.validDates = function (dates) {
-    try {
-        for (var i = 0; i < dates.length; i++) {
-            var date = new Date(dates[i]);
-            var dateString = date.toISOString();
-        }
-        return true;
-    } catch (error) {
-        return false;
-    }
+	try {
+		for (var i = 0; i < dates.length; i++) {
+			var date       = new Date(dates[i]);
+			var dateString = date.toISOString();
+		}
+		return true;
+	} catch (error) {
+		return false;
+	}
 }
 
 /**
@@ -105,20 +107,20 @@ exports.validDates = function (dates) {
  * @param {String} startDateTime    - An ISO-8601 formatted dateTime string.
  * @param {String} endDateTime      - An ISO-8601 formatted dateTime string.
  */
-function configureEvent (id, summary, ssid, location, description, startDateTime, endDateTime) {
-    if (id) {
-        calendarEvent['id'] = id;
-    } else {
-        if (calendarEvent.id) {
-            delete calendarEvent.id;
-        }
-    }
-    calendarEvent['summary']                        = summary;
-    calendarEvent['extendedProperties'].shared.ssid = ssid;
-    calendarEvent['location']                       = location;
-    calendarEvent['description']                    = description;
-    calendarEvent['start'].dateTime                 = startDateTime;
-    calendarEvent['end'].dateTime                   = endDateTime;
+function configureEvent(id, summary, ssid, location, description, startDateTime, endDateTime) {
+	if (id) {
+		calendarEvent['id'] = id;
+	} else {
+		if (calendarEvent.id) {
+			delete calendarEvent.id;
+		}
+	}
+	calendarEvent['summary']                        = summary;
+	calendarEvent['extendedProperties'].shared.ssid = ssid;
+	calendarEvent['location']                       = location;
+	calendarEvent['description']                    = description;
+	calendarEvent['start'].dateTime                 = startDateTime;
+	calendarEvent['end'].dateTime                   = endDateTime;
 }
 
 /**
@@ -134,18 +136,18 @@ function configureEvent (id, summary, ssid, location, description, startDateTime
  *                                    If error, event is null.
  */
 exports.insertCalendarEvent = function (summary, ssid, location, description, startDateTime, endDateTime, callback) {
-    configureEvent(null, summary, ssid, location, description, startDateTime, endDateTime);
-    gcs.insertCalendarEvent(calendarEvent, calendar, calendarId, oauth2Client, function(err, data) {
-        var event = null;
-        if ((error = err) != null) {
-            console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' +
-             err.code + ' for error: ' + err);
-        } else {
-            cache.flush();
-            event = data;
-        }
-        callback(err, event);
-    });
+	configureEvent(null, summary, ssid, location, description, startDateTime, endDateTime);
+	gcs.insertCalendarEvent(calendarEvent, calendar, calendarId, oauth2Client, function (err, data) {
+		var event = null;
+		if ((error = err) != null) {
+			console.error('calendarRESTFunctions.js (insertCalendarEvent): The Google API returned code ' +
+				err.code + ' for error: ' + err);
+		} else {
+			cache.flush();
+			event = data;
+		}
+		callback(err, event);
+	});
 }
 
 /**
@@ -162,18 +164,18 @@ exports.insertCalendarEvent = function (summary, ssid, location, description, st
  *                                    If error, event is null.
  */
 exports.updateCalendarEvent = function (id, summary, ssid, location, description, startDateTime, endDateTime, callback) {
-    configureEvent(id, summary, ssid, location, description, startDateTime, endDateTime);
-    gcs.updateCalendarEvent(calendarEvent, calendar, calendarId, oauth2Client, function(err, data) {
-        var event = null;
-        if ((error = err) != null) {
-            console.error('calendarRESTFunctions.js (updateCalendarEvent): The Google API returned code ' +
-             err.code + ' for error: ' + err);
-        } else {
-            cache.flush();
-            event = data;
-        }
-        callback(err, event);
-    });
+	configureEvent(id, summary, ssid, location, description, startDateTime, endDateTime);
+	gcs.updateCalendarEvent(calendarEvent, calendar, calendarId, oauth2Client, function (err, data) {
+		var event = null;
+		if ((error = err) != null) {
+			console.error('calendarRESTFunctions.js (updateCalendarEvent): The Google API returned code ' +
+				err.code + ' for error: ' + err);
+		} else {
+			cache.flush();
+			event = data;
+		}
+		callback(err, event);
+	});
 }
 
 /**
@@ -183,16 +185,16 @@ exports.updateCalendarEvent = function (id, summary, ssid, location, description
  *                                Parameters are an error object.
  *                                If no error, object is null.
  */
-exports.deleteCalendarEvent = function(id, callback) {
-    gcs.deleteCalendarEvent(id, calendar, calendarId, oauth2Client, function(err) {
-        if ((error = err) != null) {
-            console.error('calendarRESTFunctions.js (deleteCalendarEvent): The Google API returned code ' +
-            err.code + ' for error: ' + err);
-        } else {
-            cache.flush();
-        }
-        callback(err);
-    });
+exports.deleteCalendarEvent = function (id, callback) {
+	gcs.deleteCalendarEvent(id, calendar, calendarId, oauth2Client, function (err) {
+		if ((error = err) != null) {
+			console.error('calendarRESTFunctions.js (deleteCalendarEvent): The Google API returned code ' +
+				err.code + ' for error: ' + err);
+		} else {
+			cache.flush();
+		}
+		callback(err);
+	});
 }
 
 /**
@@ -206,16 +208,16 @@ exports.deleteCalendarEvent = function(id, callback) {
  *                                    If error not null, events is null.
  */
 exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
-    gcs.getCalendarEvents(calendar, calendarId, oauth2Client, startDateTime, endDateTime, function (err, data) {
-        var events = null;
-        if ((error = err) != null) {
-            console.error('calendarRESTFunctions.js (getCalendarEvents): The Google API returned code ' +
-            err.code + ' for error: ' + err);
-        } else {
-            events = data.items;
-        }
-        callback(err, events);
-    });
+	gcs.getCalendarEvents(calendar, calendarId, oauth2Client, startDateTime, endDateTime, function (err, data) {
+		var events = null;
+		if ((error = err) != null) {
+			console.error('calendarRESTFunctions.js (getCalendarEvents): The Google API returned code ' +
+				err.code + ' for error: ' + err);
+		} else {
+			events = data.items;
+		}
+		callback(err, events);
+	});
 }
 
 /**
@@ -231,17 +233,17 @@ exports.getCalendarEvents = function (startDateTime, endDateTime, callback) {
  *                                    If error not null, events is null.
  */
 exports.listCalendarEvents = function (startDate, endDate, callback) {
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
-    gct.getSortedWeekEvents(startDate, endDate,
-    exports.getCalendarEvents, function (err, data) {
-        var events = null;
-        if ((error = err) != null) {
-            callback(error, events);
-        }
-        events = JSON.stringify(data);
-        callback(error, events);
-    })
+	startDate = new Date(startDate);
+	endDate   = new Date(endDate);
+	gct.getSortedWeekEvents(startDate, endDate,
+		exports.getCalendarEvents, function (err, data) {
+			var events = null;
+			if ((error = err) != null) {
+				callback(error, events);
+			}
+			events = JSON.stringify(data);
+			callback(error, events);
+		})
 }
 
 /**
@@ -259,38 +261,38 @@ exports.listCalendarEvents = function (startDate, endDate, callback) {
  *                                If error not null, events is null.
  */
 exports.listCalendarWeekEvents = function (week, extended, callback) {
-    if (error || tokenExpired()) {
-        /* Attempt to reauthorize */
-        gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function (err) {
-            if ((error = err) != null) {
-                callback(error, null);
-            } else {
-                exports.listCalendarWeekEvents(week, extended, callback);
-            }
-        });
-    } else {
-        /* Fetch from cache if it exists, else retrieve */
-        cache.get(week, function (data) {
-            if (data != null) {
-                var events = data.slice();
-                callback(null,
-                    JSON.stringify(extended ?
-                        events.splice(0, 8) : events.splice(2, 7)));
-            } else {
-                gct.getExtendedWeekEvents(week,
-                    exports.getCalendarEvents, function (err, data) {
-                    var events = null;
-                    if ((error = err) != null) {
-                        callback(error, events);
-                    } else {
-                        cache.cache(week, data);
-                        events = data.slice();
-                        callback(error,
-                            JSON.stringify(extended ?
-                                events.splice(0, 8) : events.splice(2, 7)));
-                    }
-                });
-            }
-        });
-    }
+	if (error || tokenExpired()) {
+		/* Attempt to reauthorize */
+		gcs.didReauthorizeOAuth2Client(jwt, oauth2Client, function (err) {
+			if ((error = err) != null) {
+				callback(error, null);
+			} else {
+				exports.listCalendarWeekEvents(week, extended, callback);
+			}
+		});
+	} else {
+		/* Fetch from cache if it exists, else retrieve */
+		cache.get(week, function (data) {
+			if (data != null) {
+				var events = data.slice();
+				callback(null,
+					JSON.stringify(extended ?
+						events.splice(0, 8) : events.splice(2, 7)));
+			} else {
+				gct.getExtendedWeekEvents(week,
+					exports.getCalendarEvents, function (err, data) {
+						var events = null;
+						if ((error = err) != null) {
+							callback(error, events);
+						} else {
+							cache.cache(week, data);
+							events = data.slice();
+							callback(error,
+								JSON.stringify(extended ?
+									events.splice(0, 8) : events.splice(2, 7)));
+						}
+					});
+			}
+		});
+	}
 }

@@ -1,6 +1,6 @@
-var express = require('express');
-var requireDir = require('require-dir');
-var path = require('path');
+var express            = require('express');
+var requireDir         = require('require-dir');
+var path               = require('path');
 var controllerLocation = './../controllers';
 
 /*
@@ -11,31 +11,31 @@ var controllerLocation = './../controllers';
  after all other controllers.
  */
 module.exports = function (app) {
-    var module = {};
+	var module = {};
 
-    module.addControllers = function () {
-        isDirectory = function (file) {
-            return (typeof file !== 'function');
-        }
+	module.addControllers = function () {
+		isDirectory = function (file) {
+			return (typeof file !== 'function');
+		}
 
-        recursiveAdd = function (dir) {
-            var controllers = requireDir(dir, {recurse: true});
-            for (var i in controllers) {
-                if (i != '404') {
-                    if (isDirectory(controllers[i]))
-                        recursiveAdd(dir + '/' + i);
-                    else
-                        app.use('/', controllers[i]);
-                }
-            }
-        }
-        recursiveAdd(controllerLocation);
-        app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'));
-        app.use(express.static('views/images/'));
-        app.use('/dependencies', express.static('dependencies'));
+		recursiveAdd = function (dir) {
+			var controllers = requireDir(dir, {recurse: true});
+			for (var i in controllers) {
+				if (i != '404') {
+					if (isDirectory(controllers[i]))
+						recursiveAdd(dir + '/' + i);
+					else
+						app.use('/', controllers[i]);
+				}
+			}
+		}
+		recursiveAdd(controllerLocation);
+		app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'));
+		app.use(express.static('views/images/'));
+		app.use('/dependencies', express.static('dependencies'));
 
-        app.use('/*', require(controllerLocation + '/404'));
-    };
+		app.use('/*', require(controllerLocation + '/404'));
+	};
 
-    return module;
+	return module;
 };

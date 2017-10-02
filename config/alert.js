@@ -27,21 +27,21 @@
 
 
 function Alert(success, message) {
-    this.success = success;
-    this.message = message;
+	this.success = success;
+	this.message = message;
 }
 
 Alert.prototype.passToNextPage = function (req) {
-    req.session.success = this.success;
-    req.session.errorMessage = this.message;
+	req.session.success      = this.success;
+	req.session.errorMessage = this.message;
 };
 
 
 Alert.prototype.initiate = function (req) {
-    this.success = req.session.success;
-    this.message = req.session.errorMessage;
-    req.session.success = null;
-    req.session.errorMessage = null;
+	this.success             = req.session.success;
+	this.message             = req.session.errorMessage;
+	req.session.success      = null;
+	req.session.errorMessage = null;
 };
 
 

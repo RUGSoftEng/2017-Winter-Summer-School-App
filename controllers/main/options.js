@@ -8,72 +8,72 @@ var bcrypt = require('bcrypt-nodejs');
 var saltRounds = 8;
 
 router.get('/options', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
-    var user;
-    if (req.user === undefined) {
-        user = "tester";
-    }
-    else {
-        user = req.user
-    }
-    var alert = new Alert();
-    alert.initiate(req);
-    data.db.accounts.find(function (err, docs) {
-        data.db.loginCodes.find(function (err, docs2) {
-            data.db.forum.find(function (err, docs3) {
-                data.db.schools.find(function (err, docs4) {
-                    res.render('options.ejs', {
-                        user: user,
-                        accounts: docs,
-                        loginCodes: docs2,
-                        forum: docs3,
-                        schools: docs4,
-                        alert: alert
-                    });
-                });
-            });
-        });
-    });
+	var user;
+	if (req.user === undefined) {
+		user = "tester";
+	}
+	else {
+		user = req.user
+	}
+	var alert = new Alert();
+	alert.initiate(req);
+	data.db.accounts.find(function (err, docs) {
+		data.db.loginCodes.find(function (err, docs2) {
+			data.db.forum.find(function (err, docs3) {
+				data.db.schools.find(function (err, docs4) {
+					res.render('options.ejs', {
+						user: user,
+						accounts: docs,
+						loginCodes: docs2,
+						forum: docs3,
+						schools: docs4,
+						alert: alert
+					});
+				});
+			});
+		});
+	});
 });
 
 router.post('/options', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
-    bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
-        var newAccount = {
-            username: req.body.username,
-            password: hash
-        };
-        data.db.accounts.find(function (err, users) {
-            var alert = null;
-            var user  = users.find(function (user) {
-                return user.username == newAccount.username;
-            });
-            if (typeof user === 'undefined') {
-                if (newAccount.username.length >= 5) {
-                    data.db.accounts.insert(newAccount, function (err, result) {
+	bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
+		var newAccount = {
+			username: req.body.username,
+			password: hash
+		};
+		data.db.accounts.find(function (err, users) {
+			var alert = null;
+			var user  = users.find(function (user) {
+				return user.username == newAccount.username;
+			});
+			if (typeof user === 'undefined') {
+				if (newAccount.username.length >= 5) {
+					data.db.accounts.insert(newAccount, function (err, result) {
 
-                        if (err) {
-                            console.log(err);
-                            var alertMessage = "Failed to insert to database.<br>" + err;
-                            alert            = new Alert(false, alertMessage);
-                            alert.passToNextPage(req);
-                        } else {
-                            alert = new Alert(true, "The announcement was successfully added");
-                            alert.passToNextPage(req);
-                        }
+						if (err) {
+							console.log(err);
+							var alertMessage = "Failed to insert to database.<br>" + err;
+							alert            = new Alert(false, alertMessage);
+							alert.passToNextPage(req);
+						} else {
+							alert = new Alert(true, "The announcement was successfully added");
+							alert.passToNextPage(req);
+						}
 
-                    });
-                } else {
-                    alert = new Alert(false, "Username is too short");
-                    alert.passToNextPage(req);
-                }
-            } else {
-                alert = new Alert(false, "Chosen username is already in use");
-                alert.passToNextPage(req);
-            }
+					});
+				} else {
+					alert = new Alert(false, "Username is too short");
+					alert.passToNextPage(req);
+				}
+			} else {
+				alert = new Alert(false, "Chosen username is already in use");
+				alert.passToNextPage(req);
+			}
 
-            res.redirect('/options');
+			res.redirect('/options');
 
-        });
-    });
+		});
+	});
 });
 
 

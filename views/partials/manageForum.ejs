@@ -63,7 +63,7 @@
                     </thead>
                     <tbody>
                     <% for(var i = 0; i < forum.length; i++) {
-                            for(var j = 0; j < forum[i].comments.length; ++j) {
+                    for(var j = 0; j < forum[i].comments.length; ++j) {
                     %>
                     <tr>
                         <td>
@@ -80,7 +80,9 @@
                         </td>
                         <td>
                             <button type='button' class='btn btn-default deleteAccount' aria-label='Delete'
-                                    data-toggle='tooltip' data-placement='bottom' data-type='comment' data-thread='<%= forum[i]._id %>' data-comment='<%= j %>' data-id='<%= forum[i].comments[j].commentID %>'
+                                    data-toggle='tooltip' data-placement='bottom' data-type='comment'
+                                    data-thread='<%= forum[i]._id %>' data-comment='<%= j %>'
+                                    data-id='<%= forum[i].comments[j].commentID %>'
                                     title='Delete'><span
                                         class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
                         </td>

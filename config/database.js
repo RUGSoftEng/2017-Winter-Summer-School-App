@@ -7,14 +7,14 @@ var UserRights = require("./userRights.js");
  * @param next
  * @returns {*}
  */
-exports.isLoggedIn = function(req, res, next) {
-		if (process.env.NODE_ENV === "test"){
-			return next();
-		}
-	    if (req.isAuthenticated())
-	        return next();
+exports.isLoggedIn = function (req, res, next) {
+	if (process.env.NODE_ENV === "test") {
+		return next();
+	}
+	if (req.isAuthenticated())
+		return next();
 
-	    res.redirect('/');
+	res.redirect('/');
 };
 
 /**
@@ -26,7 +26,7 @@ exports.isLoggedIn = function(req, res, next) {
  */
 function hasAllRights(names, user) {
 	var hasRights = true;
-	names.forEach(function(name) {
+	names.forEach(function (name) {
 		hasRight &= UserRights.userHasRights(user, name);
 	});
 	return hasRights;
@@ -40,12 +40,12 @@ function hasAllRights(names, user) {
  * @param {(string|string[])} name - one or more access right strings as defined in UserRights
  * @returns {Function}
  */
-exports.isAuthorised = function(name) {
+exports.isAuthorised = function (name) {
 	return function (req, res, next) {
-		if(req.isAuthenticated()) {
-			if(name.constructor === Array && hasAllRights(name, req.user)) {
+		if (req.isAuthenticated()) {
+			if (name.constructor === Array && hasAllRights(name, req.user)) {
 				return next();
-			} else if(UserRights.userHasRights(req.user, name)) {
+			} else if (UserRights.userHasRights(req.user, name)) {
 				return next();
 			}
 			res.send(403);
@@ -56,5 +56,5 @@ exports.isAuthorised = function(name) {
 };
 
 exports.mongojs = require('mongojs');
-exports.db = exports.mongojs('summer-schools');
+exports.db      = exports.mongojs('summer-schools');
 
