@@ -1,4 +1,4 @@
-$('.deleteAccount').click(function () {
+$('.delete-code').click(function () {
 	$.ajax({
 		url: '/loginCode/?id=' + $(this).data('id'),
 		type: 'DELETE',

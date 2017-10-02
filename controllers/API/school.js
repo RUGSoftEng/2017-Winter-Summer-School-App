@@ -1,7 +1,7 @@
-var express = require('express');
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
+const express = require('express');
+const router  = express.Router();
+const data    = require('../../config/database.js');
+const Alert   = require('../../config/alert.js');
 
 
 function schoolParamsAreProvided(req) {
@@ -14,7 +14,7 @@ function timeFrameIsValid(req) {
 
 // adds a new school
 router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	var alert = null;
+	let alert = null;
 	if (schoolParamsAreProvided(req) && timeFrameIsValid(req)) {
 		data.db.schools.findAndModify(
 			{
@@ -26,7 +26,7 @@ router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 					console.log(err);
 					throw err;
 				} else {
-					var newSchool = {
+					const newSchool = {
 						_id: doc.seq,
 						name: req.body.schoolName,
 						startDate: req.body.startDate,
@@ -58,9 +58,7 @@ router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 });
 
 router.get('/school', function (req, res) {
-	var id = parseInt(req.param('id'));
-	console.log(id);
-	console.log(Number.isInteger(id));
+	const id = parseInt(req.param('id'));
 	if (typeof id !== 'undefined' && Number.isInteger(id) && id >= 1) {
 		data.db.schools.find(function (err, schools) {
 			var school = schools.find(function (school) {
@@ -80,5 +78,19 @@ router.get('/school', function (req, res) {
 
 });
 
+// delete a school
+router.delete('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
+	const id = parseInt(req.param('id'));
+	if(!isNaN(id)) {
+		data.db.schools.remove({
+			'_id': id
+		}, function (err) {
+			if (err) throw err;
+			res.send(200);
+		});
+	} else {
+		res.send(400);
+	}
+});
 
 module.exports = router;

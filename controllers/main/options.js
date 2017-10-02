@@ -1,22 +1,23 @@
-var express = require('express');
+const express = require('express');
 
-var router = express.Router();
-var data   = require('../../config/database.js');
-var Alert  = require('../../config/alert.js');
-var bcrypt = require('bcrypt-nodejs');
+const router = express.Router();
+const data   = require('../../config/database.js');
+const Alert  = require('../../config/alert.js');
+const bcrypt = require('bcrypt-nodejs');
 
-var saltRounds = 8;
+const saltRounds = 8;
 
 router.get('/options', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
-	var user;
-	if (req.user === undefined) {
-		user = "tester";
+	const user = req.user || "";
+	let alert = null;
+	if(req.param('s') === 't') {
+		alert = new Alert(true, "Succesfully added a school.");
+	} else if(req.param('s') === 'f') {
+		alert = new Alert(false, "Unable to add a school.");
+	} else {
+		alert = new Alert();
+		alert.initiate(req);
 	}
-	else {
-		user = req.user
-	}
-	var alert = new Alert();
-	alert.initiate(req);
 	data.db.accounts.find(function (err, docs) {
 		data.db.loginCodes.find(function (err, docs2) {
 			data.db.forum.find(function (err, docs3) {
@@ -37,13 +38,13 @@ router.get('/options', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 
 router.post('/options', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
 	bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
-		var newAccount = {
+		const newAccount = {
 			username: req.body.username,
 			password: hash
 		};
 		data.db.accounts.find(function (err, users) {
-			var alert = null;
-			var user  = users.find(function (user) {
+			let alert = null;
+			const user  = users.find(function (user) {
 				return user.username == newAccount.username;
 			});
 			if (typeof user === 'undefined') {
