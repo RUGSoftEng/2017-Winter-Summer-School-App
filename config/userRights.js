@@ -5,7 +5,8 @@
  *
  * @type {{admin: [string], coordinator: [string]}}
  */
-var UserRights = {
+
+const UserRights = {
 
 	admin: [
 		"ACCESS_MAIN_OVERVIEW",

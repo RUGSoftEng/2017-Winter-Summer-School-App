@@ -1,10 +1,11 @@
-var flash        = require('connect-flash');
-var morgan       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var express      = require('express');
-var session      = require('express-session');
-var passport     = require('passport');
+var flash         = require('connect-flash');
+var morgan        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var cookieSession = require('cookie-session');
+var bodyParser    = require('body-parser');
+var express       = require('express');
+var session       = require('express-session');
+var passport      = require('passport');
 require('./passport')(passport);
 
 module.exports = function (app) {
@@ -12,7 +13,7 @@ module.exports = function (app) {
 	app.use(morgan('dev'));
 	app.use(cookieParser());
 	app.use(bodyParser());
-	app.use(session({
+	app.use(cookieSession({
 		secret: 'summerwinter',
 		saveUninitialized: true,
 		resave: true
