@@ -5,6 +5,7 @@ var data    = require('../../config/database.js');
 var multer  = require('multer');
 var crypto  = require('crypto');
 var mime    = require('mime');
+var Alert   = require('../../config/alert.js');
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './views/images/')
@@ -46,16 +47,21 @@ router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), functio
 
 
 router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), upload.single('img[]'), function (req, res) {
-	var newGeneralInfo = {
+	const newGeneralInfo = {
 		title: req.body.title,
 		description: req.body.description,
 		date: new Date(),
 		category: req.body.category
 	};
 	data.db.generalinfo.insert(newGeneralInfo, function (err, result) {
+		let alert = null;
 		if (err) {
+			alert = new Alert(false, "Failed to insert to database.<br>" + err);
 			console.log(err);
+		} else {
+			alert = new Alert(true, "The general information was successfully added");
 		}
+		alert.passToNextPage(req);
 		res.redirect('/main');
 	});
 
@@ -64,7 +70,7 @@ router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), upload
 router.get('/generalinfo/item', function (req, res) {
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
-	var count = parseInt((req.param('count') ? req.param('count') : 200));
+	const count = parseInt((req.param('count') ? req.param('count') : 200));
 	data.db.generalinfo.find({}, {}, {
 		limit: count
 	}).sort({

@@ -5,12 +5,7 @@ var data            = require('../../config/database.js');
 var dateManipulator = require('../../config/dayManipulation.js');
 
 router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
-	var user;
-	if (req.user === undefined) {
-		user = "tester";
-	} else {
-		user = req.user
-	}
+	var user = req.user || "";
 	var alert = new Alert();
 	alert.initiate(req);
 	data.db.announcements.find(function (err, docs) {
