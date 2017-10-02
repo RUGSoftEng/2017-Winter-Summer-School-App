@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
 });
 var upload  = multer({storage: storage});
 
-router.delete('/generalinfo/item', data.isLoggedIn, function (req, res) {
+router.delete('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
     data.db.generalinfo.remove({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, function (err, user) {
@@ -27,7 +27,7 @@ router.delete('/generalinfo/item', data.isLoggedIn, function (req, res) {
 
 });
 
-router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
+router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
     data.db.generalinfo.update({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, {
@@ -45,7 +45,7 @@ router.put('/generalinfo/item', data.isLoggedIn, function (req, res) {
 });
 
 
-router.post('/generalinfo/item', data.isLoggedIn, upload.single('img[]'), function (req, res) {
+router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), upload.single('img[]'), function (req, res) {
     var newGeneralInfo = {
         title: req.body.title,
         description: req.body.description,

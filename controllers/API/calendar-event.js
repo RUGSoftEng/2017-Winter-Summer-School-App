@@ -16,7 +16,7 @@ var data              = require('../../config/database.js');
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.post('/calendar/event', data.isLoggedIn, function (request, response) {
+router.post('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function (request, response) {
     var b = request.body;
     var required = [b.location,
              b.startDate,
@@ -62,7 +62,7 @@ router.post('/calendar/event', data.isLoggedIn, function (request, response) {
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.put('/calendar/event', data.isLoggedIn, function(request, response) {
+router.put('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function(request, response) {
     var p = request.query;
     var required = [p.id,
         p.title,
@@ -159,7 +159,7 @@ router.get('/calendar/event', function(request, response) {
 * @param {Object} request  - an object containing request details.
 * @param {Object} response - an object to which a response may be written.
 */
-router.delete('/calendar/event', data.isLoggedIn, function(request, response) {
+router.delete('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function(request, response) {
     var p = request.query;
     if (p.hasOwnProperty('id')) {
         restFunctions.deleteCalendarEvent(p.id, function(err) {

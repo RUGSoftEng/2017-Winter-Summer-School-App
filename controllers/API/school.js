@@ -13,7 +13,7 @@ function timeFrameIsValid(req) {
 }
 
 // adds a new school
-router.post('/school', data.isLoggedIn, function (req, res) {
+router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
     var alert = null;
     if (schoolParamsAreProvided(req) && timeFrameIsValid(req)) {
         data.db.schools.findAndModify(

@@ -5,7 +5,7 @@ var Alert   = require('../../config/alert.js');
 
 var codeLength = 8;
 
-router.post('/loginCode', data.isLoggedIn, function (req, res) {
+router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
     var alert = null;
     if (typeof req.body.code !== 'undefined' && req.body.code.length === codeLength) {
         var code = {
@@ -53,7 +53,7 @@ router.get('/loginCode', function (req, res) {
 
 });
 
-router.delete('/loginCode', data.isLoggedIn, function (req, res) {
+router.delete('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
     data.db.loginCodes.remove({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, function (err, user) {

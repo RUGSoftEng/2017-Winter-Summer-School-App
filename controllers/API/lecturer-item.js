@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
 });
 var upload  = multer({storage: storage});
 
-router.delete('/lecturer/item', data.isLoggedIn, function (req, res) {
+router.delete('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
     //first get the document so you can delete the old picture path.
     data.db.lecturers.findOne({
         _id: data.mongojs.ObjectId(req.param('id'))
@@ -42,7 +42,7 @@ router.delete('/lecturer/item', data.isLoggedIn, function (req, res) {
 });
 
 
-router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(req, res) {
+router.post('/lecturer/item', upload.single('img[]'), data.isAuthorised("ALTER_LECTURERS"), function(req, res) {
     var newLecturer;
     if(process.env.NODE_ENV === "test"){
         newLecturer = {
@@ -70,7 +70,7 @@ router.post('/lecturer/item',upload.single('img[]'),data.isLoggedIn, function(re
     }
 
 });
-router.put('/lecturer/item', data.isLoggedIn, function (req, res) {
+router.put('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
     data.db.lecturers.update({
         '_id': data.mongojs.ObjectId(req.param('id'))
     }, {

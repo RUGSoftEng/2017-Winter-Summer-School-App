@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 var saltRounds = 8;
 
-router.get('/options', data.isLoggedIn, function (req, res) {
+router.get('/options', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
     var user;
     if (req.user === undefined) {
         user = "tester";
@@ -34,7 +34,8 @@ router.get('/options', data.isLoggedIn, function (req, res) {
         });
     });
 });
-router.post('/options', data.isLoggedIn, function (req, res) {
+
+router.post('/options', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
     bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
         var newAccount = {
             username: req.body.username,

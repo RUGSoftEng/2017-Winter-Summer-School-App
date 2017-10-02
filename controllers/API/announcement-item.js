@@ -20,7 +20,7 @@ var storage        = multer.diskStorage({
 var upload         = multer({storage: storage});
 
 
-router.put('/announcement/item', data.isLoggedIn, function (req, res) {
+router.put('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
     // updates the description and title of an announcement
     // corresponding to the given id param.
     data.db.announcements.update({
@@ -37,7 +37,7 @@ router.put('/announcement/item', data.isLoggedIn, function (req, res) {
 
 });
 
-router.delete('/announcement/item', data.isLoggedIn, function (req, res) {
+router.delete('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
     // deletes the announcements corresponding to the given id param
     data.db.announcements.remove({
         '_id': data.mongojs.ObjectId(req.param('id'))
@@ -49,7 +49,7 @@ router.delete('/announcement/item', data.isLoggedIn, function (req, res) {
 });
 
 
-router.post('/announcement/item', upload.single('img[]'), data.isLoggedIn, function (req, res) {
+router.post('/announcement/item', upload.single('img[]'), data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
     // adds a new announcement
     var newAnnouncement;
     if (process.env.NODE_ENV === "test") {

@@ -3,7 +3,7 @@ var router  = express.Router();
 var data    = require('../../config/database.js');
 var Alert   = require('../../config/alert.js');
 
-router.delete('/admin', data.isLoggedIn, function (req, res) {
+router.delete('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
     if (req.param('id') == req.user._id) {
         res.send(400);
     } else {
