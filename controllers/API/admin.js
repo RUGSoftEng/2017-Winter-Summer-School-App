@@ -1,7 +1,9 @@
-var express = require('express');
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
+const express = require('express');
+const router  = express.Router();
+const data    = require('../../config/database.js');
+const Alert   = require('../../config/alert.js');
+const bcrypt = require('bcrypt-nodejs');
+const saltRounds = 8;
 
 router.delete('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
 	if (req.param('id') == req.user._id) {
@@ -17,6 +19,49 @@ router.delete('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
 			}
 		});
 	}
+});
+
+
+router.post('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
+	bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
+		console.log("shit");
+		const newAccount = {
+			username: req.body.username,
+			password: hash
+		};
+		data.db.accounts.find(function (err, users) {
+			let alert = null;
+			const user  = users.find(function (user) {
+				return user.username == newAccount.username;
+			});
+			if (typeof user === 'undefined') {
+				if (newAccount.username.length >= 5) {
+					data.db.accounts.insert(newAccount, function (err, result) {
+
+						if (err) {
+							console.log(err);
+							const alertMessage = "Failed to insert to database.<br>" + err;
+							alert            = new Alert(false, alertMessage);
+							alert.passToNextPage(req);
+						} else {
+							alert = new Alert(true, "The announcement was successfully added");
+							alert.passToNextPage(req);
+						}
+
+					});
+				} else {
+					alert = new Alert(false, "Username is too short");
+					alert.passToNextPage(req);
+				}
+			} else {
+				alert = new Alert(false, "Chosen username is already in use");
+				alert.passToNextPage(req);
+			}
+
+			res.redirect('/options');
+
+		});
+	});
 });
 
 

@@ -1,8 +1,8 @@
-var express         = require('express');
-var router          = express.Router();
-var Alert           = require('../../config/alert.js');
-var data            = require('../../config/database.js');
-var dateManipulator = require('../../config/dayManipulation.js');
+const express         = require('express');
+const router          = express.Router();
+const Alert           = require('../../config/alert.js');
+const data            = require('../../config/database.js');
+const dateManipulator = require('../../config/dayManipulation.js');
 
 router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
 	var user = req.user || "";
