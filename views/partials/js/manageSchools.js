@@ -12,4 +12,3 @@ $('.delete-school').click(function () {
 
 });
 
-new InputValidator('#code', new CodeValidator());
