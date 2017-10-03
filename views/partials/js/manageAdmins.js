@@ -22,22 +22,29 @@ $('#cpassword').focusout(function () {
 });
 
 $('.deleteAccount').click(function () {
-	$.ajax({
-		url: '/admin/?id=' + $(this).data('id'),
-		type: 'DELETE',
-		success: function (result) {
-			location.reload();
-		},
-		error: function () {
-			alert('Error: could not delete account. Note that you can not delete an account on which you are logged in.');
-		}
-	});
-
+	if (confirm('Are you sure you want to delete this account')) {
+		$.ajax({
+			url: '/admin/?id=' + $(this).data('id'),
+			type: 'DELETE',
+			success: function (result) {
+				location.reload();
+			},
+			error: function () {
+				alert('Error: could not delete account. Note that you can not delete an account on which you are logged in.');
+			}
+		});
+	}
 });
 
-$(function () {
-	$('[data-toggle=\'tooltip\']').tooltip({
-		container: 'body',
-		template: '<div class=\'tooltip\' role=\'tooltip\'><div class=\'tooltip-arrow\'></div><div class=\'tooltip-inner\'></div></div>'
-	})
+$('#rank').change(function () {
+	if($(this).val() === 'coordinator') {
+		$('#school').parent().show();
+	} else {
+		$('#school').parent().hide();
+	}
+})
+
+$('[data-toggle=\'tooltip\']').tooltip({
+	container: 'body',
+	template: '<div class=\'tooltip\' role=\'tooltip\'><div class=\'tooltip-arrow\'></div><div class=\'tooltip-inner\'></div></div>'
 })
