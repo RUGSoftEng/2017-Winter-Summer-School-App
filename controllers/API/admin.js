@@ -27,7 +27,8 @@ router.post('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
 		console.log("shit");
 		const newAccount = {
 			username: req.body.username,
-			password: hash
+			password: hash,
+			rank: req.body.rank
 		};
 		data.db.accounts.find(function (err, users) {
 			let alert = null;

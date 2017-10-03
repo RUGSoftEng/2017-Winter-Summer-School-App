@@ -1,8 +1,6 @@
-var LocalStrategy = require('passport-local').Strategy;
-var data          = require('./database.js');
-var bcrypt        = require('bcrypt-nodejs');
-
-var User = data.db.collection('accounts');
+const LocalStrategy = require('passport-local').Strategy;
+const data          = require('./database.js');
+const bcrypt        = require('bcrypt-nodejs');
 
 module.exports = function (passport) {
 
@@ -12,9 +10,6 @@ module.exports = function (passport) {
 				var user = users.find(function (user) {
 					return user.username === username;
 				});
-				if (!user.rank) {
-					user.rank = "admin";
-				}
 
 				if (typeof user != 'undefined') {
 					bcrypt.compare(password, user.password, function (err, res) {
@@ -45,7 +40,6 @@ module.exports = function (passport) {
 			});
 			if (typeof user === 'undefined')
 				console.log('Error in deserializing user');
-			user.rank = "admin";
 			done(null, user);
 		});
 	});
