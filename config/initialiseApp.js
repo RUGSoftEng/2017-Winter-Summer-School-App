@@ -1,11 +1,12 @@
-var flash         = require('connect-flash');
-var morgan        = require('morgan');
-var cookieParser  = require('cookie-parser');
-var cookieSession = require('cookie-session');
-var bodyParser    = require('body-parser');
-var express       = require('express');
-var session       = require('express-session');
-var passport      = require('passport');
+const flash         = require('connect-flash');
+const morgan        = require('morgan');
+const cookieParser  = require('cookie-parser');
+const cookieSession = require('cookie-session');
+const bodyParser    = require('body-parser');
+const express       = require('express');
+const session       = require('express-session');
+const passport      = require('passport');
+const UserRights    = require('./userRights.js');
 require('./passport')(passport);
 
 module.exports = function (app) {
@@ -22,4 +23,5 @@ module.exports = function (app) {
 	app.use(passport.session());
 	app.use(flash());
 	app.use(express.static('views'));
+	app.locals.isAuthorised = UserRights.userHasRights;
 };

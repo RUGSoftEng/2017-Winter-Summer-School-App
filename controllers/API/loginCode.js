@@ -1,16 +1,17 @@
-var express = require('express');
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
+const express = require('express');
+const router  = express.Router();
+const data    = require('../../config/database.js');
+const Alert   = require('../../config/alert.js');
 
-var codeLength = 8;
+const codeLength = 8;
 
 router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
-	var alert = null;
+	let alert = null;
 	if (typeof req.body.code !== 'undefined' && req.body.code.length === codeLength) {
-		var code = {
+		const code = {
 			code: req.body.code,
-			date: new Date()
+			date: new Date(),
+			school: req.body.school
 		};
 		data.db.loginCodes.find(function (err, codes) {
 			var exists = codes.find(function (c) {
@@ -20,7 +21,7 @@ router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req,
 				data.db.loginCodes.insert(code, function (err, result) {
 					if (err) {
 						console.log(err);
-						var alertMessage = "Failed to insert to database.<br>" + err;
+						const alertMessage = "Failed to insert to database.<br>" + err;
 						alert            = new Alert(false, alertMessage);
 					} else {
 						alert = new Alert(true, "The login code was successfully added");
@@ -43,7 +44,7 @@ router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req,
 });
 
 router.get('/loginCode', function (req, res) {
-	var count = parseInt((req.param('count') ? req.param('count') : 200));
+	const count = parseInt((req.param('count') ? req.param('count') : 200));
 	data.db.loginCodes.find({}, {}, {
 		limit: count
 	}).sort({$natural: -1}, function (err, docs) {

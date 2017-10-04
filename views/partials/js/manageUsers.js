@@ -24,7 +24,7 @@ $('#cpassword').focusout(function () {
 $('.deleteAccount').click(function () {
 	if (confirm('Are you sure you want to delete this account')) {
 		$.ajax({
-			url: '/admin/?id=' + $(this).data('id'),
+			url: '/user/?id=' + $(this).data('id'),
 			type: 'DELETE',
 			success: function (result) {
 				location.reload();

@@ -1,8 +1,12 @@
 <div class='col-md-4 cols scheduleCol'>
     <div class='inner-event'>
-        <h3 class='underline-title'><a href="#">Schedule</a><span
+        <h3 class='underline-title'><a href="#">Schedule</a>
+            <% if(isAuthorised(user, "ALTER_CALENDAR")) { %>
+                <span
                     class="glyphicon glyphicon-plus pull-right open-modal" data-type=2 data-toggle="modal"
-                    data-target="#add-announcement" aria-hidden="true"></span></h3>
+                    data-target="#add-announcement" aria-hidden="true"></span>
+            <% } %>
+        </h3>
         <div class='row innerrow'>
             <ul class="list-group" id='sched-acc'>
                 <% var isToday = function (date) { %>

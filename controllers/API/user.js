@@ -5,7 +5,7 @@ const Alert   = require('../../config/alert.js');
 const bcrypt = require('bcrypt-nodejs');
 const saltRounds = 8;
 
-router.delete('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
+router.delete('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	if (req.param('id') == req.user._id) {
 		res.send(400);
 	} else {
@@ -22,7 +22,7 @@ router.delete('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
 });
 
 
-router.post('/admin', data.isAuthorised("ALTER_ADMINS"), function (req, res) {
+router.post('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
 		console.log("shit");
 		const newAccount = {

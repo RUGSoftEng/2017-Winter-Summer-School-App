@@ -16,7 +16,7 @@ const UserRights = {
 		"ALTER_SCHOOLS",
 		"ALTER_CALENDAR",
 		"ALTER_ANNOUNCEMENTS",
-		"ALTER_ADMINS",
+		"ALTER_USERS",
 		"VIEW_OPTIONS",
 		"OVERVIEW_GENERAL_INFO",
 		"OVERVIEW_ANNOUNCE",
@@ -24,7 +24,9 @@ const UserRights = {
 	],
 
 	// A coordinator for a specific school. May only perform actions related to a specific school.
-	coordinator: ["ACCESS_MAIN_OVERVIEW", "ALTER_LECTURER", "ALTER_GENERAL_INFO", "ALTER_ANNOUNCEMENTS", "ALTER_CALENDAR"]
+	coordinator: ["ACCESS_MAIN_OVERVIEW", "ALTER_LECTURER", "ALTER_GENERAL_INFO", "ALTER_ANNOUNCEMENTS", "ALTER_CALENDAR"],
+
+	student: ["ACCESS_MAIN_OVERVIEW"]
 };
 
 /**

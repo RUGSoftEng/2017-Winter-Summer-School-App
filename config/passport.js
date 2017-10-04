@@ -14,7 +14,6 @@ module.exports = function (passport) {
 				if (typeof user != 'undefined') {
 					bcrypt.compare(password, user.password, function (err, res) {
 						if (res == true) {
-							console.log(user);
 							return done(null, user);
 						} else {
 							return done(null, false, {"message": "Invalid password."});

@@ -61,7 +61,7 @@ router.get('/school', function (req, res) {
 	const id = parseInt(req.param('id'));
 	if (typeof id !== 'undefined' && Number.isInteger(id) && id >= 1) {
 		data.db.schools.find(function (err, schools) {
-			var school = schools.find(function (school) {
+			const school = schools.find(function (school) {
 				return school._id == id;
 			});
 			if (typeof school === 'undefined') {
