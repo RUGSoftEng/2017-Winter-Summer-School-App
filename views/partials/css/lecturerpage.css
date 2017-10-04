@@ -12,6 +12,7 @@
 }
 
 .inner-event > .img-thumbnail, #modal-thumbnail {
+	object-fit: cover;
 	margin-right: auto;
 	margin-left: auto;
 	width: 150px;

@@ -87,7 +87,7 @@ router.put('/forum/thread/item', function (req, res) {
 
 router.put('/forum/comment/item', function (req, res) {
 	// updates the modifies the comment.
-	//comment is selected by its position in the array.
+	// comment is selected by its position in the array.
 	data.db.forum.findOne({
 		_id: data.mongojs.ObjectID(req.param('threadID'))
 	}, function (err, doc) {
