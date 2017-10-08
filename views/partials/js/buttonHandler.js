@@ -68,11 +68,16 @@ function initialiseFinishButton() {
 				var alertMessage = ($type == 2) ? "Events require all fields be filled!" : "Please fill in a title and content!";
 				alert(alertMessage);
 			} else if (action == "edit") {
+				// The description can contain \n, these need to be removed
+				// because chrome rejects API calls with both \n and <
+				// See https://www.chromestatus.com/feature/5735596811091968
+				desc = $(descriptionSelector).val().replace(/(\r\n|\n|\r)/gm, "");
+
 				// send a PUT request instead of POST if an existing item is edited.
 				$.ajax({
 					url: links[$(modalSelector).data('type')] +
 					'?id=' + $(modalSelector).data('id') +
-					'&description=' + $(descriptionSelector).val() +
+					'&description=' + desc +
 					'&title=' + $(titleSelector).val() +
 					'&location=' + $('#location ').val() +
 					'&details=' + $('#details ').val() +
