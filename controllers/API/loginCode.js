@@ -50,7 +50,6 @@ router.get('/loginCode', function (req, res) {
 			return c.code === codeParam;
 		});
 		if (typeof loginCode === 'undefined') {
-			console.log('Error wrong id provided');
 			res.send(400);
 		} else {
 			res.send(loginCode.school);
