@@ -44,12 +44,18 @@ router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req,
 });
 
 router.get('/loginCode', function (req, res) {
-	const count = parseInt((req.param('count') ? req.param('count') : 200));
-	data.db.loginCodes.find({}, {}, {
-		limit: count
-	}).sort({$natural: -1}, function (err, docs) {
-		if (err) console.log(err);
-		else res.send(docs);
+	const codeParam = req.param('code');
+	data.db.loginCodes.find(function (err, codes) {
+		const loginCode = codes.find(function (c) {
+			return c.code === codeParam;
+		});
+		if (typeof loginCode === 'undefined') {
+			console.log('Error wrong id provided');
+			res.send(400);
+		} else {
+			res.send(loginCode.school);
+		}
+
 	});
 
 });
