@@ -24,11 +24,11 @@ router.delete('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 
 router.post('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	bcrypt.hash(req.body.password, bcrypt.genSaltSync(saltRounds), null, function (err, hash) {
-		console.log("shit");
 		const newAccount = {
 			username: req.body.username,
 			password: hash,
-			rank: req.body.rank
+			rank: req.body.rank,
+			school: req.body.school
 		};
 		data.db.accounts.find(function (err, users) {
 			let alert = null;

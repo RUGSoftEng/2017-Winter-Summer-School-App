@@ -6,7 +6,7 @@ const Alert  = require('../../config/alert.js');
 
 router.get('/options', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 	const user = req.user || "";
-	let alert = new Alert();
+	var alert = new Alert();
 	alert.initiate(req);
 
 	data.db.accounts.find(function (err, docs) {

@@ -4,7 +4,7 @@
  * Usage:
  * Once an action has been performed that requires an alert object, then an
  * Alert object should be instantiated with an appropriate message and a boolean
- * indicating whether the action was succesful or not.
+ * indicating whether the action was successful or not.
  *
  * Before redirecting to another page, the passToNextPage function should be called
  * on the Alert object.
