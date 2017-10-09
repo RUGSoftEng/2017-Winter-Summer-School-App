@@ -8,6 +8,7 @@
             <% } %>
         </h3>
         <div class='row innerrow'>
+            <% var announcements = school.announcements || []; %>
             <% for(var i = 1; i <= announcements.length; i++) { if(typeof announcements[announcements.length - i] !== 'undefined') { %>
             <div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-toggle="modal"
                  data-type=0 data-id=<%- announcements[announcements.length - i]._id %> data-target="#add-announcement">

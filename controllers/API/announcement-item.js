@@ -48,52 +48,58 @@ router.delete('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), fu
 
 });
 
-
+/*var jsonData = {
+ "data": {
+ "title": "Hello title",
+ "description": "What is up"
+ },
+ "to": "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." // TODO:
+ };
+ request({
+ url: "https://fcm.googleapis.com/fcm/send",
+ method: "POST",
+ json: true,
+ headers: {
+ 'Content-Type': 'application/json',
+ 'Content-Length': Buffer.byteLength(post_data),
+ 'Authorization': 'key=' + serviceAccount.apiKey
+ },
+ body: jsonData
+ }, function (error, response, body){
+ console.log(response);
+ });*/
 router.post('/announcement/item', upload.single('img[]'), data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
-	// adds a new announcement
-	var newAnnouncement;
-	if (process.env.NODE_ENV === "test") {
-		newAnnouncement = {
-			title: req.body.title,
-			description: req.body.description
-		};
-		res.send(newAnnouncement);
-	}
-	else {
-		newAnnouncement = {
-			title: req.body.title,
-			description: req.body.description,
-			poster: req.user.username,
-			date: new Date()
-		};
-
-		data.db.announcements.insert(newAnnouncement, function (err, result) {
-			var alert = null;
+	const newAnnouncement = {
+		title: req.body.title,
+		description: req.body.description,
+		poster: req.user.username,
+		date: new Date()
+	};
+	const schoolId        = parseInt(req.param('school')) || 0;
+	var alert             = null;
+	if (typeof schoolId !== 'undefined' && Number.isInteger(schoolId) && schoolId > 0) {
+		data.db.schools.update({
+			'_id': schoolId
+		}, {
+			$push: {
+				announcements: newAnnouncement
+			}
+		}, function (err, user) {
 			if (err) {
 				console.log(err);
-				var alertMessage = "Failed to insert to database.<br>" + err;
-				alert            = new Alert(false, alertMessage);
+				alert = new Alert(false, "Failed to insert to database.<br>" + err);
 			} else {
-				var jsonData = {
-					"data": {
-						"title": "Hello title",
-						"description": "What is up"
-					},
-					"to": "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." // TODO:
-				};
-				/*request({
-				 url: "https://fcm.googleapis.com/fcm/send",
-				 method: "POST",
-				 json: true,
-				 headers: {
-				 'Content-Type': 'application/json',
-				 'Content-Length': Buffer.byteLength(post_data),
-				 'Authorization': 'key=' + serviceAccount.apiKey
-				 },
-				 body: jsonData
-				 }, function (error, response, body){
-				 console.log(response);
-				 });*/
+				alert = new Alert(true, "The announcement was successfully added");
+			}
+			alert.passToNextPage(req);
+			res.redirect('/main');
+		});
+	} else {
+		data.db.announcements.insert(newAnnouncement, function (err, result) {
+			if (err) {
+				console.log(err);
+				alert = new Alert(false, "Failed to insert to database.<br>" + err);
+			} else {
 				alert = new Alert(true, "The announcement was successfully added");
 			}
 			alert.passToNextPage(req);

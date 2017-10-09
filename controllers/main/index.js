@@ -12,13 +12,21 @@ router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, re
 		data.db.generalinfo.find(function (err, docs2) {
 			var week = req.session.week ? req.session.week : 0;
 			dateManipulator.getWeekEvents(req.get('host'), week, function (weekSchedule) {
-				res.render('loggedIn.ejs', {
-					user: user,
-					announcements: docs,
-					generalinfo: docs2,
-					schedule: weekSchedule,
-					alert: alert
+				data.db.schools.find(function (err, schools) {
+					const userSchool = schools.find(function (school) {
+						return school._id == user.school;
+					});
+					res.render('loggedIn.ejs', {
+						user: user,
+						//announcements: docs,
+						school: userSchool,
+						generalinfo: docs2,
+						schedule: weekSchedule,
+						alert: alert
+					});
+
 				});
+
 			});
 		});
 	});
