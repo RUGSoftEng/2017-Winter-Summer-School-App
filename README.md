@@ -14,4 +14,4 @@ If NodeJS has been installed, you can run the server by entering the following c
 node server.js
 ```
 
-By default the server is listening on port 8800. Therefore, the webinterface can be accessed on [localhost:8080/](localhost:8800/).
+By default the server is listening on port 8800. Therefore, the webinterface can be accessed on [localhost:8800/](localhost:8800/).
