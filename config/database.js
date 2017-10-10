@@ -1,4 +1,4 @@
-var UserRights = require("./userRights.js");
+const UserRights = require("./userRights.js");
 
 /**
  * A function that validates whether the user is logged in, and if not redirect them to the log in page.
@@ -48,7 +48,9 @@ exports.isAuthorised = function (name) {
 			} else if (UserRights.userHasRights(req.user, name)) {
 				return next();
 			}
-			res.send(403);
+			let err = new Error('Not Found');
+			err.status = 404;
+			next(err);
 		} else {
 			res.redirect('/');
 		}

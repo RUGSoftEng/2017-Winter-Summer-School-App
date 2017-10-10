@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class='fill'>
+
+<head>
+    <% include partials/web_header %>
+
+    <style>
+        .fill {
+            min-height: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #notFoundBack {
+            color: #0A9BEB;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body class='fill'>
+<div class="jumbotron fill">
+    <h2 class='lead text-center'> You do not have enough rights to access this page.<br> Contact an administrator to change your rights.</h2>
+    <h4 class='text-center'>
+        <small><a id='notFoundBack' href='/'>Take me back</a></small>
+    </h4>
+</div>
+
+</body>
+
+</html>

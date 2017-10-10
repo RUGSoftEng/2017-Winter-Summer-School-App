@@ -35,6 +35,11 @@ module.exports = function (app) {
 		app.use('/dependencies', express.static('dependencies'));
 
 		app.use('/*', require(controllerLocation + '/404'));
+		app.use(function(err, req, res, next){
+			if(err.status === 403) {
+				res.render('403.ejs');
+			}
+		});
 	};
 
 	return module;
