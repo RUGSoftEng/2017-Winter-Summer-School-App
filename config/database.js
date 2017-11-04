@@ -27,7 +27,7 @@ exports.isLoggedIn = function (req, res, next) {
 function hasAllRights(names, user) {
 	var hasRights = true;
 	names.forEach(function (name) {
-		hasRight &= UserRights.userHasRights(user, name);
+		hasRights &= UserRights.userHasRights(user, name);
 	});
 	return hasRights;
 }
@@ -48,8 +48,8 @@ exports.isAuthorised = function (name) {
 			} else if (UserRights.userHasRights(req.user, name)) {
 				return next();
 			}
-			let err = new Error('Not Found');
-			err.status = 404;
+			let err = new Error('Not authenticated');
+			err.status = 403;
 			next(err);
 		} else {
 			res.redirect('/');
