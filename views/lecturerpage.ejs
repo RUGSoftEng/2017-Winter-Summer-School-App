@@ -33,7 +33,7 @@
                          src=<%= lecturer.imagepath ? lecturer.imagepath : "/images/default/placeholder.jpeg" %> alt="Placeholder">
                     <h4 class="title"><%= lecturer.name %></h4>
                     <div class="caption">
-                        <p class="lead data-text"><%- lecturer.description %></p>
+                        <div class="lead data-text"><%- lecturer.description %></div>
                         <a class="data-text website"
                            href="<%= (lecturer.website.substring(0, 7) === "http://") ? lecturer.website : ("http://" + lecturer.website) %>"><%= lecturer.website %></a>
                     </div>
