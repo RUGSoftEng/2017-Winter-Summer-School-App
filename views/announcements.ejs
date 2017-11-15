@@ -33,11 +33,7 @@
                         data-id="<%= announcement._id %>">
                     <span class='pull-left announcement-title'><%= announcement.title %></span>
                     <h5 class="details pull-right">
-                        <% if(typeof announcement.date === "undefined") { %>
-                        Unknown date
-                        <% } else { %>
-                        <%= ("" + announcement.date).substring(0, 21) %>
-                        <% } %>
+                        <%= announcement.created.toDateString() %>
                     </h5>
                 </button>
                 <% }); %>

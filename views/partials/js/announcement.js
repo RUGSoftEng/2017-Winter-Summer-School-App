@@ -9,6 +9,7 @@ $(document).ready(function () {
 		$('#editSection').data('title', title);
 		$('#editSection').data('description', description);
 		$('#editSection').data('id', $(this).data('id'));
+		$('#editSection').data('category', $(this).data('category'));
 		$('#editSection').show();
 	});
 	$('#announcementDescription').markItUp(mySettings);

@@ -7,17 +7,15 @@
 
 var express = require('express');
 var router  = express.Router();
-var data    = require('../../config/database.js');
-
+var Token = require('mongoose').model('token');
 
 router.post('/token', function (req, res) {
 	// adds a new token
-	var newToken = {
-		token: req.body.id,
-		date: new Date()
-	};
+	var newToken = new Token({
+		token: req.body.id
+	});
 
-	data.db.tokens.insert(newToken, function (err, result) {
+	newToken.save(function (err, result) {
 		if (err) {
 			console.log(err);
 			res.send(400);
@@ -25,7 +23,6 @@ router.post('/token', function (req, res) {
 			res.send(200);
 		}
 	});
-
 });
 
 

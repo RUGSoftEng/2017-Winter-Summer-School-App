@@ -1,15 +1,15 @@
-var express = require('express');
-var app     = express();
+"use strict";
 
-require('./config/initialiseApp')(app);
+var app = require('express')();
 
-var control = require('./config/addControllers')(app);
-control.addControllers();
+require('./config/mongoose')(function() {
+	require('./config/initialiseApp')(app);
+	require('./config/addControllers')(app).addControllers();
 
-var defaultPort = process.env.PORT || 8800;
-
-app.listen(defaultPort, function () {
-	console.log('Our app is running on port:' + defaultPort);
+	var defaultPort = process.env.PORT || 8800;
+	app.listen(defaultPort, function () {
+		console.log('Our app is running on port:' + defaultPort);
+	});
 });
 
 exports.app = app;

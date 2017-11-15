@@ -1,5 +1,5 @@
 const UserRights = require("./userRights.js");
-
+const mongoose = require('mongoose');
 /**
  * A function that validates whether the user is logged in, and if not redirect them to the log in page.
  * @param req
@@ -57,6 +57,5 @@ exports.isAuthorised = function (name) {
 	}
 };
 
-exports.mongojs = require('mongojs');
-exports.db      = exports.mongojs('summer-schools');
+
 

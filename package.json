@@ -31,7 +31,8 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "request": "^2.81.0",
-    "require-dir": "latest"
+    "require-dir": "latest",
+    "validator": "^9.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

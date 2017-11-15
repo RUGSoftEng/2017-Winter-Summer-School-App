@@ -1,26 +1,12 @@
 var express = require('express');
-
 var router  = express.Router();
 var data    = require('../../config/database.js');
-var multer  = require('multer');
-var crypto  = require('crypto');
-var mime    = require('mime');
 var Alert   = require('../../config/alert.js');
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './views/images/')
-	},
-	filename: function (req, file, cb) {
-		crypto.pseudoRandomBytes(16, function (err, raw) {
-			cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
-		});
-	}
-});
-var upload  = multer({storage: storage});
+var Generalinfo = require('mongoose').model('generalinfo');
 
 router.delete('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	data.db.generalinfo.remove({
-		'_id': data.mongojs.ObjectId(req.param('id'))
+	Generalinfo.findOneAndRemove({
+		'_id': req.param('id')
 	}, function (err, user) {
 		if (err) throw err;
 		res.send(200);
@@ -29,8 +15,8 @@ router.delete('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), func
 });
 
 router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	data.db.generalinfo.update({
-		'_id': data.mongojs.ObjectId(req.param('id'))
+	Generalinfo.findOneAndUpdate({
+		'_id': req.param('id')
 	}, {
 		$set: {
 			title: req.param('title'),
@@ -46,14 +32,14 @@ router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), functio
 });
 
 
-router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), upload.single('img[]'), function (req, res) {
-	const newGeneralInfo = {
+router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+	const newGeneralInfo = new Generalinfo({
 		title: req.body.title,
 		description: req.body.description,
 		date: new Date(),
 		category: req.body.category
-	};
-	data.db.generalinfo.insert(newGeneralInfo, function (err, result) {
+	});
+	newGeneralInfo.save(function (err, result) {
 		let alert = null;
 		if (err) {
 			alert = new Alert(false, "Failed to insert to database.<br>" + err);
@@ -71,14 +57,14 @@ router.get('/generalinfo/item', function (req, res) {
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
 	const count = parseInt((req.param('count') ? req.param('count') : 200));
-	data.db.generalinfo.find({}, {}, {
-		limit: count
-	}).sort({
-		$natural: -1
-	}, function (err, docs) {
-		if (err) console.log(err);
-		else res.send(docs);
-	});
+	Generalinfo
+		.find({})
+		.sort({ $natural: -1 })
+		.limit(count)
+		.exec(function (err, generalinfo) {
+			if (err) console.log(err);
+			else res.send(generalinfo);
+		});
 });
 
 module.exports = router;

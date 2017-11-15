@@ -25,7 +25,7 @@
 
                         <div class='form-group'>
                             <label class='control-label' for='startDate'>Start date</label>
-                            <input type='date' class='form-control' id='startDate' placeholder='31/01/2000'
+                            <input type='date' class='form-control' id='startDate' placeholder='31-01-2000'
                                    name='startDate'>
                             <span class='help-block'>
                                 <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
@@ -35,7 +35,7 @@
 
                         <div class='form-group'>
                             <label class='control-label' for='endDate'>End date</label>
-                            <input type='date' class='form-control' id='endDate' placeholder='28/02/2000'
+                            <input type='date' class='form-control' id='endDate' placeholder='28-02-2000'
                                    name='endDate'>
                             <span class='help-block'>
                                 <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
@@ -63,10 +63,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for(var i = 0; i < schools.length; i++) {
-                        if (!Number.isInteger(schools[i]._id))
-                            continue;
-                    %>
+                    <% for(var i = 0; i < schools.length; i++) { %>
                     <tr>
                         <td>
                             <%= schools[i]._id %>
