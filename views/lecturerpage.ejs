@@ -2,16 +2,9 @@
 <html lang="en">
 <head>
     <% include partials/web_header %>
-    <style>
-        <% include partials/css/lecturerpage.css %>
-    </style>
-    <script>
-        <% include partials/js/buttonHandler.js %>
-        <% include partials/js/lecturerpage.js %>
-		$(function () {
-			$('#lecturerDescription').markItUp(mySettings);
-		});
-    </script>
+    <link rel="stylesheet" href="/public/dist/css/lecturerpage.css">
+    <script src="/public/dist/js/buttonHandler.js"></script>
+    <script src="/public/dist/js/lecturerpage.js"></script>
 </head>
 
 <body class="full">

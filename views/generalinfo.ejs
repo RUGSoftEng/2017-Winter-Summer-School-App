@@ -2,15 +2,11 @@
 <html lang="en" class='full'>
 <head>
     <% include partials/web_header %>
-    <style>
-        <% include partials/css/announcement.css %>
-    </style>
-    <script>
-        <% include partials/js/announcement.js %>
-        <% include partials/js/contentDivider.js %>
-        <% include partials/js/buttonHandler.js %>
-        <% include partials/js/loggedIn.js %>
-    </script>
+    <link rel="stylesheet" href="/public/dist/css/announcement.css">
+    <script src="/public/dist/js/announcement.js"></script>
+    <script src="/public/dist/js/contentDivider.js"></script>
+    <script src="/public/dist/js/buttonHandler.js"></script>
+    <script src="/public/dist/js/loggedIn.js"></script>
 </head>
 <% generalinfo.reverse() %>
 <body class="full">

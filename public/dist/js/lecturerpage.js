@@ -41,6 +41,7 @@ function readURL(input) {
 	}
 }
 $(function () {
+	$('#lecturerDescription').markItUp(mySettings);
 	$('.browse').click(function () {
 		var file = $(this).parent().parent().parent().find('.file');
 		file.trigger('click');

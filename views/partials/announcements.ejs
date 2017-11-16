@@ -21,7 +21,7 @@
 
                     <div class='announce-date'>
                         <% var dt = announcements[announcements.length - i].date; if (dt) { var newDt = new Date(); newDt.setDate(newDt.getDate() - 1); %>
-                        <%= announcements[announcements.length - i].date.toString().substring(0, 21) %>
+                        <%= announcements[announcements.length - i].created.toDateString() %>
 
                         <% if(dt >= newDt) { %>
                         <script>

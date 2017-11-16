@@ -147,6 +147,7 @@ function initialiseModalOpeners() {
 }
 
 $(function () {
+	$('#announcementDescription').markItUp(mySettings);
 	openTodaysSchedule();
 	initialiseScheduleDatePicker();
 	initialiseScheduleButtons();
