@@ -33,16 +33,8 @@ router.delete('/API/announcement', data.isAuthorised("ALTER_ANNOUNCEMENTS"), fun
 });
 
 router.post('/API/announcement', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
-	const newAnnouncement = new Announcement({
-		title: req.body.title,
-		description: req.body.description,
-		poster: req.user.username,
-		date: new Date(),
-		school: req.body.school
-	});
-	const schoolId = parseInt(req.param('school')) || 0;
 	var alert = null;
-	newAnnouncement.save(function (err, result) {
+	new Announcement(req.body).save(function (err, result) {
 		if (err) {
 			console.log(err);
 			alert = new Alert(false, "Failed to insert to database.<br>" + err);
