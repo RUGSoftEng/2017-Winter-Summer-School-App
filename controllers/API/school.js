@@ -7,7 +7,7 @@ var School = mongoose.model('school');
 
 
 // adds a new school
-router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
+router.post('/API/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 	let alert = null;
 	var school = new School({
 		name: req.body.schoolName,
@@ -31,7 +31,7 @@ router.post('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 
 });
 
-router.get('/school', function (req, res) {
+router.get('/API/school', function (req, res) {
 	School.findById(req.param('id'), function (err, school) {
 		if (typeof school === 'undefined' || err) {
 			console.log('Error wrong id provided');
@@ -44,7 +44,7 @@ router.get('/school', function (req, res) {
 });
 
 // delete a school
-router.delete('/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
+router.delete('/API/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 	School.findOneAndRemove({
 		'_id': req.param('id')
 	}, function (err) {

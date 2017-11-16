@@ -4,7 +4,7 @@ var data = require('../../config/database.js');
 var Alert = require('../../config/alert.js');
 var Announcement = require('mongoose').model('announcement');
 
-router.put('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.put('/API/announcement', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
 	// updates the description and title of an announcement
 	// corresponding to the given id param.
 	Announcement.findOneAndUpdate({
@@ -21,7 +21,7 @@ router.put('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), funct
 
 });
 
-router.delete('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.delete('/API/announcement', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
 	// deletes the announcements corresponding to the given id param
 	Announcement.findOneAndRemove({
 		'_id': data.mongojs.ObjectId(req.param('id'))
@@ -32,7 +32,7 @@ router.delete('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), fu
 
 });
 
-router.post('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.post('/API/announcement', data.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
 	const newAnnouncement = new Announcement({
 		title: req.body.title,
 		description: req.body.description,
@@ -56,7 +56,7 @@ router.post('/announcement/item', data.isAuthorised("ALTER_ANNOUNCEMENTS"), func
 
 });
 
-router.get('/announcement/item', function (req, res) {
+router.get('/API/announcement', function (req, res) {
 	// retrieve a list of announcements
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided

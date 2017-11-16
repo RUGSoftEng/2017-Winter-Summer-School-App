@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-router.delete('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.delete('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	//first get the document so you can delete the old picture path.
 	Lecturer.findOneAndRemove({
 		_id: req.param('id')
@@ -37,7 +37,7 @@ router.delete('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (
 });
 
 
-router.post('/lecturer/item', upload.single('img[]'), data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.post('/API/lecturer', upload.single('img[]'), data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	var newLecturer;
 	if (process.env.NODE_ENV === "test") {
 		newLecturer = {
@@ -63,7 +63,7 @@ router.post('/lecturer/item', upload.single('img[]'), data.isAuthorised("ALTER_L
 
 });
 
-router.put('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.put('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	Lecturer.findOneAndUpdate({
 		'_id': req.param('id')
 	}, {
@@ -77,7 +77,7 @@ router.put('/lecturer/item', data.isAuthorised("ALTER_LECTURERS"), function (req
 	});
 });
 
-router.get('/lecturer/item', function (req, res) {
+router.get('/API/lecturer', function (req, res) {
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
 	var count = parseInt((req.param('count') ? req.param('count') : 200));

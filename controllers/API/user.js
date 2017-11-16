@@ -5,7 +5,7 @@ const Alert = require('../../config/alert.js');
 var mongoose = require('mongoose');
 var User = mongoose.model('account');
 
-router.delete('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
+router.delete('/API/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	if (req.param('id') == req.user._id) {
 		res.send(400);
 	} else {
@@ -22,7 +22,7 @@ router.delete('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 });
 
 
-router.post('/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
+router.post('/API/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	var newAccount = new User({
 		username: req.body.username,
 		password: req.body.password,
