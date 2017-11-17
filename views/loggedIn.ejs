@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class='full'>
+<html lang="en" class='full' ng-app="Overview">
 <% include partials/loggedin_header.ejs %>
-
 <body class='full'>
 <div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
     <% include partials/alertMessage.ejs %>
-    <div class='row' id='event-screen'>
+    <div class='row' id='event-screen' ng-controller="OverviewController">
         <% if(user.school) {%>
             <span id='announcementsModule'>
                 <% include partials/announcements.ejs %>
@@ -26,6 +25,6 @@
    <% } %>
 
 </div>
-</body>
 
+</body>
 </html>

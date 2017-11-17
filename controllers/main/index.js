@@ -1,33 +1,23 @@
-const express         = require('express');
-const router          = express.Router();
-const Alert           = require('../../config/alert.js');
-const data            = require('../../config/database.js');
+const express = require('express');
+const router = express.Router();
+const Alert = require('../../config/alert.js');
+const data = require('../../config/database.js');
 const dateManipulator = require('../../config/dayManipulation.js');
 var mongoose = require('mongoose');
-var Announcement = mongoose.model('announcement');
-var School = mongoose.model('school');
 var Generalinfo = mongoose.model('generalinfo');
 
 router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
 	var user = req.user || "";
 	var alert = new Alert();
 	alert.initiate(req);
-	Announcement.find(function (err, docs) {
-		Generalinfo.find(function (err, docs2) {
-			var week = req.session.week ? req.session.week : 0;
-			dateManipulator.getWeekEvents(req.get('host'), week, function (weekSchedule) {
-				School.findById(user.school, function (err, school) {
-					res.render('loggedIn.ejs', {
-						user: user,
-						announcements: docs,
-						school: school,
-						generalinfo: docs2,
-						schedule: weekSchedule,
-						alert: alert
-					});
-
-				});
-
+	Generalinfo.find(function (err, docs2) {
+		var week = req.session.week ? req.session.week : 0;
+		dateManipulator.getWeekEvents(req.get('host'), week, function (weekSchedule) {
+			res.render('loggedIn.ejs', {
+				user: user,
+				generalinfo: docs2,
+				schedule: weekSchedule,
+				alert: alert
 			});
 		});
 	});

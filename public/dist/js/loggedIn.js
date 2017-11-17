@@ -108,41 +108,46 @@ function fillScheduleInput(clicked) {
 	$('#targetItem').val(clicked.data('event-ssid'));
 }
 
+function openModal(event) {
+	var element = $(event);
+	$(modalSelector).data('id', element.data('id'));
+	toggleButtons('d');
+	$type = element.data("type");
+
+	if (element.data("show") != "overview") {
+		emptyContainer(eventDetailsSelector);
+		emptyContainer(eventLocationSelector);
+		if (element.data("spec") != "schedule") {
+			addNewItem($type, false);
+			emptyContainer(titleSelector);
+			emptyContainer(descriptionSelector);
+			$(modalSelector).data('show', 'new');
+		}
+		else {
+			addNewItem($type, true);
+			$(modalSelector).data("type", $type);
+			$(modalSelector).data('id', element.data('event-id'));
+			toggleButtons('bEfpD');
+			toggleScheduleInput(true);
+			fillScheduleInput(element);
+		}
+
+
+	} else {
+		$(modalSelector).data('show', 'known');
+		var page  = element.data('page') == true;
+		var title = page ? element.data('title') : element.find('span.title').html();
+		var text  = page ? element.data('description') : element.find('.data-text').html();
+		displayItem(title, text, $type);
+		if ($type == 1) {
+			$(modalSelector).data("category", element.data('category'));
+		}
+	}
+}
+
 function initialiseModalOpeners() {
 	$('.open-modal').click(function () {
-		$(modalSelector).data('id', $(this).data('id'));
-		toggleButtons('d');
-		$type = $(this).data("type");
-
-		if ($(this).data("show") != "overview") {
-			emptyContainer(eventDetailsSelector);
-			emptyContainer(eventLocationSelector);
-			if ($(this).data("spec") != "schedule") {
-				addNewItem($type, false);
-				emptyContainer(titleSelector);
-				emptyContainer(descriptionSelector);
-				$(modalSelector).data('show', 'new');
-			}
-			else {
-				addNewItem($type, true);
-				$(modalSelector).data("type", $type);
-				$(modalSelector).data('id', $(this).data('event-id'));
-				toggleButtons('bEfpD');
-				toggleScheduleInput(true);
-				fillScheduleInput($(this));
-			}
-
-
-		} else {
-			$(modalSelector).data('show', 'known');
-			var page  = $(this).data('page') == true;
-			var title = page ? $(this).data('title') : $(this).find('span.title').html();
-			var text  = page ? $(this).data('description') : $(this).find('.data-text').html();
-			displayItem(title, text, $type);
-			if ($type == 1) {
-				$(modalSelector).data("category", $(this).data('category'));
-			}
-		}
+		openModal(this);
 	});
 }
 

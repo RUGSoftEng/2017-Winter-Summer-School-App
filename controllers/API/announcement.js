@@ -52,8 +52,8 @@ router.get('/API/announcement', function (req, res) {
 	// retrieve a list of announcements
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
-	var count = parseInt((req.param('count') || 200));
-	Announcements
+	const count = req.param('count') || 200;
+	Announcement
 		.find({})
 		.sort({ $natural: -1 })
 		.limit(count)
