@@ -27,18 +27,18 @@ describe('API get request', function () {
 
 	});
 
-	it('should return a JSON file of general information', function (done) {
-		request.get('http://localhost:8800/generalinfo/item', function (err, res, body) {
-			var parsed = JSON.parse(body);
-			expect(res.statusCode).to.equal(200);
-			expect('content-Type', /html/);
-			expect(parsed).to.be.an('array');
-			if (parsed.length > 0) {
-				expect(parsed[0]).to.have.all.keys('_id', 'title', 'description');
-			}
-			done();
-		});
-	});
+  it('should return a JSON file of general information',function(done){
+      request.get('http://localhost:8800/generalinfo/item',function(err,res,body){
+          var parsed = JSON.parse(body);
+          expect(res.statusCode).to.equal(200);
+          expect('content-Type',/html/);
+          expect(parsed).to.be.an('array');
+          if(parsed.length > 0){
+              expect(parsed[0]).to.have.all.keys('_id','title','description', 'date', 'category');
+          }
+          done();
+      });
+  });
 
 	it('should return a JSON file of lecturers', function (done) {
 		request.get('http://localhost:8800/lecturer/item', function (err, res, body) {
