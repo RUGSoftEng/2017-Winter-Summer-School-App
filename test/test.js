@@ -14,7 +14,7 @@ describe('Server', function () {
 describe('API get request', function () {
 
 	it('should return a JSON file of announcements', function (done) {
-		request.get('http://localhost:8800/announcement/item', function (err, res, body) {
+		request.get('http://localhost:8800/announcement', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -28,7 +28,7 @@ describe('API get request', function () {
 	});
 
   it('should return a JSON file of general information',function(done){
-      request.get('http://localhost:8800/generalinfo/item',function(err,res,body){
+      request.get('http://localhost:8800/generalinfo',function(err,res,body){
           var parsed = JSON.parse(body);
           expect(res.statusCode).to.equal(200);
           expect('content-Type',/html/);
@@ -41,7 +41,7 @@ describe('API get request', function () {
   });
 
 	it('should return a JSON file of lecturers', function (done) {
-		request.get('http://localhost:8800/lecturer/item', function (err, res, body) {
+		request.get('http://localhost:8800/lecturer', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -54,7 +54,7 @@ describe('API get request', function () {
 	});
 
 	it('should return a JSON file of the forum', function (done) {
-		request.get('http://localhost:8800/forum/item', function (err, res, body) {
+		request.get('http://localhost:8800/forum', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -69,7 +69,7 @@ describe('API get request', function () {
 
 describe('API receives correct information', function () {
 	it('announcement post should receive correct values', function (done) {
-		request.post('http://localhost:8800/announcement/item',
+		request.post('http://localhost:8800/announcement',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
@@ -78,7 +78,7 @@ describe('API receives correct information', function () {
 			});
 	});
 	it('general information route should receive correct values', function (done) {
-		request.post('http://localhost:8800/generalinfo/item',
+		request.post('http://localhost:8800/generalinfo',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
@@ -87,7 +87,7 @@ describe('API receives correct information', function () {
 			});
 	});
 	it('lecturer route should receive correct values', function (done) {
-		request.post('http://localhost:8800/lecturer/item',
+		request.post('http://localhost:8800/lecturer',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
