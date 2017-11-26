@@ -65,7 +65,7 @@
                             <%= loginCodes[i].school %>
                         </td>
                         <td>
-                            <%= new Date(loginCodes[i].date).toDateString() %>
+                            <%= loginCodes[i].created.toDateString() %>
                         </td>
                         <td>
                             <button type='button' class='btn btn-default delete-code' aria-label='Delete'

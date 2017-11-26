@@ -1,17 +1,13 @@
 const LocalStrategy = require('passport-local').Strategy;
-const data          = require('./database.js');
 const bcrypt        = require('bcrypt-nodejs');
+var Users = require('mongoose').model('account');
 
 module.exports = function (passport) {
 
 	passport.use('login', new LocalStrategy(
-		function (username, password, done) {
-			data.db.accounts.find(function (err, users) {
-				var user = users.find(function (user) {
-					return user.username === username;
-				});
-
-				if (typeof user != 'undefined') {
+		function (usern, password, done) {
+			Users.findOne({username: usern}, function (err, user) {
+				if (typeof user !== 'undefined' && !err) {
 					bcrypt.compare(password, user.password, function (err, res) {
 						if (res == true) {
 							return done(null, user);
@@ -24,7 +20,6 @@ module.exports = function (passport) {
 					return done(null, false, {"message": "Invalid username."});
 				}
 			});
-
 		})
 	);
 
@@ -33,11 +28,9 @@ module.exports = function (passport) {
 	});
 
 	passport.deserializeUser(function (id, done) {
-		data.db.accounts.find(function (err, users) {
-			var user = users.find(function (user) {
-				return user._id == id;
-			});
-			if (typeof user === 'undefined')
+		Users.findOne({_id: id}, function (err, user) {
+
+			if (typeof user === 'undefined' || err)
 				console.log('Error in deserializing user');
 			done(null, user);
 		});

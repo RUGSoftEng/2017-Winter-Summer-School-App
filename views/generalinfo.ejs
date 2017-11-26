@@ -29,10 +29,11 @@
                         data-description="<%= generalinfo.description %>"
                         data-title="<%= generalinfo.title %>"
                         data-id="<%= generalinfo._id %>"
+                        data-category="<%= generalinfo.category %>"
                         data-poster="<%= generalinfo.poster %>">
                     <span class='pull-left announcement-title'><%= generalinfo.title %></span>
-                    <h5 class="details pull-right" style="width:6px; height:13px">
-
+                    <h5 class="details pull-right">
+						<%= generalinfo.created.toDateString() %>
                     </h5>
                 </button>
                 <% }); %>

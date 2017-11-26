@@ -1,9 +1,11 @@
+"use strict";
+
 /**
  * An object that should contain every user rank as a property.
  * Every user rank should be of type [string], where every string denotes the
  * actions that that user may perform.
  *
- * @type {{admin: [string], coordinator: [string]}}
+ * @type {{admin: [string], coordinator: [string], student: [string]}}
  */
 
 const UserRights = {
@@ -24,7 +26,15 @@ const UserRights = {
 	],
 
 	// A coordinator for a specific school. May only perform actions related to a specific school.
-	coordinator: ["ACCESS_MAIN_OVERVIEW", "ALTER_LECTURER", "ALTER_GENERAL_INFO", "ALTER_ANNOUNCEMENTS", "ALTER_CALENDAR"],
+	coordinator: [
+		"ACCESS_MAIN_OVERVIEW",
+		"ALTER_LECTURER", "ALTER_GENERAL_INFO",
+		"ALTER_ANNOUNCEMENTS",
+		"ALTER_CALENDAR",
+		"OVERVIEW_GENERAL_INFO",
+		"OVERVIEW_ANNOUNCE",
+		"OVERVIEW_LECTURERS"
+	],
 
 	student: ["ACCESS_MAIN_OVERVIEW"]
 };
@@ -40,4 +50,9 @@ exports.userHasRights = function (user, name) {
 	return user.rank ? UserRights[user.rank].indexOf(name) > -1 : false;
 };
 
+exports.roles = [];
+
+Object.keys(UserRights).forEach(function(key) {
+	exports.roles.push(key);
+});
 

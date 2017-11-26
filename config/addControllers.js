@@ -1,6 +1,5 @@
 var express            = require('express');
 var requireDir         = require('require-dir');
-var path               = require('path');
 var controllerLocation = './../controllers';
 
 /*
@@ -28,7 +27,7 @@ module.exports = function (app) {
 						app.use('/', controllers[i]);
 				}
 			}
-		}
+		};
 		recursiveAdd(controllerLocation);
 		app.use(express.static('views/partials/js/jquery-ui-1.12.1.custom/'));
 		app.use(express.static('views/images/'));
@@ -38,6 +37,8 @@ module.exports = function (app) {
 		app.use(function(err, req, res, next){
 			if(err.status === 403) {
 				res.render('403.ejs');
+			} else {
+				next();
 			}
 		});
 	};
