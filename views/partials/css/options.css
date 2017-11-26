@@ -21,13 +21,13 @@
 }
 
 .tab-content {
-	max-width: 90%;
+	max-width: 95%;
 	min-width: 700px;
-	padding: 12px 90px;
+	padding: 12px 70px;
 }
 
 .tab-larger {
-	padding:0;
+	padding: 0;
 }
 
 #fix:after {

@@ -22,6 +22,15 @@
                                 <span></span>
                             </span>
                         </div>
+                        <div class='form-group'>
+                            <label class='control-label' for='school'>School</label>
+                            <select class='form-control' id='school' name='school'>
+                                <% for(var i = 0; i < schools.length; i++) { %>
+                                <% if(schools[i]._id !== "schoolid") { %>
+                                <option value='<%= schools[i]._id %>'><%= schools[i].name %></option>
+                                <% }} %>
+                            </select>
+                        </div>
 
                         <div class='modal-footer'>
                             <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
@@ -38,6 +47,7 @@
                     <tr>
                         <th>#</th>
                         <th>Code</th>
+                        <th>School</th>
                         <th>Date</th>
                         <th>Delete</th>
                     </tr>
@@ -52,10 +62,13 @@
                             <%= loginCodes[i].code %>
                         </td>
                         <td>
+                            <%= loginCodes[i].school %>
+                        </td>
+                        <td>
                             <%= new Date(loginCodes[i].date).toDateString() %>
                         </td>
                         <td>
-                            <button type='button' class='btn btn-default deleteAccount' aria-label='Delete'
+                            <button type='button' class='btn btn-default delete-code' aria-label='Delete'
                                     data-toggle='tooltip' data-placement='bottom' data-id='<%= loginCodes[i]._id %>'
                                     title='Delete'><span
                                         class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>

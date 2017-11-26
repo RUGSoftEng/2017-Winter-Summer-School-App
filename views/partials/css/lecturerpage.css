@@ -12,6 +12,7 @@
 }
 
 .inner-event > .img-thumbnail, #modal-thumbnail {
+	object-fit: cover;
 	margin-right: auto;
 	margin-left: auto;
 	width: 150px;
@@ -23,8 +24,9 @@
 }
 
 .modal-show-body {
-	padding-bottom:50px;
+	padding-bottom: 50px;
 }
+
 .panel {
 	transition: all .15s ease-in-out;
 	width: initial;
@@ -41,14 +43,14 @@
 }
 
 .data-text {
-	text-align:center;
-	font-size:135%;
+	text-align: center;
+	font-size: 135%;
 }
 
 #modalDescription {
-	font-size:120%;
+	font-size: 120%;
 	text-align: justify;
-	line-height:1.5;
+	line-height: 1.5;
 	height: auto;
 }
 
@@ -77,8 +79,8 @@
 }
 
 #event-screen {
-	padding-left:0;
-	padding-right:0;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 #event-screen, #wrap, body, html, .inner-event {
@@ -110,13 +112,13 @@
 }
 
 .caption a:visited, .caption a:link {
-	color: #428bca;
+	color: #428BCA;
 }
 
 #modal-thumbnail {
 	position: relative;
-	left:0;
-	top:0;
+	left: 0;
+	top: 0;
 }
 
 #wrap .modal-show-body {
@@ -124,7 +126,7 @@
 }
 
 #modalWebsite {
-	padding:8px;
+	padding: 8px;
 }
 
 .website {

@@ -21,10 +21,10 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">Menu <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="../announcepage">Announcements</a></li>
-                    <li><a href="../generalinfo">General Information</a></li>
-                    <li><a href="../lecturerpage">Lecturers</a></li>
-                    <li><a href="../options">Options</a></li>
+                    <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS")) { %><li><a href="../announcepage">Announcements</a></li> <% } %>
+                    <% if(isAuthorised(user, "ALTER_GENERAL_INFO")) { %><li><a href="../generalinfo">General Information</a></li><% } %>
+                    <% if(isAuthorised(user, "ALTER_LECTURERS")) { %><li><a href="../lecturerpage">Lecturers</a></li><% } %>
+                    <% if(isAuthorised(user, "VIEW_OPTIONS")) { %><li><a href="../options">Options</a></li><% } %>
                     <li role="separator" class="divider"></li>
                     <li><a href="../logout">Log out</a></li>
                 </ul>

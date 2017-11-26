@@ -9,8 +9,8 @@
 
         <div class='tab-content'>
             <div role='tabpanel' class='tab-pane fade in active' id='home'>
-                <h3>Add an administrator</h3>
-                <form method='post' enctype='application/json'>
+                <h3>Add a user</h3>
+                <form method='post' enctype='application/json' action='/user'>
                     <div class='modal-body modal-add-body'>
 
                         <div class='form-group'>
@@ -25,15 +25,34 @@
                             <label for='password'>Password</label>
                             <input type='password' class='form-control' id='password' placeholder='Password'
                                    name='password'>
-                            <span class='help-block'>  <span class='glyphicon glyphicon-exclamation-sign'
-                                                             aria-hidden='true'></span><span></span></span>
+                            <span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
+                                                            aria-hidden='true'></span><span></span></span>
                         </div>
 
                         <div class='form-group'>
                             <label class='control-label' for='cpassword'>Confirm password</label>
                             <input type='password' class='form-control' id='cpassword' placeholder='Password'>
-                            <span class='help-block'>  <span class='glyphicon glyphicon-exclamation-sign'
-                                                             aria-hidden='true'></span> Passwords do not match</span>
+                            <span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
+                                                            aria-hidden='true'></span> Passwords do not match</span>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label' for='rank'>Rank</label>
+                            <select class='form-control' id='rank' name='rank'>
+                                <option value='coordinator'>Coordinator (single school)</option>
+                                <option value='admin'>Admin</option>
+                                <option value='student'>Student</option>
+                            </select>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label' for='school'>School</label>
+                            <select class='form-control' id='school' name='school'>
+                                <% for(var i = 0; i < schools.length; i++) { %>
+                                    <% if(schools[i]._id !== "schoolid") { %>
+                                        <option value='<%= schools[i]._id %>'><%= schools[i].name %></option>
+                                <% }} %>
+                            </select>
                         </div>
 
                         <div class='modal-footer'>
@@ -50,6 +69,8 @@
                     <tr>
                         <th>#</th>
                         <th>Username</th>
+                        <th>Rank</th>
+                        <th>School</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -61,6 +82,12 @@
                         </td>
                         <td>
                             <%= accounts[i].username %>
+                        </td>
+                        <td>
+                            <%= accounts[i].rank %>
+                        </td>
+                        <td>
+                            <%= accounts[i].school || "" %>
                         </td>
                         <td>
                             <div class='btn-group' role='group' aria-label='actions'>
@@ -87,5 +114,5 @@
     </div>
 </div>
 <script>
-    <% include js/manageAdmins.js %>
+    <% include js/manageUsers.js %>
 </script>

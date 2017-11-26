@@ -5,11 +5,16 @@
   "engines": {
     "node": "6.10.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RUGSoftEng/2017-Winter-Summer-School-App"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.0.0",
+    "cookie-session": "~1.0.0",
     "crypto": "0.0.3",
     "ejs": "~0.8.5",
     "express": "~4.0.0",

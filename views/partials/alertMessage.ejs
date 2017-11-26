@@ -7,24 +7,25 @@
             display: none;
         }
     </style>
+    <%- alert.succes %>
     <% if(typeof alert !== 'undefined') { %>
     <% if(alert.success) { %>
     <script>
-        $(function () {
-            $('#successMessage').show();
+		$(function () {
+			$('#successMessage').show();
             <% if (alert.message) { %>
-            $('#successMessage .textMsg').text(` <%- alert.message %>`);
+			$('#successMessage .textMsg').text(` <%- alert.message %>`);
             <% } %>
-        })
+		})
     </script>
     <% } if(alert.success === false) { %>
     <script>
-        $(function () {
-            $('#errorMessage').show();
+		$(function () {
+			$('#errorMessage').show();
             <% if (alert.message) { %>
-            $('#errorMessage .textMsg').text(` <%- alert.message %>`);
+			$('#errorMessage .textMsg').text(` <%- alert.message %>`);
             <% } %>
-        })
+		})
     </script>
     <% } %>
     <% } %>

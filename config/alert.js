@@ -4,7 +4,7 @@
  * Usage:
  * Once an action has been performed that requires an alert object, then an
  * Alert object should be instantiated with an appropriate message and a boolean
- * indicating whether the action was succesful or not.
+ * indicating whether the action was successful or not.
  *
  * Before redirecting to another page, the passToNextPage function should be called
  * on the Alert object.
@@ -27,21 +27,21 @@
 
 
 function Alert(success, message) {
-    this.success = success;
-    this.message = message;
+	this.success = success;
+	this.message = message;
 }
 
 Alert.prototype.passToNextPage = function (req) {
-    req.session.success = this.success;
-    req.session.errorMessage = this.message;
+	req.session.success      = this.success;
+	req.session.errorMessage = this.message;
 };
 
 
 Alert.prototype.initiate = function (req) {
-    this.success = req.session.success;
-    this.message = req.session.errorMessage;
-    req.session.success = null;
-    req.session.errorMessage = null;
+	this.success             = req.session.success;
+	this.message             = req.session.errorMessage;
+	req.session.success      = null;
+	req.session.errorMessage = null;
 };
 
 

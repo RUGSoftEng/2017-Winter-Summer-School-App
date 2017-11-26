@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" class='full'>
-<% include partials/loggedin_header %>
+<% include partials/loggedin_header.ejs %>
 
 <body class='full'>
 <div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
     <% include partials/alertMessage.ejs %>
     <div class='row' id='event-screen'>
-        <span id='announcementsModule'>
-            <% include partials/announcements %>
-        </span>
-        <span id='generalinfoModule'>
-            <% include partials/generalinfo %>
-        </span>
-        <span id='scheduleModule'>
-            <% include partials/schedule %>
-        </span>
+        <% if(user.school) {%>
+            <span id='announcementsModule'>
+                <% include partials/announcements.ejs %>
+            </span>
+            <span id='generalinfoModule'>
+                <% include partials/generalinfo.ejs %>
+            </span>
+            <span id='scheduleModule'>
+                <% include partials/schedule.ejs %>
+            </span>
+        <% } else {%>
+            <h4>You do not have a school associated with you.</h4>
+        <% } %>
     </div>
-
-    <% include partials/modal %>
+    <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS") || isAuthorised(user, "ALTER_GENERAL_INFO") || isAuthorised(user, "ALTER_CALENDAR")) { %>
+         <% include partials/modal.ejs %>
+   <% } %>
 
 </div>
 </body>

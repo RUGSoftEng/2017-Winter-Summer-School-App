@@ -11,20 +11,20 @@ var data    = require('../../config/database.js');
 
 
 router.post('/token', function (req, res) {
-    // adds a new token
-    var newToken = {
-        token: req.body.id,
-        date: new Date()
-    };
+	// adds a new token
+	var newToken = {
+		token: req.body.id,
+		date: new Date()
+	};
 
-    data.db.tokens.insert(newToken, function (err, result) {
-        if (err) {
-            console.log(err);
-            res.send(400);
-        } else {
-            res.send(200);
-        }
-    });
+	data.db.tokens.insert(newToken, function (err, result) {
+		if (err) {
+			console.log(err);
+			res.send(400);
+		} else {
+			res.send(200);
+		}
+	});
 
 });
 
