@@ -4,7 +4,7 @@ const data = require('../../config/database.js');
 const Alert = require('../../config/alert.js');
 var LoginCode = require('mongoose').model('loginCode');
 
-router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
+router.post('/API/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
 	let alert = null;
 	const code = new LoginCode({
 		code: req.body.code,
@@ -23,7 +23,7 @@ router.post('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req,
 	});
 });
 
-router.get('/loginCode', function (req, res) {
+router.get('/API/loginCode', function (req, res) {
 	const codeParam = req.param('code');
 	LoginCode.findOne({ code: codeParam }, function (err, code) {
 		if (code) {
@@ -34,7 +34,7 @@ router.get('/loginCode', function (req, res) {
 	});
 });
 
-router.delete('/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
+router.delete('/API/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
 	LoginCode.findOneAndRemove({
 		'_id': req.param('id')
 	}, function (err) {

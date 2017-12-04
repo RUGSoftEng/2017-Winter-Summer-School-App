@@ -4,7 +4,7 @@ var data    = require('../../config/database.js');
 var Alert   = require('../../config/alert.js');
 var Generalinfo = require('mongoose').model('generalinfo');
 
-router.delete('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.delete('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndRemove({
 		'_id': req.param('id')
 	}, function (err, user) {
@@ -14,7 +14,7 @@ router.delete('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), func
 
 });
 
-router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.put('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndUpdate({
 		'_id': req.param('id')
 	}, {
@@ -32,7 +32,7 @@ router.put('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), functio
 });
 
 
-router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.post('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	const newGeneralInfo = new Generalinfo({
 		title: req.body.title,
 		description: req.body.description,
@@ -53,7 +53,7 @@ router.post('/generalinfo/item', data.isAuthorised("ALTER_GENERAL_INFO"), functi
 
 });
 
-router.get('/generalinfo/item', function (req, res) {
+router.get('/API/generalinfo', function (req, res) {
 	// set the limit of query results to 200 by default
 	// set it to the parameter count if it is provided
 	const count = parseInt((req.param('count') ? req.param('count') : 200));

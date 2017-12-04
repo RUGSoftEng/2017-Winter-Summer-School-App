@@ -9,7 +9,7 @@ var express = require('express');
 var router  = express.Router();
 var Token = require('mongoose').model('token');
 
-router.post('/token', function (req, res) {
+router.post('/API/token', function (req, res) {
 	// adds a new token
 	var newToken = new Token({
 		token: req.body.id
