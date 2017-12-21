@@ -59,26 +59,19 @@ var AccountSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 AccountSchema.pre('save', function (next) {
-    var user = this;
+	var user = this;
 
-    if (!user.isModified('password')) return next();
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-        if (err) return next(err);
+	if (!user.isModified('password')) return next();
+	bcrypt.genSalt(saltRounds, function (err, salt) {
+		if (err) return next(err);
 
-        bcrypt.hash(user.password, salt, null, function (err, hash) {
-            if (err) return next(err);
-            user.password = hash;
-            next();
-        });
-    });
-});
-/**
- * Create instance method for hashing a password
- */
-AccountSchema.methods.hashPassword = function (password) {
-	bcrypt.hash(password, saltRounds, null, function (err, hash) {
-		return err ? password : hash;
+		bcrypt.hash(user.password, salt, null, function (err, hash) {
+			if (err) return next(err);
+			user.password = hash;
+			next();
+		});
 	});
-};
+});
+
 
 mongoose.model('account', AccountSchema);
