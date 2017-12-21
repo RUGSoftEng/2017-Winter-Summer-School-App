@@ -6,15 +6,17 @@ module.exports = function (passport) {
     Users.count({},function(err, count) {
 		passport.use('login', new LocalStrategy(
 			function (usern, password, done) {
+				console.log(count);
 				if(count === 0)
 				{
 					return done(null,{_id:"firstlogin"})
 				}
 				Users.findOne({username: usern}, function (err, user) {
-					if (typeof user !== 'undefined' && !err) {
+                    console.log(user.password);
+					if (typeof user !== 'undefined' && !err && user !== null) {
 						bcrypt.compare(password, user.password, function (err, res) {
-							if (res == true) {
-								return done(null, user);
+                            if (res === true) {
+                                return done(null, user);
 							} else {
 								return done(null, false, {"message": "Invalid password."});
 							}
@@ -34,6 +36,7 @@ module.exports = function (passport) {
 
 	passport.deserializeUser(function (id, done) {
         if(id === "firstlogin") {
+            var user = {_id:"firstlogin",username:"admin",password:"",rank:"admin"};
             done(null, user);
         }
         else {

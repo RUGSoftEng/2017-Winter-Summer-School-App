@@ -59,14 +59,19 @@ var AccountSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 AccountSchema.pre('save', function (next) {
-	const oldPassword = this.password;
-	this.password = this.hashPassword(this.password);
-	if (oldPassword === this.password) {
-		var err = new Error('Unable to hash password');
-	}
-	next(err);
-});
+    var user = this;
 
+    if (!user.isModified('password')) return next();
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        if (err) return next(err);
+
+        bcrypt.hash(user.password, salt, null, function (err, hash) {
+            if (err) return next(err);
+            user.password = hash;
+            next();
+        });
+    });
+});
 /**
  * Create instance method for hashing a password
  */
