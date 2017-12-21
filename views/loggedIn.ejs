@@ -6,7 +6,7 @@
     <% include partials/general_navigationbar.ejs %>
     <% include partials/alertMessage.ejs %>
     <div class='row' id='event-screen' ng-controller="OverviewController">
-        <% if(user.school) {%>
+        <% if (user.school) {%>
             <span id='announcementsModule'>
                 <% include partials/announcements.ejs %>
             </span>
@@ -17,7 +17,7 @@
                 <% include partials/schedule.ejs %>
             </span>
         <% } else {%>
-            <h4>You do not have a school associated with you.</h4>
+            <script>window.location.href = "/options";</script>
         <% } %>
     </div>
     <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS") || isAuthorised(user, "ALTER_GENERAL_INFO") || isAuthorised(user, "ALTER_CALENDAR")) { %>
