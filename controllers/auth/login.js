@@ -4,11 +4,13 @@ var passport = require('passport');
 
 // Redirect the user if they are already logged in.
 router.get('/', function (req, res) {
+	console.log("a");
 	if (req.isAuthenticated()) {
 		res.redirect('/main');
 	} else {
 		res.render('logIn', {
-			message: req.flash('error')
+			message: req.flash('error'),
+			user: req.user
 		});
 	}
 });

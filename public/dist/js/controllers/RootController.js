@@ -6,4 +6,8 @@ app.controller('RootController', ['$scope', function ($scope) {
 	$scope.isAuthorised = function (name) {
 		return exports.userHasRights({rank: $scope.role}, name);
 	}
+
+	if(!$scope.school) {
+		window.location.href = "/options";
+	}
 }]);

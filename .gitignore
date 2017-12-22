@@ -19,7 +19,6 @@ coverage
 
 .idea
 .DS_Store
-auth
 calendarService.json
 serviceAccount.json
 ssl
