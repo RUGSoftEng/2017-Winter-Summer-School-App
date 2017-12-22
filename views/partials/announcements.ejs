@@ -1,11 +1,9 @@
 <div class='col-md-4 cols' id='announcecol' data-ng-controller="AnnouncementController">
     <div class='inner-event'>
         <h3 class='underline-title'><a href="../announcepage">Announcements</a>
-            <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS")) { %>
                 <span
                     class="glyphicon glyphicon-plus pull-right open-modal" data-type=0 data-toggle="modal"
-                    data-target="#add-announcement" aria-hidden="true"></span>
-            <% } %>
+                    data-target="#add-announcement" aria-hidden="true" ng-if="isAuthorised('ALTER_ANNOUNCEMENTS')"></span>
         </h3>
         <div class='row innerrow'>
             <module-item ng-repeat="item in announcements" item="item"></module-item>

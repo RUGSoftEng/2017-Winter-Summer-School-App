@@ -46,7 +46,7 @@ var AccountSchema = new Schema({
 	},
 	rank: {
 		type: String,
-		enum: require('../config/userRights').roles,
+		enum: require('../public/dist/js/userRights').roles,
 		required: 'A user needs a role.'
 	},
 	school: {

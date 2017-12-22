@@ -2,7 +2,6 @@ app.controller('GeneralinfoController', ['$scope', '$http', function($scope, $ht
 	$http.get('/API/generalinfo')
 		.then(function(data) {
 			$scope.generalinfo = data.data;
-			console.log()
 		}, function(err) {
 			console.log(err);
 		});

@@ -1,1 +1,0 @@
-module.exports = ['Food', 'Location', 'Internet', 'Accommodation', 'Info'];

@@ -40,7 +40,7 @@ const UserRights = {
 };
 
 /**
- * Validates if a user with a certain rank is allowed to perform a certain action.
+ * Validates if a user with a certain role is allowed to perform a certain action.
  *
  * @param {Object} user - The req.user object
  * @param {string} name

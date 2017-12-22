@@ -1,8 +1,8 @@
 $(document).ready(function () {
-	var items      = $("#content > button")
+	var items      = $("#content > button");
 	var numItems   = items.length;
-	var perPage    = 8
-	var multiplier = 1
+	var perPage    = 8;
+	var multiplier = 1;
 	items.slice(perPage).hide();
 	$('.next').click(function () {
 		if ((multiplier + 1) * perPage <= numItems + perPage - 1) {

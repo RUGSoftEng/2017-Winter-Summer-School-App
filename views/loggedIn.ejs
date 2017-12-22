@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class='full' ng-app="Overview">
 <% include partials/loggedin_header.ejs %>
-<body class='full'>
+<body class='full' ng-controller="RootController">
 <div id='wrap' class='full'>
     <% include partials/general_navigationbar.ejs %>
     <% include partials/alertMessage.ejs %>
     <div class='row' id='event-screen' ng-controller="OverviewController">
-        <% if (user.school) {%>
             <span id='announcementsModule'>
                 <% include partials/announcements.ejs %>
             </span>
@@ -16,14 +15,8 @@
             <span id='scheduleModule'>
                 <% include partials/schedule.ejs %>
             </span>
-        <% } else {%>
-            <script>window.location.href = "/options";</script>
-        <% } %>
     </div>
-    <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS") || isAuthorised(user, "ALTER_GENERAL_INFO") || isAuthorised(user, "ALTER_CALENDAR")) { %>
-         <% include partials/modal.ejs %>
-   <% } %>
-
+    <% include partials/modal.ejs %>
 </div>
 
 </body>

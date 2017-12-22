@@ -27,3 +27,15 @@
 <script src="/public/lib/angular-animate.min.js"></script>
 <script src="/public/lib/angular-touch.min.js"></script>
 <script src="/public/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+
+<!-- A 'hack' to ensure we can use functions defined in the NodeJS backend -->
+<script>
+	var exports = {};
+	var userProfile = <%- JSON.stringify(user || {}) %>;
+</script>
+
+<script src="/public/dist/js/categories.js"></script>
+<script src="/public/dist/js/userRights.js"></script>
+
+<script src="/public/dist/js/controllers/app.js"></script>
+<script src="/public/dist/js/controllers/RootController.js"></script>

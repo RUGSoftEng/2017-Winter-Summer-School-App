@@ -32,11 +32,12 @@ module.exports = function (app) {
 		app.use(express.static('views/images/'));
 		app.use('/public', express.static('public'));
 		app.use('/directives', express.static('public/dist/js/directives/html'));
+		app.use('/directives', express.static('public/dist/js/directives/html'));
 
 		app.use('/*', require(controllerLocation + '/404'));
 		app.use(function(err, req, res, next){
 			if(err.status === 403) {
-				res.render('403.ejs');
+				res.render('403.ejs', {user: req.user});
 			} else {
 				next();
 			}
