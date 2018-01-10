@@ -20,7 +20,7 @@ var GeneralinfoSchema = new Schema({
 	},
 	category: {
 		type: String,
-		enum: require('../config/categories')
+		enum: require('../public/dist/js/categories').categories
 	}
 });
 

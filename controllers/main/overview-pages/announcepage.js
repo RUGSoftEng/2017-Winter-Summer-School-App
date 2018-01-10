@@ -1,7 +1,7 @@
 var express = require('express');
 var router  = express.Router();
 var data    = require('../../../config/database.js');
-var Announcement = require('mongoose').model('announcement')
+var Announcement = require('mongoose').model('announcement');
 
 router.get('/announcepage', data.isAuthorised("OVERVIEW_ANNOUNCE"), function (req, res) {
 	var user = req.user || "";

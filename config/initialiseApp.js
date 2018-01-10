@@ -6,7 +6,7 @@ const bodyParser    = require('body-parser');
 const express       = require('express');
 const session       = require('express-session');
 const passport      = require('passport');
-const UserRights    = require('./userRights.js');
+const UserRights    = require('../public/dist/js/userRights.js');
 require('./passport')(passport);
 
 module.exports = function (app) {

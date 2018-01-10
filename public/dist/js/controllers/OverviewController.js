@@ -3,5 +3,5 @@ app.controller('OverviewController', ['$scope', function($scope) {
 		let date = new Date();
 		date.setDate(date.getDate() - 1);
 		return new Date(itemDate) >= date;
-	}
+	};
 }]);

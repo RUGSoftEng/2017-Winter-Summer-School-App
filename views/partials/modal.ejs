@@ -1,4 +1,5 @@
-<div class="modal fade" id="add-announcement" tabindex="-1" role="dialog" aria-labelledby="addAnnouncement">
+<span ng-controller="ModalController">
+<div class="modal fade" id="add-announcement" tabindex="-1" role="dialog" aria-labelledby="addAnnouncement" ng-if="mayView()">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,16 +18,11 @@
                     <div class="form-group description-form">
                         <label for="announcementDescription">Content</label>
                         <textarea type="text" class="form-control" id="announcementDescription" name="description"
-                                  placeholder="Text" rows="4"></textarea>
+								  placeholder="Text" rows="4"></textarea>
                     </div>
                     <div class="form-group category-form">
                         <label for="category">Category</label>
-                        <select class="form-control" id='category' name='category'>
-                            <option value="Food">Food</option>
-                            <option value="Location">Location</option>
-                            <option value="Internet">Internet</option>
-                            <option value="Accomodation">Accommodation</option>
-                            <option value="Info">Info</option>
+                        <select class="form-control" id='category' name='category' ng-model="category" ng-options="cat for cat in categories">
                         </select>
                     </div>
                     <div class="form-group datetime-form">
@@ -34,88 +30,52 @@
                         <div class="form-group event-location">
                             <label for="location">Location</label>
                             <input type="text" class="form-control" id="location" name="location"
-                                   placeholder="Enter event address">
+								   placeholder="Enter event address">
                         </div>
 
                         <div class="form-group event-description-form">
                             <label for="details">Details</label>
                             <textarea type="text" class="form-control" id="details" name="details"
-                                      placeholder="Enter event details" rows="4"></textarea>
+									  placeholder="Enter event details" rows="4"></textarea>
                         </div>
 
-                        <% var s = ['start', 'end'];
-                        for(var i = 0; i < 2; ++i) { %>
-                        <div class="row">
+						<% var s = ['start', 'end'];
+						for(var i = 0; i < 2; ++i) { %>
+						<div class="row">
                             <div class="col-md-6">
                                 <label><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date</label>
                                 <input type="text" class="form-control"
-                                       id="schedule<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>Date"
-                                       name="<%= s[i] %>Date"
-                                       placeholder="<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date">
+									   id="schedule<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>Date"
+									   name="<%= s[i] %>Date"
+									   placeholder="<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date">
                                 <span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
-                                                                aria-hidden='true'></span><span></span></span>
+																aria-hidden='true'></span><span></span></span>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-inline">
 
                                     <label class='up-label'><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>
-                                        time</label>
+										time</label>
 
                                     <div class="form-group">
                                         <label>Hour</label>
-                                        <select class="form-control" name='<%= s[i] %>Hour' id='<%= s[i] %>Hour'>
-                                            <option>00</option>
-                                            <option>01</option>
-                                            <option>02</option>
-                                            <option>03</option>
-                                            <option>04</option>
-                                            <option>05</option>
-                                            <option>06</option>
-                                            <option>07</option>
-                                            <option>08</option>
-                                            <option>09</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                            <option>13</option>
-                                            <option>14</option>
-                                            <option>15</option>
-                                            <option>16</option>
-                                            <option>17</option>
-                                            <option>18</option>
-                                            <option>19</option>
-                                            <option>20</option>
-                                            <option>21</option>
-                                            <option>22</option>
-                                            <option>23</option>
+                                        <select class="form-control" name='<%= s[i] %>Hour' id='<%= s[i] %>Hour' ng-model="hour" ng-options="h for h in range(24)">
                                         </select>
 
                                     </div>
                                     <div class="form-group">
                                         <label class='time-minute'>Minute</label>
-                                        <select class="form-control" name='<%= s[i] %>Minute' id='<%= s[i] %>Minute'>
-                                            <option>00</option>
-                                            <option>05</option>
-                                            <option>10</option>
-                                            <option>15</option>
-                                            <option>20</option>
-                                            <option>25</option>
-                                            <option>30</option>
-                                            <option>35</option>
-                                            <option>40</option>
-                                            <option>45</option>
-                                            <option>50</option>
-                                            <option>55</option>
+                                        <select class="form-control" name='<%= s[i] %>Minute' id='<%= s[i] %>Minute' ng-model="minute" ng-options="m for m in range(12, 5)">
                                         </select>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <% } %>
+						<% } %>
 
-                        <div class="form-group target">
+						<div class="form-group target">
                             <label for="targetItem">Target</label>
                             <select class="form-control" id='targetItem' name='ssid'>
                                 <option>All students</option>
@@ -146,3 +106,4 @@
         </div>
     </div>
 </div>
+</span>
