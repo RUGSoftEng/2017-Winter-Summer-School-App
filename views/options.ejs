@@ -1,72 +1,83 @@
 <!DOCTYPE html>
-<html lang="en" class='full'>
+<html lang="en" class='full' ng-app="Overview">
 <head>
-    <% include partials/web_header %>
+	<% include partials/web_header %>
 
-    <link rel="stylesheet" href="/public/dist/css/announcement.css">
-    <link rel="stylesheet" href="/public/dist/css/options.css">
-    <script src="/public/dist/js/announcement.js"></script>
-    <script src="/public/dist/js/contentDivider.js"></script>
-    <script src="/public/dist/js/inputValidation/validators.js"></script>
-    <script src="/public/dist/js/inputValidation/inputValidator.js"></script>
+	<link rel="stylesheet" href="/public/dist/css/announcement.css">
+	<link rel="stylesheet" href="/public/dist/css/options.css">
+	<script src="/public/dist/js/announcement.js"></script>
+	<script src="/public/dist/js/contentDivider.js"></script>
+	<script src="/public/dist/js/inputValidation/validators.js"></script>
+	<script src="/public/dist/js/inputValidation/inputValidator.js"></script>
+	<script src="/public/dist/js/controllers/OptionController.js"></script>
+	<script src="/public/dist/js/directives/js/table.js"></script>
 </head>
-<body class="full">
-<div id='wrap' class='full'>
-    <% include partials/general_navigationbar.ejs %>
-    <% include partials/alertMessage.ejs %>
-    <div class="row" id="event-screen">
-        <div class="col-md-4">
-            <div id="content" class="list-group">
-                <button type="button" class="list-group-item list-group-item-text" id="list-header">
-                    Options
-                </button>
+<body class="full" ng-controller="RootController">
+<div id='wrap' class='full' ng-controller="OptionController">
+	<% include partials/general_navigationbar.html %>
+	<% include partials/alertMessage.ejs %>
+	<div class="row" id="event-screen">
+		<div class="col-md-4">
+			<div id="content" class="list-group">
+				<button type="button" class="list-group-item list-group-item-text" id="list-header">
+					Options
+				</button>
 
-                <button
-                        type="button" class="list-group-item list-group-item-text change-announcement"
-                        data-description="<% include partials/manageUsers %>"
-                        data-poster=""
-                        data-title="Manage users">
-                    <span class='pull-left announcement-title'>Manage users</span>
-                    <h5 class="details pull-right">a</h5>
-                </button>
+				<button
+						type="button" class="list-group-item list-group-item-text change-announcement"
+						data-selector="#manageUsers"
+						data-poster=""
+						data-title="Manage users">
+					<span class='pull-left announcement-title'>Manage users</span>
+					<h5 class="details pull-right">a</h5>
+				</button>
 
-                <button
-                        type="button" class="list-group-item list-group-item-text change-announcement"
-                        data-description="<% include partials/manageForum %>"
-                        data-poster=""
-                        data-title="Manage users">
-                    <span class='pull-left announcement-title'>Manage forum</span>
-                    <h5 class="details pull-right">a</h5>
-                </button>
+				<button
+						type="button" class="list-group-item list-group-item-text change-announcement"
+						data-selector="#manageForum"
+						data-poster=""
+						data-title="Manage forum">
+					<span class='pull-left announcement-title'>Manage forum</span>
+					<h5 class="details pull-right">a</h5>
+				</button>
 
-                <button
-                        type="button" class="list-group-item list-group-item-text change-announcement"
-                        data-description="<% include partials/manageCode %>"
-                        data-poster=""
-                        data-title="Manage login codes">
-                    <span class='pull-left announcement-title'>Manage login codes</span>
-                    <h5 class="details pull-right">a</h5>
-                </button>
+				<button
+						type="button" class="list-group-item list-group-item-text change-announcement"
+						data-selector="#manageCodes"
+						data-poster=""
+						data-title="Manage login codes">
+					<span class='pull-left announcement-title'>Manage login codes</span>
+					<h5 class="details pull-right">a</h5>
+				</button>
 
-                <button
-                        type="button" class="list-group-item list-group-item-text change-announcement"
-                        data-description="<% include partials/manageSchools %>"
-                        data-poster=""
-                        data-title="Manage schools">
-                    <span class='pull-left announcement-title'>Manage schools</span>
-                    <h5 class="details pull-right">a</h5>
-                </button>
+				<button
+						type="button" class="list-group-item list-group-item-text change-announcement"
+						data-selector="#manageSchools"
+						data-poster=""
+						data-title="Manage schools">
+					<span class='pull-left announcement-title'>Manage schools</span>
+					<h5 class="details pull-right">a</h5>
+				</button>
 
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="inner-event">
-                <h3 id='changingTitle' class="underline-title">View options
-                </h3>
-                <div id="changingDescription">Select an option</div>
-                <div id='authorContainer'><h5 class="details"></h5></div>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="inner-event">
+				<h3 id='changingTitle' class="underline-title">View options</h3>
+				<div id="changingDescription">
+					<div id='fix'>
+						<div id='innerContent'>
+							<div id="initialMessage">Select one of the options</div>
+							<div id="manageUsers"><% include partials/manageUsers.html %></div>
+							<div id="manageSchools"><% include partials/manageSchools.html %></div>
+							<div id="manageCodes"><% include partials/manageCode.html %></div>
+							<div id="manageForum"><% include partials/manageForum.ejs %></div>
+						</div>
+					</div>
+				</div>
+				<div id='authorContainer'><h5 class="details"></h5></div>
+			</div>
+		</div>
+	</div>
 </div>
 </body>

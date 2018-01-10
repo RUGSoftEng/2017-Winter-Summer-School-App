@@ -1,9 +1,3 @@
-$('.nav-tabs a').click(function (e) {
-	e.preventDefault()
-	$(this).tab('show')
-})
-
-
 $('.finish').click(function (e) {
 	if ($('#cpassword').val() != $('#password').val()) {
 		e.preventDefault();
@@ -19,21 +13,6 @@ new InputValidator('#password', new PasswordValidator());
 $('#cpassword').focusout(function () {
 	var valid = $('#cpassword').val() === $('#password').val();
 	alterInputStyling('#cpassword', 'Passwords do not match.', valid);
-});
-
-$('.deleteAccount').click(function () {
-	if (confirm('Are you sure you want to delete this account')) {
-		$.ajax({
-			url: '/user/?id=' + $(this).data('id'),
-			type: 'DELETE',
-			success: function (result) {
-				location.reload();
-			},
-			error: function () {
-				alert('Error: could not delete account. Note that you can not delete an account on which you are logged in.');
-			}
-		});
-	}
 });
 
 $('#rank').change(function () {

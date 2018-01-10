@@ -4,29 +4,25 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/main">
                 <img alt="Brand" class="no-select"
-                     src="../images/default/logo.jpg">
+                     src="/public/images/logo.jpg">
             </a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a>
-                    <% if(user) { %>
-                    <%= user.username %>
-                    <% } else { %>
-                    Error in username!
-                    <% } %>
+                    {{username}}
                 </a>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">Menu <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <% if(isAuthorised(user, "ALTER_ANNOUNCEMENTS")) { %><li><a href="../announcepage">Announcements</a></li> <% } %>
-                    <% if(isAuthorised(user, "ALTER_GENERAL_INFO")) { %><li><a href="../generalinfo">General Information</a></li><% } %>
-                    <% if(isAuthorised(user, "ALTER_LECTURERS")) { %><li><a href="../lecturerpage">Lecturers</a></li><% } %>
-                    <% if(isAuthorised(user, "VIEW_OPTIONS")) { %><li><a href="../options">Options</a></li><% } %>
+                    <li ng-if="isAuthorised('ALTER_ANNOUNCEMENTS')"><a href="../announcepage">Announcements</a></li>
+                    <li ng-if="isAuthorised('ALTER_GENERAL_INFO')"><a href="../generalinfo">General Information</a></li>
+                    <li ng-if="isAuthorised('ALTER_LECTURERS')"><a href="../lecturerpage">Lecturers</a></li>
+                    <li ng-if="isAuthorised('VIEW_OPTIONS')"><a href="../options">Options</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="../logout">Log out</a></li>
+                    <li><a href="/logout">Log out</a></li>
                 </ul>
             </li>
         </ul>

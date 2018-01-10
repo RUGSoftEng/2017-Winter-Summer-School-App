@@ -45,5 +45,15 @@ router.post('/API/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 	res.redirect('/options');
 });
 
+router.get('/API/user', data.isAuthorised("VIEW_OPTIONS"), function (req, res) {
+	User
+		.find({}, ['_id', 'username', 'rank', 'school']) // Do not show hashed password
+		.limit(req.param('count') || 20)
+		.exec(function (err, users) {
+			if (err) console.log(err);
+			else res.send(users);
+		});
+});
+
 
 module.exports = router;

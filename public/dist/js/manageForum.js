@@ -1,4 +1,4 @@
-$('.deleteAccount').click(function () {
+$('.deleteForum').click(function () {
 	var type = $(this).data('type');
 	var link;
 	if (type === 'comment') {

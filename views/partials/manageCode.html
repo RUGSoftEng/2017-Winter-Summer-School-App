@@ -1,0 +1,75 @@
+<ul class='nav nav-tabs' role='tablist'>
+	<li role='presentation' class='active'><a href='#addCode' aria-controls='addCode' role='tab'
+											  data-toggle='tab'>Add</a></li>
+	<li role='presentation'><a href='#viewCodes' aria-controls='viewCodes' role='tab' data-toggle='tab'>View</a></li>
+</ul>
+
+<div class='tab-content'>
+	<div role='tabpanel' class='tab-pane fade in active' id='addCode'>
+		<h3>Add a code</h3>
+		<form method='post' enctype='application/json' action='loginCode'>
+			<div class='modal-body modal-add-body'>
+
+				<div class='form-group'>
+					<label class='control-label' for='code'>Code</label>
+					<input type='text' class='form-control' id='code' placeholder='1234abcd'
+						   name='code'>
+					<span class='help-block'>
+                                <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                <span></span>
+                            </span>
+				</div>
+				<div class='form-group'>
+					<label class='control-label' for='school'>School</label>
+					<select class='form-control' id='school' name='school' ng-model='selectedSchool'
+							ng-options='school._id as school.name for school in schools'>
+					</select>
+				</div>
+
+				<div class='modal-footer'>
+					<button type='submit' class='btn btn-primary finish'>Add</button>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div role='tabpanel' class='tab-pane fade' id='viewCodes'>
+
+		<table class='table table-striped table-hover'>
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>Code</th>
+				<th>School</th>
+				<th>Date</th>
+				<th>Delete</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="(idx, code) in codes">
+				<td>
+					{{idx + 1}}
+				</td>
+				<td>
+					{{code.code}}
+				</td>
+				<td>
+					{{getSchoolName(code.school)}}
+				</td>
+				<td>
+					{{code.created | date}}
+				</td>
+				<td>
+					<button type='button' class='btn btn-default' aria-label='Delete' ng-click="httpDelete($event)"
+							data-id="{{code._id}}" data-entity-type="loginCode" title='Delete'>
+						<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>
+					</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+<script src='/public/dist/js/manageCodes.js'></script>

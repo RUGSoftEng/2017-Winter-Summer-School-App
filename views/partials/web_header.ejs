@@ -2,7 +2,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="icon" href="https://i1.rgstatic.net/ii/institution.image/AS%3A267455245553682@1440777707747_l">
+<link rel="icon" href="/public/images/web-icon.png">
 
 <!-- Bootstrap &  jQuery(UI) -->
 <link rel="stylesheet" href="/public/lib/bootstrap/css/bootstrap.min.css">
@@ -12,7 +12,7 @@
 <script src="/public/lib/jquery-ui.custom/jquery-ui.min.js"></script>
 
 <!-- Additional glyphicons -->
-<script src="https://use.fontawesome.com/e13ee87d2b.js"></script>
+<script src="/public/lib/font-awesome.min.js"></script>
 
 <!-- Text editor library -->
 <link rel="stylesheet" href="/public/lib/markitup/style.css">
@@ -28,11 +28,14 @@
 <script src="/public/lib/angular-touch.min.js"></script>
 <script src="/public/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
 
-<!-- A 'hack' to ensure we can use functions defined in the NodeJS backend -->
 <script>
+	// A 'hack' to ensure we can use functions defined in the NodeJS backend
 	var exports = {};
 	var userProfile = <%- JSON.stringify(user || {}) %>;
 </script>
+
+<script src="/public/dist/js/includeHTML.js"></script>
+<script src="/public/dist/js/httpRequest.js"></script>
 
 <script src="/public/dist/js/categories.js"></script>
 <script src="/public/dist/js/userRights.js"></script>

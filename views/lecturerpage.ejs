@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Overview">
 <head>
     <% include partials/web_header %>
     <link rel="stylesheet" href="/public/dist/css/lecturerpage.css">
@@ -7,9 +7,9 @@
     <script src="/public/dist/js/lecturerpage.js"></script>
 </head>
 
-<body class="full">
+<body class="full" ng-controller="RootController">
 <div id='wrap' class='full'>
-    <% include partials/general_navigationbar.ejs %>
+    <% include partials/general_navigationbar.html %>
     <div class="inner-event">
         <% include partials/lecturer_modal.ejs %>
         <h3 class="underline-title">Lecturers
