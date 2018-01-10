@@ -11,7 +11,6 @@ module.exports = function (passport) {
 					return done(null,{_id:"firstlogin"})
 				}
 				Users.findOne({username: usern}, function (err, user) {
-                    console.log(user.password);
 					if (typeof user !== 'undefined' && !err && user !== null) {
 						bcrypt.compare(password, user.password, function (err, res) {
                             if (res === true) {
