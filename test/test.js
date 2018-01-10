@@ -2,25 +2,29 @@ var chai      = require('chai');
 var expect    = chai.expect;
 var request   = require('request');
 var supertest = require('supertest');
-var server;
+var server = {};
+var ObjectId = require('mongodb').ObjectID;
 
 describe('Server', function () {
 	it('should start the server and initialize it properly', function (done) {
-		server = require('./../server.js');
-		supertest(server.app).get('/').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		require('./../config/app.js').start(function(app) {
+			server.app = app;
+			supertest(app).get('/').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		});
 	});
 });
 
 describe('API get request', function () {
 
 	it('should return a JSON file of announcements', function (done) {
-		request.get('http://localhost:8800/announcement', function (err, res, body) {
+		request.get('http://localhost:8800/API/announcement', function (err, res, body) {
 			var parsed = JSON.parse(body);
+			console.log(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
 			expect(parsed).to.be.an('array');
 			if (parsed.length > 0) {
-				expect(parsed[0]).to.have.all.keys('_id', 'title', 'description', 'date', 'poster');
+				expect(parsed[0]).to.have.all.keys('_id', 'title', 'description', 'created', '__v', 'school');
 			}
 			done();
 		});
@@ -28,20 +32,20 @@ describe('API get request', function () {
 	});
 
   it('should return a JSON file of general information',function(done){
-      request.get('http://localhost:8800/generalinfo',function(err, res, body){
+      request.get('http://localhost:8800/API/generalinfo',function(err, res, body){
           var parsed = JSON.parse(body);
           expect(res.statusCode).to.equal(200);
           expect('content-Type',/html/);
           expect(parsed).to.be.an('array');
           if(parsed.length > 0){
-              expect(parsed[0]).to.have.all.keys('_id','title','description', 'date', 'category');
+              expect(parsed[0]).to.have.all.keys('_id','title','description', 'created', 'category', '__v');
           }
           done();
       });
   });
 
 	it('should return a JSON file of lecturers', function (done) {
-		request.get('http://localhost:8800/lecturer', function (err, res, body) {
+		request.get('http://localhost:8800/API/lecturer', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -54,7 +58,7 @@ describe('API get request', function () {
 	});
 
 	it('should return a JSON file of the forum', function (done) {
-		request.get('http://localhost:8800/forum', function (err, res, body) {
+		request.get('http://localhost:8800/forum/item', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -69,16 +73,18 @@ describe('API get request', function () {
 
 describe('API receives correct information', function () {
 	it('announcement post should receive correct values', function (done) {
-		request.post('http://localhost:8800/announcement',
-			{form: {title: "test", description: "test", user: "test"}},
+		request.post('http://localhost:8800/API/announcement',
+			{form: {title: "test", description: "test", user: "test", school: new ObjectId()}},
 			function (err, res, body) {
+			console.log(err);
+			console.log(body);
 				var parsed = JSON.parse(body);
 				expect(parsed).to.deep.equal({"title": "test", "description": "test"});
 				done();
 			});
 	});
 	it('general information route should receive correct values', function (done) {
-		request.post('http://localhost:8800/generalinfo',
+		request.post('http://localhost:8800/API/generalinfo',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
@@ -87,7 +93,7 @@ describe('API receives correct information', function () {
 			});
 	});
 	it('lecturer route should receive correct values', function (done) {
-		request.post('http://localhost:8800/lecturer',
+		request.post('http://localhost:8800/API/lecturer',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
@@ -96,7 +102,7 @@ describe('API receives correct information', function () {
 			});
 	});
 
-	it('forum route should receive correct values', function (done) {
+	/*it('forum route should receive correct values', function (done) {
 		request.post('http://localhost:8800/forum/thread/item',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
@@ -104,24 +110,24 @@ describe('API receives correct information', function () {
 				expect(parsed).to.deep.equal({"title": "test", "description": "test"});
 				done();
 			});
-	});
+	});*/
 });
 
 describe('Web pages ', function () {
 	it('should return announcepage', function (done) {
-		supertest(server.app).get('/announcepage').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		supertest(server.app).get('http://localhost:8800/announcepage').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 	});
 	it('should return generalinfo', function (done) {
-		supertest(server.app).get('/generalinfo').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		supertest(server.app).get('http://localhost:8800/generalinfo').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 	});
 	it('should return lecturerpage', function (done) {
-		supertest(server.app).get('/lecturerpage').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		supertest(server.app).get('http://localhost:8800/lecturerpage').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 	});
 	it('should return main', function (done) {
-		supertest(server.app).get('/main').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		supertest(server.app).get('http://localhost:8800/main').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 	});
 	it('should return options', function (done) {
-		supertest(server.app).get('/options').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+		supertest(server.app).get('http://localhost:8800/options').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 	});
 });
 
