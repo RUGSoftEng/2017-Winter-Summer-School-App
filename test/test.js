@@ -179,7 +179,7 @@ describe('Google Calendar API', function () {
 		});
 	});
 
-	describe('Event retreival, modification, deletion.', function () {
+	/*describe('Event retreival, modification, deletion.', function () {
 		var startDate = eventForm.startDate + 'T' + eventForm.startHour + ':' + eventForm.startMinute + ':00-00:00';
 		var endDate = eventForm.endDate + 'T' + eventForm.endHour + ':' + eventForm.endMinute + ':00-00:00';
 		var getEvent = '?startDate=' + startDate + '&endDate=' + endDate;
@@ -201,5 +201,5 @@ describe('Google Calendar API', function () {
 				});
 			});
 		});
-	});
+	});*/
 });
