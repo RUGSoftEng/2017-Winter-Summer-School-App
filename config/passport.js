@@ -7,8 +7,7 @@ module.exports = function (passport) {
 		passport.use('login', new LocalStrategy(
 			function (usern, password, done) {
 				console.log(count);
-				if(count === 0)
-				{
+				if(count === 0) {
 					return done(null,{_id:"firstlogin"})
 				}
 				Users.findOne({username: usern}, function (err, user) {
