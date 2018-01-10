@@ -42,10 +42,10 @@ function hasAllRights(names, user) {
  */
 exports.isAuthorised = function (name) {
 	return function (req, res, next) {
-		if (true || req.isAuthenticated()) {
+		if (req.isAuthenticated()) {
 			if (name.constructor === Array && hasAllRights(name, req.user)) {
 				return next();
-			} else if (true || UserRights.userHasRights(req.user, name)) {
+			} else if (UserRights.userHasRights(req.user, name)) {
 				return next();
 			}
 			let err = new Error('Not authenticated');
