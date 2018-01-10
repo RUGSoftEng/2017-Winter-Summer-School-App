@@ -8,7 +8,7 @@ var School = mongoose.model('school');
 
 // adds a new school
 router.post('/API/school', data.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	let alert = null;
+	var alert = null;
 	var school = new School({
 		name: req.body.schoolName,
 		startDate: new Date(req.body.startDate),
