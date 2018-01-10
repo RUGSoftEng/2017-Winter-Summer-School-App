@@ -16,7 +16,7 @@ var ForumSchema = new Schema({
 	},
 	created: {
 		type: Date,
-		default: Date.now
+		default: new Date()
 	},
 	author: {
 		type: String,
@@ -28,14 +28,40 @@ var ForumSchema = new Schema({
 		trim: true,
 		required: 'A thread needs the id of the poster'
 	},
-	imgurl: {
+	imgURL: {
 		type: String,
 		trim: true
 	},
-	comments: { // todo: validate inserted comments?
-		type: Array,
+	comments: {
+		type: [String],
 		default: []
 	}
 });
-
 mongoose.model('forum', ForumSchema);
+
+var CommentSchema = new Schema({
+    text: {
+    	type: String,
+		required: 'A comment needs to have a text',
+		trim: true
+	},
+	created: {
+        type: String,
+        default: new Date()
+    },
+    author: {
+        type: String,
+        required: 'A comment needs an author',
+        trim: true
+    },
+    posterID: {
+        type: String,
+        trim: true,
+        required: 'A comment needs the id of the poster'
+    },
+    imgURL: {
+        type: String,
+        trim: true
+    }
+});
+mongoose.model('comment',CommentSchema);
