@@ -7,7 +7,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
-            <form method="post" enctype="application/json" ng-non-bindable>
+            <form method="post" enctype="application/json" action="API/">
                 <input type="hidden" name="school" value="<%- user.school %>">
                 <input id='weekOffset' name="week" value=0>
                 <div class="modal-body modal-add-body">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group category-form">
                         <label for="category">Category</label>
-                        <select class="form-control" id='category' name='category' ng-model="category" ng-options="cat for cat in categories">
+                        <select class="form-control" id='category' name='category' ng-model="category" ng-options="cat for cat in categories track by cat">
                         </select>
                     </div>
                     <div class="form-group datetime-form">
@@ -100,7 +100,7 @@
                     <button type="submit" class="btn btn-danger delete">Delete</button>
                     <button type="button" class="btn btn-info preview">Preview</button>
                     <button type="button" class="btn btn-warning edit">Edit</button>
-                    <button type="submit" class="btn btn-primary finish">Post announcement</button>
+                    <button type="submit" ng-non-bindable class="btn btn-primary finish">Post announcement</button>
                 </div>
             </form>
         </div>

@@ -17,7 +17,7 @@
                   data-target="#add-lecturer"></span>
         </h3>
         <div class='row innerrow' id='event-screen'>
-            <% lecturers.forEach(function(lecturer){ %>
+            <% lecturers.forEach(function(lecturer){ lecturer.website = lecturer.website || ""; %>
             <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 panel open-modal" data-show="overview" data-toggle="modal"
                  data-target="#add-lecturer" data-id=<%- lecturer._id %>>
                 <div class="thumbnail inner-event">
