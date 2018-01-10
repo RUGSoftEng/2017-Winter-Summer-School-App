@@ -38,29 +38,18 @@ router.delete('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (r
 
 
 router.post('/API/lecturer', upload.single('img[]'), data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
-	var newLecturer;
-	if (process.env.NODE_ENV === "test") {
-		newLecturer = {
-			title: req.body.title,
-			description: req.body.description
+	var newLecturer = new Lecturer({
+		name: req.body.title,
+		description: req.body.description,
+		imagepath: typeof req.file !== "undefined" ? '/images/' + req.file.filename : undefined,
+		website: req.body.website
+	});
+	newLecturer.save(function (err, result) {
+		if (err) {
+			console.log(err);
 		}
-		res.send(newLecturer);
-	}
-	else {
-		newLecturer = new Lecturer({
-			name: req.body.title,
-			description: req.body.description,
-			imagepath: typeof req.file !== "undefined" ? '/images/' + req.file.filename : undefined,
-			website: req.body.website
-		});
-		newLecturer.save(function (err, result) {
-			if (err) {
-				console.log(err);
-			}
-			res.redirect('/lecturerpage');
-		});
-	}
-
+		res.redirect('/lecturerpage');
+	});
 });
 
 router.put('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
