@@ -30,7 +30,7 @@ router.post('/API/user', data.isAuthorised("ALTER_USERS"), function (req, res) {
 		school: req.body.school
 	});
 	newAccount.save(function (err, user) {
-		let alert = null;
+		var alert = null;
 		if (err) {
 			console.log(err);
 			const alertMessage = "Failed to insert to database.<br>" + err;
