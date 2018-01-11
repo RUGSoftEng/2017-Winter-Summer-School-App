@@ -35,7 +35,11 @@ var ForumSchema = new Schema({
 	comments: {
 		type: [String],
 		default: []
-	}
+	},
+	edited: {
+        type: Boolean,
+        default: false
+    }
 });
 mongoose.model('forum', ForumSchema);
 
@@ -62,6 +66,10 @@ var CommentSchema = new Schema({
     imgURL: {
         type: String,
         trim: true
-    }
+    },
+	edited: {
+    	type: Boolean,
+		default: false
+	}
 });
 mongoose.model('comment',CommentSchema);
