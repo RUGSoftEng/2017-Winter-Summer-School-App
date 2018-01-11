@@ -1,7 +1,7 @@
 # First installation instructions.
 ## Mongodb
 Install mongodb according to the specific instructions of your OS/distribution in the website https://docs.mongodb.com/master/administration/install-community/.
-##Database initialization.
+## Database initialization.
 Enter mongo shell through the following terminal command. Alternatively you may choose to run mongo as a service in that refer to the mongo documentation.
 ```bash
 mongo
