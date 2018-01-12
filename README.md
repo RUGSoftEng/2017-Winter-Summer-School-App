@@ -1,3 +1,10 @@
+[![Summer and Winter school Logo](https://i1.rgstatic.net/ii/institution.image/AS%3A267455245553682@1440777707747_l)](https://summerwinterschools.eu)
+
+[![Build Status](https://travis-ci.org/RUGSoftEng/2017-Winter-Summer-School-App.svg?branch=master)](https://travis-ci.org/RUGSoftEng/2017-Winter-Summer-School-App)
+[![Dependencies Status](https://david-dm.org/RUGSoftEng/2017-Winter-Summer-School-App.svg)](https://david-dm.org/RUGSoftEng/2017-Winter-Summer-School-App)
+[![devDependencies Status](https://david-dm.org/RUGSoftEng/2017-Winter-Summer-School-App/dev-status.svg)](https://david-dm.org/RUGSoftEng/2017-Winter-Summer-School-App?type=dev)
+[![Known Vulnerabilities](https://snyk.io/test/github/RUGSoftEng/2017-Winter-Summer-School-App/badge.svg)](https://snyk.io/test/github/RUGSoftEng/2017-Winter-Summer-School-App)
+
 # Webinterface Winter and Summer School
 
 A webinterface used by the coordinators of the Summer and Winter schools of the University of Groningen to interact with a database. The users may post, update or delete announcements, information sections and appointments in a schedule. 

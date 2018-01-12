@@ -14,7 +14,7 @@
 		$(function () {
 			$('#successMessage').show();
             <% if (alert.message) { %>
-			$('#successMessage .textMsg').text(` <%- alert.message %>`);
+			$('#successMessage .textMsg').text(' <%- alert.message %>');
             <% } %>
 		})
     </script>
@@ -23,7 +23,7 @@
 		$(function () {
 			$('#errorMessage').show();
             <% if (alert.message) { %>
-			$('#errorMessage .textMsg').text(` <%- alert.message %>`);
+			$('#errorMessage .textMsg').text(' <%- alert.message %>');
             <% } %>
 		})
     </script>

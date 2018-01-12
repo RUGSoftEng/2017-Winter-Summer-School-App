@@ -54,13 +54,10 @@ router.post('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), functio
 });
 
 router.get('/API/generalinfo', function (req, res) {
-	// set the limit of query results to 200 by default
-	// set it to the parameter count if it is provided
-	const count = parseInt((req.param('count') ? req.param('count') : 200));
 	Generalinfo
 		.find({})
 		.sort({ $natural: -1 })
-		.limit(count)
+		.limit(req.param('count') || 200)
 		.exec(function (err, generalinfo) {
 			if (err) console.log(err);
 			else res.send(generalinfo);
