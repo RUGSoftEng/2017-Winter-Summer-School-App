@@ -1,12 +1,12 @@
 <ul class='nav nav-tabs' role='tablist'>
-	<li role='presentation' class='active'><a href='#viewPosts' aria-controls='viewPosts' role='tab'
-											  data-toggle='tab'>View posts</a></li>
+	<li role='presentation' class='active'><a href='#viewPosts' aria-controls='viewThreads' role='tab'
+											  data-toggle='tab'>View threads</a></li>
 	<li role='presentation'><a href='#viewComments' aria-controls='viewComments' role='tab' data-toggle='tab'>View comments</a>
 	</li>
 </ul>
 
 <div class='tab-content tab-larger'>
-	<div role='tabpanel' class='tab-pane fade in active' id='viewPosts'>
+	<div role='tabpanel' class='tab-pane fade in active' id='viewThreads'>
 		<table class='table table-striped table-hover'>
 			<thead>
 			<tr>
@@ -37,7 +37,7 @@
 					<%= new Date(forum[i].date).toDateString() %>
 				</td>
 				<td>
-					<button type='button' class='btn btn-default deleteForum' aria-label='Delete'
+					<button type='button' class='btn btn-default deleteForumItem' aria-label='Delete'
 							data-toggle='tooltip' data-placement='bottom' data-id='<%= forum[i]._id %>'
 							title='Delete'><span
 								class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
@@ -76,7 +76,7 @@
 					<%= new Date(forum[i].comments[j].date).toDateString() %>
 				</td>
 				<td>
-					<button type='button' class='btn btn-default deleteAccount' aria-label='Delete'
+					<button type='button' class='btn btn-default deleteForumItem' aria-label='Delete'
 							data-toggle='tooltip' data-placement='bottom' data-type='comment'
 							data-thread='<%= forum[i]._id %>' data-comment='<%= j %>'
 							data-id='<%= forum[i].comments[j].commentID %>'
