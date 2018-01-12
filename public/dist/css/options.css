@@ -15,6 +15,14 @@
 	border-color: #0A9BEB;
 }
 
+#innerContent > div {
+	display: none;
+}
+
+#innerContent #initialMessage {
+	display: block;
+}
+
 .btn-group-wrapper {
 	width: 100%;
 	text-align: center;

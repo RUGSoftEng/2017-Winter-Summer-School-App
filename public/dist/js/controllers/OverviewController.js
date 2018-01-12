@@ -4,4 +4,8 @@ app.controller('OverviewController', ['$scope', function($scope) {
 		date.setDate(date.getDate() - 1);
 		return new Date(itemDate) >= date;
 	};
+
+	if(!$scope.school) {
+		window.location.href = "/options";
+	}
 }]);

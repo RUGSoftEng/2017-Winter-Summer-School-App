@@ -36,3 +36,7 @@
 #menu-bar .navbar-nav > li > a {
 	color: #FFF;
 }
+
+.capitalize {
+	text-transform: capitalize;
+}

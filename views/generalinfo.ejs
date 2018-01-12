@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class='full'>
+<html lang="en" class='full' ng-app="Overview">
 <head>
     <% include partials/web_header %>
     <link rel="stylesheet" href="/public/dist/css/announcement.css">
@@ -9,9 +9,9 @@
     <script src="/public/dist/js/loggedIn.js"></script>
 </head>
 <% generalinfo.reverse() %>
-<body class="full">
+<body class="full" ng-controller="RootController">
 <div id='wrap' class='full'>
-    <% include partials/general_navigationbar.ejs %>
+    <% include partials/general_navigationbar.html %>
     <div class="row" id="event-screen">
         <div class="col-md-4">
             <div id="content" class="list-group">

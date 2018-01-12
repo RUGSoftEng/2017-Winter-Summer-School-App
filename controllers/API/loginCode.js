@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../../config/database.js');
 const Alert = require('../../config/alert.js');
 var LoginCode = require('mongoose').model('loginCode');
+const UserRights = require('../../public/dist/js/userRights');
 
 router.post('/API/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
 	let alert = null;
@@ -24,14 +25,19 @@ router.post('/API/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (
 });
 
 router.get('/API/loginCode', function (req, res) {
-	const codeParam = req.param('code');
-	LoginCode.findOne({ code: codeParam }, function (err, code) {
-		if (code) {
-			res.send(loginCode.school);
-		} else {
-			res.send(400);
-		}
-	});
+	if(req.param('code')) {
+		LoginCode.findOne({ code: req.param('code') }, function (err, code) {
+			res.send(code ? code.school : 400);
+		});
+	} else if(UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
+		LoginCode
+			.find({})
+			.limit(req.param('count') || 20)
+			.exec(function (err, codes) {
+				if (err) console.log(err);
+				else res.send(codes);
+			});
+	} else res.send(403);
 });
 
 router.delete('/API/loginCode', data.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {

@@ -1,10 +1,9 @@
-$('.deleteAccount').click(function () {
+$('.deleteForumItem').click(function () {
 	var type = $(this).data('type');
 	var link;
 	if (type === 'comment') {
 		link = '/forum/comment/item?threadID=' + $(this).data('thread') + '&commentID=' + $(this).data('id');
-	}
-	else {
+	} else {
 		link = '/forum/thread/item?threadID=' + $(this).data('id');
 	}
 	$.ajax({
