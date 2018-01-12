@@ -64,8 +64,7 @@ router.put('/API/forum/comment', function (req, res) {
     }, {
         $set: {
             text: req.param('text'),
-            created: new Date(),
-            edited: true
+            edited: Date.now()
         }
     }, function (err, user) {
         if (err){
@@ -87,9 +86,10 @@ router.get('/API/forum/comment', function (req, res) {
                 res.send(err);
                 console.log(err);
             }
-            else
+            else {
                 res.status(200);
-            res.send(comment);
+                res.send(comment);
+            }
         });
 });
 
