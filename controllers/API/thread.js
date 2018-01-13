@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Forum = require('mongoose').model('forum');
-
+var Comment = require('mongoose').model('comment');
 router.post('/API/forum/thread', function (req, res) {
     var newThread = new Forum({
         title: req.body.title,
@@ -23,18 +23,42 @@ router.post('/API/forum/thread', function (req, res) {
 });
 
 router.delete('/API/forum/thread', function (req, res) {
-    Forum.findOneAndRemove({
-        '_id': req.param('id')
-    }, function (err, user) {
-        if (err) {
-            res.status(201);
-            res.send(err);
-            console.log(err)
+    Forum.findOne({
+            '_id': req.param('id')
+        }, function (err, thread) {
+            if (err) {
+                res.status(201);
+                res.send(err);
+                console.log("error finding the thread with the id specified", err)
+            }
+            else {
+                Comment.deleteMany({
+                    '_id': {$in: thread.comments}
+                }, function (err2) {
+                    if (err2) {
+                        res.status(201);
+                        res.send(err2);
+                        console.log("error deleting the comments associated with the thread", err2);
+                    }
+                    else {
+                        Forum.findOneAndRemove({
+                            '_id': req.param('id')
+                        }, function (err3) {
+                            if (err) {
+                                res.status(201);
+                                res.send(err);
+                                console.log("error deleting the thread", err)
+                            }
+                            else {
+                                res.send(200);
+                            }
+                        })
+
+                    }
+                });
+            }
         }
-        else {
-            res.send(200);
-        }
-    });
+    );
 });
 
 router.put('/API/forum/thread', function (req, res) {

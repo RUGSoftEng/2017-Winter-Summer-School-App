@@ -66,6 +66,10 @@ var CommentSchema = new Schema({
         type: String,
         trim: true
     },
+    parentThread: {
+        type: String,
+        required: 'A comment needs a parent thread'
+    },
     edited: {
         type: Date
     }
