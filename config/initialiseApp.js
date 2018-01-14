@@ -13,7 +13,8 @@ module.exports = function (app) {
 	app.set('view engine', 'ejs');
 	app.use(morgan('dev'));
 	app.use(cookieParser());
-	app.use(bodyParser());
+	app.use(bodyParser.json({ extended: true }));
+	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cookieSession({
 		secret: 'summerwinter',
 		saveUninitialized: true,
