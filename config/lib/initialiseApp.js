@@ -1,22 +1,24 @@
+const config        = require('../config');
 const flash         = require('connect-flash');
 const morgan        = require('morgan');
 const cookieParser  = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const bodyParser    = require('body-parser');
 const express       = require('express');
-const session       = require('express-session');
 const passport      = require('passport');
-const UserRights    = require('../public/dist/js/userRights.js');
+const UserRights    = require(config.dir + '/public/dist/js/userRights.js');
 require('./passport')(passport);
 
 module.exports = function (app) {
 	app.set('view engine', 'ejs');
-	app.use(morgan('dev'));
+	if (config.isDevelopmentEnv())
+		app.use(morgan('dev'));
+
 	app.use(cookieParser());
 	app.use(bodyParser.json({ extended: true }));
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cookieSession({
-		secret: 'summerwinter',
+		secret: config.sessionSecret,
 		saveUninitialized: true,
 		resave: true
 	}));

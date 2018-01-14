@@ -1,12 +1,12 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcrypt-nodejs');
-var Users = require('mongoose').model('account');
+const Users = require('mongoose').model('account');
+const logger = require('./logger');
 
 module.exports = function (passport) {
     Users.count({},function(err, count) {
 		passport.use('login', new LocalStrategy(
 			function (usern, password, done) {
-				console.log(count);
 				if(count === 0) {
 					return done(null,{_id:"firstlogin"})
 				}
@@ -40,7 +40,7 @@ module.exports = function (passport) {
         else {
             Users.findOne({_id: id}, function (err, user) {
                 if (typeof user === 'undefined' || err)
-                    console.log('Error in deserializing user');
+                    logger.error('Error in deserializing user');
                 done(null, user);
             });
 		}

@@ -1,17 +1,16 @@
-const UserRights = require("../public/dist/js/userRights.js");
-const mongoose = require('mongoose');
+const UserRights = require(process.cwd() + "/public/dist/js/userRights.js");
+const config = require('./../config');
+
 /**
  * A function that validates whether the user is logged in, and if not redirect them to the log in page.
+ * If we are in the testing environment, this check is skipped.
  * @param req
  * @param res
  * @param next
  * @returns {*}
  */
 exports.isLoggedIn = function (req, res, next) {
-	if (process.env.NODE_ENV === "test") {
-		return next();
-	}
-	if (req.isAuthenticated())
+	if (req.isAuthenticated() || config.isTestEnv())
 		return next();
 
 	res.redirect('/');
@@ -24,28 +23,29 @@ exports.isLoggedIn = function (req, res, next) {
  * @param {Object} user - The req.user object.
  * @returns {boolean}
  */
-function hasAllRights(names, user) {
-	var hasRights = true;
+const hasAllRights = function (names, user) {
+	let hasRights = true;
 	names.forEach(function (name) {
 		hasRights &= UserRights.userHasRights(user, name);
 	});
 	return hasRights;
-}
+};
 
 /**
  * A custom function that checks whether the user is authorised to perform a request (/access a webpage).
  * It is build on top of the Passport library @see {@link http://passportjs.org/}
+ * If we are in the testing environment no authorisation is performed.
  *
- * @see {@link ./userRights.js}
+ * @see {@link /public/dist/js/userRights.js}
  * @param {(string|string[])} name - one or more access right strings as defined in UserRights
  * @returns {Function}
  */
 exports.isAuthorised = function (name) {
 	return function (req, res, next) {
-		if (req.isAuthenticated()) {
+		if (req.isAuthenticated() || config.isTestEnv()) {
 			if (name.constructor === Array && hasAllRights(name, req.user)) {
 				return next();
-			} else if (UserRights.userHasRights(req.user, name)) {
+			} else if (UserRights.userHasRights(req.user, name) || config.isTestEnv()) {
 				return next();
 			}
 			let err = new Error('Not authenticated');

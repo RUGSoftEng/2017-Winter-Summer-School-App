@@ -1,21 +1,19 @@
-var requireDir = require('require-dir');
-
-var json = require('../config/getJSON.js');
-
+const json = require('./getJSON.js');
+const config = require('./../config');
 
 exports.getWeekEvents = function (path, week, callback) {
 	json.getJSON({
 		type: 'GET',
 		path: '/calendar/event?week=' + week + '&extended=true',
-		host: "localhost",
-		port: "8800",
+		host: config.host,
+		port: config.port,
 		async: false,
 		dataType: 'json'
 	}, function (statusCode, data) {
-		var result = null;
-		if (data && data.error == null) {
+		let result = null;
+		if (data && !data.error) {
 			result = JSON.parse(data.data);
 		}
 		callback(result);
 	});
-}
+};

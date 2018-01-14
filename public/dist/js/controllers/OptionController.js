@@ -2,7 +2,7 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 	$http.get('/API/school')
 		.then(function(data) {
 			$scope.schools = data.data;
-			$scope.selectedSchool = $scope.schools[0]._id;
+			$scope.selectedSchool = $scope.schools.length ? $scope.schools[0]._id : "";
 
 			$http.get('/API/user')
 				.then(function(data) {

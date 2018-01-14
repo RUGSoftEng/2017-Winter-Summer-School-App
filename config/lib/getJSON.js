@@ -1,4 +1,5 @@
-var http = require("http");
+const http = require("http");
+const logger = require('./logger');
 
 /**
  * getJSON:  REST get request returning JSON object(s)
@@ -7,9 +8,9 @@ var http = require("http");
  */
 exports.getJSON = function (options, callback) {
 	// protocol to be used
-	var prot = options.port == 443 ? https : http;
-	var req  = prot.request(options, function (res) {
-		var output = '';
+	const prot = options.port === 443 ? https : http;
+	let req  = prot.request(options, function (res) {
+		let output = '';
 		res.setEncoding('utf8');
 
 		res.on('data', function (chunk) {
@@ -17,13 +18,13 @@ exports.getJSON = function (options, callback) {
 		});
 
 		res.on('end', function () {
-			var obj = JSON.parse(output);
+			let obj = JSON.parse(output);
 			callback(res.statusCode, obj);
 		});
 	});
 
 	req.on('error', function (err) {
-		console.log(err.message);
+		logger.warning(err.message);
 	});
 
 	req.end();

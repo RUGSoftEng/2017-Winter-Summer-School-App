@@ -17,9 +17,9 @@ $('#cpassword').focusout(function () {
 
 $('#rank').change(function () {
 	if($(this).val() === 'coordinator') {
-		$('#school').parent().show();
+		$('#school').parent().removeClass('hidden');
 	} else {
-		$('#school').parent().hide();
+		$('#school').parent().addClass('hidden');
 	}
 })
 

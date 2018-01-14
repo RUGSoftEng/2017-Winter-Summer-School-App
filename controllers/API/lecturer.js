@@ -1,12 +1,12 @@
-var express = require('express');
-
-var router = express.Router();
-var data = require('../../config/database.js');
-var multer = require('multer');
-var crypto = require('crypto');
-var mime = require('mime');
-var fs = require('fs');
-var Lecturer = require('mongoose').model('lecturer');
+const express = require('express');
+const router = express.Router();
+const auth = require('../../config/lib/authorisation.js');
+const multer = require('multer');
+const crypto = require('crypto');
+const mime = require('mime');
+const fs = require('fs');
+const Lecturer = require('mongoose').model('lecturer');
+const logger = require(process.cwd() + '/config/lib/logger');
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -20,39 +20,43 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-router.delete('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.delete('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	//first get the document so you can delete the old picture path.
 	Lecturer.findOneAndRemove({
 		_id: req.param('id')
 	}, function (err, user) {
-		if (err) throw err;
-		fs.unlink('.' + '/views/' + user.imagepath, function (err, result) {
-			if (err) {
-				console.log(err);
-				res.send(400);
-			}
-		});
+		if (err) {
+			logger.warning('Can not delete lecturer\n' + err);
+			res.send(400);
+		} else {
+			fs.unlink('.' + '/views/' + user.imagepath, function (err, result) {
+				if (err) {
+					logger.warning(err);
+					res.send(400);
+				}
+			});
+		}
 		res.send(200);
 	});
 });
 
 
-router.post('/API/lecturer', upload.single('img[]'), data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.post('/API/lecturer', upload.single('img[]'), auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	var newLecturer = new Lecturer({
 		name: req.body.title,
 		description: req.body.description,
 		imagepath: typeof req.file !== "undefined" ? '/images/' + req.file.filename : undefined,
 		website: req.body.website
 	});
-	newLecturer.save(function (err, result) {
+	newLecturer.save(function (err) {
 		if (err) {
-			console.log(err);
+			logger.warning('Can not add new lecturer\n' + err);
 		}
 		res.redirect('/lecturerpage');
 	});
 });
 
-router.put('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.put('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	Lecturer.findOneAndUpdate({
 		'_id': req.param('id')
 	}, {
@@ -60,23 +64,26 @@ router.put('/API/lecturer', data.isAuthorised("ALTER_LECTURERS"), function (req,
 		description: req.param('description'),
 		imagepath: req.param('imagepath'),
 		website: req.param('website')
-	}, function (err, user) {
-		if (err) throw err;
-		res.send(200);
+	}, function (err) {
+		if (err) {
+			logger.warning('Can not edit lecturer\n' + err);
+			res.send(400);
+		} else {
+			res.send(200);
+		}
 	});
 });
 
 router.get('/API/lecturer', function (req, res) {
-	// set the limit of query results to 200 by default
-	// set it to the parameter count if it is provided
-	var count = parseInt((req.param('count') ? req.param('count') : 200));
 	Lecturer
 		.find({})
 		.sort({ $natural: -1 })
-		.limit(count)
+		.limit(req.param('count') || 200)
 		.exec(function (err, lecturers) {
-			if (err) console.log(err);
-			else res.send(lecturers);
+			if (err) {
+				logger.warning('Can retrieve lecturers\n' + err);
+				res.send(400);
+			} else res.send(lecturers);
 		});
 
 });

@@ -1,6 +1,6 @@
-var express            = require('express');
-var requireDir         = require('require-dir');
-var controllerLocation = './../controllers';
+const express            = require('express');
+const requireDir         = require('require-dir');
+const controllerLocation = process.cwd() + '/controllers';
 
 /*
 
@@ -10,17 +10,17 @@ var controllerLocation = './../controllers';
  after all other controllers.
  */
 module.exports = function (app) {
-	var module = {};
+	let module = {};
 
 	module.addControllers = function () {
 		isDirectory = function (file) {
 			return (typeof file !== 'function');
-		}
+		};
 
 		recursiveAdd = function (dir) {
-			var controllers = requireDir(dir, {recurse: true});
-			for (var i in controllers) {
-				if (i != '404') {
+			const controllers = requireDir(dir, {recurse: true});
+			for (let i in controllers) {
+				if (i !== '404') {
 					if (isDirectory(controllers[i]))
 						recursiveAdd(dir + '/' + i);
 					else
