@@ -4,9 +4,9 @@ var ejs           = require('ejs');
 var fs            = require('fs');
 var schedule      = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
 var restFunctions = require('../../config/calendar/calendarRESTFunctions.js');
-var verify        = require('../../config/verify.js');
-var Alert         = require('../../config/alert.js');
-var data          = require('../../config/database.js');
+var verify        = require('../../config/lib/verify.js');
+var Alert         = require('../../config/lib/alert.js');
+var auth          = require('../../config/lib/authorisation.js');
 
 /**
  * Handles incoming HTTP POST requests to '/calendar/event'. Attempts to process event details from
@@ -16,7 +16,7 @@ var data          = require('../../config/database.js');
  * @param {Object} request  - an object containing request details.
  * @param {Object} response - an object to which a response may be written.
  */
-router.post('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function (request, response) {
+router.post('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (request, response) {
 	var b        = request.body;
 	var required = [b.location,
 		b.startDate,
@@ -62,7 +62,7 @@ router.post('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function (re
  * @param {Object} request  - an object containing request details.
  * @param {Object} response - an object to which a response may be written.
  */
-router.put('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function (request, response) {
+router.put('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (request, response) {
 	var p        = request.query;
 	var required = [p.id,
 		p.title,
@@ -161,7 +161,7 @@ router.get('/calendar/event', function (request, response) {
  * @param {Object} request  - an object containing request details.
  * @param {Object} response - an object to which a response may be written.
  */
-router.delete('/calendar/event', data.isAuthorised("ALTER_CALENDAR"), function (request, response) {
+router.delete('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (request, response) {
 	var p = request.query;
 	if (p.hasOwnProperty('id')) {
 		restFunctions.deleteCalendarEvent(p.id, function (err) {

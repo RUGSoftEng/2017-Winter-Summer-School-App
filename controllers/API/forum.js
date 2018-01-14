@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var data = require('../../config/database.js');
-var Forum = require('mongoose').model('forum');
+const express = require('express');
+const router = express.Router();
+const Forum = require('mongoose').model('forum');
+const config = require(process.cwd() + '/config/config');
 
 router.post('/forum/thread/item', function (req, res) {
 	// creates a new forum thread and inserts it in the database.
 	var newThread;
-	if (process.env.NODE_ENV === "test") {
+	if (config.isTestEnv()) {
 		newThread = {
 			title: req.body.title,
 			description: req.body.description

@@ -1,13 +1,14 @@
-var chai = require('chai');
-var expect = chai.expect;
-var request = require('request');
-var supertest = require('supertest');
-var server = {};
-var ObjectId = require('mongodb').ObjectID;
+const chai = require('chai');
+const expect = chai.expect;
+const request = require('request');
+const supertest = require('supertest');
+const config = require(process.cwd() + '/config/config.js');
+let server = {};
+
 
 describe('Server', function () {
 	it('should start the server and initialize it properly', function (done) {
-		require('./../config/app.js').start(function (app) {
+		require(config.dir + '/config/lib/app.js').start(function (app) {
 			server.app = app;
 			supertest(app).get('/').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
 		});
@@ -17,7 +18,7 @@ describe('Server', function () {
 describe('API get request', function () {
 
 	it('should return a JSON file of announcements', function (done) {
-		request.get('http://localhost:8800/API/announcement', function (err, res, body) {
+		request.get(config.domain + '/API/announcement', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -31,7 +32,7 @@ describe('API get request', function () {
 	});
 
 	it('should return a JSON file of general information', function (done) {
-		request.get('http://localhost:8800/API/generalinfo', function (err, res, body) {
+		request.get(config.domain + '/API/generalinfo', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('content-Type', /html/);
@@ -44,7 +45,7 @@ describe('API get request', function () {
 	});
 
 	it('should return a JSON file of lecturers', function (done) {
-		request.get('http://localhost:8800/API/lecturer', function (err, res, body) {
+		request.get(config.domain + '/API/lecturer', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -57,7 +58,7 @@ describe('API get request', function () {
 	});
 
 	it('should return a JSON file of the forum', function (done) {
-		request.get('http://localhost:8800/forum/item', function (err, res, body) {
+		request.get(config.domain + '/forum/item', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect('contentType', /json/);
@@ -72,7 +73,7 @@ describe('API get request', function () {
 
 describe('API receives correct information', function () {
 	it('announcement post should receive correct values', function (done) {
-		request.post('http://localhost:8800/API/announcement',
+		request.post(config.domain + '/API/announcement',
 			{ form: { title: "test", description: "test", user: "test", school: "41224d776a326fb40f000001" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
@@ -80,7 +81,7 @@ describe('API receives correct information', function () {
 			});
 	});
 	it('general information route should receive correct values', function (done) {
-		request.post('http://localhost:8800/API/generalinfo',
+		request.post(config.domain + '/API/generalinfo',
 			{ form: { title: "test", description: "test", user: "test", category: "Location" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
@@ -88,7 +89,7 @@ describe('API receives correct information', function () {
 			});
 	});
 	it('lecturer route should receive correct values', function (done) {
-		request.post('http://localhost:8800/API/lecturer',
+		request.post(config.domain + '/API/lecturer',
 			{ form: { title: "test", description: "test", user: "test", website: "http://test.com" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
@@ -97,7 +98,7 @@ describe('API receives correct information', function () {
 	});
 
 	/*it('forum route should receive correct values', function (done) {
-		request.post('http://localhost:8800/forum/thread/item',
+		request.post(config.domain + '/forum/thread/item',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
 				var parsed = JSON.parse(body);
@@ -109,32 +110,32 @@ describe('API receives correct information', function () {
 
 describe('Web pages ', function () {
 	it('should return announcepage', function (done) {
-		request.get('http://localhost:8800/announcepage', function (err, res, body) {
+		request.get(config.domain + '/announcepage', function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 
 	it('should return generalinfo', function (done) {
-		request.get('http://localhost:8800/generalinfo', function (err, res, body) {
+		request.get(config.domain + '/generalinfo', function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 	it('should return lecturerpage', function (done) {
-		request.get('http://localhost:8800/lecturerpage', function (err, res, body) {
+		request.get(config.domain + '/lecturerpage', function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 	it('should return main', function (done) {
-		request.get('http://localhost:8800/main', function (err, res, body) {
+		request.get(config.domain + '/main', function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 	it('should return options', function (done) {
-		request.get('http://localhost:8800/options', function (err, res, body) {
+		request.get(config.domain + '/options', function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
@@ -142,7 +143,7 @@ describe('Web pages ', function () {
 });
 
 describe('Google Calendar API', function () {
-	var path = 'http://localhost:8800/calendar/event'
+	var path = config.domain + '/calendar/event';
 	var eventForm =
 		{
 			title: 'Judgement Day',

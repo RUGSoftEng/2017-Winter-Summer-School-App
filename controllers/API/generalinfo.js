@@ -1,49 +1,52 @@
-var express = require('express');
-var router  = express.Router();
-var data    = require('../../config/database.js');
-var Alert   = require('../../config/alert.js');
-var Generalinfo = require('mongoose').model('generalinfo');
+const express = require('express');
+const router  = express.Router();
+const auth    = require('../../config/lib/authorisation.js');
+const Alert   = require('../../config/lib/alert.js');
+const Generalinfo = require('mongoose').model('generalinfo');
+const logger = require(process.cwd() + '/config/lib/logger');
 
-router.delete('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.delete('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndRemove({
 		'_id': req.param('id')
-	}, function (err, user) {
-		if (err) throw err;
-		res.send(200);
+	}, function (err) {
+		if (err) {
+			logger.warning('Can not delete general info\n' + err);
+			res.send(400);
+		} else {
+			res.send(200);
+		}
 	});
 
 });
 
-router.put('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.put('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndUpdate({
 		'_id': req.param('id')
 	}, {
 		$set: {
 			title: req.param('title'),
 			description: req.param('description'),
-			category: req.param('category'),
-			date: new Date()
+			category: req.param('category')
 		}
-	}, function (err, user) {
-		if (err) throw err;
-		res.send(200);
+	}, function (err) {
+		if (err) {
+			logger.warning('Can not edit general info\n' + err);
+			res.send(400);
+		} else {
+			res.send(200);
+		}
 	});
 
 });
 
 
-router.post('/API/generalinfo', data.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	const newGeneralInfo = new Generalinfo({
-		title: req.body.title,
-		description: req.body.description,
-		date: new Date(),
-		category: req.body.category
-	});
-	newGeneralInfo.save(function (err, result) {
+router.post('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+	const newGeneralInfo = new Generalinfo(req.body);
+	newGeneralInfo.save(function (err) {
 		let alert = null;
 		if (err) {
 			alert = new Alert(false, "Failed to insert to database.<br>" + err);
-			console.log(err);
+			logger.warning(err);
 		} else {
 			alert = new Alert(true, "The general information was successfully added");
 		}
@@ -59,8 +62,10 @@ router.get('/API/generalinfo', function (req, res) {
 		.sort({ $natural: -1 })
 		.limit(req.param('count') || 200)
 		.exec(function (err, generalinfo) {
-			if (err) console.log(err);
-			else res.send(generalinfo);
+			if (err) {
+				logger.warning('Can not retrieve general info\n' + err);
+				res.send(400);
+			} else res.send(generalinfo);
 		});
 });
 

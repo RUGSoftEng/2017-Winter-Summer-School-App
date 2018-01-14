@@ -8,6 +8,10 @@
 	background-color: #E3E3E3;
 }
 
+.hidden {
+	display: none;
+}
+
 .col-md-4 {
 	padding: 10px;
 }
