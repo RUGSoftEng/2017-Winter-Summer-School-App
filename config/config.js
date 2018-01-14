@@ -4,6 +4,9 @@ const _ = require('lodash');
 const logger = require('./lib/logger');
 const environments = ['dev', 'prod', 'test'];
 
+/**
+ * Validates whether the environment was properly set.
+ */
 const validateEnvironment = function () {
 	if(!process.env.NODE_ENV) {
 		process.env.NODE_ENV = environments[0];
