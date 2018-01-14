@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Alert = require('../../config/alert.js');
-const data = require('../../config/database.js');
-const dateManipulator = require('../../config/dayManipulation.js');
+const Alert = require('../../config/lib/alert.js');
+const auth = require('../../config/lib/authorisation.js');
+const dateManipulator = require('../../config/lib/dayManipulation.js');
 
-router.get('/main', data.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
-	var user = req.user || {};
-	var alert = new Alert();
+router.get('/main', auth.isAuthorised("ACCESS_MAIN_OVERVIEW"), function (req, res) {
+	const user = req.user || {};
+	let alert = new Alert();
 	alert.initiate(req);
-	var week = req.session.week || 0;
+	const week = req.session.week || 0;
 	dateManipulator.getWeekEvents(req.get('host'), week, function (weekSchedule) {
 		res.render('loggedIn.ejs', {
 			user: user,

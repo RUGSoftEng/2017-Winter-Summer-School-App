@@ -12,7 +12,7 @@
 
 				<div class='form-group'>
 					<label class='control-label' for='username'>Username</label>
-					<input type='name' class='form-control' id='username' placeholder='Name'
+					<input type='text' class='form-control' id='username' placeholder='Name'
 						   name='username'>
 					<span class='help-block'><span class='glyphicon glyphicon-exclamation-sign'
 												   aria-hidden='true'></span><span></span></span>
@@ -36,14 +36,16 @@
 				<div class='form-group'>
 					<label class='control-label' for='rank'>Role</label>
 					<select class='form-control' id='rank' name='rank' ng-model='selectedRole'
-							ng-options='role for role in roles'>
+							ng-options='role for role in roles track by role'>
+						<option value="" disabled>Select a role</option>
 					</select>
 				</div>
 
-				<div class='form-group'>
+				<div class='form-group hidden'>
 					<label class='control-label' for='school'>School</label>
 					<select class='form-control' id='school' name='school' ng-model='selectedSchool'
-							ng-options='school._id as school.name for school in schools'>
+							ng-options='school._id as school.name for school in schools track by school._id'>
+						<option value="" disabled>Select a school</option>
 					</select>
 				</div>
 

@@ -5,9 +5,10 @@
  * TODO: Verify token, increase security
  */
 
-var express = require('express');
-var router  = express.Router();
-var Token = require('mongoose').model('token');
+const express = require('express');
+const router  = express.Router();
+const Token = require('mongoose').model('token');
+const logger = require(process.cwd() + '/config/lib/logger');
 
 router.post('/API/token', function (req, res) {
 	// adds a new token
@@ -15,9 +16,9 @@ router.post('/API/token', function (req, res) {
 		token: req.body.id
 	});
 
-	newToken.save(function (err, result) {
+	newToken.save(function (err) {
 		if (err) {
-			console.log(err);
+			logger.warning('Can not add token\n' + err);
 			res.send(400);
 		} else {
 			res.send(200);

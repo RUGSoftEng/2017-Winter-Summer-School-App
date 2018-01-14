@@ -1,17 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var Comment = require('mongoose').model('comment');
-var Forum = require('mongoose').model('forum');
+const express = require('express');
+const router = express.Router();
+const Comment = require('mongoose').model('comment');
+const Forum = require('mongoose').model('forum');
 
 
 router.post('/API/forum/comment', function (req, res) {
-	var newComment = new Comment({
-		text: req.body.text,
-		author: req.body.author,
-		posterID: req.body.posterID,
-		imgURL: req.body.imgURL,
-		parentThread: req.body.threadID
-	});
+	var newComment = new Comment(req.body);
 	newComment.save(function (err, result) {
 		if (err) {
 			res.status(201);
