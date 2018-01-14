@@ -5,9 +5,9 @@ services:
 - mongodb
 before_script: chmod 0777 ./node_modules/.bin/mocha
 script:
-- npm install mime
 - npm test
 before_install:
+- npm install mime
 - openssl aes-256-cbc -K $encrypted_9c6402be0697_key -iv $encrypted_9c6402be0697_iv
   -in private_keys.tar.enc -out ./config/calendar/private_keys.tar -d
 - tar xvf ./config/calendar/private_keys.tar
