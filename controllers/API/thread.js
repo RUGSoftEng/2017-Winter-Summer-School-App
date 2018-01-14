@@ -13,14 +13,14 @@ router.post('/API/forum/thread', function (req, res) {
             console.log(err);
         } else {
             console.log(result);
-            res.send(200);
+            res.sendStatus(200);
         }
     });
 });
 
 router.delete('/API/forum/thread', function (req, res) {
     Forum.findOne({
-            '_id': req.param('id')
+            '_id': req.query.id
         }, function (err, thread) {
             if (err) {
                 res.status(201);
@@ -38,7 +38,7 @@ router.delete('/API/forum/thread', function (req, res) {
                     }
                     else {
                         Forum.findOneAndRemove({
-                            '_id': req.param('id')
+                            '_id': req.query.id
                         }, function (err3) {
                             if (err) {
                                 res.status(201);
@@ -46,7 +46,7 @@ router.delete('/API/forum/thread', function (req, res) {
                                 console.log("error deleting the thread", err)
                             }
                             else {
-                                res.send(200);
+                                res.sendStatus(200);
                             }
                         })
 
@@ -59,31 +59,30 @@ router.delete('/API/forum/thread', function (req, res) {
 
 router.put('/API/forum/thread', function (req, res) {
     Forum.findOneAndUpdate({
-        '_id': req.param('id')
+        '_id': req.query.id
     }, {
         $set: {
-            title: req.param('title'),
-            description: req.param('description'),
+            title: req.query.title,
+            description: req.query.description,
             edited: Date.now()
         }
-    }, function (err, user) {
+    }, function (err) {
         if (err) {
             res.status(201);
             res.send(err);
             console.log(err);
         }
         else {
-            res.send(200);
+            res.sendStatus(200);
         }
     });
 });
 
 router.get('/API/forum/thread', function (req, res) {
-    const count = parseInt((req.param('count') ? req.param('count') : 200));
     Forum
         .find({})
         .sort({$natural: -1})
-        .limit(count)
+        .limit(req.query.count || 200)
         .exec(function (err, threads) {
             if (err) {
                 res.status(201);
