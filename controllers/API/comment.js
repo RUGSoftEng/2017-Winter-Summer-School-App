@@ -1,7 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const Comment = require('mongoose').model('comment');
-const Forum = require('mongoose').model('forum');
+const Thread = require('mongoose').model('thread');
 
 
 router.post('/API/forum/comment', function (req, res) {
@@ -12,7 +11,7 @@ router.post('/API/forum/comment', function (req, res) {
 			res.send(err);
 			console.log("error creating the comment", err);
 		} else {
-			Forum.findById(req.body.threadID, function (err2, thread) {
+			Thread.findById(req.body.threadID, function (err2, thread) {
 				if (err2) {
 					res.status(201);
 					res.send(err2);
@@ -47,7 +46,7 @@ router.delete('/API/forum/comment', function (req, res) {
 			console.log("error finding comment with the id provided", err)
 		}
 		else {
-			Forum.findOneAndUpdate({
+			Thread.findOneAndUpdate({
 					'_id': comment.parentThread
 				},
 				{ $pop: { "comments": req.param('id') } },

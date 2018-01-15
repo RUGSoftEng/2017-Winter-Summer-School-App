@@ -32,7 +32,7 @@ module.exports = function (app) {
 		app.use(express.static('views/images/'));
 		app.use('/public', express.static('public'));
 		app.use('/directives', express.static('public/dist/js/directives/html'));
-		app.use('/directives', express.static('public/dist/js/directives/html'));
+		app.use('/partials', express.static('views/partials'));
 
 		app.use('/*', require(controllerLocation + '/404'));
 		app.use(function(err, req, res, next){

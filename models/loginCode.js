@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 
@@ -12,12 +12,12 @@ var mongoose = require('mongoose'),
  * @return {boolean}
  * @private
  */
-var validateCode = function (code) {
+const validateCode = function (code) {
 	const regex = /^[a-zA-Z0-9]{8}$/;
 	return code && regex.test(code);
 };
 
-var LoginCodeSchema = new Schema({
+const LoginCodeSchema = new Schema({
 	code: {
 		type: String,
 		unique: 'Code already exists',

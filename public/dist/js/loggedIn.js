@@ -23,19 +23,19 @@ function addNewItem(type, edit) {
 
 	$('.category-form').hide();
 
-	$(modalSelector + '.modal-title').html("<p>" + (edit ? editTitles[$type] : titles[$type]) + "</p>");
+	$(modalSelector + '.modal-title').html("<p>" + (edit ? editTitles[type] : titles[type]) + "</p>");
 	$('.description-form').show();
-	$(modalSelector + '#section-header').html(sectionHeaders[$type]);
-	getButton('f').html((edit ? "Save" : buttonTexts[$type]));
-	$(modalSelector + 'form').attr('action', links[$type]);
+	$(modalSelector + '#section-header').html(sectionHeaders[type]);
+	getButton('f').html((edit ? "Save" : buttonTexts[type]));
+	$(modalSelector + 'form').attr('action', links[type]);
 	toggleShow(false);
 	$('.datetime-form').hide();
 	$(modalSelector + '.target').show();
-	if ($type == 2) { // adding a schedule event
+	if (type == 2) { // adding a schedule event
 		toggleButtons('p'); // no preview button for scheduling
 		$('.description-form').hide();
 		$('.datetime-form').show();
-	} else if ($type == 1) {
+	} else if (type == 1) {
 		$('.category-form').show();
 	}
 	toggleScheduleInput(false);

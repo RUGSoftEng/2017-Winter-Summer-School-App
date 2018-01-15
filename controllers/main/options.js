@@ -1,20 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const auth = require('../../config/lib/authorisation.js');
-const Alert = require('../../config/lib/alert.js');
-const Forum = require('mongoose').model('forum');
+const router = require('express').Router();
+const auth = require(process.cwd() + '/config/lib/authorisation.js');
 
 router.get('/options', auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
-	const user = req.user || {};
-	let alert = new Alert();
-	alert.initiate(req);
-
-	Forum.find(function (err, forum) {
-		res.render('options.ejs', {
-			user: user,
-			forum: forum,
-			alert: alert
-		});
+	res.render('options.ejs', {
+		user: req.user || {}
 	});
 });
 

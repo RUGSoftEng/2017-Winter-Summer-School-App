@@ -1,7 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const auth = require('../../config/lib/authorisation.js');
-const Alert = require('../../config/lib/alert.js');
 const Announcement = require('mongoose').model('announcement');
 const logger = require(process.cwd() + '/config/lib/logger');
 
@@ -29,7 +27,7 @@ router.put('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 router.delete('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
 	// deletes the announcements corresponding to the given id param
 	Announcement.findOneAndRemove({
-		'_id': auth.mongojs.ObjectId(req.param('id'))
+		'_id': req.param('id')
 	}, function (err) {
 		if (err) {
 			logger.warning('Unable to delete announcement.\n' + err);
@@ -42,16 +40,11 @@ router.delete('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), fun
 });
 
 router.post('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
-	var alert = null;
 	new Announcement(req.body).save(function (err, result) {
 		if (err) {
 			logger.warning('Unable to post announcement.\n' + err);
-			alert = new Alert(false, "Failed to insert to database.<br>" + err);
 		} else {
-			alert = new Alert(true, "The announcement was successfully added");
-			alert.passToNextPage(req);
 		}
-		alert.passToNextPage(req);
 		res.redirect('/main');
 	});
 

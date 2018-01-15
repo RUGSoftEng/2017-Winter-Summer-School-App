@@ -1,0 +1,88 @@
+<ul class='nav nav-tabs' role='tablist'>
+	<li role='presentation' class='active'><a href='#addSchool' aria-controls='addSchool' role='tab'
+											  data-toggle='tab'>Add</a></li>
+	<li role='presentation'><a href='#viewSchools' aria-controls='viewSchools' role='tab' data-toggle='tab'>View</a>
+	</li>
+</ul>
+
+<div class='tab-content'>
+	<div role='tabpanel' class='tab-pane fade in active' id='addSchool'>
+		<h3>Add a summer/winter school</h3>
+		<form method='post' enctype='application/json' action='API/school'>
+			<div class='modal-body modal-add-body'>
+
+				<div class='form-group'>
+					<label class='control-label' for='schoolName'>Name of the school</label>
+					<input type='name' class='form-control' id='schoolName' placeholder='Name'
+						   name='schoolName'>
+					<span class='help-block'>
+                                <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                <span></span>
+                            </span>
+				</div>
+
+				<div class='form-group'>
+					<label class='control-label' for='startDate'>Start date</label>
+					<input type='date' class='form-control' id='startDate' placeholder='31-01-2000'
+						   name='startDate'>
+					<span class='help-block'>
+                                <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                <span></span>
+                            </span>
+				</div>
+
+				<div class='form-group'>
+					<label class='control-label' for='endDate'>End date</label>
+					<input type='date' class='form-control' id='endDate' placeholder='28-02-2000'
+						   name='endDate'>
+					<span class='help-block'>
+                                <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                <span></span>
+                            </span>
+				</div>
+
+				<div class='modal-footer'>
+					<button type='submit' class='btn btn-primary finish'>Add</button>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div role='tabpanel' class='tab-pane fade' id='viewSchools'>
+
+		<table class='table table-striped table-hover'>
+			<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Starting date</th>
+				<th>Ending date</th>
+				<th>Delete</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="(idx, school) in schools">
+				<td>
+					{{idx + 1}}
+				</td>
+				<td>
+					{{school.name}}
+				</td>
+				<td>
+					{{school.startDate | date:'EEE MMM d yyyy'}}
+				</td>
+				<td>
+					{{school.endDate | date:'EEE MMM d yyyy'}}
+				</td>
+				<td>
+					<button type='button' class='btn btn-default' aria-label='Delete' ng-click="httpDelete($event)"
+							data-entity-type="school" data-id="{{school._id}}" title='Delete'>
+						<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>
+					</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>

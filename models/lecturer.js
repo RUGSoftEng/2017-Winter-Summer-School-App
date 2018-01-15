@@ -1,14 +1,14 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	Validator = require('validator');
 
-var validateUrl = function(url) {
+const validateUrl = function(url) {
 	return Validator.isURL(url);
 };
 
-var LecturerSchema = new Schema({
+const LecturerSchema = new Schema({
 	name: {
 		type: String,
 		required: 'Lecturers require a name.',

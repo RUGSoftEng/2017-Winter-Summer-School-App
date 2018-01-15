@@ -1,11 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const Forum = require('mongoose').model('forum');
+const router = require('express').Router();
+const Thread = require('mongoose').model('thread');
 const Comment = require('mongoose').model('comment');
 
 
 router.post('/API/forum/thread', function (req, res) {
-    var newThread = new Forum(req.body);
+    var newThread = new Thread(req.body);
     newThread.save(function (err, result) {
         if (err) {
             res.status(201);
@@ -19,7 +18,7 @@ router.post('/API/forum/thread', function (req, res) {
 });
 
 router.delete('/API/forum/thread', function (req, res) {
-    Forum.findOne({
+    Thread.findOne({
             '_id': req.param('id')
         }, function (err, thread) {
             if (err) {
@@ -37,7 +36,7 @@ router.delete('/API/forum/thread', function (req, res) {
                         console.log("error deleting the comments associated with the thread", err2);
                     }
                     else {
-                        Forum.findOneAndRemove({
+                        Thread.findOneAndRemove({
                             '_id': req.param('id')
                         }, function (err3) {
                             if (err) {
@@ -58,7 +57,7 @@ router.delete('/API/forum/thread', function (req, res) {
 });
 
 router.put('/API/forum/thread', function (req, res) {
-    Forum.findOneAndUpdate({
+    Thread.findOneAndUpdate({
         '_id': req.param('id')
     }, {
         $set: {
@@ -80,7 +79,7 @@ router.put('/API/forum/thread', function (req, res) {
 
 router.get('/API/forum/thread', function (req, res) {
     const count = parseInt((req.param('count') ? req.param('count') : 200));
-    Forum
+    Thread
         .find({})
         .sort({$natural: -1})
         .limit(count)

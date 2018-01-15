@@ -1,7 +1,5 @@
-const express = require('express');
-const router  = express.Router();
+const router  = require('express').Router();
 const auth    = require('../../config/lib/authorisation.js');
-const Alert   = require('../../config/lib/alert.js');
 const Generalinfo = require('mongoose').model('generalinfo');
 const logger = require(process.cwd() + '/config/lib/logger');
 
@@ -43,14 +41,9 @@ router.put('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function
 router.post('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	const newGeneralInfo = new Generalinfo(req.body);
 	newGeneralInfo.save(function (err) {
-		let alert = null;
 		if (err) {
-			alert = new Alert(false, "Failed to insert to database.<br>" + err);
 			logger.warning(err);
-		} else {
-			alert = new Alert(true, "The general information was successfully added");
 		}
-		alert.passToNextPage(req);
 		res.redirect('/main');
 	});
 

@@ -6,6 +6,21 @@ function emptyContainer(selector) {
 	$(selector).val('');
 }
 
+function openModal($event) {
+	$('#add-lecturer').data('id', $($event).data('id'));
+	toggleButtons('d');
+	if ($($event).data("show") != "overview") {
+		addNewItem(false);
+		emptyContainer(titleSelector);
+		emptyContainer(descriptionSelector);
+		emptyContainer('#lecturerWebsite');
+		$('#add-lecturer').data('show', 'new');
+	} else {
+		$('#add-lecturer').data('show', 'known');
+		displayItem($($event).find('h4.title').html(), $($event).find('.data-text').html(), $($event).find('.img-thumbnail').attr('src'), $($event).find('.website').html());
+	}
+}
+
 function addNewItem(edit) {
 	toggleButtons('bdeFP');
 	getButton('f').data('type', edit ? 'edit' : 'add');
@@ -17,7 +32,7 @@ function addNewItem(edit) {
 	$('#thumbnailDiv').show();
 	$('#modal-thumbnail').attr('src', '/images/default/placeholder.jpeg');
 	getButton('f').html((edit ? "Save" : "Add Lecturer"));
-	$('#add-lecturer form').attr('action', "lecturer/item");
+	$('#add-lecturer form').attr('action', "API/lecturer");
 	toggleShow(false);
 };
 
@@ -61,7 +76,7 @@ $(function () {
 			//as files can only be passed through a post and not a put
 			else if (($type == "edit") && ($('#files').val())) {
 				$.ajax({
-					url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id'),
+					url: 'API/lecturer' + '?id=' + $('#add-lecturer').data('id'),
 					type: 'DELETE',
 					success: function (result) {
 						location.reload();
@@ -73,7 +88,7 @@ $(function () {
 			else if (($type == "edit") && !($('#files').val())) {
 				event.preventDefault();
 				$.ajax({
-					url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id') + '&description=' + $('#lecturerDescription').val() + '&title=' + $('#lecturerTitle').val() + '&imagepath=' + $('#modal-thumbnail').attr('src') + '&website=' + $('#lecturerWebsite').val(),
+					url: 'API/lecturer' + '?id=' + $('#add-lecturer').data('id') + '&description=' + $('#lecturerDescription').val() + '&title=' + $('#lecturerTitle').val() + '&imagepath=' + $('#modal-thumbnail').attr('src') + '&website=' + $('#lecturerWebsite').val(),
 					type: 'PUT',
 					success: function (result) {
 						location.reload();
@@ -88,10 +103,10 @@ $(function () {
 		$("#files").trigger("change");
 		addNewItem(false);
 	});
-	$('#add-lecturer .delete').click(function () {
+	$('.delete').click(function (event) {
 		if (confirm("Are you sure you want to delete?")) {
 			$.ajax({
-				url: 'lecturer/item' + '?id=' + $('#add-lecturer').data('id'),
+				url: 'API/lecturer' + '?id=' + $('#add-lecturer').data('id'),
 				type: 'DELETE',
 				success: function (result) {
 					location.reload();
@@ -111,7 +126,7 @@ $(function () {
 		var editWebsiteValue = $('#modalWebsite').html();
 		var editImgValue     = $('#add-lecturer #modal-thumbnail').attr('src');
 		addNewItem(true);
-		$('#add-lecturer form').attr('action', 'lecturer/item');
+		$('#add-lecturer form').attr('action', 'API/lecturer');
 		$('#lecturerTitle').val(editTitleValue);
 		$('#lecturerDescription').val(editTextValue);
 		$('#lecturerWebsite').val(editWebsiteValue);
@@ -127,17 +142,6 @@ $(function () {
 
 	});
 	$('.open-modal').click(function () {
-		$('#add-lecturer').data('id', $(this).data('id'));
-		toggleButtons('d');
-		if ($(this).data("show") != "overview") {
-			addNewItem(false);
-			emptyContainer(titleSelector);
-			emptyContainer(descriptionSelector);
-			emptyContainer('#lecturerWebsite');
-			$('#add-lecturer').data('show', 'new');
-		} else {
-			$('#add-lecturer').data('show', 'known');
-			displayItem($(this).find('h4.title').html(), $(this).find('.data-text').html(), $(this).find('.img-thumbnail').attr('src'), $(this).find('.website').html());
-		}
+		openModal(this);
 	});
 });

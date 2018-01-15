@@ -1,0 +1,14 @@
+<div class='row'>
+	<style>
+		.alert {
+			width: 65%;
+			margin: 0 auto;
+			margin-top: 15px;
+		}
+	</style>
+	<div id='errorMessage' ng-if="status.message" class="alert alert-{{ status.className }} alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+					aria-hidden="true">&times;</span></button>
+		<strong>{{ status.name }}!</strong><span class='textMsg'>{{ status.message }}</span>
+	</div>
+</div>

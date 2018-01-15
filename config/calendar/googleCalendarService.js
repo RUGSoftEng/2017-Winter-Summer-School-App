@@ -22,7 +22,7 @@ module.exports = function (googleapis, googleAuth) {
 			if (err) {
 				console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
 			} else {
-				oauth2Client.setCredentials({access_token: result.access_token});
+				oauth2Client.credentials = {access_token: result.access_token};
 			}
 		});
 

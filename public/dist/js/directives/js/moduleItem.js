@@ -2,7 +2,8 @@ app.directive('moduleItem', function() {
 	return {
 		restrict: 'E',
 		scope: {
-			item: '='
+			item: '=',
+			type: '='
 		},
 		templateUrl: 'directives/moduleItem.html',
 		link: function(scope, element, attrs) {
