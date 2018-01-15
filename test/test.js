@@ -57,7 +57,7 @@ describe('API get request', function () {
 		});
 	});
 
-	it('should return a JSON file of the forum', function (done) {
+	/*it('should return a JSON file of the forum', function (done) {
 		request.get(config.domain + '/forum/item', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
@@ -68,7 +68,7 @@ describe('API get request', function () {
 			}
 			done();
 		});
-	});
+	});*/
 });
 
 describe('API receives correct information', function () {

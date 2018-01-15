@@ -11,17 +11,14 @@ const Token = require('mongoose').model('token');
 const logger = require(process.cwd() + '/config/lib/logger');
 
 router.post('/API/token', function (req, res) {
-	// adds a new token
-	var newToken = new Token({
-		token: req.body.id
-	});
+	const newToken = new Token(req.body);
 
 	newToken.save(function (err) {
 		if (err) {
 			logger.warning('Can not add token\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 });

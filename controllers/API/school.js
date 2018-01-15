@@ -20,23 +20,23 @@ router.post('/API/school', auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 			alert = new Alert(false, "Failed to add school: " + err);
 			alert.passToNextPage(req);
 			res.redirect('/options');
-			res.send(400);
+			res.sendStatus(400);
 		} else {
 			alert = new Alert(true, "The school was successfully added.");
 			alert.passToNextPage(req);
 			res.redirect('/options');
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 
 });
 
 router.get('/API/school', auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
-	if(req.param('id')) {
-		School.findById(req.param('id'), function (err, school) {
+	if (req.query.id) {
+		School.findById(req.query.id, function (err, school) {
 			if (typeof school === 'undefined' || err) {
 				logger.warning('Can not find school\n' + (err || 'Wrong id provided'));
-				res.send(400);
+				res.sendStatus(400);
 			} else {
 				res.send(school);
 			}
@@ -44,11 +44,11 @@ router.get('/API/school', auth.isAuthorised("VIEW_OPTIONS"), function (req, res)
 	} else {
 		School
 			.find({})
-			.limit(req.param('count') || 10)
+			.limit(req.query.count || 10)
 			.exec(function (err, schools) {
 				if (err) {
 					logger.warning('Can not retrieve schools\n' + err);
-					res.send(400);
+					res.sendStatus(400);
 				} else res.send(schools);
 			});
 	}
@@ -58,10 +58,14 @@ router.get('/API/school', auth.isAuthorised("VIEW_OPTIONS"), function (req, res)
 // delete a school
 router.delete('/API/school', auth.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
 	School.findOneAndRemove({
-		'_id': req.param('id')
+		'_id': req.body.id
 	}, function (err) {
-		if (err) throw err;
-		res.send(200);
+		if (err) {
+			logger.warning('Can not deleted school\n' + err);
+			res.sendStatus(400);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 });
 

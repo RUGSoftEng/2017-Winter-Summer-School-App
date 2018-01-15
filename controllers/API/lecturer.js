@@ -23,20 +23,20 @@ var upload = multer({ storage: storage });
 router.delete('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	//first get the document so you can delete the old picture path.
 	Lecturer.findOneAndRemove({
-		_id: req.param('id')
+		_id: req.query.id
 	}, function (err, user) {
 		if (err) {
 			logger.warning('Can not delete lecturer\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			fs.unlink('.' + '/views/' + user.imagepath, function (err, result) {
+			fs.unlink('.' + '/views/' + user.imagepath, function (err) {
 				if (err) {
 					logger.warning(err);
-					res.send(400);
+					res.sendStatus(400);
 				}
 			});
 		}
-		res.send(200);
+		res.sendStatus(200);
 	});
 });
 
@@ -58,18 +58,18 @@ router.post('/API/lecturer', upload.single('img[]'), auth.isAuthorised("ALTER_LE
 
 router.put('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
 	Lecturer.findOneAndUpdate({
-		'_id': req.param('id')
+		'_id': req.query.id
 	}, {
-		name: req.param('title'),
-		description: req.param('description'),
-		imagepath: req.param('imagepath'),
-		website: req.param('website')
+		name: req.query.title,
+		description: req.query.description,
+		imagepath: req.query.imagepath,
+		website: req.query.website
 	}, function (err) {
 		if (err) {
 			logger.warning('Can not edit lecturer\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 });
@@ -78,11 +78,11 @@ router.get('/API/lecturer', function (req, res) {
 	Lecturer
 		.find({})
 		.sort({ $natural: -1 })
-		.limit(req.param('count') || 200)
+		.limit(req.query.count || 200)
 		.exec(function (err, lecturers) {
 			if (err) {
 				logger.warning('Can retrieve lecturers\n' + err);
-				res.send(400);
+				res.sendStatus(400);
 			} else res.send(lecturers);
 		});
 

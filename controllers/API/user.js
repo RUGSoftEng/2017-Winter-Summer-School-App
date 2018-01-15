@@ -6,17 +6,17 @@ const User = require('mongoose').model('account');
 const logger = require(process.cwd() + '/config/lib/logger');
 
 router.delete('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res) {
-	if (req.param('id') == req.user._id) {
-		res.send(400);
+	if (req.body.id == req.user._id) {
+		res.sendStatus(400);
 	} else {
 		User.findOneAndRemove({
-			'_id': req.param('id')
+			'_id': req.body.id
 		}, function (err) {
 			if (err) {
 				logger.warning("Can not delete user\n" + err);
-				res.send(400);
+				res.sendStatus(400);
 			} else {
-				res.send(200);
+				res.sendStatus(200);
 			}
 		});
 	}
@@ -26,7 +26,7 @@ router.delete('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res)
 router.post('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res) {
 	var newAccount = new User(req.body);
 	newAccount.save(function (err) {
-		var alert = null;
+		let alert = null;
 		if (err) {
 			logger.warning("Can not add new user\n" + err);
 			const alertMessage = "Failed to insert to database.<br>" + err;
@@ -44,11 +44,11 @@ router.post('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res) {
 router.get('/API/user', auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 	User
 		.find({}, ['_id', 'username', 'rank', 'school']) // Do not show hashed password
-		.limit(req.param('count') || 20)
+		.limit(req.query.count || 20)
 		.exec(function (err, users) {
 			if (err) {
 				logger.warning('Can not retrieve users\n' + err);
-				res.send(400);
+				res.sendStatus(400);
 			} else res.send(users);
 		});
 });
