@@ -2,29 +2,30 @@ const express = require('express');
 const router = express.Router();
 const Comment = require('mongoose').model('comment');
 const Forum = require('mongoose').model('forum');
+const logger = require(process.cwd() + '/config/lib/logger');
 
 
 router.post('/API/forum/comment', function (req, res) {
 	var newComment = new Comment(req.body);
 	newComment.save(function (err, result) {
 		if (err) {
-			res.status(201);
+			res.status(400);
 			res.send(err);
-			console.log("error creating the comment", err);
+			logger.warning("Can't save the comment in the database " + err);
 		} else {
 			Forum.findById(req.body.threadID, function (err2, thread) {
 				if (err2) {
-					res.status(201);
+					res.status(400);
 					res.send(err2);
-					console.log("error finding thread with the threadID in the request", err2);
+					logger.warning("Can't find the associated thread " + err2);
 				}
 				else {
 					thread.comments.push(result._id);
 					thread.save(function (err3) {
 						if (err3) {
-							res.status(201);
+							res.status(400);
 							res.send(err3);
-							console.log("error updating comment in thread array", err3);
+							logger.warning("Can't update the comment array of the associated thread ", err3);
 						}
 						else {
 							res.sendStatus(200);
@@ -42,9 +43,9 @@ router.delete('/API/forum/comment', function (req, res) {
 		'_id': req.query.id
 	}, function (err, comment) {
 		if (err) {
-			res.status(201);
+			res.status(400);
 			res.send(err);
-			console.log("error finding comment with the id provided", err)
+			logger.warning("Can't find comment with the specified id " + err);
 		}
 		else {
 			Forum.findOneAndUpdate({
@@ -53,18 +54,18 @@ router.delete('/API/forum/comment', function (req, res) {
 				{ $pop: { "comments": req.query.id } },
 				function (err2) {
 					if (err2) {
-						res.status(201);
+						res.status(400);
 						res.send(err2);
-						console.log("error finding the parent thread of the comment", err2)
+						logger.warning("Can't update comment array of associated thread " + err2);
 					}
 					else {
 						Comment.findOneAndRemove({
 							'_id': req.query.id
 						}, function (err3) {
 							if (err3) {
-								res.status(201);
+								res.status(400);
 								res.send(err3);
-								console.log("error deleting comment with specified id", err3)
+								logger.warning("Can't delete comment" + err3);
 							}
 							else {
 								res.sendStatus(200);
@@ -87,9 +88,9 @@ router.put('/API/forum/comment', function (req, res) {
 		}
 	}, function (err) {
 		if (err) {
-			res.status(201);
+			res.status(400);
 			res.send(err);
-			console.log(err);
+			logger.warning("Can't edit comment " + err);
 		}
 		else {
 			res.sendStatus(200);
@@ -101,9 +102,9 @@ router.get('/API/forum/comment', function (req, res) {
 		.findOne({ '_id': req.query.id })
 		.exec(function (err, comment) {
 			if (err) {
-				res.status(201);
+				res.status(400);
 				res.send(err);
-				console.log(err);
+				logger.warning("Can't get comment with specified id " + err);
 			}
 			else {
 				res.status(200);
