@@ -20,7 +20,7 @@ router.get('/API/loginCode', function (req, res) {
 			if (err || !code) {
 				logger.warning("Could not find login code\n" + (err || 'The code does not exist'));
 				res.sendStatus(400);
-			} else res.sendStatus(200);
+			} else res.send(code);
 		});
 	} else if(UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
 		LoginCode
