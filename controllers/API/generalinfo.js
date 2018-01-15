@@ -5,13 +5,13 @@ const logger = require(process.cwd() + '/config/lib/logger');
 
 router.delete('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndRemove({
-		'_id': req.param('id')
+		'_id': req.query.id
 	}, function (err) {
 		if (err) {
 			logger.warning('Can not delete general info\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 
@@ -19,19 +19,19 @@ router.delete('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), funct
 
 router.put('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
 	Generalinfo.findOneAndUpdate({
-		'_id': req.param('id')
+		'_id': req.query.id
 	}, {
 		$set: {
-			title: req.param('title'),
-			description: req.param('description'),
-			category: req.param('category')
+			title: req.query.title,
+			description: req.query.description,
+			category: req.query.category
 		}
 	}, function (err) {
 		if (err) {
 			logger.warning('Can not edit general info\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 
@@ -53,11 +53,11 @@ router.get('/API/generalinfo', function (req, res) {
 	Generalinfo
 		.find({})
 		.sort({ $natural: -1 })
-		.limit(req.param('count') || 200)
+		.limit(req.query.count || 200)
 		.exec(function (err, generalinfo) {
 			if (err) {
 				logger.warning('Can not retrieve general info\n' + err);
-				res.send(400);
+				res.sendStatus(400);
 			} else res.send(generalinfo);
 		});
 });

@@ -10,7 +10,7 @@ module.exports = function (googleapis, googleAuth) {
 	services.getServiceAccountJWT = function (serviceAccountEmail, serviceAccountPrivateKey) {
 		var scopes = ['https://www.googleapis.com/auth/calendar'];
 		return new googleapis.auth.JWT(serviceAccountEmail, null, serviceAccountPrivateKey, scopes);
-	}
+	};
 
 	/**
 	 * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Returns JWT object.
@@ -22,12 +22,14 @@ module.exports = function (googleapis, googleAuth) {
 			if (err) {
 				console.log("[GoogleCalendarService] :: Failed to Authorize Service Account JWT: " + err);
 			} else {
+				// auth library is broken, which is why we can not use setCredentials anymore
+				// see @link https://github.com/google/google-api-nodejs-client/issues/869
 				oauth2Client.credentials = {access_token: result.access_token};
 			}
 		});
 
 		return jwt;
-	}
+	};
 
 	/**
 	 * Authorizes a JWT object and stores the returned access token in the oauth2Client object. Executes callback.
@@ -44,7 +46,7 @@ module.exports = function (googleapis, googleAuth) {
 				callback();
 			}
 		});
-	}
+	};
 
 	/**
 	 * Attempts to insert a new Calendar event into the Calendar associated with the supplied Calendar Id.
@@ -62,7 +64,7 @@ module.exports = function (googleapis, googleAuth) {
 		}, function (err, event) {
 			callback(err, event);
 		});
-	}
+	};
 
 	/**
 	 * Attempts to update an existing Calendar event within the Calendar associated with the supplied Calendar Id.
@@ -81,7 +83,7 @@ module.exports = function (googleapis, googleAuth) {
 		}, function (err, event) {
 			callback(err, event);
 		});
-	}
+	};
 
 	/**
 	 * Attempts to delete the event holding the supplied calendarEventId from the given calendar.
@@ -99,7 +101,7 @@ module.exports = function (googleapis, googleAuth) {
 		}, function (err) {
 			callback(err);
 		});
-	}
+	};
 
 	/**
 	 * Attempts to fetch a list of calendar events from the given calendar.
@@ -121,7 +123,7 @@ module.exports = function (googleapis, googleAuth) {
 		}, function (err, response) {
 			callback(err, response);
 		});
-	}
+	};
 
 	/**
 	 * Returns True if the given error object signals a bad request (data sent was formatted wrong).
@@ -129,7 +131,7 @@ module.exports = function (googleapis, googleAuth) {
 	 */
 	services.isBadRequestError = function (err) {
 		return (err.code == 400);
-	}
+	};
 
 	/**
 	 * Returns True if the given error object signals an expired token.
@@ -137,7 +139,7 @@ module.exports = function (googleapis, googleAuth) {
 	 */
 	services.isExpiredTokenError = function (err) {
 		return (err.code == 401);
-	}
+	};
 
 	return services;
-}
+};

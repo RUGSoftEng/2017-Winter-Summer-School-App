@@ -7,18 +7,18 @@ router.put('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 	// updates the description and title of an announcement
 	// corresponding to the given id param.
 	Announcement.findOneAndUpdate({
-		'_id': req.param('id')
+		'_id': req.query.id
 	}, {
 		$set: {
-			title: req.param('title'),
-			description: req.param('description')
+			title: req.query.title,
+			description: req.query.description
 		}
-	}, function (err, user) {
+	}, function (err) {
 		if (err) {
 			logger.warning('Unable to edit announcement.\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 
@@ -27,20 +27,20 @@ router.put('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 router.delete('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
 	// deletes the announcements corresponding to the given id param
 	Announcement.findOneAndRemove({
-		'_id': req.param('id')
+		'_id': req.query.id
 	}, function (err) {
 		if (err) {
 			logger.warning('Unable to delete announcement.\n' + err);
-			res.send(400);
+			res.sendStatus(400);
 		} else {
-			res.send(200);
+			res.sendStatus(200);
 		}
 	});
 
 });
 
 router.post('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
-	new Announcement(req.body).save(function (err, result) {
+	new Announcement(req.body).save(function (err) {
 		if (err) {
 			logger.warning('Unable to post announcement.\n' + err);
 		} else {
@@ -54,11 +54,11 @@ router.get('/API/announcement', function (req, res) {
 	Announcement
 		.find({})
 		.sort({ $natural: -1 })
-		.limit(req.param('count') || 200)
+		.limit(req.query.count || 200)
 		.exec(function (err, announcements) {
 			if (err) {
 				logger.warning('Can not retrieve announcements\n' + err);
-				res.send(400);
+				res.sendStatus(400);
 			} else res.send(announcements);
 		});
 });
