@@ -12,7 +12,7 @@
 						<h5>
 							<span> {{ printDay(eventDay) }} </span>
 							<span class="text-muted"> {{ printDate(eventDay) }} </span>
-							<span class="label label-default" ng-if="isToday(eventDay)">Today</span>
+							<span class="label label-primary" ng-if="isToday(eventDay)">Today</span>
 						</h5>
 					</uib-accordion-heading>
 					<div class="panel-body panel-collapse">
@@ -40,7 +40,7 @@
 			</uib-accordion>
 		</div>
 		<div>
-			<ul class="pager" style="padding-left:10px !important; padding-right:10px !important;">
+			<ul class="pager">
 
 				<li class="previous">
 					<button type="button" class="btn btn-primary btn-sm" id='sched-getprevious'>&larr; Last Week
