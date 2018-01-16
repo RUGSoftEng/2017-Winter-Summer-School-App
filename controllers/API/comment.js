@@ -12,11 +12,11 @@ router.post('/API/forum/comment', function (req, res) {
 			res.send(err);
 			logger.warning("Can't save the comment in the database " + err);
 		} else {
-			Thread.findById(req.body.threadID, function (err2, thread) {
-				if (err2) {
+			Thread.findById(req.body.parentThread, function (err2, thread) {
+				if (err2 || !thread) {
 					res.status(400);
 					res.send(err2);
-					logger.warning("Can't find the associated thread " + err2);
+					logger.warning("Can't find the associated thread " + (err2 || "Threadid does not exist."));
 				}
 				else {
 					thread.comments.push(result._id);
