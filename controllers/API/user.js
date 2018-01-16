@@ -1,7 +1,5 @@
-const express = require('express');
-const router = express.Router();
-const auth = require('../../config/lib/authorisation.js');
-const Alert = require('../../config/lib/alert.js');
+const router = require('express').Router();
+const auth = require(process.cwd() + '/config/lib/authorisation.js');
 const User = require('mongoose').model('account');
 const logger = require(process.cwd() + '/config/lib/logger');
 
@@ -29,14 +27,7 @@ router.post('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res) {
 		let alert = null;
 		if (err) {
 			logger.warning("Can not add new user\n" + err);
-			const alertMessage = "Failed to insert to database.<br>" + err;
-			alert = new Alert(false, alertMessage);
-			alert.passToNextPage(req);
-		} else {
-			alert = new Alert(true, "The announcement was successfully added");
-			alert.passToNextPage(req);
 		}
-
 	});
 	res.redirect('/options');
 });

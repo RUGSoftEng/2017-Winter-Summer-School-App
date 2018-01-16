@@ -5,8 +5,7 @@
  * TODO: Verify token, increase security
  */
 
-const express = require('express');
-const router  = express.Router();
+const router  = require('express').Router();
 const Token = require('mongoose').model('token');
 const logger = require(process.cwd() + '/config/lib/logger');
 

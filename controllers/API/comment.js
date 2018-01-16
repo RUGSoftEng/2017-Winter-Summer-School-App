@@ -1,7 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const Comment = require('mongoose').model('comment');
-const Forum = require('mongoose').model('forum');
+const Thread = require('mongoose').model('thread');
 const logger = require(process.cwd() + '/config/lib/logger');
 
 
@@ -13,11 +12,11 @@ router.post('/API/forum/comment', function (req, res) {
 			res.send(err);
 			logger.warning("Can't save the comment in the database " + err);
 		} else {
-			Forum.findById(req.body.threadID, function (err2, thread) {
-				if (err2) {
+			Thread.findById(req.body.parentThread, function (err2, thread) {
+				if (err2 || !thread) {
 					res.status(400);
 					res.send(err2);
-					logger.warning("Can't find the associated thread " + err2);
+					logger.warning("Can't find the associated thread " + (err2 || "Threadid does not exist."));
 				}
 				else {
 					thread.comments.push(result._id);
@@ -48,7 +47,7 @@ router.delete('/API/forum/comment', function (req, res) {
 			logger.warning("Can't find comment with the specified id " + err);
 		}
 		else {
-			Forum.findOneAndUpdate({
+			Thread.findOneAndUpdate({
 					'_id': comment.parentThread
 				},
 				{ $pop: { "comments": req.query.id } },
@@ -97,6 +96,7 @@ router.put('/API/forum/comment', function (req, res) {
 		}
 	});
 });
+
 router.get('/API/forum/comment', function (req, res) {
 	Comment
 		.findOne({ '_id': req.query.id })

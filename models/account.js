@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 const bcrypt = require('bcrypt-nodejs');
@@ -14,7 +14,7 @@ const saltRounds = 8;
  * @return {boolean}
  * @private
  */
-var validateUsername = function (username) {
+const validateUsername = function (username) {
 	const regex = /^[a-zA-Z0-9]{4,20}$/;
 	return username && regex.test(username);
 };
@@ -27,12 +27,12 @@ var validateUsername = function (username) {
  * @return {boolean}
  * @private
  */
-var validatePassword = function (password) {
+const validatePassword = function (password) {
 	const regex = /^[a-zA-Z0-9!@#$_]{8,30}$/;
 	return password && regex.test(password);
 };
 
-var AccountSchema = new Schema({
+const AccountSchema = new Schema({
 	username: {
 		type: String,
 		unique: 'Username already exists',
@@ -59,7 +59,7 @@ var AccountSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 AccountSchema.pre('save', function (next) {
-	var user = this;
+	let user = this;
 
 	if (!user.isModified('password')) return next();
 	bcrypt.genSalt(saltRounds, function (err, salt) {

@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const Forum = require('mongoose').model('forum');
+const router = require('express').Router();
+const Thread = require('mongoose').model('thread');
 const Comment = require('mongoose').model('comment');
 const logger = require(process.cwd() + '/config/lib/logger');
 
 
 router.post('/API/forum/thread', function (req, res) {
-	var newThread = new Forum(req.body);
+	var newThread = new Thread(req.body);
 	newThread.save(function (err, result) {
 		if (err) {
 			res.status(400);
@@ -20,7 +19,7 @@ router.post('/API/forum/thread', function (req, res) {
 });
 
 router.delete('/API/forum/thread', function (req, res) {
-	Forum.findOne({
+	Thread.findOne({
 			'_id': req.query.id
 		}, function (err, thread) {
 			if (err) {
@@ -38,7 +37,7 @@ router.delete('/API/forum/thread', function (req, res) {
 						logger.warning("can't delete the comments associated with the thread ", err2);
 					}
 					else {
-						Forum.findOneAndRemove({
+						Thread.findOneAndRemove({
 							'_id': req.query.id
 						}, function (err3) {
 							if (err3) {
@@ -50,7 +49,6 @@ router.delete('/API/forum/thread', function (req, res) {
 								res.sendStatus(200);
 							}
 						})
-
 					}
 				});
 			}
@@ -59,7 +57,7 @@ router.delete('/API/forum/thread', function (req, res) {
 });
 
 router.put('/API/forum/thread', function (req, res) {
-	Forum.findOneAndUpdate({
+	Thread.findOneAndUpdate({
 		'_id': req.query.id
 	}, {
 		$set: {
@@ -80,7 +78,7 @@ router.put('/API/forum/thread', function (req, res) {
 });
 
 router.get('/API/forum/thread', function (req, res) {
-	Forum
+	Thread
 		.find({})
 		.sort({ $natural: -1 })
 		.limit(req.query.count || 200)
@@ -96,4 +94,5 @@ router.get('/API/forum/thread', function (req, res) {
 			}
 		});
 });
+
 module.exports = router;

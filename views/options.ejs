@@ -11,11 +11,13 @@
 	<script src="/public/dist/js/inputValidation/inputValidator.js"></script>
 	<script src="/public/dist/js/controllers/OptionController.js"></script>
 	<script src="/public/dist/js/directives/js/table.js"></script>
+	<script src="/public/dist/js/directives/js/manageButton.js"></script>
+
 </head>
 <body class="full" ng-controller="RootController">
 <div id='wrap' class='full' ng-controller="OptionController">
 	<% include partials/general_navigationbar.html %>
-	<% include partials/alertMessage.ejs %>
+	<% include partials/alertMessage.html %>
 	<div class="row" id="event-screen">
 		<div class="col-md-4">
 			<div id="content" class="list-group">
@@ -23,41 +25,7 @@
 					Options
 				</button>
 
-				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
-						data-selector="#manageUsers"
-						data-poster=""
-						data-title="Manage users">
-					<span class='pull-left announcement-title'>Manage users</span>
-					<h5 class="details pull-right">a</h5>
-				</button>
-
-				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
-						data-selector="#manageForum"
-						data-poster=""
-						data-title="Manage forum">
-					<span class='pull-left announcement-title'>Manage forum</span>
-					<h5 class="details pull-right">a</h5>
-				</button>
-
-				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
-						data-selector="#manageCodes"
-						data-poster=""
-						data-title="Manage login codes">
-					<span class='pull-left announcement-title'>Manage login codes</span>
-					<h5 class="details pull-right">a</h5>
-				</button>
-
-				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
-						data-selector="#manageSchools"
-						data-poster=""
-						data-title="Manage schools">
-					<span class='pull-left announcement-title'>Manage schools</span>
-					<h5 class="details pull-right">a</h5>
-				</button>
+				<manage-button ng-repeat="section in sections" item="section" ng-click="changeSection($event)"></manage-button>
 
 			</div>
 		</div>
@@ -68,10 +36,7 @@
 					<div id='fix'>
 						<div id='innerContent'>
 							<div id="initialMessage">Select one of the options</div>
-							<div id="manageUsers"><% include partials/manageUsers.html %></div>
-							<div id="manageSchools"><% include partials/manageSchools.html %></div>
-							<div id="manageCodes"><% include partials/manageCode.html %></div>
-							<div id="manageForum"><% include partials/manageForum.ejs %></div>
+							<div ng-repeat="section in sections" ng-attr-id="{{ section.selector }}" ng-include="'partials/' + section.file"></div>
 						</div>
 					</div>
 				</div>

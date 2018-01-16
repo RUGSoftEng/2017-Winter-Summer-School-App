@@ -19,31 +19,29 @@
 			</tr>
 			</thead>
 			<tbody>
-			<% for(var i = 0; i < forum.length; i++) { %>
-			<tr>
+			<tr ng-repeat="(idx, thread) in threads">
 				<td>
-					<%= i + 1 %>
+					{{ idx + 1 }}
 				</td>
 				<td>
-					<%= forum[i].title %>
+					{{ thread.title }}
 				</td>
 				<td>
-					<%= forum[i].description %>
+					{{ thread.description }}
 				</td>
 				<td>
-					<%= forum[i].author %>
+					{{ thread.author }}
 				</td>
 				<td>
-					<%= new Date(forum[i].date).toDateString() %>
+					{{ thread.created | date }}
 				</td>
 				<td>
 					<button type='button' class='btn btn-default deleteForumItem' aria-label='Delete'
-							data-toggle='tooltip' data-placement='bottom' data-id='<%= forum[i]._id %>'
+							data-toggle='tooltip' data-placement='bottom' data-id='{{ thread._id }}'
 							title='Delete'><span
 								class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
 				</td>
 			</tr>
-			<% } %>
 			</tbody>
 		</table>
 	</div>
@@ -59,32 +57,28 @@
 			</tr>
 			</thead>
 			<tbody>
-			<% for(var i = 0; i < forum.length; i++) {
-			for(var j = 0; j < forum[i].comments.length; ++j) {
-			%>
 			<tr>
 				<td>
-					<%= i + 1 %>
+					Disabled
 				</td>
 				<td>
-					<%= forum[i].comments[j].text %>
+					Work in progress
 				</td>
 				<td>
-					<%= forum[i].comments[j].author %>
+
 				</td>
 				<td>
-					<%= new Date(forum[i].comments[j].date).toDateString() %>
+
 				</td>
 				<td>
 					<button type='button' class='btn btn-default deleteForumItem' aria-label='Delete'
 							data-toggle='tooltip' data-placement='bottom' data-type='comment'
-							data-thread='<%= forum[i]._id %>' data-comment='<%= j %>'
-							data-id='<%= forum[i].comments[j].commentID %>'
+							data-thread='' data-comment=''
+							data-id=''
 							title='Delete'><span
 								class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>
 				</td>
 			</tr>
-			<% } } %>
 			</tbody>
 		</table>
 

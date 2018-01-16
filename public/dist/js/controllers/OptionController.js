@@ -17,6 +17,13 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 				}, function(err) {
 					console.log(err);
 				});
+
+			$http.get('/API/forum/thread')
+				.then(function(data) {
+					$scope.threads = data.data;
+				}, function(err) {
+					console.log(err);
+				});
 		}, function(err) {
 			console.log(err);
 		});
@@ -46,4 +53,34 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 			columns: cols
 		};
 	};
+
+	$scope.changeSection = function($event) {
+		var poster      = $($event.target).data('poster');
+		var title       = $($event.target).data('title');
+		$('#changingTitle').html(title);
+		$('#changingPoster').html("Posted by:" + poster);
+		$('#innerContent > div').hide();
+		$($($event.target).data('selector')).show();
+		$('#editSection').data('title', title);
+		$('#editSection').data('id', $($event.target).data('id'));
+		$('#editSection').data('category', $($event.target).data('category'));
+		$('#editSection').show();
+	};
+
+	$scope.newSection = function(name) {
+		return {
+			name: name,
+			selector: $scope.ID(),
+			text: 'Manage ' + name,
+			file: 'manage_' + name.replace(/ /g, '_') + '.html'
+		};
+	};
+
+	$scope.sections = [
+		$scope.newSection('users'),
+		$scope.newSection('login codes'),
+		$scope.newSection('forum'),
+		$scope.newSection('schools')
+	];
+
 }]);

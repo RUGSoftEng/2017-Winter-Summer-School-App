@@ -8,4 +8,5 @@ app.controller('OverviewController', ['$scope', function($scope) {
 	if(!$scope.school) {
 		window.location.href = "/options";
 	}
+
 }]);

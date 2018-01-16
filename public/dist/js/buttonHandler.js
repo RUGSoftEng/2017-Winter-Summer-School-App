@@ -72,7 +72,7 @@ function initialiseFinishButton() {
 				// because chrome rejects API calls with both \n and <
 				// See https://www.chromestatus.com/feature/5735596811091968
 				desc = $(descriptionSelector).val().replace(/(\r\n|\n|\r)/gm, "");
-
+				event.preventDefault();
 				// send a PUT request instead of POST if an existing item is edited.
 				$.ajax({
 					url: links[$(modalSelector).data('type')] +
@@ -94,7 +94,7 @@ function initialiseFinishButton() {
 						location.reload();
 					}
 				});
-				event.preventDefault();
+
 			}
 		} else { // user is not sure, prevent the POST request
 			event.preventDefault();
@@ -123,9 +123,9 @@ function initialiseDeleteButton() {
 	});
 }
 
-
 function initialiseEditButton() {
 	getButton('e').click(function () {
+		console.log("waa");
 		var editTitleValue = ($(modalSelector).data('type') == 2) ? $(titleSelector).val() : $(modalSelector + '.modal-title').text();
 		var editTextValue  = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
 		addNewItem($(modalSelector).data('type'), true);

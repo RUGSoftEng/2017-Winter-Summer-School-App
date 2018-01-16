@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 /**
@@ -11,11 +11,11 @@ var mongoose = require('mongoose'),
  * @return {boolean}
  * @private
  */
-var validateTimeFrame = function (endingDate) {
+const validateTimeFrame = function (endingDate) {
 	return this.startDate <= endingDate;
 };
 
-var SchoolSchema = new Schema({
+const SchoolSchema = new Schema({
 	name: {
 		type: String,
 		default: 'Unknown',

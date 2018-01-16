@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const auth = require('../../config/lib/authorisation.js');
 const multer = require('multer');
 const crypto = require('crypto');
@@ -29,14 +28,19 @@ router.delete('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (r
 			logger.warning('Can not delete lecturer\n' + err);
 			res.sendStatus(400);
 		} else {
-			fs.unlink('.' + '/views/' + user.imagepath, function (err) {
-				if (err) {
-					logger.warning(err);
-					res.sendStatus(400);
-				}
-			});
+			if (user.imagepath) { // image is optional
+				fs.unlink('.' + '/views/' + user.imagepath, function (err, result) {
+					if (err) {
+						logger.warning(err);
+						res.sendStatus(400);
+					} else {
+						res.sendStatus(200);
+					}
+				});
+			} else {
+				res.sendStatus(200);
+			}
 		}
-		res.sendStatus(200);
 	});
 });
 

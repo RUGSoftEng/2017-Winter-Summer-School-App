@@ -1,9 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-var GeneralinfoSchema = new Schema({
+const GeneralinfoSchema = new Schema({
 	title: {
 		type: String,
 		required: 'General information requires a title',

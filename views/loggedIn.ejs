@@ -3,20 +3,20 @@
 <% include partials/loggedin_header.ejs %>
 <body class='full' ng-controller="RootController">
 <div id='wrap' class='full'>
-    <% include partials/general_navigationbar.html %>
-    <% include partials/alertMessage.ejs %>
-    <div class='row' id='event-screen' ng-controller="OverviewController">
-            <span id='announcementsModule'>
-                <% include partials/announcements.html %>
-            </span>
-            <span id='generalinfoModule'>
-                <% include partials/generalinfo.html %>
-            </span>
-            <span id='scheduleModule'>
-                <% include partials/schedule.ejs %>
-            </span>
-    </div>
-    <% include partials/modal.ejs %>
+	<% include partials/general_navigationbar.html %>
+	<% include partials/alertMessage.html %>
+	<div class='row' id='event-screen' ng-controller="OverviewController">
+		<span id='announcementsModule'>
+			<% include partials/announcements.html %>
+		</span>
+		<span id='generalinfoModule'>
+			<% include partials/generalinfo.html %>
+		</span>
+		<span id='scheduleModule'>
+			<% include partials/schedule.ejs %>
+		</span>
+	</div>
+	<% include partials/modal.ejs %>
 </div>
 
 </body>

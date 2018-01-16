@@ -5,7 +5,6 @@ var fs            = require('fs');
 var schedule      = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
 var restFunctions = require('../../config/calendar/calendarRESTFunctions.js');
 var verify        = require('../../config/lib/verify.js');
-var Alert         = require('../../config/lib/alert.js');
 var auth          = require('../../config/lib/authorisation.js');
 
 /**
@@ -41,13 +40,11 @@ router.post('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (re
 			console.error('details = {' + b.details + '} and has length ' + b.details.length);
 			var event = restFunctions.insertCalendarEvent(
 				b.title, b.ssid, b.location, b.details, startDate, endDate, function (err, data) {
-					var a;
 					if (err) {
-						a = new Alert(false, restFunctions.postErrorMessage(b.title, err.code, err.message));
+						restFunctions.postErrorMessage(b.title, err.code, err.message);
 					} else {
-						a = new Alert(true, restFunctions.postSuccessMessage(b.title, b.ssid));
+						restFunctions.postSuccessMessage(b.title, b.ssid);
 					}
-					a.passToNextPage(request);
 					response.redirect('/main');
 				});
 		}
@@ -88,7 +85,7 @@ router.put('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (req
 					if (err) {
 						response.writeHead(409, JSON.stringify({error: err}));
 					} else {
-						response.send(201);
+						response.sendStatus(201);
 					}
 				});
 		}
@@ -168,11 +165,11 @@ router.delete('/calendar/event', auth.isAuthorised("ALTER_CALENDAR"), function (
 			if (err) {
 				response.writeHead(400, JSON.stringify({error: err}));
 			} else {
-				response.send(200);
+				response.sendStatus(200);
 			}
 		});
 	} else {
-		response.send(200);
+		response.sendStatus(200);
 	}
 });
 
