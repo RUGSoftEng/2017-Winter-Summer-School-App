@@ -41,43 +41,9 @@
 									  placeholder="Enter event details" rows="4"></textarea>
                         </div>
 
-						<% var s = ['start', 'end'];
-						for(var i = 0; i < 2; ++i) { %>
-						<div class="row">
-                            <div class="col-md-6">
-                                <label><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date</label>
-                                <input type="text" class="form-control"
-									   id="schedule<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>Date"
-									   name="<%= s[i] %>Date"
-									   placeholder="<%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %> Date">
-                                <span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
-																aria-hidden='true'></span><span></span></span>
-                            </div>
+                        <date-time datetime="start" range="range"></date-time>
+                        <date-time datetime="end" range="range"></date-time>
 
-                            <div class="col-md-6">
-                                <div class="form-inline">
-
-                                    <label class='up-label'><%= s[i].charAt(0).toUpperCase() + s[i].slice(1) %>
-										time</label>
-
-                                    <div class="form-group">
-                                        <label>Hour</label>
-                                        <select class="form-control" name='<%= s[i] %>Hour' id='<%= s[i] %>Hour'
-												ng-model="hour" ng-options="h for h in range(24)">
-                                        </select>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label class='time-minute'>Minute</label>
-                                        <select class="form-control" name='<%= s[i] %>Minute' id='<%= s[i] %>Minute'
-												ng-model="minute" ng-options="m for m in range(12, 5)">
-                                        </select>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-						<% } %>
 
 						<div class="form-group target">
                             <label for="targetItem">Target</label>
@@ -103,7 +69,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger delete">Delete</button>
                     <button type="button" class="btn btn-info preview">Preview</button>
-                    <button type="button" ng-click="editButton()" class="btn btn-warning edit">Edit</button>
+                    <button type="button" class="btn btn-warning edit">Edit</button>
                     <button type="submit" ng-non-bindable class="btn btn-primary finish">Post announcement</button>
                 </div>
             </form>
@@ -111,4 +77,5 @@
     </div>
 </div>
 <script src="/public/dist/js/controllers/ModalController.js"></script>
+<script src="/public/dist/js/directives/js/dateTime.js"></script>
 </span>

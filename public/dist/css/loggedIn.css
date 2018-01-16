@@ -223,6 +223,10 @@ a {
 	cursor: auto;
 }
 
+.accordion-toggle {
+	outline: none;
+}
+
 body,
 #wrap {
 	background-color: #F0F0F0;
@@ -259,4 +263,8 @@ body,
 	border-top-left-radius: 3px;
 	background-color: #F5F5F5;
 	padding: 3px;
+}
+
+.md-datepicker-calendar-pane {
+	z-index: 1100;
 }

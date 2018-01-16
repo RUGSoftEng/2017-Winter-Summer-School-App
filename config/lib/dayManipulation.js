@@ -1,7 +1,7 @@
 const json = require('./getJSON.js');
 const config = require('./../config');
 
-exports.getWeekEvents = function (path, week, callback) {
+exports.getWeekEvents = function (week, callback) {
 	json.getJSON({
 		type: 'GET',
 		path: '/calendar/event?week=' + week + '&extended=true',

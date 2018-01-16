@@ -1,0 +1,58 @@
+<div class='col-md-4 cols scheduleCol' ng-controller="CalendarController">
+	<div class='inner-event'>
+		<h3 class='underline-title'><a href="#">Schedule</a>
+			<span ng-if="isAuthorised('ALTER_CALENDAR')"
+				  class="glyphicon glyphicon-plus pull-right open-modal" data-type=2 data-toggle="modal"
+				  data-target="#add-announcement" aria-hidden="true"></span>
+		</h3>
+		<div class='row innerrow'>
+			<uib-accordion class="list-group" id='sched-acc'>
+				<div uib-accordion-group ng-repeat="($index, eventDay) in calendar" class="list-group-item panel-default">
+					<uib-accordion-heading>
+						<h5>
+							<span> {{ printDay(eventDay) }} </span>
+							<span class="text-muted"> {{ printDate(eventDay) }} </span>
+							<span class="label label-default" ng-if="isToday(eventDay)">Today</span>
+						</h5>
+					</uib-accordion-heading>
+					<div class="panel-body panel-collapse">
+						<ul>
+							<li ng-if="!eventDay[1].length">No events planned today!</li>
+							<li class='open-modal time-slot' ng-repeat="event in eventDay[1]"
+								ng-click="openModal($event);"
+								data-toggle='modal'
+								data-target='#add-announcement'
+								data-type='2'
+								data-spec='schedule'
+								data-event-id='{{ event.id }}'
+								data-event-summary='{{ event.summary }}'
+								data-event-start-date='{{ event.start.dateTime }}'
+								data-event-end-date='{{ event.end.dateTime }}'
+								data-event-location='{{ event.location }}'
+								data-event-description='{{ event.description }}'
+								data-event-ssid='{{ event.extendedProperties ? event.extendedProperties.shared.ssid : "All students" }}'>
+								<span>{{ printTime(event.start.dateTime) }} - {{ printTime(event.end.dateTime) }}</span>
+								<span>{{ event.summary }}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</uib-accordion>
+		</div>
+		<div>
+			<ul class="pager" style="padding-left:10px !important; padding-right:10px !important;">
+
+				<li class="previous">
+					<button type="button" class="btn btn-primary btn-sm" id='sched-getprevious'>&larr; Last Week
+					</button>
+				</li>
+				<li class="next">
+					<button type="button" class="btn btn-primary btn-sm" id='sched-getnext'>Next Week &rarr;</button>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+<script src="/public/dist/js/controllers/CalendarController.js"></script>
