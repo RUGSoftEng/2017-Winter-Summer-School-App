@@ -9,7 +9,6 @@
 }
 .inner-event .innerrow {
 	max-height: 546px;
-	overflow-y: scroll;
 }
 
 #weekOffset {
@@ -204,7 +203,7 @@ a {
 }
 
 .panel:hover {
-	transform: scale(1.02);
+	transform: scale(1.01);
 }
 
 .scheduleCol .list-group-item {
