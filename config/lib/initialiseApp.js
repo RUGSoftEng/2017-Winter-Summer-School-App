@@ -6,7 +6,6 @@ const cookieSession = require('cookie-session');
 const bodyParser    = require('body-parser');
 const express       = require('express');
 const passport      = require('passport');
-const UserRights    = require(config.dir + '/public/dist/js/userRights.js');
 require('./passport')(passport);
 
 module.exports = function (app) {
@@ -26,5 +25,4 @@ module.exports = function (app) {
 	app.use(passport.session());
 	app.use(flash());
 	app.use(express.static('views'));
-	app.locals.isAuthorised = UserRights.userHasRights;
 };

@@ -7,7 +7,7 @@ var titles         = ["Add an announcement", "Add general information", "Add a n
 var editTitles     = ["Edit the announcement", "Edit general information", "Edit event"];
 var buttonTexts    = ["Post announcement", "Add section", "Submit event"];
 var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
-var links          = ["/API/announcement", "/API/generalinfo", "/calendar/event"];
+var links          = ["/API/announcement", "/API/generalinfo", "/API/event"];
 var days           = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 var modalSelector         = '#add-announcement ';

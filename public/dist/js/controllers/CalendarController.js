@@ -31,9 +31,13 @@ app.controller('CalendarController', ['$scope', '$http', function ($scope, $http
 		return d.getHours() + ":" + (d.getMinutes() <= '9' ? '0' + d.getMinutes() : d.getMinutes());
 	};
 
-	$http.get('/calendar/event?week=' + $scope.week + '&extended=true')
-		.then(function (data) {
-			$scope.calendar = JSON.parse(data.data.data);
+	$scope.splitInDays = function (events) {
+		return events;
+	};
+
+	$http.get('/API/event?week=' + $scope.week)
+		.then(function (res) {
+			$scope.calendar = $scope.splitInDays(res.data);
 		}, function (err) {
 			console.log(err);
 		});
