@@ -51,8 +51,8 @@ function validateScheduleInput() {
 function isMissingScheduleFields() {
 	return isEmptyContainer('#location ') ||
 		isEmptyContainer('#details ') ||
-		isEmptyContainer('#scheduleStartDate ') ||
-		isEmptyContainer('#scheduleEndDate ');
+		isEmptyContainer('#scheduleStartDate input') ||
+		isEmptyContainer('#scheduleEndDate input');
 }
 
 function initialiseFinishButton() {
@@ -63,6 +63,11 @@ function initialiseFinishButton() {
 		}
 		var action = $(this).data('type');
 		if (cont && confirm("Are you sure that you want to " + action + "?")) {
+			// TODO: This is a nasty hack which I will remove soon
+			$('.md-datepicker-input').each(function(index) {
+				$(this).attr('name', (index ? "end" : "start") + "Date");
+			});
+
 			if (isEmptyContainer(titleSelector) || ($type == 2 && isMissingScheduleFields())) { // no title, prevent the POST request
 				event.preventDefault();
 				var alertMessage = ($type == 2) ? "Events require all fields be filled!" : "Please fill in a title and content!";
@@ -81,10 +86,10 @@ function initialiseFinishButton() {
 					'&title=' + $(titleSelector).val() +
 					'&location=' + $('#location ').val() +
 					'&details=' + $('#details ').val() +
-					'&startDate=' + $('#scheduleStartDate ').val() +
+					'&startDate=' + $('#scheduleStartDate input').val() +
 					'&startHour=' + $('#startHour ').val() +
 					'&startMinute=' + $('#startMinute ').val() +
-					'&endDate=' + $('#scheduleEndDate ').val() +
+					'&endDate=' + $('#scheduleEndDate input').val() +
 					'&endHour=' + $('#endHour ').val() +
 					'&endMinute=' + $('#endMinute ').val() +
 					'&category=' + $('#category ').val() +
@@ -125,7 +130,6 @@ function initialiseDeleteButton() {
 
 function initialiseEditButton() {
 	getButton('e').click(function () {
-		console.log("waa");
 		var editTitleValue = ($(modalSelector).data('type') == 2) ? $(titleSelector).val() : $(modalSelector + '.modal-title').text();
 		var editTextValue  = $.trim($(modalSelector + '.modal-show-body .jumbotron').html());
 		addNewItem($(modalSelector).data('type'), true);

@@ -40,3 +40,7 @@
 .capitalize {
 	text-transform: capitalize;
 }
+
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}

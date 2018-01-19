@@ -7,7 +7,7 @@ var titles         = ["Add an announcement", "Add general information", "Add a n
 var editTitles     = ["Edit the announcement", "Edit general information", "Edit event"];
 var buttonTexts    = ["Post announcement", "Add section", "Submit event"];
 var sectionHeaders = ["Title of announcement", "Information header", "Event summary"];
-var links          = ["/API/announcement", "/API/generalinfo", "/API/calendar/event"];
+var links          = ["/API/announcement", "/API/generalinfo", "/calendar/event"];
 var days           = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 var modalSelector         = '#add-announcement ';
@@ -99,8 +99,8 @@ function fillScheduleInput(clicked) {
 	$(titleSelector).val(clicked.data('event-summary'));
 	$(eventLocationSelector).val(clicked.data('event-location'));
 	$(eventDetailsSelector).val(clicked.data('event-description'));
-	$('#scheduleStartDate').val(clicked.data('event-start-date').substring(0, 10));
-	$('#scheduleEndDate').val(clicked.data('event-end-date').substring(0, 10));
+	$('#scheduleStartDate input').val(clicked.data('event-start-date').substring(0, 10));
+	$('#scheduleEndDate input').val(clicked.data('event-end-date').substring(0, 10));
 	$('#startHour').val(clicked.data('event-start-date').substring(11, 13));
 	$('#startMinute').val(clicked.data('event-start-date').substring(14, 16));
 	$('#endHour').val(clicked.data('event-end-date').substring(11, 13));
@@ -154,7 +154,6 @@ function initialiseModalOpeners() {
 $(function () {
 	$('#announcementDescription').markItUp(mySettings);
 	openTodaysSchedule();
-	initialiseScheduleDatePicker();
 	initialiseScheduleButtons();
 	initialiseButtons();
 	initialiseModalOpeners();

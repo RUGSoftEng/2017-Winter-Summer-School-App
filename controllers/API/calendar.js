@@ -1,11 +1,7 @@
-var express       = require('express');
-var router        = express.Router();
-var ejs           = require('ejs');
-var fs            = require('fs');
-var schedule      = fs.readFileSync('./views/partials/schedule.ejs', 'ascii');
-var restFunctions = require('../../config/calendar/calendarRESTFunctions.js');
-var verify        = require('../../config/lib/verify.js');
-var auth          = require('../../config/lib/authorisation.js');
+const router        = require('express').Router();
+const restFunctions = require(process.cwd() + '/config/calendar/calendarRESTFunctions.js');
+const verify        = require(process.cwd() + '/config/lib/verify.js');
+const auth          = require(process.cwd() + '/config/lib/authorisation.js');
 
 /**
  * Handles incoming HTTP POST requests to '/calendar/event'. Attempts to process event details from
@@ -134,7 +130,7 @@ router.get('/calendar/event', function (request, response) {
 				response.send(JSON.stringify(
 					{
 						error: err,
-						data: ejs.render(schedule, {schedule: JSON.parse(data)})
+						data: JSON.parse(data)
 					}));
 			} else {
 				response.send(JSON.stringify({error: err, data: data}));

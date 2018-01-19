@@ -46,5 +46,9 @@ app.controller('RootController', ['$scope', function ($scope) {
 		$scope.setStatus(msg, 'Error');
 	};
 
+	$scope.openModal = function($event) {
+		openModal($event.currentTarget);
+	};
+
 
 }]);

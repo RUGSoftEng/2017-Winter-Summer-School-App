@@ -9,7 +9,6 @@
 }
 .inner-event .innerrow {
 	max-height: 546px;
-	overflow-y: scroll;
 }
 
 #weekOffset {
@@ -204,12 +203,17 @@ a {
 }
 
 .panel:hover {
-	transform: scale(1.02);
+	transform: scale(1.01);
 }
 
 .scheduleCol .list-group-item {
 	cursor: pointer;
 	padding: 0;
+}
+
+.pager {
+	padding-left:10px !important;
+	padding-right:10px !important;
 }
 
 .scheduleCol .list-group-item h5 {
@@ -221,6 +225,10 @@ a {
 .scheduleCol .list-group-item .panel-collapse {
 	border-top: 1px solid #DDD;
 	cursor: auto;
+}
+
+.accordion-toggle {
+	outline: none;
 }
 
 body,
@@ -259,4 +267,8 @@ body,
 	border-top-left-radius: 3px;
 	background-color: #F5F5F5;
 	padding: 3px;
+}
+
+.md-datepicker-calendar-pane {
+	z-index: 1100;
 }

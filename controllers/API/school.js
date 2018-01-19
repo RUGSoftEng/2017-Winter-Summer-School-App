@@ -24,7 +24,7 @@ router.post('/API/school', auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 
 });
 
-router.get('/API/school', auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
+router.get('/API/school', function (req, res) {
 	if (req.query.id) {
 		School.findById(req.query.id, function (err, school) {
 			if (typeof school === 'undefined' || err) {

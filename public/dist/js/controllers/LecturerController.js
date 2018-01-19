@@ -6,9 +6,4 @@ app.controller('LecturerController', ['$scope', '$http', function($scope, $http)
 		}, function(err) {
 			console.log(err);
 		});
-
-	$scope.openModal = function($event) {
-		openModal($event.currentTarget);
-	};
-
 }]);
