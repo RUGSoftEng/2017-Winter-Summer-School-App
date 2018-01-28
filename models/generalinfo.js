@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 const GeneralinfoSchema = new Schema({
 	title: {
 		type: String,
-		required: 'General information requires a title',
+		required: "General information requires a title",
 		trim: true
 	},
 	created: {
@@ -15,14 +15,14 @@ const GeneralinfoSchema = new Schema({
 	},
 	description: {
 		type: String,
-		required: 'General information requires a description',
+		required: "General information requires a description",
 		trim: true
 	},
 	category: {
 		type: String,
-		enum: require('../public/dist/js/categories').categories,
-		required: 'General information requires a category'
+		enum: require("../public/dist/js/categories").categories,
+		required: "General information requires a category"
 	}
 });
 
-mongoose.model('generalinfo', GeneralinfoSchema);
+mongoose.model("generalinfo", GeneralinfoSchema);

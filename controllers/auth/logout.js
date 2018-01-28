@@ -1,8 +1,10 @@
-const router  = require('express').Router();
+"use strict";
 
-router.get('/logout', function (req, res) {
+const router = require("express").Router();
+
+router.get("/logout", function (req, res) {
 	req.logout();
-	res.redirect('/');
+	res.redirect("/");
 });
 
 module.exports = router;

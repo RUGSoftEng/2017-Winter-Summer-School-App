@@ -1,7 +1,11 @@
 "use strict";
 
-const chalk = require('chalk');
+const chalk = require("chalk");
+// The only place where we are allowed to call console.log
+/* eslint-disable no-console */
 const log = console.log;
+const err = console.error;
+/* eslint-enable no-console */
 const error = chalk.bold.red.underline;
 const inform = chalk.blue.italic;
 const date = chalk.white.bgBlue;
@@ -58,7 +62,7 @@ exports.debug = function (message) {
 exports.error = function (message) {
 	log();
 	log(date(new Date()));
-	console.error(error("Error: " + message));
+	err(error("Error: " + message));
 	log();
 };
 

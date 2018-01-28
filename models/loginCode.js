@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 
@@ -20,9 +20,9 @@ const validateCode = function (code) {
 const LoginCodeSchema = new Schema({
 	code: {
 		type: String,
-		unique: 'Code already exists',
-		required: 'Username can not be empty',
-		validate: [validateCode, 'A code needs to be 8 characters long and can only contain alphanumerical characters.']
+		unique: "Code already exists",
+		required: "Username can not be empty",
+		validate: [validateCode, "A code needs to be 8 characters long and can only contain alphanumerical characters."]
 	},
 	created: {
 		type: Date,
@@ -30,8 +30,8 @@ const LoginCodeSchema = new Schema({
 	},
 	school: {
 		type: Schema.ObjectId,
-		ref: 'school'
+		ref: "school"
 	}
 });
 
-mongoose.model('loginCode', LoginCodeSchema);
+mongoose.model("loginCode", LoginCodeSchema);

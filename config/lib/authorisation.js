@@ -1,5 +1,7 @@
+"use strict";
+
 const UserRights = require(process.cwd() + "/public/dist/js/userRights.js");
-const config = require('./../config');
+const config = require("./../config");
 
 /**
  * A function that validates whether the user is logged in, and if not redirect them to the log in page.
@@ -13,7 +15,7 @@ exports.isLoggedIn = function (req, res, next) {
 	if (req.isAuthenticated() || config.isTestEnv())
 		return next();
 
-	res.redirect('/');
+	res.redirect("/");
 };
 
 /**
@@ -48,13 +50,13 @@ exports.isAuthorised = function (name) {
 			} else if (UserRights.userHasRights(req.user, name) || config.isTestEnv()) {
 				return next();
 			}
-			let err = new Error('Not authenticated');
+			const err = new Error("Not authenticated");
 			err.status = 403;
 			next(err);
 		} else {
-			res.redirect('/');
+			res.redirect("/");
 		}
-	}
+	};
 };
 
 

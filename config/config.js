@@ -1,8 +1,8 @@
 "use strict";
 
-const _ = require('lodash');
-const logger = require('./lib/logger');
-const environments = ['dev', 'prod', 'test'];
+const _ = require("lodash");
+const logger = require("./lib/logger");
+const environments = ["dev", "prod", "test"];
 
 /**
  * Validates whether the environment was properly set.
@@ -25,7 +25,7 @@ const validateEnvironment = function () {
  */
 const validateSecrets = function (config) {
 	if (config.isProductionEnv()) {
-		if (config.sessionSecret === 'default_secret')
+		if (config.sessionSecret === "default_secret")
 			logger.warning("Session secret is not set in production environment!\n" +
 				"For security reasons it should be set to some unique string.");
 	}
@@ -43,23 +43,23 @@ const getConfigFunctions = function() {
 		 * @returns {boolean}
 		 */
 		isProductionEnv : function() {
-			return this.env === 'prod';
+			return this.env === "prod";
 		},
 		/**
 		 * Returns whether the application is running in a testing environment
 		 * @returns {boolean}
 		 */
 		isTestEnv : function() {
-			return this.env === 'test';
+			return this.env === "test";
 		},
 		/**
 		 * Returns whether the application is running in a development environment
 		 * @returns {boolean}
 		 */
 		isDevelopmentEnv : function() {
-			return this.env === 'dev';
+			return this.env === "dev";
 		},
-	}
+	};
 };
 
 
@@ -71,7 +71,7 @@ const getConfigFunctions = function() {
 const initConfig = function () {
 	validateEnvironment();
 	const env = process.env.NODE_ENV;
-	let config = _.merge(require('./env/common.js'), require('./env/' + env +  '.js'));
+	let config = _.merge(require("./env/common.js"), require("./env/" + env +  ".js"));
 	config.env = env;
 	config = _.merge(config, getConfigFunctions());
 	validateSecrets(config);
