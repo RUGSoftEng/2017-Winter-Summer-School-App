@@ -3,7 +3,7 @@ const expect = chai.expect;
 const request = require("request");
 const supertest = require("supertest");
 const config = require(process.cwd() + "/config/config.js");
-let server = {};
+const server = {};
 
 
 describe("Server", function () {
@@ -19,7 +19,7 @@ describe("API get request", function () {
 
 	it("should return a JSON file of announcements", function (done) {
 		request.get(config.domain + "/API/announcement", function (err, res, body) {
-			var parsed = JSON.parse(body);
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect("contentType", /json/);
 			expect(parsed).to.be.an("array");
@@ -33,7 +33,7 @@ describe("API get request", function () {
 
 	it("should return a JSON file of general information", function (done) {
 		request.get(config.domain + "/API/generalinfo", function (err, res, body) {
-			var parsed = JSON.parse(body);
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect("content-Type", /html/);
 			expect(parsed).to.be.an("array");
@@ -46,7 +46,7 @@ describe("API get request", function () {
 
 	it("should return a JSON file of lecturers", function (done) {
 		request.get(config.domain + "/API/lecturer", function (err, res, body) {
-			var parsed = JSON.parse(body);
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
 			expect("contentType", /json/);
 			expect(parsed).to.be.an("array");
@@ -143,8 +143,8 @@ describe("Web pages ", function () {
 });
 
 describe("Google Calendar API", function () {
-	var path = config.domain + "/API/event";
-	var eventForm =
+	const path = config.domain + "/API/event";
+	const eventForm =
 		{
 			title: "Judgement Day",
 			description: "",
@@ -158,7 +158,7 @@ describe("Google Calendar API", function () {
 			endMinute: "59",
 			ssid: "Artificial Intelligence"
 		};
-	var modifyEvent =
+	const modifyEvent =
 		"&title=" + eventForm.title +
 		"&description=" + eventForm.description +
 		"&location=" + eventForm.location +

@@ -36,29 +36,29 @@ const validateSecrets = function (config) {
  *
  * @returns {{isProductionEnv: isProductionEnv, isTestEnv: isTestEnv, isDevelopmentEnv: isDevelopmentEnv}}
  */
-const getConfigFunctions = function() {
+const getConfigFunctions = function () {
 	return {
 		/**
 		 * Returns whether the application is running in a production environment
 		 * @returns {boolean}
 		 */
-		isProductionEnv : function() {
+		isProductionEnv : function () {
 			return this.env === "prod";
 		},
 		/**
 		 * Returns whether the application is running in a testing environment
 		 * @returns {boolean}
 		 */
-		isTestEnv : function() {
+		isTestEnv : function () {
 			return this.env === "test";
 		},
 		/**
 		 * Returns whether the application is running in a development environment
 		 * @returns {boolean}
 		 */
-		isDevelopmentEnv : function() {
+		isDevelopmentEnv : function () {
 			return this.env === "dev";
-		},
+		}
 	};
 };
 
@@ -71,7 +71,7 @@ const getConfigFunctions = function() {
 const initConfig = function () {
 	validateEnvironment();
 	const env = process.env.NODE_ENV;
-	let config = _.merge(require("./env/common.js"), require("./env/" + env +  ".js"));
+	let config = _.merge(require("./env/common.js"), require("./env/" + env + ".js"));
 	config.env = env;
 	config = _.merge(config, getConfigFunctions());
 	validateSecrets(config);
