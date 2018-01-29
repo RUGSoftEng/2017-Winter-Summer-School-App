@@ -35,6 +35,13 @@ module.exports = {
 		"comma-spacing": ["error", {before: false, after: true}],
 		"no-multi-spaces": "error",
 		"no-unreachable": "error",
-		"no-unused-expressions": "error"
+		"no-unused-expressions": "error",
+		"space-infix-ops": "error",
+		"keyword-spacing": "error",
+		"key-spacing": "error",
+		"space-unary-ops": "error",
+		"max-len": ["error", 100], 			// max line width.
+		"max-lines": ["error", 250],	// max lines per file.
+		"spaced-comment": "error"
 	}
 };

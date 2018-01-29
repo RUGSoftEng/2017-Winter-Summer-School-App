@@ -4,8 +4,8 @@ const UserRights = require(process.cwd() + "/public/dist/js/userRights.js");
 const config = require("./../config");
 
 /**
- * A function that validates whether the user is logged in, and if not redirect them to the log in page.
- * If we are in the testing environment, this check is skipped.
+ * A function that validates whether the user is logged in, and if not redirect them to the
+ * log in page. If we are in the testing environment, this check is skipped.
  * @param req
  * @param res
  * @param next
@@ -34,7 +34,8 @@ const hasAllRights = function (names, user) {
 };
 
 /**
- * A custom function that checks whether the user is authorised to perform a request (/access a webpage).
+ * A custom function that checks whether the user is authorised to perform a request
+ * (/access a webpage).
  * It is build on top of the Passport library @see {@link http://passportjs.org/}
  * If we are in the testing environment no authorisation is performed.
  *

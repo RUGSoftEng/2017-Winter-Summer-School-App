@@ -52,8 +52,8 @@ exports.debug = function (message) {
 };
 
 /**
- * Logs an underlined error in bold red. This should only be called when something quite bad has happened
- * which we absolutely do not want and expect to occur.
+ * Logs an underlined error in bold red. This should only be called when something quite bad has
+ * happened which we absolutely do not want and expect to occur.
  *
  * TODO: send email to all developers
  *
@@ -68,8 +68,8 @@ exports.error = function (message) {
 
 /**
  * This function throws an error and stops the application from running.
- * Only use this function in very extreme scenario's! If you are uncertain whether to use error or fatalError
- * use error instead!
+ * Only use this function in very extreme scenario's! If you are uncertain whether to use error or
+ * fatalError, use error instead!
  *
  * @param {string} message
  * @throws Error
