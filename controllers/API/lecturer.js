@@ -80,7 +80,7 @@ router.put('/API/lecturer', auth.isAuthorised("ALTER_LECTURERS"), function (req,
 
 router.get('/API/lecturer', function (req, res) {
 	Lecturer
-		.find({})
+		.find(req.query)
 		.sort({ $natural: -1 })
 		.limit(req.query.count || 200)
 		.exec(function (err, lecturers) {

@@ -99,7 +99,7 @@ router.put('/API/forum/comment', function (req, res) {
 
 router.get('/API/forum/comment', function (req, res) {
 	Comment
-		.findOne({ '_id': req.query.id })
+		.findOne(req.query)
 		.exec(function (err, comment) {
 			if (err) {
 				res.status(400);

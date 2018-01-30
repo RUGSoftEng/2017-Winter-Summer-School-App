@@ -34,7 +34,7 @@ router.post('/API/user', auth.isAuthorised("ALTER_USERS"), function (req, res) {
 
 router.get('/API/user', auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 	User
-		.find({}, ['_id', 'username', 'rank', 'school']) // Do not show hashed password
+		.find(req.query, ['_id', 'username', 'rank', 'school']) // Do not show hashed password
 		.limit(req.query.count || 20)
 		.exec(function (err, users) {
 			if (err) {

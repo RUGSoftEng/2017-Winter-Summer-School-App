@@ -51,7 +51,7 @@ router.post('/API/generalinfo', auth.isAuthorised("ALTER_GENERAL_INFO"), functio
 
 router.get('/API/generalinfo', function (req, res) {
 	Generalinfo
-		.find({})
+		.find(req.query)
 		.sort({ $natural: -1 })
 		.limit(req.query.count || 200)
 		.exec(function (err, generalinfo) {
