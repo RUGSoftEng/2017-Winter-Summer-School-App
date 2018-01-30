@@ -52,7 +52,7 @@ router.post('/API/announcement', auth.isAuthorised("ALTER_ANNOUNCEMENTS"), funct
 
 router.get('/API/announcement', function (req, res) {
 	Announcement
-		.find({})
+		.find(req.query)
 		.sort({ $natural: -1 })
 		.limit(req.query.count || 200)
 		.exec(function (err, announcements) {

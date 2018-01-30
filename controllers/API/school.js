@@ -25,27 +25,15 @@ router.post('/API/school', auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 });
 
 router.get('/API/school', function (req, res) {
-	if (req.query.id) {
-		School.findById(req.query.id, function (err, school) {
-			if (typeof school === 'undefined' || err) {
-				logger.warning('Can not find school\n' + (err || 'Wrong id provided'));
+	School
+		.find(req.query)
+		.limit(req.query.count || 10)
+		.exec(function (err, schools) {
+			if (err) {
+				logger.warning('Can not retrieve schools\n' + err);
 				res.sendStatus(400);
-			} else {
-				res.send(school);
-			}
+			} else res.send(schools);
 		});
-	} else {
-		School
-			.find({})
-			.limit(req.query.count || 10)
-			.exec(function (err, schools) {
-				if (err) {
-					logger.warning('Can not retrieve schools\n' + err);
-					res.sendStatus(400);
-				} else res.send(schools);
-			});
-	}
-
 });
 
 // delete a school
