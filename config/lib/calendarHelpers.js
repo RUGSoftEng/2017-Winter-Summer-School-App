@@ -7,7 +7,7 @@
  * @private
  */
 const getLastSaturday = function () {
-	let d = new Date();
+	const d = new Date();
 	const t = d.getDate() - (d.getDay() + 1);
 	d.setDate(t);
 	return d;
@@ -41,9 +41,10 @@ exports.setInterval = function (query, param, day) {
 	if (query[param]) {
 		const oneDay = (1000 * 60 * 60 * 24);
 		const dayOffset = query[param] * oneDay * day;
-		const firstDay = param === 'week' ? getLastSaturday() : new Date();
+		const firstDay = param === "week" ? getLastSaturday() : new Date();
 		const intervalStart = new Date(getDayInMs(firstDay) + dayOffset);
-		const intervalEnd = new Date(getDayInMs(firstDay) + (oneDay * (day === 1 ? 1 : 8) + dayOffset));
+		const intervalEnd = new Date(getDayInMs(firstDay) +
+			(oneDay * (day === 1 ? 1 : 8) + dayOffset));
 		query.startDate = { "$gte": intervalStart, "$lt": intervalEnd };
 		delete query[param];
 		return true;

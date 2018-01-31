@@ -1,57 +1,57 @@
-const chai = require('chai');
+const chai = require("chai");
 const expect = chai.expect;
-const request = require('request');
-const supertest = require('supertest');
-const config = require(process.cwd() + '/config/config.js');
-let server = {};
+const request = require("request");
+const supertest = require("supertest");
+const config = require(process.cwd() + "/config/config.js");
+const server = {};
 
 
-describe('Server', function () {
-	it('should start the server and initialize it properly', function (done) {
-		require(config.dir + '/config/lib/app.js').start(function (app) {
+describe("Server", function () {
+	it("should start the server and initialize it properly", function (done) {
+		require(config.dir + "/config/lib/app.js").start(function (app) {
 			server.app = app;
-			supertest(app).get('/').expect('Content-Type', "text/html; charset=utf-8").expect(200, done);
+			supertest(app).get("/").expect("Content-Type", "text/html; charset=utf-8").expect(200, done);
 		});
 	});
 });
 
-describe('API get request', function () {
+describe("API get request", function () {
 
-	it('should return a JSON file of announcements', function (done) {
-		request.get(config.domain + '/API/announcement', function (err, res, body) {
-			var parsed = JSON.parse(body);
+	it("should return a JSON file of announcements", function (done) {
+		request.get(config.domain + "/API/announcement", function (err, res, body) {
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
-			expect('contentType', /json/);
-			expect(parsed).to.be.an('array');
+			expect("contentType", /json/);
+			expect(parsed).to.be.an("array");
 			if (parsed.length > 0) {
-				expect(parsed[0]).to.include.keys('_id', 'title', 'description', 'created', 'school');
+				expect(parsed[0]).to.include.keys("_id", "title", "description", "created", "school");
 			}
 			done();
 		});
 
 	});
 
-	it('should return a JSON file of general information', function (done) {
-		request.get(config.domain + '/API/generalinfo', function (err, res, body) {
-			var parsed = JSON.parse(body);
+	it("should return a JSON file of general information", function (done) {
+		request.get(config.domain + "/API/generalinfo", function (err, res, body) {
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
-			expect('content-Type', /html/);
-			expect(parsed).to.be.an('array');
+			expect("content-Type", /html/);
+			expect(parsed).to.be.an("array");
 			if (parsed.length > 0) {
-				expect(parsed[0]).to.include.keys('_id', 'title', 'description', 'created', 'category');
+				expect(parsed[0]).to.include.keys("_id", "title", "description", "created", "category");
 			}
 			done();
 		});
 	});
 
-	it('should return a JSON file of lecturers', function (done) {
-		request.get(config.domain + '/API/lecturer', function (err, res, body) {
-			var parsed = JSON.parse(body);
+	it("should return a JSON file of lecturers", function (done) {
+		request.get(config.domain + "/API/lecturer", function (err, res, body) {
+			const parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
-			expect('contentType', /json/);
-			expect(parsed).to.be.an('array');
+			expect("contentType", /json/);
+			expect(parsed).to.be.an("array");
 			if (parsed.length > 0) {
-				expect(parsed[0]).to.include.keys('_id', 'name', 'description', 'created');
+				expect(parsed[0]).to.include.keys("_id", "name", "description", "created");
 			}
 			done();
 		});
@@ -71,25 +71,25 @@ describe('API get request', function () {
 	});*/
 });
 
-describe('API receives correct information', function () {
-	it('announcement post should receive correct values', function (done) {
-		request.post(config.domain + '/API/announcement',
+describe("API receives correct information", function () {
+	it("announcement post should receive correct values", function (done) {
+		request.post(config.domain + "/API/announcement",
 			{ form: { title: "test", description: "test", user: "test", school: "41224d776a326fb40f000001" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
 				done();
 			});
 	});
-	it('general information route should receive correct values', function (done) {
-		request.post(config.domain + '/API/generalinfo',
+	it("general information route should receive correct values", function (done) {
+		request.post(config.domain + "/API/generalinfo",
 			{ form: { title: "test", description: "test", user: "test", category: "Location" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
 				done();
 			});
 	});
-	it('lecturer route should receive correct values', function (done) {
-		request.post(config.domain + '/API/lecturer',
+	it("lecturer route should receive correct values", function (done) {
+		request.post(config.domain + "/API/lecturer",
 			{ form: { title: "test", description: "test", user: "test", website: "http://test.com" } },
 			function (err, res, body) {
 				expect(res.statusCode).to.equal(302);
@@ -108,71 +108,71 @@ describe('API receives correct information', function () {
 	});*/
 });
 
-describe('Web pages ', function () {
-	it('should return announcepage', function (done) {
-		request.get(config.domain + '/announcepage', function (err, res, body) {
+describe("Web pages ", function () {
+	it("should return announcepage", function (done) {
+		request.get(config.domain + "/announcepage", function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 
-	it('should return generalinfo', function (done) {
-		request.get(config.domain + '/generalinfo', function (err, res, body) {
+	it("should return generalinfo", function (done) {
+		request.get(config.domain + "/generalinfo", function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
-	it('should return lecturerpage', function (done) {
-		request.get(config.domain + '/lecturerpage', function (err, res, body) {
+	it("should return lecturerpage", function (done) {
+		request.get(config.domain + "/lecturerpage", function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
-	it('should return main', function (done) {
-		request.get(config.domain + '/main', function (err, res, body) {
+	it("should return main", function (done) {
+		request.get(config.domain + "/main", function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
-	it('should return options', function (done) {
-		request.get(config.domain + '/options', function (err, res, body) {
+	it("should return options", function (done) {
+		request.get(config.domain + "/options", function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
 	});
 });
 
-describe('Google Calendar API', function () {
-	var path = config.domain + '/API/event';
-	var eventForm =
+describe("Google Calendar API", function () {
+	const path = config.domain + "/API/event";
+	const eventForm =
 		{
-			title: 'Judgement Day',
-			description: '',
-			location: 'Cheyenne Mountain, Colorado, USA',
-			details: 'Skynet becomes self aware',
-			startDate: '1997-08-29',
-			startHour: '02',
-			startMinute: '14',
-			endDate: '1997-08-29',
-			endHour: '23',
-			endMinute: '59',
-			ssid: 'Artificial Intelligence'
-		}
-	var modifyEvent =
-		'&title=' + eventForm.title +
-		'&description=' + eventForm.description +
-		'&location=' + eventForm.location +
-		'&details=' + eventForm.details +
-		'&startDate=' + eventForm.startDate +
-		'&endDate=' + eventForm.endDate +
-		'&startHour=' + eventForm.startHour +
-		'&endHour=' + eventForm.endHour +
-		'&startMinute=' + eventForm.startMinute +
-		'&endMinute=' + eventForm.endMinute +
-		'&ssid=' + eventForm.ssid;
+			title: "Judgement Day",
+			description: "",
+			location: "Cheyenne Mountain, Colorado, USA",
+			details: "Skynet becomes self aware",
+			startDate: "1997-08-29",
+			startHour: "02",
+			startMinute: "14",
+			endDate: "1997-08-29",
+			endHour: "23",
+			endMinute: "59",
+			ssid: "Artificial Intelligence"
+		};
+	const modifyEvent =
+		"&title=" + eventForm.title +
+		"&description=" + eventForm.description +
+		"&location=" + eventForm.location +
+		"&details=" + eventForm.details +
+		"&startDate=" + eventForm.startDate +
+		"&endDate=" + eventForm.endDate +
+		"&startHour=" + eventForm.startHour +
+		"&endHour=" + eventForm.endHour +
+		"&startMinute=" + eventForm.startMinute +
+		"&endMinute=" + eventForm.endMinute +
+		"&ssid=" + eventForm.ssid;
 
-	describe('Event insertion.', function () {
-		it('Creates and inserts an event into the Calendar.', function (done) {
+	describe("Event insertion.", function () {
+		it("Creates and inserts an event into the Calendar.", function (done) {
 			request.post({ url: path, form: eventForm }, function (error, response, body) {
 				expect(response.statusCode).to.equal(302);
 				done();

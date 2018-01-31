@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 const ThreadSchema = new Schema({
 	title: {
 		type: String,
-		required: 'Title can not be empty',
+		required: "Title can not be empty",
 		trim: true
 	},
 	description: {
 		type: String,
-		required: 'Description can not be empty',
+		required: "Description can not be empty",
 		trim: true
 	},
 	created: {
@@ -20,13 +20,13 @@ const ThreadSchema = new Schema({
 	},
 	author: {
 		type: String,
-		required: 'A thread needs an author',
+		required: "A thread needs an author",
 		trim: true
 	},
 	posterID: {
 		type: String,
 		trim: true,
-		required: 'A thread needs the id of the poster'
+		required: "A thread needs the id of the poster"
 	},
 	imgURL: {
 		type: String,
@@ -36,10 +36,8 @@ const ThreadSchema = new Schema({
 		type: [String],
 		default: []
 	},
-	edited: {
-		type: Date
-	}
+	edited: {type: Date}
 });
 
-mongoose.model('thread', ThreadSchema);
+mongoose.model("thread", ThreadSchema);
 

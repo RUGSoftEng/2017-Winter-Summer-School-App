@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 /**
@@ -18,19 +18,19 @@ const validateTimeFrame = function (endingDate) {
 const SchoolSchema = new Schema({
 	name: {
 		type: String,
-		default: 'Unknown',
-		unique: 'School already exist',
+		default: "Unknown",
+		unique: "School already exist",
 		trim: true,
-		required: 'Name can not be empty'
+		required: "Name can not be empty"
 	},
 	startDate: {
 		type: Date,
-		required: 'A school needs a starting date'
+		required: "A school needs a starting date"
 	},
 	endDate: {
 		type: Date,
-		required: 'A school needs an ending date',
-		validate: [validateTimeFrame, 'The ending date needs to be after the starting date']
+		required: "A school needs an ending date",
+		validate: [validateTimeFrame, "The ending date needs to be after the starting date"]
 	},
 	created: {
 		type: Date,
@@ -39,4 +39,4 @@ const SchoolSchema = new Schema({
 });
 
 
-mongoose.model('school', SchoolSchema);
+mongoose.model("school", SchoolSchema);

@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 const AnnouncementSchema = new Schema({
 	title: {
 		type: String,
-		required: 'Announcements require a title',
+		required: "Announcements require a title",
 		trim: true
 	},
 	created: {
@@ -15,7 +15,7 @@ const AnnouncementSchema = new Schema({
 	},
 	description: {
 		type: String,
-		required: 'Announcements require a description',
+		required: "Announcements require a description",
 		trim: true
 	},
 	poster: {
@@ -28,4 +28,4 @@ const AnnouncementSchema = new Schema({
 	}
 });
 
-mongoose.model('announcement', AnnouncementSchema);
+mongoose.model("announcement", AnnouncementSchema);

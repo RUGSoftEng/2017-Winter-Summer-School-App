@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 /**
@@ -18,12 +18,12 @@ const validateTimeFrame = function (endingDate) {
 const EventSchema = new Schema({
 	title: {
 		type: String,
-		required: 'Events require a title',
+		required: "Events require a title",
 		trim: true
 	},
 	location: {
 		type: String,
-		required: 'Events require a location',
+		required: "Events require a location",
 		trim: true
 	},
 	created: {
@@ -32,16 +32,16 @@ const EventSchema = new Schema({
 	},
 	startDate: {
 		type: Date,
-		required: 'An event needs a starting date'
+		required: "An event needs a starting date"
 	},
 	endDate: {
 		type: Date,
-		required: 'An event needs an ending date',
-		validate: [validateTimeFrame, 'The ending date needs to be after the starting date']
+		required: "An event needs an ending date",
+		validate: [validateTimeFrame, "The ending date needs to be after the starting date"]
 	},
 	details: {
 		type: String,
-		required: 'Events require details',
+		required: "Events require details",
 		trim: true
 	},
 	school: {
@@ -50,4 +50,4 @@ const EventSchema = new Schema({
 	}
 });
 
-mongoose.model('event', EventSchema);
+mongoose.model("event", EventSchema);

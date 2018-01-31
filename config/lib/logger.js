@@ -1,7 +1,11 @@
 "use strict";
 
-const chalk = require('chalk');
+const chalk = require("chalk");
+// The only place where we are allowed to call console.log
+/* eslint-disable no-console */
 const log = console.log;
+const err = console.error;
+/* eslint-enable no-console */
 const error = chalk.bold.red.underline;
 const inform = chalk.blue.italic;
 const date = chalk.white.bgBlue;
@@ -48,8 +52,8 @@ exports.debug = function (message) {
 };
 
 /**
- * Logs an underlined error in bold red. This should only be called when something quite bad has happened
- * which we absolutely do not want and expect to occur.
+ * Logs an underlined error in bold red. This should only be called when something quite bad has
+ * happened which we absolutely do not want and expect to occur.
  *
  * TODO: send email to all developers
  *
@@ -58,14 +62,14 @@ exports.debug = function (message) {
 exports.error = function (message) {
 	log();
 	log(date(new Date()));
-	console.error(error("Error: " + message));
+	err(error("Error: " + message));
 	log();
 };
 
 /**
  * This function throws an error and stops the application from running.
- * Only use this function in very extreme scenario's! If you are uncertain whether to use error or fatalError
- * use error instead!
+ * Only use this function in very extreme scenario's! If you are uncertain whether to use error or
+ * fatalError, use error instead!
  *
  * @param {string} message
  * @throws Error

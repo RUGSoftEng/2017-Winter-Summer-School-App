@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 
 const TokenSchema = new Schema({
 	token: {
 		type: String,
-		required: 'The token identifier is required.',
+		required: "The token identifier is required.",
 		trim: true
 	},
 	created: {
@@ -16,4 +16,4 @@ const TokenSchema = new Schema({
 	}
 });
 
-mongoose.model('token', TokenSchema);
+mongoose.model("token", TokenSchema);

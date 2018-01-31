@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose'),
+const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 
 
 const CommentSchema = new Schema({
 	text: {
 		type: String,
-		required: 'A comment needs to have a text',
+		required: "A comment needs to have a text",
 		trim: true
 	},
 	created: {
@@ -16,13 +16,13 @@ const CommentSchema = new Schema({
 	},
 	author: {
 		type: String,
-		required: 'A comment needs an author',
+		required: "A comment needs an author",
 		trim: true
 	},
 	posterID: {
 		type: String,
 		trim: true,
-		required: 'A comment needs the id of the poster'
+		required: "A comment needs the id of the poster"
 	},
 	imgURL: {
 		type: String,
@@ -31,11 +31,9 @@ const CommentSchema = new Schema({
 	},
 	parentThread: {
 		type: String,
-		required: 'A comment needs a parent thread'
+		required: "A comment needs a parent thread"
 	},
-	edited: {
-		type: Date
-	}
+	edited: {type: Date}
 });
 
-mongoose.model('comment', CommentSchema);
+mongoose.model("comment", CommentSchema);

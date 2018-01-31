@@ -1,2 +1,4 @@
-var app = require('./config/lib/app.js');
+"use strict";
+
+const app = require("./config/lib/app.js");
 app.start();
