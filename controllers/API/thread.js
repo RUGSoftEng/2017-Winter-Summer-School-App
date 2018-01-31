@@ -69,7 +69,7 @@ router.put("/API/forum/thread", function (req, res) {
 
 router.get("/API/forum/thread", function (req, res) {
 	Thread
-		.find({})
+		.find(req.query)
 		.sort({ $natural: -1 })
 		.limit(req.query.count || 200)
 		.exec(function (err, threads) {

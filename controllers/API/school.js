@@ -32,9 +32,7 @@ router.get("/API/school", function (req, res) {
 			if (typeof school === "undefined" || err) {
 				logger.warning("Can not find school\n" + (err || "Wrong id provided"));
 				res.sendStatus(400);
-			} else {
-				res.send(school);
-			}
+			} else res.send(schools);
 		});
 	} else {
 		School
@@ -47,7 +45,6 @@ router.get("/API/school", function (req, res) {
 				} else res.send(schools);
 			});
 	}
-
 });
 
 // delete a school
