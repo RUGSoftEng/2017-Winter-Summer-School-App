@@ -49,7 +49,7 @@ router.get("/API/event", function (req, res) {
 	Event
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(parseInt(req.query.count) || 200)
 		.exec(function (err, events) {
 			if (err) {
 				logger.warning("Can not retrieve events\n" + err);

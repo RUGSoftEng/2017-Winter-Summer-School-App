@@ -27,7 +27,7 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 router.get("/API/school", function (req, res) {
 	School
 		.find(req.query)
-		.limit(req.query.count || 10)
+		.limit(parseInt(req.query.count) || 10)
 		.exec(function (err, schools) {
 			if (err) {
 				logger.warning("Can not retrieve schools\n" + err);

@@ -27,7 +27,7 @@ router.get("/API/loginCode", function (req, res) {
 	} else if(UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
 		LoginCode
 			.find({})
-			.limit(req.query.count || 20)
+			.limit(parseInt(req.query.count) || 20)
 			.exec(function (err, codes) {
 				if (err) {
 					logger.warning("Can not retrieve login code\n" + err);
