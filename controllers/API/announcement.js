@@ -51,7 +51,7 @@ router.get("/API/announcement", function (req, res) {
 	Announcement
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(parseInt(req.query.count) || 200)
 		.exec(function (err, announcements) {
 			if (err) {
 				logger.warning("Can not retrieve announcements\n" + err);
