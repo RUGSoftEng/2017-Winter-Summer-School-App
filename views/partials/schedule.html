@@ -7,10 +7,10 @@
 		</h3>
 		<div class='row innerrow'>
 			<uib-accordion class="list-group" id='sched-acc'>
-				<div uib-accordion-group ng-repeat="($index, eventDay) in calendar" class="list-group-item panel-default">
+				<div uib-accordion-group ng-repeat="event in events" class="list-group-item panel-default">
 					<uib-accordion-heading>
 						<h5>
-							<span> {{ printDay(eventDay) }} </span>
+							<span> {{ printDay(event) }} </span>
 							<span class="text-muted"> {{ printDate(eventDay) }} </span>
 							<span class="label label-primary" ng-if="isToday(eventDay)">Today</span>
 						</h5>

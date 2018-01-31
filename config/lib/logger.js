@@ -42,7 +42,8 @@ exports.inform = function (message) {
  */
 exports.debug = function (message) {
 	if (logAll || debug) {
-		log(chalk.bold.cyan("Debug: ") + chalk.green(message));
+		log(chalk.bold.cyan("Debug: "));
+		log(chalk.green(message));
 	}
 };
 

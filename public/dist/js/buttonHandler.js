@@ -41,9 +41,9 @@ function validateScheduleInput() {
 		valid = true;
 	else if (new Date($('#startHour').val()) > new Date($('#endHour').val()))
 		valid = false;
-	if (new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
+	if (new Date($('#scheduleStartDate input').val()) < new Date($('#scheduleEndDate input').val()))
 		valid = true;
-	else if (new Date($('#scheduleStartDate').val()) > new Date($('#scheduleEndDate').val()))
+	else if (new Date($('#scheduleStartDate input').val()) > new Date($('#scheduleEndDate input').val()))
 		valid = false;
 	return valid;
 }

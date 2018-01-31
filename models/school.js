@@ -5,7 +5,7 @@ const mongoose = require('mongoose'),
 
 /**
  * Validation for the starting and ending date of a school
- * The starting date needs to be after the ending date for the timeframe to be valid.
+ * The ending date needs to be after the starting date for the timeframe to be valid.
  *
  * @param {Date} endingDate
  * @return {boolean}

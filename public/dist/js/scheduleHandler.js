@@ -6,7 +6,7 @@ function initialisePreviousButton() {
 		week -= 1;
 		$('#weekOffset').val(week);
 		$.ajax({
-			url: "/calendar/event?week=" + week + '&rendered=true&extended=true', success: function (result) {
+			url: "/API/event?week=" + week, success: function (result) {
 				if ((result = JSON.parse(result))) {
 					if (result.error) {
 						console.log('scheduleHandler: Request to get previous week data failed!');
@@ -26,7 +26,7 @@ function initialiseNextButton() {
 		week += 1;
 		$('#weekOffset').val(week);
 		$.ajax({
-			url: "/calendar/event?week=" + week + '&rendered=true&extended=true', success: function (result) {
+			url: "/API/event?week=" + week, success: function (result) {
 				if ((result = JSON.parse(result))) {
 					if (result.error) {
 						console.log('scheduleHandler: Request to get next week data failed!');

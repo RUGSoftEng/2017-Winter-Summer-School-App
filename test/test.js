@@ -143,7 +143,7 @@ describe('Web pages ', function () {
 });
 
 describe('Google Calendar API', function () {
-	var path = config.domain + '/calendar/event';
+	var path = config.domain + '/API/event';
 	var eventForm =
 		{
 			title: 'Judgement Day',
