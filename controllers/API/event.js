@@ -42,6 +42,8 @@ router.post("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, re
 
 
 router.get("/API/event", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	if (!calendar.setInterval(req.query, "week", 7)) {
 		calendar.setInterval(req.query, "day", 1);
 	}
@@ -49,7 +51,7 @@ router.get("/API/event", function (req, res) {
 	Event
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(count || 200)
 		.exec(function (err, events) {
 			if (err) {
 				logger.warning("Can not retrieve events\n" + err);

@@ -48,10 +48,12 @@ router.post("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), functio
 });
 
 router.get("/API/generalinfo", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	Generalinfo
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(count || 200)
 		.exec(function (err, generalinfo) {
 			if (err) {
 				logger.warning("Can not retrieve general info\n" + err);

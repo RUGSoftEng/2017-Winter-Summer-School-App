@@ -68,10 +68,12 @@ router.put("/API/forum/thread", function (req, res) {
 });
 
 router.get("/API/forum/thread", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	Thread
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(count|| 200)
 		.exec(function (err, threads) {
 			if (err) {
 				res.status(400);

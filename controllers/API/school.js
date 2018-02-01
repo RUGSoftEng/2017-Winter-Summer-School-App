@@ -17,39 +17,30 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 		if (err) {
 			logger.warning("Can not add school\n" + err);
 			res.redirect("/options");
-			res.sendStatus(400);
 		} else {
 			res.redirect("/options");
-			res.sendStatus(200);
 		}
 	});
 
 });
 
 router.get("/API/school", function (req, res) {
-	if (req.query.id) {
-		School.findById(req.query.id, function (err, school) {
-			if (typeof school === "undefined" || err) {
-				logger.warning("Can not find school\n" + (err || "Wrong id provided"));
+	const count = parseInt(req.query.count);
+	delete req.query.count;
+	School
+		.find(req.query)
+		.limit(count || 10)
+		.exec(function (err, schools) {
+			if (err) {
+				logger.warning("Can not retrieve schools\n" + err);
 				res.sendStatus(400);
 			} else res.send(schools);
 		});
-	} else {
-		School
-			.find({})
-			.limit(req.query.count || 10)
-			.exec(function (err, schools) {
-				if (err) {
-					logger.warning("Can not retrieve schools\n" + err);
-					res.sendStatus(400);
-				} else res.send(schools);
-			});
-	}
 });
 
 // delete a school
 router.delete("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	School.findOneAndRemove({"_id": req.body.id}, function (err) {
+	School.findOneAndRemove({"_id": req.body.id }, function (err) {
 		if (err) {
 			logger.warning("Can not deleted school\n" + err);
 			res.sendStatus(400);

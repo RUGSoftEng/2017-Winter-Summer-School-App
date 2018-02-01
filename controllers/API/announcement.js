@@ -48,10 +48,12 @@ router.post("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), funct
 });
 
 router.get("/API/announcement", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	Announcement
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(req.query.count || 200)
+		.limit(count || 200)
 		.exec(function (err, announcements) {
 			if (err) {
 				logger.warning("Can not retrieve announcements\n" + err);
