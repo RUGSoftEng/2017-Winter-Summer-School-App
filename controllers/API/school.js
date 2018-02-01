@@ -25,9 +25,11 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 });
 
 router.get("/API/school", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	School
 		.find(req.query)
-		.limit(parseInt(req.query.count) || 10)
+		.limit(count || 10)
 		.exec(function (err, schools) {
 			if (err) {
 				logger.warning("Can not retrieve schools\n" + err);
@@ -38,7 +40,7 @@ router.get("/API/school", function (req, res) {
 
 // delete a school
 router.delete("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	School.findOneAndRemove({ "_id": req.body.id }, function (err) {
+	School.findOneAndRemove({"_id": req.body.id }, function (err) {
 		if (err) {
 			logger.warning("Can not deleted school\n" + err);
 			res.sendStatus(400);

@@ -77,10 +77,12 @@ router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req,
 });
 
 router.get("/API/lecturer", function (req, res) {
+	const count = parseInt(req.query.count);
+	delete req.query.count;
 	Lecturer
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(parseInt(req.query.count) || 200)
+		.limit(count || 200)
 		.exec(function (err, lecturers) {
 			if (err) {
 				logger.warning("Can retrieve lecturers\n" + err);
