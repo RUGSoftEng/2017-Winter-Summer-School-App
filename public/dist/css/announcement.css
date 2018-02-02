@@ -4,7 +4,8 @@ img {
 	position: absolute;
 }
 
-.previous, .next {
+.previous,
+.next {
 	cursor: pointer;
 }
 
