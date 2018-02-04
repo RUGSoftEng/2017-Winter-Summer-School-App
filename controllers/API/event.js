@@ -36,7 +36,6 @@ router.post("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, re
 	calendar.mergeDateAndTime(req.body, "start");
 	calendar.mergeDateAndTime(req.body, "end");
 	new Event(req.body).save(function (err) {
-		logger.inform("a");
 		if (err) {
 			logger.warning("Unable to post event.\n" + err);
 		}
