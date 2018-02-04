@@ -1,7 +1,7 @@
-app.controller('RootController', ['$scope', function ($scope) {
+app.controller('RootController', ['$scope', '$http', function ($scope, $http) {
 	$scope.username = userProfile.username;
 	$scope.role = userProfile.rank;
-	$scope.school = userProfile.school;
+	$scope.schoolid = userProfile.school;
 	$scope.status = {
 		name: 'Error',
 		message: '',

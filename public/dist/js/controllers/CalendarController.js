@@ -1,44 +1,54 @@
 app.controller('CalendarController', ['$scope', '$http', function ($scope, $http) {
-	$scope.week = 0;
-	$scope.days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-	$scope.months = ["January", "February", "March", "April", "May", "June", "July",
-		"August", "September", "October", "November", "December"];
-
-
-
-
-	$scope.printDay = function (eventDay) {
-		var day = new Date(eventDay[0]);
-		return $scope.days[day.getDay()].charAt(0).toUpperCase()
-			+ $scope.days[day.getDay()].slice(1);
-	};
-
 	$scope.isToday = function (eventDay) {
-		var today = new Date();
-		var day = new Date(eventDay[0]);
-		return day.getDate() === today.getDate() &&
-			  day.getMonth() === today.getMonth() &&
-			  day.getFullYear() === today.getFullYear();
+		return moment().diff(eventDay, 'days') === 0;
 	};
 
-	$scope.printDate = function (eventDay) {
-		var day = new Date(eventDay[0]);
-		return ' (' + $scope.months[day.getMonth()] + ' ' + day.getDate() + ')';
-	};
-
-	$scope.printTime = function (date) {
-		var d = new Date(date);
-		return d.getHours() + ":" + (d.getMinutes() <= '9' ? '0' + d.getMinutes() : d.getMinutes());
-	};
-
+	/**
+	 * Splits an array of events into an array of days, where each day is an array of events.
+	 * The days are based on the starting and ending date of a school.
+	 *
+	 * @param {Array} events
+	 * @returns {Array}
+	 */
 	$scope.splitInDays = function (events) {
-		return events;
+		let days = [];
+		let currentDay = new Date($scope.school.startDate);
+		const lastDay = new Date($scope.school.endDate);
+
+		let dateToIndexMap = [];
+		let i = 0;
+		while (currentDay <= lastDay) {
+			days[i] = [];
+			days[i]["date"] = currentDay;
+			dateToIndexMap[moment(currentDay).format("dd, MM, YY")] = i;
+			currentDay = new Date(currentDay.valueOf() + 864E5); // Increment by a single day.
+			++i;
+		}
+
+		for (let i = 0; i < events.length; ++i) {
+			const day = events[i].startDate;
+			const arrIndex = dateToIndexMap[moment(day).format("dd, MM, YY")];
+			days[arrIndex].push(events[i]);
+		}
+		return days;
 	};
 
-	$http.get('/API/event?week=' + $scope.week)
-		.then(function (res) {
-			$scope.calendar = $scope.splitInDays(res.data);
-		}, function (err) {
+	$http.get('/API/school?_id=' + $scope.schoolid)
+		.then(function(data) {
+			$scope.school = data.data[0];
+			const filterBySchoolTimeframe = jQuery.param({
+				startDate: {
+					$gte: $scope.school.startDate,
+					$lt: $scope.school.endDate
+				}
+			});
+			$http.get('/API/event?school=' + $scope.schoolid + "&" + filterBySchoolTimeframe)
+				.then(function (res) {
+					$scope.calendar = $scope.splitInDays(res.data);
+				}, function (err) {
+					console.log(err);
+				});
+		}, function(err) {
 			console.log(err);
 		});
 }]);

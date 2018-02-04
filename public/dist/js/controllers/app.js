@@ -1,1 +1,1 @@
-var app = angular.module('Overview', ['ui.bootstrap', 'ngMaterial', 'angularMoment']);
+var app = angular.module('Overview', ['ui.bootstrap', 'ngMaterial', 'angularMoment', 'ngSanitize']);

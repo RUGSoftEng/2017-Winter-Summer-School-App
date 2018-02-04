@@ -7,51 +7,38 @@
 		</h3>
 		<div class='row innerrow'>
 			<uib-accordion class="list-group" id='sched-acc'>
-				<div uib-accordion-group ng-repeat="event in events" class="list-group-item panel-default">
+				<div uib-accordion-group ng-repeat="(idx, day) in calendar" class="list-group-item panel-default">
 					<uib-accordion-heading>
 						<h5>
-							<span> {{ printDay(event) }} </span>
-							<span class="text-muted"> {{ printDate(eventDay) }} </span>
-							<span class="label label-primary" ng-if="isToday(eventDay)">Today</span>
+							<span> {{ day.date | date : "EEEE"}} </span>
+							<span class="text-muted"> {{ day.date | date }} </span>
+							<span class="label label-primary" ng-if="isToday(day.date)">Today</span>
 						</h5>
 					</uib-accordion-heading>
 					<div class="panel-body panel-collapse">
 						<ul>
-							<li ng-if="!eventDay[1].length">No events planned today!</li>
-							<li class='open-modal time-slot' ng-repeat="event in eventDay[1]"
+							<li ng-if="!day.length">No events planned today!</li>
+							<li class='open-modal time-slot' ng-repeat="event in day"
 								ng-click="openModal($event);"
 								data-toggle='modal'
 								data-target='#add-announcement'
 								data-type='2'
 								data-spec='schedule'
-								data-event-id='{{ event.id }}'
-								data-event-summary='{{ event.summary }}'
-								data-event-start-date='{{ event.start.dateTime }}'
-								data-event-end-date='{{ event.end.dateTime }}'
+								data-event-id='{{ event._id }}'
+								data-event-summary='{{ event.title }}'
+								data-event-start-date='{{ event.startDate }}'
+								data-event-end-date='{{ event.endDate }}'
 								data-event-location='{{ event.location }}'
-								data-event-description='{{ event.description }}'
-								data-event-ssid='{{ event.extendedProperties ? event.extendedProperties.shared.ssid : "All students" }}'>
-								<span>{{ printTime(event.start.dateTime) }} - {{ printTime(event.end.dateTime) }}</span>
-								<span>{{ event.summary }}</span>
+								data-event-description='{{ event.details }}'
+							>
+								<span>{{ event.startDate | date : "H:mm"}} - {{ event.endDate | date : "H:mm" }}</span>
+								<span>{{ event.title }}</span>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</uib-accordion>
 		</div>
-		<div>
-			<ul class="pager">
-
-				<li class="previous">
-					<button type="button" class="btn btn-primary btn-sm" id='sched-getprevious'>&larr; Last Week
-					</button>
-				</li>
-				<li class="next">
-					<button type="button" class="btn btn-primary btn-sm" id='sched-getnext'>Next Week &rarr;</button>
-				</li>
-			</ul>
-		</div>
-
 	</div>
 </div>
 

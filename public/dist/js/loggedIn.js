@@ -56,36 +56,6 @@ function openTodaysSchedule() {
 	$('#' + $today).addClass('in');
 }
 
-function initialiseScheduleDatePicker() {
-	$("#scheduleStartDate").datepicker({
-		dateFormat: 'yy-mm-dd'
-	});
-
-	$("#scheduleEndDate").datepicker({
-		dateFormat: 'yy-mm-dd',
-		onSelect: function (dateText, obj) {
-			var valid = new Date($('#scheduleStartDate').val()) <= new Date($('#scheduleEndDate').val());
-			alterInputStyling('#scheduleEndDate', 'The starting date seems to be later than the ending date.', valid);
-		}
-	});
-
-	$('#endHour').change(function () {
-		var valid = $('#startHour').val() <= $('#endHour').val();
-		if (new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
-			valid = true;
-		alterInputStyling('#endHour', 'The starting hour seems to be later than the ending hour.', valid);
-	});
-
-	$('#endMinute').change(function () {
-		var valid = $('#startMinute').val() <= $('#endMinute').val();
-		if (new Date($('#scheduleStartDate').val()) < new Date($('#scheduleEndDate').val()))
-			valid = true;
-		if (new Date($('#startHour').val()) < new Date($('#endHour').val()))
-			valid = true;
-		alterInputStyling('#endMinute', 'This starting time seems to be later than the ending time.', valid);
-	});
-}
-
 function emptyContainer(selector) {
 	$(selector).val('');
 }
@@ -99,13 +69,14 @@ function fillScheduleInput(clicked) {
 	$(titleSelector).val(clicked.data('event-summary'));
 	$(eventLocationSelector).val(clicked.data('event-location'));
 	$(eventDetailsSelector).val(clicked.data('event-description'));
-	$('#scheduleStartDate input').val(clicked.data('event-start-date').substring(0, 10));
-	$('#scheduleEndDate input').val(clicked.data('event-end-date').substring(0, 10));
-	$('#startHour').val(clicked.data('event-start-date').substring(11, 13));
-	$('#startMinute').val(clicked.data('event-start-date').substring(14, 16));
-	$('#endHour').val(clicked.data('event-end-date').substring(11, 13));
-	$('#endMinute').val(clicked.data('event-end-date').substring(14, 16));
-	$('#targetItem').val(clicked.data('event-ssid'));
+	const startDate = moment(clicked.data('event-start-date'));
+	const endDate = moment(clicked.data('event-end-date'));
+	$('#scheduleStartDate input').val(startDate.format("YYYY-MM-DD"));
+	$('#scheduleEndDate input').val(endDate.format("YYYY-MM-DD"));
+	$('#startHour').val(startDate.format("HH"));
+	$('#startMinute').val(startDate.format("mm"));
+	$('#endHour').val(endDate.format("HH"));
+	$('#endMinute').val(endDate.format("mm"));
 }
 
 function openModal(event) {
