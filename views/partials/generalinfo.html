@@ -7,7 +7,7 @@
 					ng-if="isAuthorised('ALTER_GENERAL_INFO')"></span>
 		</h3>
 		<div class='row innerrow'>
-			<module-item ng-repeat="item in generalinfo" item="item" type="1"></module-item>
+			<module-item ng-repeat="item in generalinfo | limitTo:3" item="item" type="1"></module-item>
 		</div>
 	</div>
 </div>
