@@ -12,7 +12,7 @@ const CommentSchema = new Schema({
 	},
 	created: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	},
 	author: {
 		type: String,

@@ -42,6 +42,10 @@ router.post("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, re
 
 
 router.get("/API/event", function (req, res) {
+	if (req.query.id) {
+		req.query._id = req.query.id;
+		delete req.query.id;
+	}
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	if (!calendar.setInterval(req.query, "week", 7)) {
