@@ -32,6 +32,7 @@ router.post("/API/user", auth.isAuthorised("ALTER_USERS"), function (req, res) {
 });
 
 router.get("/API/user", auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
+	req.query._id = req.query._id || req.query.id;
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	User

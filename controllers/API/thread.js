@@ -68,6 +68,7 @@ router.put("/API/forum/thread", function (req, res) {
 });
 
 router.get("/API/forum/thread", function (req, res) {
+	req.query._id = req.query._id || req.query.id;
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Thread

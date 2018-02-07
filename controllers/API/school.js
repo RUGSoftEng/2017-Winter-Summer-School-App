@@ -25,6 +25,7 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 });
 
 router.get("/API/school", function (req, res) {
+	req.query._id = req.query._id || req.query.id;
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	School

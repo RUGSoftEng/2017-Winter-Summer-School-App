@@ -77,6 +77,7 @@ router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req,
 });
 
 router.get("/API/lecturer", function (req, res) {
+	req.query._id = req.query._id || req.query.id;
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Lecturer

@@ -86,6 +86,7 @@ router.put("/API/forum/comment", function (req, res) {
 });
 
 router.get("/API/forum/comment", function (req, res) {
+	req.query._id = req.query._id || req.query.id;
 	Comment
 		.find(req.query)
 		.exec(function (err, comment) {
