@@ -2,16 +2,14 @@
 	text-align: center;
 }
 
-.thumbnail {
-	width: 250px;
-	height: 400px;
-}
-
 .data-text {
 	display: block;
+	text-align: center;
+	font-size: 135%;
 }
 
-.inner-event > .img-thumbnail, #modal-thumbnail {
+.inner-event > .img-thumbnail,
+#modal-thumbnail {
 	object-fit: cover;
 	margin-right: auto;
 	margin-left: auto;
@@ -28,23 +26,18 @@
 }
 
 .panel {
-	transition: all .15s ease-in-out;
+	transition: all 0.15s ease-in-out;
 	width: initial;
 	margin-right: 30px;
 	margin-left: 30px;
 	padding: 18px;
-	padding-bottom: 18px;
 	background-color: transparent;
 	box-shadow: none;
 }
 
 .panel:hover {
 	cursor: pointer;
-}
-
-.data-text {
-	text-align: center;
-	font-size: 135%;
+	transform: scale(1.02);
 }
 
 #modalDescription {
@@ -63,6 +56,9 @@
 	display: block;
 	margin: 0 auto;
 	margin-bottom: 5px;
+	position: relative;
+	left: 0;
+	top: 0;
 }
 
 .file {
@@ -70,20 +66,16 @@
 	position: absolute;
 }
 
-.panel {
-	transition: all .15s ease-in-out;
-}
-
-.panel:hover {
-	transform: scale(1.02);
-}
-
 #event-screen {
 	padding-left: 0;
 	padding-right: 0;
 }
 
-#event-screen, #wrap, body, html, .inner-event {
+#event-screen,
+#wrap,
+body,
+html,
+.inner-event {
 	background-color: #F5F5F5;
 }
 
@@ -91,6 +83,8 @@
 	border: 0;
 	padding-top: 105px;
 	background-color: #FFF;
+	width: 250px;
+	height: 400px;
 }
 
 .thumbnail h4 {
@@ -111,14 +105,9 @@
 	height: 200px;
 }
 
-.caption a:visited, .caption a:link {
+.caption a:visited,
+.caption a:link {
 	color: #428BCA;
-}
-
-#modal-thumbnail {
-	position: relative;
-	left: 0;
-	top: 0;
 }
 
 #wrap .modal-show-body {

@@ -4,7 +4,8 @@ img {
 	position: absolute;
 }
 
-.previous, .next {
+.previous,
+.next {
 	cursor: pointer;
 }
 
@@ -31,10 +32,6 @@ img {
 	text-align: left;
 }
 
-.list-group-item:focus {
-	border: 1px solid #0A9BEB;
-}
-
 .list-group-item {
 	position: relative;
 	display: block;
@@ -44,3 +41,6 @@ img {
 	border: 1px solid #DDD;
 }
 
+.list-group-item:focus {
+	border: 1px solid #0A9BEB;
+}

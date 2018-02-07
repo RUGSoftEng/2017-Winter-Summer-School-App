@@ -45,6 +45,14 @@
 	padding: 30px;
 }
 
+.inner-event {
+	background-color: #FFF;
+	padding: 8px;
+	-webkit-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+	-moz-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+	box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
+}
+
 #event-screen .cols .inner-event:first-child {
 	border-bottom-left-radius: 4px;
 	border-top-left-radius: 4px;
@@ -79,6 +87,14 @@
 	margin: 0;
 }
 
+.panel {
+	transition: all 0.15s ease-in-out;
+}
+
+.panel:hover {
+	transform: scale(1.02);
+}
+
 #event-screen .panel {
 	cursor: pointer;
 }
@@ -101,14 +117,6 @@
 	user-select: none;
 }
 
-.inner-event {
-	background-color: #FFF;
-	padding: 8px;
-	-webkit-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
-	-moz-box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
-	box-shadow: 1px 1px 1px 1px rgba(170, 170, 170, 1);
-}
-
 .announce h4 > .badge {
 	vertical-align: middle;
 }
@@ -126,12 +134,8 @@
 	text-align: left;
 }
 
-.nav a:link {
-	color: black;
-}
-
-.nav a:visited {
-	color: black;
+a {
+	text-decoration: none !important;
 }
 
 a:hover {
@@ -139,8 +143,12 @@ a:hover {
 	border-bottom: none;
 }
 
-a {
-	text-decoration: none !important;
+.nav a:link {
+	color: black;
+}
+
+.nav a:visited {
+	color: black;
 }
 
 .modal-show-body .jumbotron {
@@ -163,7 +171,7 @@ a {
 	margin-bottom: -1px;
 	background-color: #FFF;
 	border: 1px solid #DDD;
-	width: 100%
+	width: 100%;
 }
 
 .glyphicon-plus {
@@ -176,14 +184,6 @@ a {
 
 .modal-body textarea {
 	max-width: 100%;
-}
-
-.panel {
-	transition: all .15s ease-in-out;
-}
-
-.panel:hover {
-	transform: scale(1.02);
 }
 
 .scheduleCol .list-group-item {

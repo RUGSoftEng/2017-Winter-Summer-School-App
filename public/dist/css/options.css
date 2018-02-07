@@ -10,7 +10,8 @@
 	outline: none;
 }
 
-#wrap .manage:hover, #wrap .manage:focus {
+#wrap .manage:hover,
+#wrap .manage:focus {
 	background-color: #FFF;
 	border-color: #0A9BEB;
 }
@@ -38,7 +39,7 @@
 	padding: 0;
 }
 
-#fix:after {
+#fix::after {
 	clear: both;
 	content: ".";
 	display: block;
