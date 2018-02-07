@@ -48,7 +48,10 @@ router.post("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), funct
 });
 
 router.get("/API/announcement", function (req, res) {
-	req.query._id = req.query._id || req.query.id;
+	if (req.query.id) {
+		req.query._id = req.query.id;
+		delete req.query.id;
+	}
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Announcement

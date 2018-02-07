@@ -48,7 +48,10 @@ router.post("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), functio
 });
 
 router.get("/API/generalinfo", function (req, res) {
-	req.query._id = req.query._id || req.query.id;
+	if (req.query.id) {
+		req.query._id = req.query.id;
+		delete req.query.id;
+	}
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Generalinfo
