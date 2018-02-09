@@ -4,8 +4,14 @@ const mongoose = require("mongoose"),
 	Schema = mongoose.Schema,
 	Validator = require("validator");
 
+/**
+ * Validates if the url is either not set, or is a valid url.
+ *
+ * @param url
+ * @returns {boolean}
+ */
 const validateUrl = function (url) {
-	return Validator.isURL(url);
+	return !url || Validator.isURL(url);
 };
 
 const LecturerSchema = new Schema(

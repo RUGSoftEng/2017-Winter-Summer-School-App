@@ -30,7 +30,7 @@ function addNewItem(edit) {
 	$(titleSelector).attr('placeholder', 'Name');
 	$(descriptionSelector).attr('placeholder', 'General Info');
 	$('#thumbnailDiv').show();
-	$('#modal-thumbnail').attr('src', '/images/default/placeholder.jpeg');
+	$('#modal-thumbnail').attr('src', '/images/default/placeholder.png');
 	getButton('f').html((edit ? "Save" : "Add Lecturer"));
 	$('#add-lecturer form').attr('action', "API/lecturer");
 	toggleShow(false);
