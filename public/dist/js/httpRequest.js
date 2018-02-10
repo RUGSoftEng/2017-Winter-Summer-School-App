@@ -22,7 +22,6 @@ var httpRequest = function (requestType, $event, callback) {
 
 	var data = $($event.target).data();
 	var entityType = data.entityType;
-	var reload = data.reload;
 	delete data.reload;
 	delete data.entityType;
 
@@ -35,11 +34,8 @@ var httpRequest = function (requestType, $event, callback) {
 			success: function (result) {
 				if (callback) {
 					callback();
-				} else if (reload) {
-					location.reload();
 				} else {
-					// TODO: display nice message
-					console.log(result);
+					location.reload();
 				}
 			},
 			error: function () {

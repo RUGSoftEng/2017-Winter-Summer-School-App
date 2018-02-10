@@ -32,17 +32,25 @@ const validatePassword = function (password) {
 	return password && regex.test(password);
 };
 
+const removeSchoolIfAdmin = function (school) {
+	if (this.rank !== "admin") {
+		return school;
+	}
+};
+
 const AccountSchema = new Schema({
 	username: {
 		type: String,
 		unique: "Username already exists",
 		required: "Username can not be empty",
-		validate: [validateUsername, "A username needs to be between 4 and 20 characters and can only contain alphanumerical characters."]
+		validate: [validateUsername, "A username needs to be between 4 and 20 " +
+		"characters and can only contain alphanumerical characters."]
 	},
 	password: {
 		type: String,
 		required: "Password can not be empty",
-		validate: [validatePassword, "A password needs to be between 8 and 30 characters long and can only have alphanumerical characters and !@#$_"]
+		validate: [validatePassword, "A password needs to be between 8 and 30 characters long" +
+		" and can only have alphanumerical characters and !@#$_"]
 	},
 	rank: {
 		type: String,
@@ -51,6 +59,7 @@ const AccountSchema = new Schema({
 	},
 	school: {
 		type: Schema.ObjectId,
+		set: removeSchoolIfAdmin,
 		ref: "school"
 	}
 });
