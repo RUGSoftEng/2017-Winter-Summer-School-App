@@ -36,14 +36,16 @@ function isEmptyContainer(selector) {
 }
 
 function validateScheduleInput() {
-	var valid = $('#startMinute').val() <= $('#endMinute').val();
-	if (new Date($('#startHour').val()) < new Date($('#endHour').val()))
+	let valid = $('#startMinute').val() <= $('#endMinute').val();
+	const dayDiff = moment($('#scheduleStartDate input').val()).diff(moment($('#scheduleEndDate input').val()));
+	const hourDiff = $('#startHour').val() - $('#endHour').val();
+	if (hourDiff < 0)
 		valid = true;
-	else if (new Date($('#startHour').val()) > new Date($('#endHour').val()))
+	else if (hourDiff > 0)
 		valid = false;
-	if (new Date($('#scheduleStartDate input').val()) < new Date($('#scheduleEndDate input').val()))
+	if (dayDiff < 0)
 		valid = true;
-	else if (new Date($('#scheduleStartDate input').val()) > new Date($('#scheduleEndDate input').val()))
+	else if (dayDiff > 0)
 		valid = false;
 	return valid;
 }
@@ -92,8 +94,7 @@ function initialiseFinishButton() {
 					'&endDate=' + $('#scheduleEndDate input').val() +
 					'&endHour=' + $('#endHour ').val() +
 					'&endMinute=' + $('#endMinute ').val() +
-					'&category=' + $('#category ').val() +
-					'&ssid=' + $('#targetItem ').val(),
+					'&category=' + $('#category ').val(),
 					type: 'PUT',
 					success: function (result) {
 						location.reload();

@@ -7,6 +7,8 @@ const logger = require(process.cwd() + "/config/lib/logger");
 const calendar = require(process.cwd() + "/config/lib/calendarHelpers");
 
 router.put("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, res) {
+	calendar.mergeDateAndTime(req.query, "start");
+	calendar.mergeDateAndTime(req.query, "end");
 	Event.findOneAndUpdate({"_id": req.query.id}, {$set: req.query}, function (err) {
 		if (err) {
 			logger.warning("Unable to edit event.\n" + err);
@@ -31,6 +33,8 @@ router.delete("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, 
 });
 
 router.post("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, res) {
+	calendar.mergeDateAndTime(req.body, "start");
+	calendar.mergeDateAndTime(req.body, "end");
 	new Event(req.body).save(function (err) {
 		if (err) {
 			logger.warning("Unable to post event.\n" + err);

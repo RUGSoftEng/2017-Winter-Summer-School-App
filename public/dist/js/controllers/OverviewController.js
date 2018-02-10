@@ -5,7 +5,7 @@ app.controller('OverviewController', ['$scope', function($scope) {
 		return new Date(itemDate) >= date;
 	};
 
-	if(!$scope.school) {
+	if(!$scope.schoolid) {
 		window.location.href = "/options";
 	}
 

@@ -1,8 +1,23 @@
 "use strict";
 
 /**
+ * Sets the date of req.body such that it incorporates the correct hour as well.
+ *
+ * @param {Object} obj - Either request or response
+ * @param {"start"|"end"} property
+ * @public
+ */
+exports.mergeDateAndTime = function (obj, property) {
+	let date = new Date(obj[property + "Date"]);
+	date.setHours(obj[property + "Hour"]);
+	date.setMinutes(obj[property + "Minute"]);
+	obj[property + "Date"] = new Date(date);
+};
+
+/**
  * Creates and returns a Date object with the date being the last saturday.
  * If it is Saturday, the last Saturday was this Saturday.
+ *
  * @return {Date}
  * @private
  */

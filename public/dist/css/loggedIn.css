@@ -20,10 +20,6 @@ a:hover {
 	margin: 0;
 }
 
-.inner-event .innerrow {
-	max-height: 546px;
-}
-
 #weekOffset {
 	display: none;
 }

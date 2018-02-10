@@ -57,7 +57,7 @@
     }
   },
   "lint-staged": {
-    "{config,controllers,models}/*.js": [
+    "{config,controllers,models}/**/*.js": [
       "eslint --fix",
       "git add"
     ],
