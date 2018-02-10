@@ -19,10 +19,9 @@ coverage
 
 .idea
 .DS_Store
-calendarService.json
-serviceAccount.json
 ssl
-views/images
+
+views/images/*.jpeg
 
 
 # nyc test coverage
