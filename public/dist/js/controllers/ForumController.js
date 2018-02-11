@@ -29,7 +29,7 @@ app.controller('ForumController', ['$scope', '$http', function ($scope, $http) {
 	$scope.currentPage = 1;
 
 	$scope.deleteComment = function (id) {
-		let ok = confirm("Delete comment?");
+		const ok = confirm("Delete comment?");
 		if (ok) {
 			$http.delete("/API/forum/comment?id=" + id)
 				.then(function () {
@@ -38,7 +38,7 @@ app.controller('ForumController', ['$scope', '$http', function ($scope, $http) {
 		}
 	};
 	$scope.deleteThread = function (id) {
-		let ok = confirm("Delete thread?");
+		const ok = confirm("Delete thread?");
 		if (ok) {
 			$http.delete("/API/forum/thread?id=" + id)
 				.then(function () {

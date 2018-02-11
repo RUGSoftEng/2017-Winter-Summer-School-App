@@ -8,12 +8,12 @@ const logger = require(process.cwd() + "/config/lib/logger");
 router.delete("/API/user", auth.isAuthorised("ALTER_USERS"), function (req, res) {
 	if (req.body.id == req.user._id) {
 		res.sendStatus(400);
-	} else {
-		User.findOneAndRemove({"_id": req.body.id}, function (err) {
+	}else {
+		User.findOneAndRemove({ "_id": req.body.id }, function (err) {
 			if (err) {
 				logger.warning("Can not delete user\n" + err);
 				res.sendStatus(400);
-			} else {
+			}else {
 				res.sendStatus(200);
 			}
 		});
@@ -45,7 +45,7 @@ router.get("/API/user", auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 			if (err) {
 				logger.warning("Can not retrieve users\n" + err);
 				res.sendStatus(400);
-			} else res.send(users);
+			}else res.send(users);
 		});
 });
 

@@ -7,7 +7,7 @@ const passport = require("passport");
 router.get("/", function (req, res) {
 	if (req.isAuthenticated()) {
 		res.redirect("/main");
-	} else {
+	}else {
 		res.render("logIn", {
 			message: req.flash("error"),
 			user: req.user

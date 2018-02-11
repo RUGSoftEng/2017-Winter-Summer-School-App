@@ -6,11 +6,11 @@ const Generalinfo = require("mongoose").model("generalinfo");
 const logger = require(process.cwd() + "/config/lib/logger");
 
 router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	Generalinfo.findOneAndRemove({"_id": req.query.id}, function (err) {
+	Generalinfo.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {
 			logger.warning("Can not delete general info\n" + err);
 			res.sendStatus(400);
-		} else {
+		}else {
 			res.sendStatus(200);
 		}
 	});
@@ -18,7 +18,7 @@ router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), funct
 });
 
 router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	Generalinfo.findOneAndUpdate({"_id": req.query.id}, {
+	Generalinfo.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			title: req.query.title,
 			description: req.query.description,
@@ -28,7 +28,7 @@ router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function
 		if (err) {
 			logger.warning("Can not edit general info\n" + err);
 			res.sendStatus(400);
-		} else {
+		}else {
 			res.sendStatus(200);
 		}
 	});
@@ -62,7 +62,7 @@ router.get("/API/generalinfo", function (req, res) {
 			if (err) {
 				logger.warning("Can not retrieve general info\n" + err);
 				res.sendStatus(400);
-			} else res.send(generalinfo);
+			}else res.send(generalinfo);
 		});
 });
 

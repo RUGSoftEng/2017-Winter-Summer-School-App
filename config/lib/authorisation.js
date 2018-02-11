@@ -48,13 +48,13 @@ exports.isAuthorised = function (name) {
 		if (req.isAuthenticated() || config.isTestEnv()) {
 			if (name.constructor === Array && hasAllRights(name, req.user)) {
 				return next();
-			} else if (UserRights.userHasRights(req.user, name) || config.isTestEnv()) {
+			}else if (UserRights.userHasRights(req.user, name) || config.isTestEnv()) {
 				return next();
 			}
 			const err = new Error("Not authenticated");
 			err.status = 403;
 			next(err);
-		} else {
+		}else {
 			res.redirect("/");
 		}
 	};

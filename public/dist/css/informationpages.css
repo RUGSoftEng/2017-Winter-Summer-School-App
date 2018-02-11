@@ -11,36 +11,46 @@
 .list-group-item:focus {
 	outline-color: #0A9BEB;
 }
-.pagination-style{
+
+.pagination-style {
 	text-align: center;
 }
-#event-screen .panel{
-	cursor:default;
-}
-.date{
-	text-align: right;
-}
-.card-text{
-	font-size: large;
-}
-.glyphicon{
-	font-size: 18px;
-}
-.panel-heading{
-	display: block;
-	overflow: auto;
-}
-.panel:hover{
+
+.panel:hover {
 	transform: none;
 	cursor: default;
 }
-.content-title{
+
+#event-screen .panel {
+	cursor: default;
+}
+
+.date {
+	text-align: right;
+}
+
+.card-text {
+	font-size: large;
+}
+
+.glyphicon {
+	font-size: 18px;
+}
+
+.panel-heading {
+	display: block;
+	overflow: auto;
+}
+
+.content-title {
 	margin-top: 5px;
 }
-.delete-col{
+
+.delete-col {
 	text-align: center;
 }
-.panel-footer{
+
+.panel-footer {
 	display: block;
 	overflow: auto;
 }

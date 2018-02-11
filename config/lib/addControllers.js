@@ -39,7 +39,7 @@ module.exports = function (app) {
 		app.use(function (err, req, res, next) {
 			if (err.status === 403) {
 				res.render("403.ejs", { user: req.user });
-			} else {
+			}else {
 				next();
 			}
 		});

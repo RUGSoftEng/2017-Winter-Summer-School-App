@@ -18,7 +18,7 @@ router.post("/API/token", function (req, res) {
 		if (err) {
 			logger.warning("Can not add token\n" + err);
 			res.sendStatus(400);
-		} else {
+		}else {
 			res.sendStatus(200);
 		}
 	});

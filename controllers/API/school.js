@@ -17,7 +17,7 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 		if (err) {
 			logger.warning("Can not add school\n" + err);
 			res.redirect("/options");
-		} else {
+		}else {
 			res.redirect("/options");
 		}
 	});
@@ -38,17 +38,17 @@ router.get("/API/school", function (req, res) {
 			if (err) {
 				logger.warning("Can not retrieve schools\n" + err);
 				res.sendStatus(400);
-			} else res.send(schools);
+			}else res.send(schools);
 		});
 });
 
 // delete a school
 router.delete("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	School.findOneAndRemove({"_id": req.body.id }, function (err) {
+	School.findOneAndRemove({ "_id": req.body.id }, function (err) {
 		if (err) {
 			logger.warning("Can not deleted school\n" + err);
 			res.sendStatus(400);
-		} else {
+		}else {
 			res.sendStatus(200);
 		}
 	});
