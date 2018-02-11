@@ -42,7 +42,7 @@ module.exports = {
 		"keyword-spacing": "error",
 		"key-spacing": "error",
 		"space-unary-ops": "error",
-		"max-len": ["error", 100], 			// max line width.
+		"max-len": ["error", 150], 			// max line width.
 		"max-lines": ["error", 250],	// max lines per file.
 		"spaced-comment": "error"
 	}

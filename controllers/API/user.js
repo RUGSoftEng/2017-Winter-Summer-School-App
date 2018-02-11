@@ -40,7 +40,7 @@ router.get("/API/user", auth.isAuthorised("VIEW_OPTIONS"), function (req, res) {
 	delete req.query.count;
 	User
 		.find(req.query, ["_id", "username", "rank", "school"]) // Do not show hashed password
-		.limit(count|| 20)
+		.limit(count || 20)
 		.exec(function (err, users) {
 			if (err) {
 				logger.warning("Can not retrieve users\n" + err);

@@ -18,7 +18,8 @@ router.post("/API/forum/comment", function (req, res) {
 				if (err2 || !thread) {
 					res.status(400);
 					res.send(err2);
-					logger.warning("Can't find the associated thread " + (err2 || "Threadid does not exist."));
+					logger.warning("Can't find the associated thread "
+						+ (err2 || "Threadid does not exist."));
 				} else {
 					thread.comments.push(result._id);
 					thread.save(function (err3) {
@@ -38,13 +39,13 @@ router.post("/API/forum/comment", function (req, res) {
 });
 
 router.delete("/API/forum/comment", function (req, res) {
-	Comment.findOne({"_id": req.query.id}, function (err, comment) {
+	Comment.findOne({ "_id": req.query.id }, function (err, comment) {
 		if (err) {
 			res.status(400);
 			res.send(err);
 			logger.warning("Can't find comment with the specified id " + err);
 		} else {
-			Thread.findOneAndUpdate({"_id": comment.parentThread},
+			Thread.findOneAndUpdate({ "_id": comment.parentThread },
 				{ $pop: { "comments": req.query.id } },
 				function (err2) {
 					if (err2) {
@@ -52,7 +53,7 @@ router.delete("/API/forum/comment", function (req, res) {
 						res.send(err2);
 						logger.warning("Can't update comment array of associated thread " + err2);
 					} else {
-						Comment.findOneAndRemove({"_id": req.query.id}, function (err3) {
+						Comment.findOneAndRemove({ "_id": req.query.id }, function (err3) {
 							if (err3) {
 								res.status(400);
 								res.send(err3);
@@ -69,7 +70,7 @@ router.delete("/API/forum/comment", function (req, res) {
 });
 
 router.put("/API/forum/comment", function (req, res) {
-	Comment.findOneAndUpdate({"_id": req.query.id}, {
+	Comment.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			text: req.query.text,
 			edited: Date.now()

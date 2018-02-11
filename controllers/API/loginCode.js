@@ -19,14 +19,14 @@ router.post("/API/loginCode", auth.isAuthorised("ALTER_LOGIN_CODES"), function (
 router.get("/API/loginCode", function (req, res) {
 	const count = parseInt(req.query.count);
 	delete req.query.count;
-	if(req.query.code) {
+	if (req.query.code) {
 		LoginCode.findOne({ code: req.query.code }, function (err, code) {
 			if (err || !code) {
 				logger.warning("Could not find login code\n" + (err || "The code does not exist"));
 				res.sendStatus(400);
 			} else res.send(code);
 		});
-	} else if(UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
+	} else if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
 		LoginCode
 			.find({})
 			.limit(count || 20)

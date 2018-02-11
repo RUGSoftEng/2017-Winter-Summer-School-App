@@ -8,7 +8,7 @@
  * @public
  */
 exports.mergeDateAndTime = function (obj, property) {
-	let date = new Date(obj[property + "Date"]);
+	const date = new Date(obj[property + "Date"]);
 	date.setHours(obj[property + "Hour"]);
 	date.setMinutes(obj[property + "Minute"]);
 	obj[property + "Date"] = new Date(date);

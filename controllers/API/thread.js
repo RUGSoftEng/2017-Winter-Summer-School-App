@@ -77,7 +77,7 @@ router.get("/API/forum/thread", function (req, res) {
 	Thread
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(count|| 200)
+		.limit(count || 200)
 		.exec(function (err, threads) {
 			if (err) {
 				res.status(400);

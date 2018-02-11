@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.delete("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
-	//first get the document so you can delete the old picture path.
+	// first get the document so you can delete the old picture path.
 	Lecturer.findOneAndRemove({_id: req.query.id}, function (err, user) {
 		if (err) {
 			logger.warning("Can not delete lecturer\n" + err);
