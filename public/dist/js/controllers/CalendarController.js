@@ -1,6 +1,6 @@
 app.controller('CalendarController', ['$scope', '$http', function ($scope, $http) {
 	$scope.isToday = function (eventDay) {
-		return moment().diff(eventDay, 'days') === 0;
+		return moment().isSame(eventDay, 'day');
 	};
 
 	/**

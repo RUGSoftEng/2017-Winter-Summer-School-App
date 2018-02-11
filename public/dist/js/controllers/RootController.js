@@ -1,4 +1,4 @@
-app.controller('RootController', ['$scope', '$http', function ($scope, $http) {
+app.controller('RootController', ['$scope', function ($scope) {
 	$scope.username = userProfile.username;
 	$scope.role = userProfile.rank;
 	$scope.schoolid = userProfile.school;
