@@ -22,7 +22,8 @@ const UserRights = {
 		"VIEW_OPTIONS",
 		"OVERVIEW_GENERAL_INFO",
 		"OVERVIEW_ANNOUNCE",
-		"OVERVIEW_LECTURERS"
+		"OVERVIEW_LECTURERS",
+		"OVERVIEW_FORUM"
 	],
 
 	// A coordinator for a specific school. May only perform actions related to a specific school.
@@ -34,7 +35,8 @@ const UserRights = {
 		"ALTER_CALENDAR",
 		"OVERVIEW_GENERAL_INFO",
 		"OVERVIEW_ANNOUNCE",
-		"OVERVIEW_LECTURERS"
+		"OVERVIEW_LECTURERS",
+		"OVERVIEW_FORUM"
 	],
 
 	student: ["ACCESS_MAIN_OVERVIEW"]

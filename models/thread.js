@@ -36,6 +36,10 @@ const ThreadSchema = new Schema({
 		type: [String],
 		default: []
 	},
+	school: {
+		type: Schema.ObjectId,
+		required: "A thread needs to be associated with some school."
+	},
 	edited: {type: Date}
 });
 

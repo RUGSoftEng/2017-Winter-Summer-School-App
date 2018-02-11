@@ -18,7 +18,8 @@
 				   aria-expanded="false">Menu <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li ng-if="isAuthorised('OVERVIEW_ANNOUNCE') && !isAuthorised('VIEW_OPTIONS')"><a href="../announcepage">Announcements</a></li>
-					<li ng-if="isAuthorised('OVERVIEW_GENERAL_INFO') && !isAuthorised('VIEW_OPTIONS')"><a href="../generalinfo">General Information</a></li>
+					<li ng-if="isAuthorised('OVERVIEW_GENERAL_INFO') && !isAuthorised('VIEW_OPTIONS')"><a href="../generalinfo">General Information</a>
+					<li ng-if="isAuthorised('OVERVIEW_FORUM') && !isAuthorised('VIEW_OPTIONS')"><a href="../forumpage">Forum</a></li>
 					<li ng-if="isAuthorised('OVERVIEW_LECTURERS')"><a href="../lecturerpage">Lecturers</a></li>
 					<li ng-if="isAuthorised('VIEW_OPTIONS')"><a href="../options">Options</a></li>
 					<li role="separator" class="divider"></li>

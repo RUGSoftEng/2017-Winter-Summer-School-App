@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class='full' ng-app="Overview">
+<head>
+	<% include partials/web_header.ejs %>
+	<link rel="stylesheet" href="/public/dist/css/informationpages.css">
+	<script src="/public/dist/js/manageForum.js"></script>
+	<script src="/public/dist/js/controllers/ForumController.js"></script>
+</head>
+<body class="full" ng-cloak ng-controller="RootController">
+	<div id='wrap' class='full' ng-controller="ForumController">
+		<% include partials/general_navigationbar.html %>
+		<div class="row" id="event-screen">
+			<div class="col-md-4">
+				<div class="list-group">
+					<h2
+							class="list-group-item list-group-item-text">
+						Threads
+					</h2>
+					<button
+							type="button" class="list-group-item list-group-item-text"
+							ng-repeat="thread in threads | startFrom:(currentPage-1) * pageSize | limitTo: pageSize"
+							ng-click="threadClick(thread._id)"
+					>
+						<span class='pull-left thread-title'>{{ thread.title }}</span>
+						<h5 class="details pull-right">
+							{{ thread.created | date }}
+						</h5>
+					</button>
+					<div class="list-group-item pagination-style">
+						<ul uib-pagination total-items="threads.length" ng-model="currentPage" items-per-page="pageSize"></ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="inner-event">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title pull-left">{{selectedThread.title}}</h3>
+							<span class="pull-right" ng-click="deleteDisabled || deleteThread(selectedThread._id)">
+								<i class="glyphicon glyphicon-trash"></i>
+							</span>
+						</div>
+						<div class='panel-body'>
+							<p class="card-text">{{selectedThread.description}}</p>
+						</div>
+						<div class="panel-footer">
+							<h5 class="pull-left footer-poster">Posted by: {{selectedThread.author}}</h5>
+							<h6 class="text-right">{{ selectedThread.created | date }}</h6>
+						</div>
+					</div>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Comments</th>
+								<th scope="col">Poster</th>
+								<th scope="col">Date</th>
+								<th scope="col">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="comment in selectedThreadComments">
+								<th scope="row">{{$index + 1}}</th>
+								<td>{{comment.text}}</td>
+								<td>{{comment.author}}</td>
+								<td>{{comment.created|date}}</td>
+								<td class="delete-col">
+									<span class="glyphicon glyphicon-trash" ng-click="deleteComment(comment._id)"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
