@@ -28,7 +28,7 @@
 						 ng-src="{{ lecturer.imagepath || '/images/default/placeholder.png' }}" alt="Placeholder">
 					<h4 class="title">{{ lecturer.name }}</h4>
 					<div class="caption">
-						<div class="lead data-text">{{ lecturer.description }}</div>
+						<div class="lead data-text" ng-bind-html="lecturer.description"></div>
 						<a class="data-text website"
 						   href='{{ (lecturer.website.substring(0, 7) === "http://") ? lecturer.website : ("http://" + lecturer.website) }}'>{{
 							lecturer.website }}</a>
