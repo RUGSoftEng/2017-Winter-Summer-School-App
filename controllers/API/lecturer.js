@@ -22,8 +22,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.delete("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
-	//first get the document so you can delete the old picture path.
-	Lecturer.findOneAndRemove({_id: req.query.id}, function (err, user) {
+	// first get the document so you can delete the old picture path.
+	Lecturer.findOneAndRemove({ _id: req.query.id }, function (err, user) {
 		if (err) {
 			logger.warning("Can not delete lecturer\n" + err);
 			res.sendStatus(400);
@@ -61,7 +61,7 @@ router.post("/API/lecturer", upload.single("img[]"), auth.isAuthorised("ALTER_LE
 });
 
 router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
-	Lecturer.findOneAndUpdate({"_id": req.query.id}, {
+	Lecturer.findOneAndUpdate({ "_id": req.query.id }, {
 		name: req.query.title,
 		description: req.query.description,
 		imagepath: req.query.imagepath,

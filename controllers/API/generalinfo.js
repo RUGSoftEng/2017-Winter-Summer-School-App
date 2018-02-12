@@ -6,7 +6,7 @@ const Generalinfo = require("mongoose").model("generalinfo");
 const logger = require(process.cwd() + "/config/lib/logger");
 
 router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	Generalinfo.findOneAndRemove({"_id": req.query.id}, function (err) {
+	Generalinfo.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {
 			logger.warning("Can not delete general info\n" + err);
 			res.sendStatus(400);
@@ -18,7 +18,7 @@ router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), funct
 });
 
 router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
-	Generalinfo.findOneAndUpdate({"_id": req.query.id}, {
+	Generalinfo.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			title: req.query.title,
 			description: req.query.description,

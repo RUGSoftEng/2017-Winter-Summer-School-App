@@ -8,13 +8,14 @@ const environments = ["dev", "prod", "test"];
  * Validates whether the environment was properly set.
  */
 const validateEnvironment = function () {
-	if(!process.env.NODE_ENV) {
+	if (!process.env.NODE_ENV) {
 		process.env.NODE_ENV = environments[0];
 		logger.warning("The node environment is not set! \n"
 			+ "\tUsing default environment '" + process.env.NODE_ENV + "'.");
 	}
-	if(environments.indexOf(process.env.NODE_ENV) === -1) {
-		logger.fatalError("The environment is unknown! It must be one of the following: \n'" + environments.join("' or '") + "'");
+	if (environments.indexOf(process.env.NODE_ENV) === -1) {
+		logger.fatalError("The environment is unknown! It must be one of the following: \n'"
+			+ environments.join("' or '") + "'");
 	}
 };
 
@@ -34,7 +35,8 @@ const validateSecrets = function (config) {
 /**
  * Returns an object with whatever functions we want the config object to contain
  *
- * @returns {{isProductionEnv: isProductionEnv, isTestEnv: isTestEnv, isDevelopmentEnv: isDevelopmentEnv}}
+ * @returns
+ * {{isProductionEnv: isProductionEnv, isTestEnv: isTestEnv, isDevelopmentEnv: isDevelopmentEnv}}
  */
 const getConfigFunctions = function () {
 	return {
@@ -42,21 +44,21 @@ const getConfigFunctions = function () {
 		 * Returns whether the application is running in a production environment
 		 * @returns {boolean}
 		 */
-		isProductionEnv : function () {
+		isProductionEnv: function () {
 			return this.env === "prod";
 		},
 		/**
 		 * Returns whether the application is running in a testing environment
 		 * @returns {boolean}
 		 */
-		isTestEnv : function () {
+		isTestEnv: function () {
 			return this.env === "test";
 		},
 		/**
 		 * Returns whether the application is running in a development environment
 		 * @returns {boolean}
 		 */
-		isDevelopmentEnv : function () {
+		isDevelopmentEnv: function () {
 			return this.env === "dev";
 		}
 	};

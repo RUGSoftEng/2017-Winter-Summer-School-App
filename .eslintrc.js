@@ -24,6 +24,10 @@ module.exports = {
 			"error",
 			"always"
 		],
+		"object-curly-spacing": [
+			"error",
+			"always"
+		],
 		"strict": [2, "global"],
 		"global-strict": [0, "always"],
 		"prefer-const": "error",
@@ -39,10 +43,10 @@ module.exports = {
 		"no-unreachable": "error",
 		"no-unused-expressions": "error",
 		"space-infix-ops": "error",
-		"keyword-spacing": "error",
+		"keyword-spacing": ["error", {before: true, after: true}],
 		"key-spacing": "error",
 		"space-unary-ops": "error",
-		"max-len": ["error", 100], 			// max line width.
+		"max-len": ["error", 150], 			// max line width.
 		"max-lines": ["error", 250],	// max lines per file.
 		"spaced-comment": "error"
 	}

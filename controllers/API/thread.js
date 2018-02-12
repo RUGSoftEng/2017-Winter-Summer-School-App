@@ -21,19 +21,19 @@ router.post("/API/forum/thread", function (req, res) {
 });
 
 router.delete("/API/forum/thread", function (req, res) {
-	Thread.findOne({"_id": req.query.id}, function (err, thread) {
+	Thread.findOne({ "_id": req.query.id }, function (err, thread) {
 		if (err) {
 			res.status(400);
 			res.send(err);
 			logger.warning("can't find the thread with the id specified ", err);
 		} else {
-			Comment.deleteMany({"_id": { $in: thread.comments }}, function (err2) {
+			Comment.deleteMany({ "_id": { $in: thread.comments } }, function (err2) {
 				if (err2) {
 					res.status(400);
 					res.send(err2);
 					logger.warning("can't delete the comments associated with the thread ", err2);
 				} else {
-					Thread.findOneAndRemove({"_id": req.query.id}, function (err3) {
+					Thread.findOneAndRemove({ "_id": req.query.id }, function (err3) {
 						if (err3) {
 							res.status(400);
 							res.send(err3);
@@ -50,7 +50,7 @@ router.delete("/API/forum/thread", function (req, res) {
 });
 
 router.put("/API/forum/thread", function (req, res) {
-	Thread.findOneAndUpdate({"_id": req.query.id}, {
+	Thread.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			title: req.query.title,
 			description: req.query.description,
@@ -77,7 +77,7 @@ router.get("/API/forum/thread", function (req, res) {
 	Thread
 		.find(req.query)
 		.sort({ $natural: -1 })
-		.limit(count|| 200)
+		.limit(count || 200)
 		.exec(function (err, threads) {
 			if (err) {
 				res.status(400);

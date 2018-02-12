@@ -9,7 +9,7 @@ const calendar = require(process.cwd() + "/config/lib/calendarHelpers");
 router.put("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, res) {
 	calendar.mergeDateAndTime(req.query, "start");
 	calendar.mergeDateAndTime(req.query, "end");
-	Event.findOneAndUpdate({"_id": req.query.id}, {$set: req.query}, function (err) {
+	Event.findOneAndUpdate({ "_id": req.query.id }, { $set: req.query }, function (err) {
 		if (err) {
 			logger.warning("Unable to edit event.\n" + err);
 			res.sendStatus(400);
@@ -21,7 +21,7 @@ router.put("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, res
 });
 
 router.delete("/API/event", auth.isAuthorised("ALTER_CALENDAR"), function (req, res) {
-	Event.findOneAndRemove({"_id": req.query.id}, function (err) {
+	Event.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {
 			logger.warning("Unable to delete event.\n" + err);
 			res.sendStatus(400);

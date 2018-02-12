@@ -15,7 +15,6 @@ const logAll = process.env.LOG_ALL === "true";
 const env = process.env.NODE_ENV;
 const debug = process.env.DEBUG === "true";
 
-
 /**
  * Logs a warning message in bold yellow.
  *

@@ -44,7 +44,7 @@ router.get("/API/school", function (req, res) {
 
 // delete a school
 router.delete("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, res) {
-	School.findOneAndRemove({"_id": req.body.id }, function (err) {
+	School.findOneAndRemove({ "_id": req.body.id }, function (err) {
 		if (err) {
 			logger.warning("Can not deleted school\n" + err);
 			res.sendStatus(400);

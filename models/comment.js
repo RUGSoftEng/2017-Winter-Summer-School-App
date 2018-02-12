@@ -33,7 +33,7 @@ const CommentSchema = new Schema({
 		type: String,
 		required: "A comment needs a parent thread"
 	},
-	edited: {type: Date}
+	edited: { type: Date }
 });
 
 mongoose.model("comment", CommentSchema);

@@ -35,7 +35,7 @@ const LecturerSchema = new Schema(
 			trim: true,
 			validate: [validateUrl, "The given URL does not seem to be valid."]
 		},
-		imagepath: {type: String}
+		imagepath: { type: String }
 	});
 
 mongoose.model("lecturer", LecturerSchema);
