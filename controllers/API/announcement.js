@@ -17,7 +17,7 @@ router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 		if (err) {
 			logger.warning("Unable to edit announcement.\n" + err);
 			res.sendStatus(400);
-		}else {
+		} else {
 			res.sendStatus(200);
 		}
 	});
@@ -30,7 +30,7 @@ router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), fun
 		if (err) {
 			logger.warning("Unable to delete announcement.\n" + err);
 			res.sendStatus(400);
-		}else {
+		} else {
 			res.sendStatus(200);
 		}
 	});
@@ -62,7 +62,7 @@ router.get("/API/announcement", function (req, res) {
 			if (err) {
 				logger.warning("Can not retrieve announcements\n" + err);
 				res.sendStatus(400);
-			}else res.send(announcements);
+			} else res.send(announcements);
 		});
 });
 

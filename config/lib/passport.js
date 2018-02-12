@@ -17,12 +17,12 @@ module.exports = function (passport) {
 						bcrypt.compare(password, user.password, function (err, res) {
 							if (res === true) {
 								return done(null, user);
-							}else {
+							} else {
 								return done(null, false, { "message": "Invalid password." });
 							}
 						});
 
-					}else {
+					} else {
 						return done(null, false, { "message": "Invalid username." });
 					}
 				});
@@ -38,7 +38,7 @@ module.exports = function (passport) {
 		if (id === "firstlogin") {
 			const user = { _id: "firstlogin", username: "admin", password: "", rank: "admin" };
 			done(null, user);
-		}else {
+		} else {
 			Users.findOne({ _id: id }, function (err, user) {
 				if (typeof user === "undefined" || err)
 					logger.error("Error in deserializing user");

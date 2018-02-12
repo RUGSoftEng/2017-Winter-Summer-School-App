@@ -32,6 +32,7 @@ const validatePassword = function (password) {
 	return password && regex.test(password);
 };
 
+
 const AccountSchema = new Schema({
 	username: {
 		type: String,

@@ -13,21 +13,21 @@ router.post("/API/forum/comment", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("Can't save the comment in the database " + err);
-		}else {
+		} else {
 			Thread.findById(req.body.parentThread, function (err2, thread) {
 				if (err2 || !thread) {
 					res.status(400);
 					res.send(err2);
 					logger.warning("Can't find the associated thread "
 						+ (err2 || "Threadid does not exist."));
-				}else {
+				} else {
 					thread.comments.push(result._id);
 					thread.save(function (err3) {
 						if (err3) {
 							res.status(400);
 							res.send(err3);
 							logger.warning("Can't update the comment array of the associated thread ", err3);
-						}else {
+						} else {
 							res.sendStatus(200);
 						}
 					});
@@ -44,7 +44,7 @@ router.delete("/API/forum/comment", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("Can't find comment with the specified id " + err);
-		}else {
+		} else {
 			Thread.findOneAndUpdate({ "_id": comment.parentThread },
 				{ $pop: { "comments": req.query.id } },
 				function (err2) {
@@ -52,13 +52,13 @@ router.delete("/API/forum/comment", function (req, res) {
 						res.status(400);
 						res.send(err2);
 						logger.warning("Can't update comment array of associated thread " + err2);
-					}else {
+					} else {
 						Comment.findOneAndRemove({ "_id": req.query.id }, function (err3) {
 							if (err3) {
 								res.status(400);
 								res.send(err3);
 								logger.warning("Can't delete comment" + err3);
-							}else {
+							} else {
 								res.sendStatus(200);
 							}
 						});
@@ -80,7 +80,7 @@ router.put("/API/forum/comment", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("Can't edit comment " + err);
-		}else {
+		} else {
 			res.sendStatus(200);
 		}
 	});
@@ -98,7 +98,7 @@ router.get("/API/forum/comment", function (req, res) {
 				res.status(400);
 				res.send(err);
 				logger.warning("Can't get comment with specified id " + err);
-			}else {
+			} else {
 				res.status(200);
 				res.send(comment);
 			}

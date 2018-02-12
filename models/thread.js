@@ -40,7 +40,7 @@ const ThreadSchema = new Schema({
 		type: Schema.ObjectId,
 		required: "A thread needs to be associated with some school."
 	},
-	edited: {type: Date}
+	edited: { type: Date }
 });
 
 mongoose.model("thread", ThreadSchema);

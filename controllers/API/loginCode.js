@@ -24,9 +24,9 @@ router.get("/API/loginCode", function (req, res) {
 			if (err || !code) {
 				logger.warning("Could not find login code\n" + (err || "The code does not exist"));
 				res.sendStatus(400);
-			}else res.send(code);
+			} else res.send(code);
 		});
-	}else if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
+	} else if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
 		LoginCode
 			.find({})
 			.limit(count || 20)
@@ -34,9 +34,9 @@ router.get("/API/loginCode", function (req, res) {
 				if (err) {
 					logger.warning("Can not retrieve login code\n" + err);
 					res.sendStatus(400);
-				}else res.send(codes);
+				} else res.send(codes);
 			});
-	}else res.sendStatus(403);
+	} else res.sendStatus(403);
 });
 
 router.delete("/API/loginCode", auth.isAuthorised("ALTER_LOGIN_CODES"), function (req, res) {
@@ -44,7 +44,7 @@ router.delete("/API/loginCode", auth.isAuthorised("ALTER_LOGIN_CODES"), function
 		if (err) {
 			logger.warning("Can not delete login code\n" + err);
 			res.sendStatus(400);
-		}else res.sendStatus(200);
+		} else res.sendStatus(200);
 	});
 });
 

@@ -43,7 +43,7 @@ module.exports = {
 		"no-unreachable": "error",
 		"no-unused-expressions": "error",
 		"space-infix-ops": "error",
-		"keyword-spacing": ["error", {before: false,after: true}],
+		"keyword-spacing": ["error", {before: true, after: true}],
 		"key-spacing": "error",
 		"space-unary-ops": "error",
 		"max-len": ["error", 150], 			// max line width.

@@ -13,7 +13,7 @@ router.post("/API/forum/thread", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("Can't add thread into the database " + err);
-		}else {
+		} else {
 			logger.warning(result);
 			res.sendStatus(200);
 		}
@@ -26,19 +26,19 @@ router.delete("/API/forum/thread", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("can't find the thread with the id specified ", err);
-		}else {
+		} else {
 			Comment.deleteMany({ "_id": { $in: thread.comments } }, function (err2) {
 				if (err2) {
 					res.status(400);
 					res.send(err2);
 					logger.warning("can't delete the comments associated with the thread ", err2);
-				}else {
+				} else {
 					Thread.findOneAndRemove({ "_id": req.query.id }, function (err3) {
 						if (err3) {
 							res.status(400);
 							res.send(err3);
 							logger.warning("can't delete the thread from the database ", err);
-						}else {
+						} else {
 							res.sendStatus(200);
 						}
 					});
@@ -61,7 +61,7 @@ router.put("/API/forum/thread", function (req, res) {
 			res.status(400);
 			res.send(err);
 			logger.warning("can't edit the thread " + err);
-		}else {
+		} else {
 			res.sendStatus(200);
 		}
 	});
@@ -83,7 +83,7 @@ router.get("/API/forum/thread", function (req, res) {
 				res.status(400);
 				res.send(err);
 				logger.warning("can't get the threads from the database " + err);
-			}else {
+			} else {
 				res.status(200);
 				res.send(threads);
 			}
