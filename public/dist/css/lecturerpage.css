@@ -1,0 +1,132 @@
+#lecturer-name {
+	text-align: center;
+}
+
+.data-text {
+	display: block;
+	text-align: center;
+	font-size: 135%;
+}
+
+.inner-event > .img-thumbnail,
+#modal-thumbnail {
+	object-fit: cover;
+	margin-right: auto;
+	margin-left: auto;
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	top: -20px;
+	left: 75px;
+	border-radius: 50%;
+}
+
+.modal-show-body {
+	padding-bottom: 50px;
+}
+
+.panel {
+	transition: all 0.15s ease-in-out;
+	width: initial;
+	margin-right: 30px;
+	margin-left: 30px;
+	padding: 18px;
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.panel:hover {
+	cursor: pointer;
+	transform: scale(1.02);
+}
+
+#modalDescription {
+	font-size: 120%;
+	text-align: justify;
+	line-height: 1.5;
+	height: auto;
+}
+
+.browse {
+	display: block;
+	margin: 0 auto;
+}
+
+#modal-thumbnail {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 5px;
+	position: relative;
+	left: 0;
+	top: 0;
+}
+
+.file {
+	visibility: hidden;
+	position: absolute;
+}
+
+#event-screen {
+	padding-left: 0;
+	padding-right: 0;
+	min-height: 77vh;
+}
+
+#event-screen > div {
+	outline: none;
+}
+
+#event-screen,
+#wrap,
+body,
+html,
+.inner-event {
+	background-color: #F5F5F5;
+}
+
+.thumbnail {
+	border: 0;
+	padding-top: 105px;
+	background-color: #FFF;
+	width: 250px;
+	height: 400px;
+}
+
+.thumbnail h4 {
+	text-align: center;
+	border-bottom: 1px solid #EEE;
+	padding-bottom: 5px;
+}
+
+.caption a {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 50px;
+	cursor: pointer;
+}
+
+.lead {
+	height: 200px;
+}
+
+.caption a:visited,
+.caption a:link {
+	color: #428BCA;
+}
+
+#wrap .modal-show-body {
+	margin-bottom: 0;
+}
+
+#modalWebsite {
+	padding: 8px;
+}
+
+.website {
+	width: 100%;
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

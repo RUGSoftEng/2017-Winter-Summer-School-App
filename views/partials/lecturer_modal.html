@@ -1,0 +1,56 @@
+<div class="modal fade" id="add-lecturer" tabindex="-1" role="dialog" aria-labelledby="addLecturer" ng-controller="ModalController">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel"></h4>
+			</div>
+			<form method="post" enctype="multipart/form-data" action="/API/">
+				<div class="modal-body modal-add-body">
+					<div class="form-group">
+						<div id="thumbnailDiv">
+							<input id="files" type="file" name="img[]" class="file">
+							<div class="row">
+								<img id="modal-thumbnail" class="img-thumbnail" src="/images/default/placeholder.png"
+									 alt="Placeholder">
+							</div>
+							<button class="browse btn btn-primary input-lg" type="button"><i
+										class="glyphicon glyphicon-search"></i> Browse
+							</button>
+						</div>
+						<label for="lecturerTitle" id='section-header'></label>
+						<input type="text" class="form-control" id="lecturerTitle" name="title" placeholder="Name">
+					</div>
+					<div class="form-group description-form">
+						<label for="lecturerDescription">Content</label>
+						<textarea type="text" class="form-control" id="lecturerDescription" name="description"
+								  placeholder="Text" rows="4"></textarea>
+					</div>
+					<div>
+						<label for="lecturerWebsite">Personal Website</label>
+						<input type="text" class="form-control" id="lecturerWebsite" name="website"
+							   placeholder="Website Url">
+					</div>
+				</div>
+				<div class="modal-body modal-show-body jumbotron">
+					<img id="modal-thumbnail" class="img-thumbnail" src="/images/default/placeholder.png"
+						 alt="Placeholder">
+					<div id="modalDescription" class="lead"></div>
+					<div class="caption">
+						<a id="modalWebsite" class="website"></a>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info back">Back</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger delete">Delete</button>
+					<button type="button" class="btn btn-info preview">Preview</button>
+					<button type="button" class="btn btn-warning edit">Edit</button>
+					<button type="submit" ng-non-bindable class="btn btn-primary finish">Post lecturer</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

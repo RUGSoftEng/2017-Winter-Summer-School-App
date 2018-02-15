@@ -1,23 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var data = require('../../../config/database.js');
-	
-router.get('/announcepage',data.isLoggedIn,function(req,res){
-    var user;
-    if (req.user === undefined){
-          user = "tester";
-      }
-      else {
-        user = req.user
-    }
-      data.db.announcements.find(function(err,docs){
-        res.render('announcements.ejs',{
-            user: user,
-            announcements: docs
-        });
-    });
+"use strict";
+
+const router = require("express").Router();
+const auth = require(process.cwd() + "/config/lib/authorisation.js");
+
+router.get("/announcepage", auth.isAuthorised("OVERVIEW_ANNOUNCE"), function (req, res) {
+	res.render("announcements.ejs", { user: req.user || {} });
 });
 
 module.exports = router;
-	
- 

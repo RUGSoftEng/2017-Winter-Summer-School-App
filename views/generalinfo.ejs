@@ -1,64 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" class='full'>
+<html lang="en" class='full' ng-app="Overview">
 <head>
-    <% include partials/web_header %>
-    <style>
-        <% include partials/css/announcement.css %>
-    </style>
-    <script>
-        <% include partials/js/announcement.js %>
-        <% include partials/js/contentDivider.js %>
-        <% include partials/js/buttonHandler.js %>
-        <% include partials/js/loggedIn.js %>
-    </script>
+	<% include partials/web_header %>
+	<link rel="stylesheet" href="/public/dist/css/informationpages.css">
+	<script src="/public/dist/js/announcement.js"></script>
+	<script src="/public/dist/js/contentDivider.js"></script>
+	<script src="/public/dist/js/buttonHandler.js"></script>
+	<script src="/public/dist/js/loggedIn.js"></script>
+	<script src="/public/dist/js/controllers/GeneralinformationController.js"></script>
 </head>
-<% generalinfo.reverse() %>
-<body class="full">
-<div id='wrap' class='full'>
-    <% include partials/general_navigationbar.ejs %>
-    <div class="row" id="event-screen">
-        <div class="col-md-4">
-            <div id="content" class="list-group">
-                <button
-                        type="button" class="list-group-item list-group-item-text" id="list-header">
-                    General information
-                </button>
-                <% generalinfo.forEach(function(generalinfo){ %>
-                <button
-                        type="button" class="list-group-item list-group-item-text  change-announcement"
-                        data-description="<%= generalinfo.description %>"
-                        data-title="<%= generalinfo.title %>"
-                        data-id="<%= generalinfo._id %>"
-                        data-poster="<%= generalinfo.poster %>">
-                    <span class='pull-left announcement-title'><%= generalinfo.title %></span>
-                    <h5 class="details pull-right" style="width:6px; height:13px">
-
-                    </h5>
-                </button>
-                <% }); %>
-            </div>
-            <ul class="pager">
-                <li class="previous">
-                    <a>&larr; Newer</a>
-                </li>
-                <li class="next">
-                    <a>Older &rarr;</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-8">
-            <div class="inner-event">
-                <h3 id="changingTitle" class="underline-title">View General Information
-                </h3>
-                <p class='lead' id="changingDescription">Click a title to select some information</p>
-                <button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview' data-toggle="modal"
-                        data-type=1 data-target="#add-announcement" data-page="true">Edit</button>
-                <div id='authorContainer'><h5 class="details"></h5></div>
-            </div>
-        </div>
-    </div>
+<body class="full" ng-controller="RootController">
+<div id='wrap' class='full' ng-controller="GeneralinfoController">
+	<% include partials/general_navigationbar.html %>
+	<div class="row" id="event-screen">
+		<div class="col-md-4">
+			<div id="content" class="list-group">
+				<button
+						type="button" class="list-group-item list-group-item-text" id="list-header">
+					General information
+				</button>
+				<button
+						type="button" class="list-group-item list-group-item-text change-announcement"
+						ng-repeat="info in generalinfo"
+						data-description="{{ info.description }}"
+						data-title="{{ info.title }}"
+						data-id="{{ info._id }}"
+						data-category="{{ info.categogry }}"
+						data-poster="{{ info.poster }}">
+					<span class='pull-left announcement-title'>{{ info.title }}</span>
+					<h5 class="details pull-right">
+						{{ info.created | date }}
+					</h5>
+				</button>
+			</div>
+			<ul class="pager">
+				<li class="previous">
+					<a>&larr; Newer</a>
+				</li>
+				<li class="next">
+					<a>Older &rarr;</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-8">
+			<div class="inner-event">
+				<h3 id="changingTitle" class="underline-title">View General Information
+				</h3>
+				<p class='lead' id="changingDescription">Click a title to select some information</p>
+				<button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview'
+						data-toggle="modal"
+						data-type=1 data-target="#add-announcement" data-page="true">Edit
+				</button>
+				<div id='authorContainer'><h5 class="details"></h5></div>
+			</div>
+		</div>
+	</div>
 </div>
-<% include partials/modal %>
+<% include partials/modal.html %>
 
 </body>
 </html>

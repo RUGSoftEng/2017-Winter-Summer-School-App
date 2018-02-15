@@ -1,35 +1,51 @@
 <title>Summer and Winter schools - University of Groningen</title>
 
-<link rel="icon" href="../images/icon.ico">
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="icon" href="/public/images/web-icon.png">
 
 <!-- Bootstrap &  jQuery(UI) -->
-<link rel="stylesheet" href="../../dependencies/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-<style><% include js/jquery-ui-1.12.1.custom/jquery-ui.css %></style>
-<script src="../../dependencies/jquery-3.2.1.min.js"></script>
-<script src="../../dependencies/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script>
-    <% include js/jquery-ui-1.12.1.custom/jquery-ui.js %>
-</script>
+<link rel="stylesheet" href="/public/lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/public/lib/jquery-ui.custom/jquery-ui.min.css">
+<script src="/public/lib/jquery-3.2.1.min.js"></script>
+<script src="/public/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/public/lib/jquery-ui.custom/jquery-ui.min.js"></script>
 
 <!-- Additional glyphicons -->
-<script src="https://use.fontawesome.com/e13ee87d2b.js"></script>
+<script src="/public/lib/font-awesome.min.js"></script>
 
 <!-- Text editor library -->
-<style>
-    <% include ../text-editor/markitup/style.css %>
-</style>
-<script>
-    <% include ../text-editor/markitup/jquery.markitup.js %>
-</script>
-<script>
-    <% include ../text-editor/markitup/set.js %>
-</script>
+<link rel="stylesheet" href="/public/lib/markitup/style.css">
+<script src="/public/lib/markitup/jquery.markitup.js"></script>
+<script src="/public/lib/markitup/set.js"></script>
 
 <!-- General CSS markup -->
-<style>
-    <% include css/generalMarkup.css %>
-</style>
+<link rel="stylesheet" href="/public/dist/css/generalMarkup.css">
+
+<!-- Angular -->
+<script src="/public/lib/angular.min.js"></script>
+<script src="/public/lib/moment.js"></script>
+<script src="/public/lib/angular-moment.min.js"></script>
+<script src="/public/lib/angular-animate.min.js"></script>
+<script src="/public/lib/angular-touch.min.js"></script>
+<script src="/public/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script src="/public/lib/angular-aria.min.js"></script>
+<script src="/public/lib/angular-messages.min.js"></script>
+<link rel="stylesheet" href="/public/lib/angular-material.min.css">
+<script src="/public/lib/angular-material.min.js"></script>
+<script src="/public/lib/angular-sanitize.min.js"></script>
+
+<script>
+	// A 'hack' to ensure we can use functions defined in the NodeJS backend
+	var exports = {};
+	var userProfile = <%- JSON.stringify(user || {}) %>;
+</script>
+
+<script src="/public/dist/js/includeHTML.js"></script>
+<script src="/public/dist/js/httpRequest.js"></script>
+
+<script src="/public/dist/js/categories.js"></script>
+<script src="/public/dist/js/userRights.js"></script>
+
+<script src="/public/dist/js/controllers/app.js"></script>
+<script src="/public/dist/js/controllers/RootController.js"></script>

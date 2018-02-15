@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * This controller serves as an API to add tokens (FireBase user tokens) to
  * our database. The mobile application can send a post request to this url
@@ -5,27 +7,21 @@
  * TODO: Verify token, increase security
  */
 
-var express = require('express');
-var router  = express.Router();
-var data    = require('../../config/database.js');
+const router = require("express").Router();
+const Token = require("mongoose").model("token");
+const logger = require(process.cwd() + "/config/lib/logger");
 
+router.post("/API/token", function (req, res) {
+	const newToken = new Token(req.body);
 
-router.post('/token', function (req, res) {
-    // adds a new announcement
-    var newToken = {
-        token: req.body.id,
-        date: new Date()
-    };
-
-    data.db.tokens.insert(newToken, function (err, result) {
-        if (err) {
-            console.log(err);
-            res.send(400);
-        } else {
-            res.send(200);
-        }
-    });
-
+	newToken.save(function (err) {
+		if (err) {
+			logger.warning("Can not add token\n" + err);
+			res.sendStatus(400);
+		} else {
+			res.sendStatus(200);
+		}
+	});
 });
 
 

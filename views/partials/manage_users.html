@@ -1,0 +1,98 @@
+<ul class='nav nav-tabs' role='tablist'>
+	<li role='presentation' class='active'><a href='#addUser' aria-controls='addUser' role='tab'
+											  data-toggle='tab'>Add</a></li>
+	<li role='presentation'><a href='#viewUsers' aria-controls='viewUsers' role='tab' data-toggle='tab'>View</a></li>
+</ul>
+
+<div class='tab-content'>
+	<div role='tabpanel' class='tab-pane fade in active' id='addUser'>
+		<h3>Add a user</h3>
+		<form method='post' enctype='application/json' action='/API/user'>
+			<div class='modal-body modal-add-body'>
+
+				<div class='form-group'>
+					<label class='control-label' for='username'>Username</label>
+					<input type='text' class='form-control' id='username' placeholder='Name'
+						   name='username'>
+					<span class='help-block'><span class='glyphicon glyphicon-exclamation-sign'
+												   aria-hidden='true'></span><span></span></span>
+				</div>
+
+				<div class='form-group'>
+					<label for='password'>Password</label>
+					<input type='password' class='form-control' id='password' placeholder='Password'
+						   name='password'>
+					<span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
+													aria-hidden='true'></span><span></span></span>
+				</div>
+
+				<div class='form-group'>
+					<label class='control-label' for='cpassword'>Confirm password</label>
+					<input type='password' class='form-control' id='cpassword' placeholder='Password'>
+					<span class='help-block'> <span class='glyphicon glyphicon-exclamation-sign'
+													aria-hidden='true'></span> Passwords do not match</span>
+				</div>
+
+				<div class='form-group'>
+					<label class='control-label' for='rank'>Role</label>
+					<select class='form-control' id='rank' name='rank' ng-model='selectedRole'
+							ng-options='role for role in roles track by role'>
+						<option value="" disabled>Select a role</option>
+					</select>
+				</div>
+
+				<div class='form-group' ng-if="schools.length > 0" ng-hide="selectedRole !== 'coordinator'">
+					<label class='control-label' for='school'>School</label>
+					<select class='form-control' id='school' name='school' ng-model='selectedSchool'
+							ng-options='school._id as school.name for school in schools track by school._id'>
+						<option value="" disabled selected>Select a school</option>
+					</select>
+				</div>
+
+				<div class="modal-footer">
+					<button type='submit' class='btn btn-primary finish'>Add</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div role='tabpanel' class='tab-pane fade' id='viewUsers'>
+
+		<table class='table table-striped table-hover'>
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>Username</th>
+				<th>Role</th>
+				<th>School</th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="(idx, user) in users">
+				<td>
+					{{idx + 1}}
+				</td>
+				<td>
+					{{user.username}}
+				</td>
+				<td>
+					{{user.rank}}
+				</td>
+				<td>
+					{{getSchoolName(user.school)}}
+				</td>
+				<td>
+					<div class='btn-group' role='group' aria-label='actions'>
+						<button type='button' class='btn btn-default' aria-label='Delete' ng-click="httpDelete($event)"
+								data-id="{{user._id}}" data-entity-type="user" title='Delete'>
+							<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script src='/public/dist/js/manageUsers.js'></script>

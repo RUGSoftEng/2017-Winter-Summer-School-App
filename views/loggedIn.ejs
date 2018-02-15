@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class='full'>
-<% include partials/loggedin_header %>
-
-<body class='full'>
+<html lang="en" class='full' ng-app="Overview">
+<% include partials/loggedin_header.ejs %>
+<body class='full' ng-cloak ng-controller="RootController">
 <div id='wrap' class='full'>
-    <% include partials/general_navigationbar.ejs %>
-    <% include partials/alertMessage.ejs %>
-    <div class='row' id='event-screen'>
-        <span id='announcementsModule'>
-            <% include partials/announcements %>
-        </span>
-        <span id='generalinfoModule'>
-            <% include partials/generalinfo %>
-        </span>
-        <span id='scheduleModule'>
-            <% include partials/schedule %>
-        </span>
-    </div>
-
-    <% include partials/modal %>
-
+	<% include partials/general_navigationbar.html %>
+	<% include partials/alertMessage.html %>
+	<div class='row' id='event-screen' ng-controller="OverviewController">
+		<span id='announcementsModule'>
+			<% include partials/announcements.html %>
+		</span>
+		<span id='generalinfoModule'>
+			<% include partials/generalinfo.html %>
+		</span>
+		<span id='scheduleModule'>
+			<% include partials/schedule.html %>
+		</span>
+	</div>
+	<% include partials/modal.html %>
 </div>
-</body>
 
+</body>
 </html>

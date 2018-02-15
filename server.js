@@ -1,15 +1,4 @@
-var express = require('express');
-var app     = express();
+"use strict";
 
-require('./config/initialiseApp')(app);
-
-var control = require('./config/addControllers')(app);
-control.addControllers();
-
-var defaultPort = process.env.PORT || 8800;
-
-app.listen(defaultPort, function () {
-    console.log('Our app is running on port:' + defaultPort);
-});
-
-exports.app = app;
+const app = require("./config/lib/app.js");
+app.start();

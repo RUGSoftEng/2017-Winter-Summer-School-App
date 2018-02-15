@@ -1,0 +1,61 @@
+.details {
+	color: #FFF;
+}
+
+#wrap .manage:focus {
+	outline: none;
+}
+
+#wrap:active {
+	outline: none;
+}
+
+#wrap .manage:hover,
+#wrap .manage:focus {
+	background-color: #FFF;
+	border-color: #0A9BEB;
+}
+
+#innerContent > div {
+	display: none;
+}
+
+#innerContent #initialMessage {
+	display: block;
+}
+
+.btn-group-wrapper {
+	width: 100%;
+	text-align: center;
+}
+
+.tab-content {
+	max-width: 95%;
+	min-width: 700px;
+	padding: 12px 70px;
+}
+
+.tab-larger {
+	padding: 0;
+}
+
+#fix::after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+#changingDescription {
+	font-size: 21px;
+	font-weight: 300;
+}
+
+.nav-tabs > li {
+	width: 50%;
+}
+
+.help-block {
+	display: none;
+}

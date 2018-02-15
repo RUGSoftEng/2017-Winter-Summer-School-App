@@ -1,25 +1,10 @@
-var express = require('express');
+"use strict";
 
-var router = express.Router();
-var data = require('../../../config/database.js');
-	
-router.get('/generalinfo', data.isLoggedIn, function(req,res){
-    var user;
-    if (req.user === undefined){
-        user = "tester";
-    }
-    else {
-        user = req.user
-    }
-      data.db.generalinfo.find(function(err, docs){
-        res.render('generalinfo.ejs',{
-            user: user,
+const router = require("express").Router();
+const auth = require(process.cwd() + "/config/lib/authorisation.js");
 
-            generalinfo: docs
-        });
-    });
+router.get("/generalinfo", auth.isAuthorised("OVERVIEW_GENERAL_INFO"), function (req, res) {
+	res.render("generalinfo.ejs", { user: req.user || {} });
 });
 
 module.exports = router;
-	
- 

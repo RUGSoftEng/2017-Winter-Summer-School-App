@@ -1,0 +1,13 @@
+<div class='col-md-12 announce panel panel-default open-modal' data-show='overview' data-toggle="modal"
+	 data-type={{type}} data-id="{{item._id}}" data-target="#add-announcement" ng-click="openModal($event)" data-category="{{item.category}}">
+	<h4 class='panel-heading'>
+		<span class='title'>{{item.title}}</span><span
+			class="label label-primary pull-right" ng-if="isNew(item.created)">New</span></h4>
+	<div class='panel-body'>
+		<div class='lead data-text remove-style' ng-bind-html="item.description"></div>
+
+		<div class='announce-date'>
+			{{ item.created | date:'medium' }}
+		</div>
+	</div>
+</div>
