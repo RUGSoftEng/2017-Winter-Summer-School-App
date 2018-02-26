@@ -50,5 +50,20 @@ app.controller('RootController', ['$scope', function ($scope) {
 		openModal($event.currentTarget);
 	};
 
+	$scope.changeContent = function ($event) {
+		var poster      = $($event.target).data('poster');
+		var title       = $($event.target).data('title');
+		var description       = $($event.target).data('description');
+		$('#changingTitle').html(title);
+		$('#changingPoster').html("Posted by:" + poster);
+		$('#changingDescription').html(description);
+		$('#innerContent > div').hide();
+		$($($event.target).data('selector')).show();
+		$('#editSection').data('title', title);
+		$('#editSection').data('id', $($event.target).data('id'));
+		$('#editSection').data('description', description);
+		$('#editSection').data('category', $($event.target).data('category'));
+		$('#editSection').show();
+	};
 
 }]);
