@@ -42,8 +42,8 @@
 				</div>
 
 				<div class='form-group' ng-if="schools.length > 0" ng-hide="selectedRole !== 'coordinator'">
-					<label class='control-label' for='school'>School</label>
-					<select class='form-control' id='school' name='school' ng-model='selectedSchool'
+					<label class='control-label' for='user_school'>School</label>
+					<select class='form-control' id='user_school' name='school' ng-model='selectedSchool'
 							ng-options='school._id as school.name for school in schools track by school._id'>
 						<option value="" disabled selected>Select a school</option>
 					</select>
