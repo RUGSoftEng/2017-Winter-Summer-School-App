@@ -20,13 +20,14 @@
 					General information
 				</button>
 				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
+						type="button" class="list-group-item list-group-item-text"
 						ng-repeat="info in generalinfo"
 						data-description="{{ info.description }}"
 						data-title="{{ info.title }}"
 						data-id="{{ info._id }}"
 						data-category="{{ info.categogry }}"
-						data-poster="{{ info.poster }}">
+						ng-click="changeContent($event)"
+				>
 					<span class='pull-left announcement-title'>{{ info.title }}</span>
 					<h5 class="details pull-right">
 						{{ info.created | date }}

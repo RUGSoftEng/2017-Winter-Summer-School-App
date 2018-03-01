@@ -21,12 +21,14 @@
 				</button>
 
 				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
+						type="button" class="list-group-item list-group-item-text"
 						ng-repeat="announcement in announcements"
 						data-description="{{ announcement.description }}"
 						data-poster="{{ announcement.poster }}"
 						data-title="{{ announcement.title }}"
-						data-id="{{ announcement._id }}">
+						data-id="{{ announcement._id }}"
+						ng-click="changeContent($event)"
+				>
 					<span class='pull-left announcement-title'>{{ announcement.title  }}</span>
 					<h5 class="details pull-right">
 						{{ announcement.created | date }}

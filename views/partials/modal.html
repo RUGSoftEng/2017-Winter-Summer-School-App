@@ -12,7 +12,8 @@
 			</div>
 			<form method="post" enctype="application/json" action="API/">
 				<input type="hidden" name="school" ng-value="schoolid">
-				<input id='weekOffset' name="week" value=0>
+				<input id='weekOffset' type="hidden" name="week" value=0>
+				<input type="hidden" value="{{username}}" name="poster">
 				<div class="modal-body modal-add-body">
 					<div class="form-group">
 						<label for="announcementTitle" id='section-header'></label>
