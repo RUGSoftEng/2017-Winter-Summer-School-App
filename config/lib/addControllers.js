@@ -3,6 +3,7 @@
 const express = require("express");
 const requireDir = require("require-dir");
 const controllerLocation = process.cwd() + "/controllers";
+const logger = require("./logger");
 
 /*
  The following function adds every file in the directory controllerLocation
@@ -40,8 +41,14 @@ module.exports = function (app) {
 			if (err.status === 403) {
 				res.render("403.ejs", { user: req.user });
 			} else {
-				next();
+				next(err);
 			}
+		});
+
+		app.use(function (err, req, res, next) {
+			logger.error(err.stack);
+			logger.debug(next);
+			res.render("error.ejs", { user: {} });
 		});
 	};
 
