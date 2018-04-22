@@ -5,56 +5,65 @@
 	<link rel="stylesheet" href="/public/dist/css/informationpages.css">
 	<script src="/public/dist/js/buttonHandler.js"></script>
 	<script src="/public/dist/js/loggedIn.js"></script>
-	<script src="/public/dist/js/announcement.js"></script>
+	<script src="/public/dist/js/specificPage.js"></script>
 	<script src="/public/dist/js/controllers/GeneralinformationController.js"></script>
 </head>
 <body class="full" ng-cloak ng-controller="RootController">
-	<div id='wrap' class='full' ng-controller="GeneralinfoController">
-		<% include partials/general_navigationbar.html %>
-		<div class="row" id="event-screen">
-			<div class="col-md-4">
-				<div class="list-group">
-					<h2
+<div id='wrap' class='full' ng-controller="GeneralinfoController">
+	<% include partials/general_navigationbar.html %>
+	<div class="row" id="event-screen">
+		<div class="col-md-4">
+			<div class="list-group">
+				<h2
 						class="list-group-item list-group-item-text">
-						General Information
-					</h2>
-					<button
-							type="button" class="list-group-item list-group-item-text"
-							ng-repeat="info in generalinfo | startFrom:(currentPage-1) * pageSize | limitTo: pageSize"
-							ng-click="infoClick(info._id)"
-					>
-						<span class='pull-left announcement-title'>{{ info.title }}</span>
-						<h5 class="details pull-right">
-							{{ info.created | date }}
-						</h5>
-					</button>
-					<div class="list-group-item pagination-style">
-						<ul uib-pagination total-items="generalinfo.length" ng-model="currentPage" items-per-page="pageSize"></ul>
-					</div>
+					General Information
+				</h2>
+				<button
+						type="button" class="list-group-item list-group-item-text"
+						ng-repeat="info in generalinfo | startFrom:(currentPage-1) * pageSize | limitTo: pageSize"
+						ng-click="infoClick(info._id)"
+				>
+					<span class='pull-left announcement-title'>{{ info.title }}</span>
+					<h5 class="details pull-right">
+						{{ info.created | date }}
+					</h5>
+				</button>
+				<div class="list-group-item pagination-style">
+					<ul uib-pagination total-items="generalinfo.length" ng-model="currentPage"
+						items-per-page="pageSize"></ul>
 				</div>
 			</div>
-			<div class="col-md-8">
-				<div class="inner-event">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title pull-left">{{selectedAnnouncement.title}}</h3>
-							<div class="pull-right">
-								<i class="glyphicon glyphicon-pencil" ng-click="deleteDisabled || editInfo($event)"></i>
-								<i class="glyphicon glyphicon-trash open-modal" ng-click="deleteDisabled || deleteInfo(selectedInfo._id)"></i>
-							</div>
+		</div>
+		<div class="col-md-8">
+			<div class="inner-event">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left" id="selected-title">
+							{{selectedAnnouncement.title}}</h3>
+						<div class="pull-right">
+							<i class="glyphicon glyphicon-pencil"
+							   ng-click="deleteDisabled || editInfo()"
+							   data-toggle="modal"
+							   data-target="#add-announcement"></i>
+							<i class="glyphicon glyphicon-trash open-modal"
+							   ng-click="deleteDisabled || deleteInfo(selectedInfo._id)"></i>
 						</div>
-						<div class='panel-body'>
-							<p class="card-text">{{selectedAnnouncement.description}}</p>
+					</div>
+					<div class='panel-body'>
+						<div class="card-text" id="selected-text"
+							 ng-bind-html="selectedAnnouncement.description">
 						</div>
-						<div class="panel-footer">
-							<h5 class="pull-left footer-poster">Category: {{selectedAnnouncement.category}}</h5>
-							<h6 class="text-right">{{ selectedAnnouncement.created | date }}</h6>
-						</div>
+					</div>
+					<div class="panel-footer">
+						<h5 class="pull-left footer-poster">Category:
+							<span id="selectedCategory">{{selectedAnnouncement.category}}</span></h5>
+						<h6 class="text-right">{{ selectedAnnouncement.created | date }}</h6>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<% include partials/modal.html %>
+</div>
+<% include partials/modal.html %>
 </body>
 </html>
