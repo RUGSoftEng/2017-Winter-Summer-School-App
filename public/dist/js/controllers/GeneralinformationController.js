@@ -1,12 +1,13 @@
-app.controller('GeneralinfoController', ['$scope', '$http', function($scope, $http) {
-	let getGeneralInfo = function(){
+app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $http) {
+	let getGeneralInfo = function () {
 		$http.get('/API/generalinfo')
-			.then(function(data) {
+			.then(function (data) {
 				$scope.generalinfo = data.data;
-			}, function(err) {
+			}, function (err) {
 				console.log(err);
 			});
 	};
+
 	let resetSelectedInfo = function () {
 		$scope.selectedAnnouncement = {
 			title: "Click on a general info to view",
@@ -15,6 +16,7 @@ app.controller('GeneralinfoController', ['$scope', '$http', function($scope, $ht
 		};
 		$scope.deleteDisabled = true;
 	};
+
 	getGeneralInfo();
 	resetSelectedInfo();
 	$scope.pageSize = 5;
@@ -34,7 +36,15 @@ app.controller('GeneralinfoController', ['$scope', '$http', function($scope, $ht
 		$scope.selectedAnnouncement = $scope.generalinfo.find(t => t._id === id);
 		$scope.deleteDisabled = false;
 	};
-	$scope.editInfo = function($event){
-		openModal($event);
+
+	$scope.editInfo = function () {
+		$type = 1;
+		addNewItem($type, true);
+		$(modalSelector + 'form').attr('action', links[$type]);
+		$(modalSelector).data('id', $scope.selectedAnnouncement._id);
+		$(modalSelector).data('type', $type);
+		$(titleSelector).val($scope.selectedAnnouncement.title);
+		$(descriptionSelector).val($scope.selectedAnnouncement.description);
+		$('#category').val($scope.selectedAnnouncement.category);
 	}
 }]);
