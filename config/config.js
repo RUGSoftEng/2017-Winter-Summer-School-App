@@ -78,7 +78,6 @@ const initConfig = function () {
 	let config = _.merge(require("./env/common.js"), require("./env/" + env + ".js"));
 	if (env === "prod") {
 		config = _.merge(config, require("./env/" + env + "-private.js"));
-		console.log(config);
 	}
 	config.env = env;
 	config = _.merge(config, getConfigFunctions());
