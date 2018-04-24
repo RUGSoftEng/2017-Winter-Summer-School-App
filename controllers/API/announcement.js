@@ -42,9 +42,8 @@ router.post("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), funct
 		if (err) {
 			logger.warning("Unable to post announcement.\n" + err);
 		}
-		res.redirect("/main");
+		res.redirect(req.get("referer"));
 	});
-
 });
 
 router.get("/API/announcement", function (req, res) {

@@ -17,13 +17,6 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 				}, function(err) {
 					console.log(err);
 				});
-
-			$http.get('/API/forum/thread')
-				.then(function(data) {
-					$scope.threads = data.data;
-				}, function(err) {
-					console.log(err);
-				});
 		}, function(err) {
 			console.log(err);
 		});
@@ -79,7 +72,6 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 	$scope.sections = [
 		$scope.newSection('users'),
 		$scope.newSection('login codes'),
-		$scope.newSection('forum'),
 		$scope.newSection('schools')
 	];
 

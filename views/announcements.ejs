@@ -17,7 +17,11 @@
 				<h2
 					class="list-group-item list-group-item-text">
 					Announcements
+					<span
+							class="glyphicon glyphicon-plus pull-right open-modal" data-type=0 data-toggle="modal"
+							data-target="#add-announcement" aria-hidden="true"></span>
 				</h2>
+
 				<button
 						type="button" class="list-group-item list-group-item-text"
 						ng-repeat="announcement in announcements | startFrom:(currentPage-1) * pageSize | limitTo: pageSize"
@@ -39,8 +43,14 @@
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left">{{selectedAnnouncement.title}}</h3>
 						<div class="pull-right">
-							<i class="glyphicon glyphicon-pencil" ng-click="deleteDisabled || editInfo($event)"></i>
-							<i class="glyphicon glyphicon-trash open-modal" ng-click="deleteDisabled || deleteAnnouncement(selectedAnnouncement._id)"></i>
+							<i class="glyphicon glyphicon-pencil"
+							   ng-click="editInfo()"
+							   ng-show="deleteDisabled"
+							   data-toggle="modal"
+							   data-target="#add-announcement"></i>
+							<i class="glyphicon glyphicon-trash open-modal"
+							   ng-show="deleteDisabled"
+							   ng-click="deleteAnnouncement(selectedAnnouncement._id)"></i>
 						</div>
 					</div>
 					<div class='panel-body'>

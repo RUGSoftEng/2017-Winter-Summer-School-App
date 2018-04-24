@@ -78,5 +78,3 @@ exports.fatalError = function (message) {
 	log(date(new Date()));
 	throw new Error(error(message));
 };
-
-

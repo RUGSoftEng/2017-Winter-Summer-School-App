@@ -13,7 +13,7 @@ app.controller('AnnouncementController', ['$scope', '$http', function($scope, $h
 			description: "Announcement description",
 			author: " ",
 		};
-		$scope.deleteDisabled = true;
+		$scope.deleteDisabled = false;
 	};
 	getAnnouncements();
 	resetSelectedAnnouncement();
@@ -21,7 +21,7 @@ app.controller('AnnouncementController', ['$scope', '$http', function($scope, $h
 	$scope.currentPage = 1;
 
 	$scope.deleteAnnouncement = function (id) {
-		const ok = confirm(id);
+		const ok = confirm("Are you sure you want to delete this announcement?");
 		if (ok) {
 			$http.delete("/API/announcement?id=" + id)
 				.then(function () {
@@ -32,10 +32,16 @@ app.controller('AnnouncementController', ['$scope', '$http', function($scope, $h
 	};
 	$scope.announceClick = function (id) {
 		$scope.selectedAnnouncement = $scope.announcements.find(t => t._id === id);
-		$scope.deleteDisabled = false;
+		$scope.deleteDisabled = true;
 	};
-	$scope.editInfo = function($event){
-		openModal($event);
+	$scope.editInfo = function () {
+		$type = 0;
+		addNewItem($type, true);
+		$(modalSelector + 'form').attr('action', links[$type]);
+		$(modalSelector).data('id', $scope.selectedAnnouncement._id);
+		$(modalSelector).data('type', $type);
+		$(titleSelector).val($scope.selectedAnnouncement.title);
+		$(descriptionSelector).val($scope.selectedAnnouncement.description);
 	}
 
 }]);

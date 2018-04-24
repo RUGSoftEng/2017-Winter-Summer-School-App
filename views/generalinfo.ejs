@@ -17,6 +17,9 @@
 				<h2
 						class="list-group-item list-group-item-text">
 					General Information
+					<span
+							class="glyphicon glyphicon-plus pull-right open-modal" data-toggle="modal" data-type=1
+							data-target="#add-announcement" aria-hidden="true"></span>
 				</h2>
 				<button
 						type="button" class="list-group-item list-group-item-text"
@@ -39,25 +42,27 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left" id="selected-title">
-							{{selectedAnnouncement.title}}</h3>
+							{{selectedInfo.title}}</h3>
 						<div class="pull-right">
 							<i class="glyphicon glyphicon-pencil"
-							   ng-click="deleteDisabled || editInfo()"
+							   ng-show ="deleteDisabled"
+							   ng-click="editInfo()"
 							   data-toggle="modal"
 							   data-target="#add-announcement"></i>
 							<i class="glyphicon glyphicon-trash open-modal"
-							   ng-click="deleteDisabled || deleteInfo(selectedInfo._id)"></i>
+							   ng-show="deleteDisabled"
+							   ng-click="deleteInfo(selectedInfo._id)"></i>
 						</div>
 					</div>
 					<div class='panel-body'>
 						<div class="card-text" id="selected-text"
-							 ng-bind-html="selectedAnnouncement.description">
+							 ng-bind-html="selectedInfo.description">
 						</div>
 					</div>
 					<div class="panel-footer">
 						<h5 class="pull-left footer-poster">Category:
-							<span id="selectedCategory">{{selectedAnnouncement.category}}</span></h5>
-						<h6 class="text-right">{{ selectedAnnouncement.created | date }}</h6>
+							<span id="selectedCategory">{{selectedInfo.category}}</span></h5>
+						<h6 class="text-right">{{ selectedInfo.created | date }}</h6>
 					</div>
 				</div>
 			</div>
