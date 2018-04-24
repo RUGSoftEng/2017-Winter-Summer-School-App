@@ -17,13 +17,6 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 				}, function(err) {
 					console.log(err);
 				});
-
-			$http.get('/API/forum/thread')
-				.then(function(data) {
-					$scope.threads = data.data;
-				}, function(err) {
-					console.log(err);
-				});
 		}, function(err) {
 			console.log(err);
 		});
@@ -55,8 +48,8 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 	};
 
 	$scope.changeSection = function($event) {
-		var poster      = $($event.target).data('poster');
-		var title       = $($event.target).data('title');
+		var poster      = $($event.currentTarget).data('poster');
+		var title       = $($event.currentTarget).data('title');
 		$('#changingTitle').html(title);
 		$('#changingPoster').html("Posted by:" + poster);
 		$('#innerContent > div').hide();
@@ -79,7 +72,6 @@ app.controller('OptionController', ['$scope', '$http', function($scope, $http) {
 	$scope.sections = [
 		$scope.newSection('users'),
 		$scope.newSection('login codes'),
-		$scope.newSection('forum'),
 		$scope.newSection('schools')
 	];
 

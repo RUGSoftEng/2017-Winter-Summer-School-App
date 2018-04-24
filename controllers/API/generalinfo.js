@@ -42,7 +42,7 @@ router.post("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), functio
 		if (err) {
 			logger.warning(err);
 		}
-		res.redirect("/main");
+		res.redirect(req.get("referer"));
 	});
 
 });
