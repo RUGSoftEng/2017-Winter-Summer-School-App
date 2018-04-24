@@ -1,5 +1,5 @@
 app.controller('AnnouncementController', ['$scope', '$http', function($scope, $http) {
-	let getAnnouncements = function(){
+	var getAnnouncements = function(){
 		$http.get('/API/announcement?school=' + $scope.schoolid)
 			.then(function(data) {
 				$scope.announcements = data.data;
@@ -7,7 +7,7 @@ app.controller('AnnouncementController', ['$scope', '$http', function($scope, $h
 				console.log(err);
 			});
 	};
-	let resetSelectedAnnouncement = function () {
+	var resetSelectedAnnouncement = function () {
 		$scope.selectedAnnouncement = {
 			title: "Click on an announcement to view",
 			description: "Announcement description",

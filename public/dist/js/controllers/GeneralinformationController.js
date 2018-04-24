@@ -1,5 +1,5 @@
 app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $http) {
-	let getGeneralInfo = function () {
+	var getGeneralInfo = function () {
 		$http.get('/API/generalinfo')
 			.then(function (data) {
 				$scope.generalinfo = data.data;
@@ -8,7 +8,7 @@ app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $h
 			});
 	};
 
-	let resetSelectedInfo = function () {
+	var resetSelectedInfo = function () {
 		$scope.selectedInfo = {
 			title: "Click on a general info to view",
 			description: "General information description",
