@@ -7,7 +7,6 @@ const crypto = require("crypto");
 const mime = require("mime");
 const fs = require("fs");
 const Lecturer = require("mongoose").model("lecturer");
-const logger = require(process.cwd() + "/config/lib/logger");
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -21,18 +20,20 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.delete("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.delete("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res, next) {
 	// first get the document so you can delete the old picture path.
 	Lecturer.findOneAndRemove({ _id: req.query.id }, function (err, user) {
 		if (err) {
-			logger.warning("Can not delete lecturer\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			if (user.imagepath) { // image is optional
 				fs.unlink("." + "/views/" + user.imagepath, function (err) {
 					if (err) {
-						logger.warning(err);
-						res.sendStatus(400);
+						err.shouldReload = true;
+						err.status = 400;
+						next(err);
 					} else {
 						res.sendStatus(200);
 					}
@@ -45,7 +46,7 @@ router.delete("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (r
 });
 
 
-router.post("/API/lecturer", upload.single("img[]"), auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.post("/API/lecturer", upload.single("img[]"), auth.isAuthorised("ALTER_LECTURERS"), function (req, res, next) {
 	const newLecturer = new Lecturer({
 		name: req.body.title,
 		description: req.body.description,
@@ -54,13 +55,16 @@ router.post("/API/lecturer", upload.single("img[]"), auth.isAuthorised("ALTER_LE
 	});
 	newLecturer.save(function (err) {
 		if (err) {
-			logger.warning("Can not add new lecturer\n" + err);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
+		} else {
+			res.redirect("/lecturerpage");
 		}
-		res.redirect("/lecturerpage");
 	});
 });
 
-router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res) {
+router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req, res, next) {
 	Lecturer.findOneAndUpdate({ "_id": req.query.id }, {
 		name: req.query.title,
 		description: req.query.description,
@@ -68,15 +72,16 @@ router.put("/API/lecturer", auth.isAuthorised("ALTER_LECTURERS"), function (req,
 		website: req.query.website
 	}, function (err) {
 		if (err) {
-			logger.warning("Can not edit lecturer\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
 	});
 });
 
-router.get("/API/lecturer", function (req, res) {
+router.get("/API/lecturer", function (req, res, next) {
 	if (req.query.id) {
 		req.query._id = req.query.id;
 		delete req.query.id;
@@ -89,9 +94,12 @@ router.get("/API/lecturer", function (req, res) {
 		.limit(count || 200)
 		.exec(function (err, lecturers) {
 			if (err) {
-				logger.warning("Can retrieve lecturers\n" + err);
-				res.sendStatus(400);
-			} else res.send(lecturers);
+				err.apiCall = true;
+				err.status = 400;
+				next(err);
+			} else {
+				res.send(lecturers);
+			}
 		});
 
 });

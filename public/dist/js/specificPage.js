@@ -1,8 +1,8 @@
-$(function() {
-	$('.edit').click(function () {
-		$('#category').val($('#selectedCategory').text());
+$(function () {
+	$(".edit").click(function () {
+		$("#category").val($("#selectedCategory").text());
 	});
 });
 
-function initialiseScheduleButtons() {
+function initialiseScheduleButtons () {
 }

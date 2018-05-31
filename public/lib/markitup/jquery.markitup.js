@@ -26,30 +26,30 @@
 // ----------------------------------------------------------------------------
 (function ($) {
 	$.fn.markItUp = function (settings, extraSettings) {
-		var method, params, options, ctrlKey, shiftKey, altKey;
+		let method, params, options, ctrlKey, shiftKey, altKey;
 		ctrlKey = shiftKey = altKey = false;
 
-		if (typeof settings == 'string') {
+		if (typeof settings == "string") {
 			method = settings;
 			params = extraSettings;
 		}
 
 		options = {
-			id: '',
-			nameSpace: '',
-			root: '',
+			id: "",
+			nameSpace: "",
+			root: "",
 			previewHandler: false,
-			previewInWindow: '', // 'width=800, height=600, resizable=yes, scrollbars=yes'
-			previewInElement: '',
+			previewInWindow: "", // 'width=800, height=600, resizable=yes, scrollbars=yes'
+			previewInElement: "",
 			previewAutoRefresh: true,
-			previewPosition: 'after',
-			previewTemplatePath: '~/templates/preview.html',
+			previewPosition: "after",
+			previewTemplatePath: "~/templates/preview.html",
 			previewParser: false,
-			previewParserPath: '',
-			previewParserVar: 'data',
+			previewParserPath: "",
+			previewParserVar: "data",
 			resizeHandle: true,
-			beforeInsert: '',
-			afterInsert: '',
+			beforeInsert: "",
+			afterInsert: "",
 			onEnter: {},
 			onShiftEnter: {},
 			onCtrlEnter: {},
@@ -60,7 +60,7 @@
 
 		// compute markItUp! path
 		if (!options.root) {
-			$('script').each(function (a, tag) {
+			$("script").each(function (a, tag) {
 				miuScript = $(tag).get(0).src.match(/(.*)jquery\.markitup(\.pack)?\.js$/);
 				if (miuScript !== null) {
 					options.root = miuScript[1];
@@ -69,10 +69,10 @@
 		}
 
 		// Quick patch to keep compatibility with jQuery 1.9
-		var uaMatch = function (ua) {
+		const uaMatch = function (ua) {
 			ua = ua.toLowerCase();
 
-			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+			const match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
 				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
 				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
 				/(msie) ([\w.]+)/.exec(ua) ||
@@ -84,12 +84,12 @@
 				version: match[2] || "0"
 			};
 		};
-		var matched = uaMatch(navigator.userAgent);
-		var browser = {};
+		const matched = uaMatch(navigator.userAgent);
+		const browser = {};
 
 		if (matched.browser) {
 			browser[matched.browser] = true;
-			browser.version          = matched.version;
+			browser.version = matched.version;
 		}
 		if (browser.chrome) {
 			browser.webkit = true;
@@ -98,34 +98,34 @@
 		}
 
 		return this.each(function () {
-			var $$, textarea, levels, scrollPosition, caretPosition, caretOffset,
+			let $$, textarea, levels, scrollPosition, caretPosition, caretOffset,
 				clicked, hash, header, footer, previewWindow, template, iFrame, abort;
-			$$             = $(this);
-			textarea       = this;
-			levels         = [];
-			abort          = false;
+			$$ = $(this);
+			textarea = this;
+			levels = [];
+			abort = false;
 			scrollPosition = caretPosition = 0;
 			caretOffset = -1;
 
-			options.previewParserPath   = localize(options.previewParserPath);
+			options.previewParserPath = localize(options.previewParserPath);
 			options.previewTemplatePath = localize(options.previewTemplatePath);
 
 			if (method) {
 				switch (method) {
-					case 'remove':
-						remove();
-						break;
-					case 'insert':
-						markup(params);
-						break;
-					default:
-						$.error('Method ' + method + ' does not exist on jQuery.markItUp');
+				case "remove":
+					remove();
+					break;
+				case "insert":
+					markup(params);
+					break;
+				default:
+					$.error("Method " + method + " does not exist on jQuery.markItUp");
 				}
 				return;
 			}
 
 			// apply the computed path to ~/
-			function localize(data, inText) {
+			function localize (data, inText) {
 				if (inText) {
 					return data.replace(/("|')~\//g, "$1" + options.root);
 				}
@@ -133,41 +133,41 @@
 			}
 
 			// init and build editor
-			function init() {
-				id        = '';
-				nameSpace = '';
+			function init () {
+				id = "";
+				nameSpace = "";
 				if (options.id) {
-					id = 'id="' + options.id + '"';
+					id = "id=\"" + options.id + "\"";
 				} else if ($$.attr("id")) {
-					id = 'id="markItUp' + ($$.attr("id").substr(0, 1).toUpperCase()) + ($$.attr("id").substr(1)) + '"';
+					id = "id=\"markItUp" + ($$.attr("id").substr(0, 1).toUpperCase()) + ($$.attr("id").substr(1)) + "\"";
 
 				}
 				if (options.nameSpace) {
-					nameSpace = 'class="' + options.nameSpace + '"';
+					nameSpace = "class=\"" + options.nameSpace + "\"";
 				}
-				$$.wrap('<div ' + nameSpace + '></div>');
-				$$.wrap('<div ' + id + ' class="markItUp"></div>');
-				$$.wrap('<div class="markItUpContainer"></div>');
+				$$.wrap("<div " + nameSpace + "></div>");
+				$$.wrap("<div " + id + " class=\"markItUp\"></div>");
+				$$.wrap("<div class=\"markItUpContainer\"></div>");
 				$$.addClass("markItUpEditor");
 
 				// add the header before the textarea
-				header = $('<div class="markItUpHeader"></div>').insertBefore($$);
+				header = $("<div class=\"markItUpHeader\"></div>").insertBefore($$);
 				$(dropMenus(options.markupSet)).appendTo(header);
 
 				// add the footer after the textarea
-				footer = $('').insertAfter($$);
+				footer = $("").insertAfter($$);
 
 				// add the resize handle after textarea
 				if (options.resizeHandle === true && browser.safari !== true) {
-					resizeHandle = $('<div class="markItUpResizeHandle"></div>')
+					resizeHandle = $("<div class=\"markItUpResizeHandle\"></div>")
 						.insertAfter($$)
 						.bind("mousedown.markItUp", function (e) {
-							var h     = $$.height(), y = e.clientY, mouseMove, mouseUp;
+							let h = $$.height(), y = e.clientY, mouseMove, mouseUp;
 							mouseMove = function (e) {
 								$$.css("height", Math.max(20, e.clientY + h - y) + "px");
 								return false;
 							};
-							mouseUp   = function (e) {
+							mouseUp = function (e) {
 								$("html").unbind("mousemove.markItUp", mouseMove).unbind("mouseup.markItUp", mouseUp);
 								return false;
 							};
@@ -177,7 +177,7 @@
 				}
 
 				// listen key events
-				$$.bind('keydown.markItUp', keyPressed).bind('keyup', keyPressed);
+				$$.bind("keydown.markItUp", keyPressed).bind("keyup", keyPressed);
 
 				// bind an event to catch external calls
 				$$.bind("insertion.markItUp", function (e, settings) {
@@ -190,7 +190,7 @@
 				});
 
 				// remember the last focus
-				$$.bind('focus.markItUp', function () {
+				$$.bind("focus.markItUp", function () {
 					$.markItUp.focused = this;
 				});
 
@@ -200,47 +200,47 @@
 			}
 
 			// recursively build header with dropMenus from markupset
-			function dropMenus(markupSet) {
-				var ul = $('<ul></ul>'), i = 0;
-				$('li:hover > ul', ul).css('display', 'block');
+			function dropMenus (markupSet) {
+				let ul = $("<ul></ul>"), i = 0;
+				$("li:hover > ul", ul).css("display", "block");
 				$.each(markupSet, function () {
-					var button = this, t = '', title, li, j;
-					title      = (button.key) ? (button.name || '') + ' [Ctrl+' + button.key + ']' : (button.name || '');
-					key        = (button.key) ? 'accesskey="' + button.key + '"' : '';
+					let button = this, t = "", title, li, j;
+					title = (button.key) ? (button.name || "") + " [Ctrl+" + button.key + "]" : (button.name || "");
+					key = (button.key) ? "accesskey=\"" + button.key + "\"" : "";
 					if (button.separator) {
-						li = $('<li class="markItUpSeparator">' + (button.separator || '') + '</li>').appendTo(ul);
+						li = $("<li class=\"markItUpSeparator\">" + (button.separator || "") + "</li>").appendTo(ul);
 					} else {
 						i++;
 						for (j = levels.length - 1; j >= 0; j--) {
 							t += levels[j] + "-";
 						}
-						li = $('<li class="markItUpButton markItUpButton' + t + (i) + ' ' + (button.className || '') + '"><a href="" ' + key + ' title="' + title + '"><i class="fa fa-' + (button.name || '') + '"></i></a></li>')
+						li = $("<li class=\"markItUpButton markItUpButton" + t + (i) + " " + (button.className || "") + "\"><a href=\"\" " + key + " title=\"" + title + "\"><i class=\"fa fa-" + (button.name || "") + "\"></i></a></li>")
 							.bind("contextmenu.markItUp", function () { // prevent contextmenu on mac and allow ctrl+click
 								return false;
-							}).bind('click.markItUp', function (e) {
+							}).bind("click.markItUp", function (e) {
 								e.preventDefault();
 							}).bind("focusin.markItUp", function () {
 								$$.focus();
-							}).bind('mouseup', function () {
+							}).bind("mouseup", function () {
 								if (button.call) {
 									eval(button.call)();
 								}
 								setTimeout(function () {
-									markup(button)
+									markup(button);
 								}, 1);
 								return false;
-							}).bind('mouseenter.markItUp', function () {
-								$('> ul', this).show();
-								$(document).one('click', function () { // close dropmenu if click outside
-										$('ul ul', header).hide();
-									}
+							}).bind("mouseenter.markItUp", function () {
+								$("> ul", this).show();
+								$(document).one("click", function () { // close dropmenu if click outside
+									$("ul ul", header).hide();
+								}
 								);
-							}).bind('mouseleave.markItUp', function () {
-								$('> ul', this).hide();
+							}).bind("mouseleave.markItUp", function () {
+								$("> ul", this).hide();
 							}).appendTo(ul);
 						if (button.dropMenu) {
 							levels.push(i);
-							$(li).addClass('markItUpDropMenu').append(dropMenus(button.dropMenu));
+							$(li).addClass("markItUpDropMenu").append(dropMenus(button.dropMenu));
 						}
 					}
 				});
@@ -249,12 +249,12 @@
 			}
 
 			// markItUp! markups
-			function magicMarkups(string) {
+			function magicMarkups (string) {
 				if (string) {
 					string = string.toString();
 					string = string.replace(/\(\!\(([\s\S]*?)\)\!\)/g,
 						function (x, a) {
-							var b = a.split('|!|');
+							const b = a.split("|!|");
 							if (altKey === true) {
 								return (b[1] !== undefined) ? b[1] : b[0];
 							} else {
@@ -265,11 +265,11 @@
 					// [![prompt]!], [![prompt:!:value]!]
 					string = string.replace(/\[\!\[([\s\S]*?)\]\!\]/g,
 						function (x, a) {
-							var b = a.split(':!:');
+							const b = a.split(":!:");
 							if (abort === true) {
 								return false;
 							}
-							value = prompt(b[0], (b[1]) ? b[1] : '');
+							value = prompt(b[0], (b[1]) ? b[1] : "");
 							if (value === null) {
 								abort = true;
 							}
@@ -282,7 +282,7 @@
 			}
 
 			// prepare action
-			function prepare(action) {
+			function prepare (action) {
 				if ($.isFunction(action)) {
 					action = action(hash);
 				}
@@ -290,33 +290,33 @@
 			}
 
 			// build block to insert
-			function build(string) {
-				var openWith       = prepare(clicked.openWith);
-				var placeHolder    = prepare(clicked.placeHolder);
-				var replaceWith    = prepare(clicked.replaceWith);
-				var closeWith      = prepare(clicked.closeWith);
-				var openBlockWith  = prepare(clicked.openBlockWith);
-				var closeBlockWith = prepare(clicked.closeBlockWith);
-				var multiline      = clicked.multiline;
+			function build (string) {
+				const openWith = prepare(clicked.openWith);
+				const placeHolder = prepare(clicked.placeHolder);
+				const replaceWith = prepare(clicked.replaceWith);
+				const closeWith = prepare(clicked.closeWith);
+				const openBlockWith = prepare(clicked.openBlockWith);
+				const closeBlockWith = prepare(clicked.closeBlockWith);
+				const multiline = clicked.multiline;
 
 				if (replaceWith !== "") {
 					block = openWith + replaceWith + closeWith;
-				} else if (selection === '' && placeHolder !== '') {
+				} else if (selection === "" && placeHolder !== "") {
 					block = openWith + placeHolder + closeWith;
 				} else {
 					string = string || selection;
 
-					var lines = [string], blocks = [];
+					let lines = [string], blocks = [];
 
 					if (multiline === true) {
 						lines = string.split(/\r?\n/);
 					}
 
-					for (var l = 0; l < lines.length; l++) {
+					for (let l = 0; l < lines.length; l++) {
 						line = lines[l];
 						var trailingSpaces;
 						if (trailingSpaces = line.match(/ *$/)) {
-							blocks.push(openWith + line.replace(/ *$/g, '') + closeWith + trailingSpaces);
+							blocks.push(openWith + line.replace(/ *$/g, "") + closeWith + trailingSpaces);
 						} else {
 							blocks.push(openWith + line + closeWith);
 						}
@@ -339,20 +339,20 @@
 			}
 
 			// define markup to insert
-			function markup(button) {
-				var len, j, n, i;
+			function markup (button) {
+				let len, j, n, i;
 				hash = clicked = button;
 				get();
 				$.extend(hash, {
-						line: "",
-						root: options.root,
-						textarea: textarea,
-						selection: (selection || ''),
-						caretPosition: caretPosition,
-						ctrlKey: ctrlKey,
-						shiftKey: shiftKey,
-						altKey: altKey
-					}
+					line: "",
+					root: options.root,
+					textarea: textarea,
+					selection: (selection || ""),
+					caretPosition: caretPosition,
+					ctrlKey: ctrlKey,
+					shiftKey: shiftKey,
+					altKey: altKey
+				}
 				);
 				// callbacks before insertion
 				prepare(options.beforeInsert);
@@ -360,49 +360,49 @@
 				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
 					prepare(clicked.beforeMultiInsert);
 				}
-				$.extend(hash, {line: 1});
+				$.extend(hash, { line: 1 });
 
 				if ((ctrlKey === true && shiftKey === true)) {
 					lines = selection.split(/\r?\n/);
 					for (j = 0, n = lines.length, i = 0; i < n; i++) {
-						if ($.trim(lines[i]) !== '') {
-							$.extend(hash, {line: ++j, selection: lines[i]});
+						if ($.trim(lines[i]) !== "") {
+							$.extend(hash, { line: ++j, selection: lines[i] });
 							lines[i] = build(lines[i]).block;
 						} else {
 							lines[i] = "";
 						}
 					}
 
-					string = {block: lines.join('\n')};
-					start  = caretPosition;
-					len    = string.block.length + ((browser.opera) ? n - 1 : 0);
+					string = { block: lines.join("\n") };
+					start = caretPosition;
+					len = string.block.length + ((browser.opera) ? n - 1 : 0);
 				} else if (ctrlKey === true) {
 					string = build(selection);
-					start  = caretPosition + string.openWith.length;
-					len    = string.block.length - string.openWith.length - string.closeWith.length;
-					len    = len - (string.block.match(/ $/) ? 1 : 0);
+					start = caretPosition + string.openWith.length;
+					len = string.block.length - string.openWith.length - string.closeWith.length;
+					len = len - (string.block.match(/ $/) ? 1 : 0);
 					len -= fixIeBug(string.block);
 				} else if (shiftKey === true) {
 					string = build(selection);
-					start  = caretPosition;
-					len    = string.block.length;
+					start = caretPosition;
+					len = string.block.length;
 					len -= fixIeBug(string.block);
 				} else {
 					string = build(selection);
-					start  = caretPosition + string.block.length;
-					len    = 0;
+					start = caretPosition + string.block.length;
+					len = 0;
 					start -= fixIeBug(string.block);
 				}
-				if ((selection === '' && string.replaceWith === '')) {
+				if ((selection === "" && string.replaceWith === "")) {
 					caretOffset += fixOperaBug(string.block);
 
 					start = caretPosition + string.openBlockWith.length + string.openWith.length;
-					len   = string.block.length - string.openBlockWith.length - string.openWith.length - string.closeWith.length - string.closeBlockWith.length;
+					len = string.block.length - string.openBlockWith.length - string.openWith.length - string.closeWith.length - string.closeBlockWith.length;
 
 					caretOffset = $$.val().substring(caretPosition, $$.val().length).length;
 					caretOffset -= fixOperaBug($$.val().substring(0, caretPosition));
 				}
-				$.extend(hash, {caretPosition: caretPosition, scrollPosition: scrollPosition});
+				$.extend(hash, { caretPosition: caretPosition, scrollPosition: scrollPosition });
 
 				if (string.block !== selection && abort === false) {
 					insert(string.block);
@@ -412,7 +412,7 @@
 				}
 				get();
 
-				$.extend(hash, {line: '', selection: selection});
+				$.extend(hash, { line: "", selection: selection });
 
 				// callbacks after insertion
 				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
@@ -431,25 +431,25 @@
 			}
 
 			// Substract linefeed in Opera
-			function fixOperaBug(string) {
+			function fixOperaBug (string) {
 				if (browser.opera) {
-					return string.length - string.replace(/\n*/g, '').length;
+					return string.length - string.replace(/\n*/g, "").length;
 				}
 				return 0;
 			}
 
 			// Substract linefeed in IE
-			function fixIeBug(string) {
+			function fixIeBug (string) {
 				if (browser.msie) {
-					return string.length - string.replace(/\r*/g, '').length;
+					return string.length - string.replace(/\r*/g, "").length;
 				}
 				return 0;
 			}
 
 			// add markup
-			function insert(block) {
+			function insert (block) {
 				if (document.selection) {
-					var newSelection  = document.selection.createRange();
+					const newSelection = document.selection.createRange();
 					newSelection.text = block;
 				} else {
 					textarea.value = textarea.value.substring(0, caretPosition) + block + textarea.value.substring(caretPosition + selection.length, textarea.value.length);
@@ -457,7 +457,7 @@
 			}
 
 			// set a selection
-			function set(start, len) {
+			function set (start, len) {
 				if (textarea.createTextRange) {
 					// quick fix to make it work on Opera 9.5
 					if (browser.opera && browser.version >= 9.5 && len == 0) {
@@ -465,8 +465,8 @@
 					}
 					range = textarea.createTextRange();
 					range.collapse(true);
-					range.moveStart('character', start);
-					range.moveEnd('character', len);
+					range.moveStart("character", start);
+					range.moveEnd("character", len);
 					range.select();
 				} else if (textarea.setSelectionRange) {
 					textarea.setSelectionRange(start, start + len);
@@ -476,18 +476,18 @@
 			}
 
 			// get the selection
-			function get() {
+			function get () {
 				textarea.focus();
 
 				scrollPosition = textarea.scrollTop;
 				if (document.selection) {
 					selection = document.selection.createRange().text;
 					if (browser.msie) { // ie
-						var range = document.selection.createRange(), rangeCopy = range.duplicate();
+						let range = document.selection.createRange(), rangeCopy = range.duplicate();
 						rangeCopy.moveToElementText(textarea);
 						caretPosition = -1;
 						while (rangeCopy.inRange(range)) {
-							rangeCopy.moveStart('character');
+							rangeCopy.moveStart("character");
 							caretPosition++;
 						}
 					} else { // opera
@@ -502,20 +502,20 @@
 			}
 
 			// open preview window
-			function preview() {
-				if (typeof options.previewHandler === 'function') {
+			function preview () {
+				if (typeof options.previewHandler === "function") {
 					previewWindow = true;
 				} else if (options.previewInElement) {
 					previewWindow = $(options.previewInElement);
 				} else if (!previewWindow || previewWindow.closed) {
 					if (options.previewInWindow) {
-						previewWindow = window.open('', 'preview', options.previewInWindow);
+						previewWindow = window.open("", "preview", options.previewInWindow);
 						$(window).unload(function () {
 							previewWindow.close();
 						});
 					} else {
-						iFrame = $('<iframe class="markItUpPreviewFrame"></iframe>');
-						if (options.previewPosition == 'after') {
+						iFrame = $("<iframe class=\"markItUpPreviewFrame\"></iframe>");
+						if (options.previewPosition == "after") {
 							iFrame.insertAfter(footer);
 						} else {
 							iFrame.insertBefore(header);
@@ -539,24 +539,24 @@
 			}
 
 			// refresh Preview window
-			function refreshPreview() {
+			function refreshPreview () {
 				renderPreview();
 			}
 
-			function renderPreview() {
-				var phtml;
-				if (options.previewHandler && typeof options.previewHandler === 'function') {
+			function renderPreview () {
+				let phtml;
+				if (options.previewHandler && typeof options.previewHandler === "function") {
 					options.previewHandler($$.val());
-				} else if (options.previewParser && typeof options.previewParser === 'function') {
-					var data = options.previewParser($$.val());
+				} else if (options.previewParser && typeof options.previewParser === "function") {
+					const data = options.previewParser($$.val());
 					writeInPreview(localize(data, 1));
-				} else if (options.previewParserPath !== '') {
+				} else if (options.previewParserPath !== "") {
 					$.ajax({
-						type: 'POST',
-						dataType: 'text',
+						type: "POST",
+						dataType: "text",
 						global: false,
 						url: options.previewParserPath,
-						data: options.previewParserVar + '=' + encodeURIComponent($$.val()),
+						data: options.previewParserVar + "=" + encodeURIComponent($$.val()),
 						success: function (data) {
 							writeInPreview(localize(data, 1));
 						}
@@ -565,7 +565,7 @@
 					if (!template) {
 						$.ajax({
 							url: options.previewTemplatePath,
-							dataType: 'text',
+							dataType: "text",
 							global: false,
 							success: function (data) {
 								writeInPreview(localize(data, 1).replace(/<!-- content -->/g, $$.val()));
@@ -576,12 +576,12 @@
 				return false;
 			}
 
-			function writeInPreview(data) {
+			function writeInPreview (data) {
 				if (options.previewInElement) {
 					$(options.previewInElement).html(data);
 				} else if (previewWindow && previewWindow.document) {
 					try {
-						sp = previewWindow.document.documentElement.scrollTop
+						sp = previewWindow.document.documentElement.scrollTop;
 					} catch (e) {
 						sp = 0;
 					}
@@ -593,24 +593,24 @@
 			}
 
 			// set keys pressed
-			function keyPressed(e) {
+			function keyPressed (e) {
 				shiftKey = e.shiftKey;
-				altKey   = e.altKey;
-				ctrlKey  = (!(e.altKey && e.ctrlKey)) ? (e.ctrlKey || e.metaKey) : false;
+				altKey = e.altKey;
+				ctrlKey = (!(e.altKey && e.ctrlKey)) ? (e.ctrlKey || e.metaKey) : false;
 
-				if (e.type === 'keydown') {
+				if (e.type === "keydown") {
 					if (ctrlKey === true) {
-						li = $('a[accesskey="' + ((e.keyCode == 13) ? '\\n' : String.fromCharCode(e.keyCode)) + '"]', header).parent('li');
+						li = $("a[accesskey=\"" + ((e.keyCode == 13) ? "\\n" : String.fromCharCode(e.keyCode)) + "\"]", header).parent("li");
 						if (li.length !== 0) {
 							ctrlKey = false;
 							setTimeout(function () {
-								li.triggerHandler('mouseup');
+								li.triggerHandler("mouseup");
 							}, 1);
 							return false;
 						}
 					}
 					if (e.keyCode === 13 || e.keyCode === 10) { // Enter key
-						if (ctrlKey === true) {  // Enter + Ctrl
+						if (ctrlKey === true) { // Enter + Ctrl
 							ctrlKey = false;
 							markup(options.onCtrlEnter);
 							return options.onCtrlEnter.keepDefault;
@@ -641,10 +641,10 @@
 				}
 			}
 
-			function remove() {
-				$$.unbind(".markItUp").removeClass('markItUpEditor');
-				$$.parent('div').parent('div.markItUp').parent('div').replaceWith($$);
-				$$.data('markItUp', null);
+			function remove () {
+				$$.unbind(".markItUp").removeClass("markItUpEditor");
+				$$.parent("div").parent("div.markItUp").parent("div").replaceWith($$);
+				$$.data("markItUp", null);
 			}
 
 			init();
@@ -653,21 +653,21 @@
 
 	$.fn.markItUpRemove = function () {
 		return this.each(function () {
-				$(this).markItUp('remove');
-			}
+			$(this).markItUp("remove");
+		}
 		);
 	};
 
 	$.markItUp = function (settings) {
-		var options = {target: false};
+		const options = { target: false };
 		$.extend(options, settings);
 		if (options.target) {
 			return $(options.target).each(function () {
 				$(this).focus();
-				$(this).trigger('insertion', [options]);
+				$(this).trigger("insertion", [options]);
 			});
 		} else {
-			$('textarea').trigger('insertion', [options]);
+			$("textarea").trigger("insertion", [options]);
 		}
 	};
 })(jQuery);

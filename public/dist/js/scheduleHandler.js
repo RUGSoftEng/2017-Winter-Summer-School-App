@@ -1,18 +1,18 @@
 /** The parsed data, and week offset: default is zero */
-var result, week = 0;
+let result, week = 0;
 
-function initialisePreviousButton() {
-	$('#sched-getprevious').on('click', function () {
+function initialisePreviousButton () {
+	$("#sched-getprevious").on("click", function () {
 		week -= 1;
-		$('#weekOffset').val(week);
+		$("#weekOffset").val(week);
 		$.ajax({
 			url: "/API/event?week=" + week, success: function (result) {
 				if ((result = JSON.parse(result))) {
 					if (result.error) {
-						console.log('scheduleHandler: Request to get previous week data failed!');
+						console.log("scheduleHandler: Request to get previous week data failed!");
 						week += 1;
 					} else {
-						$('#scheduleModule').html(result.data);
+						$("#scheduleModule").html(result.data);
 						refreshModalAndSchedule();
 					}
 				}
@@ -21,18 +21,18 @@ function initialisePreviousButton() {
 	});
 }
 
-function initialiseNextButton() {
-	$('#sched-getnext').on('click', function () {
+function initialiseNextButton () {
+	$("#sched-getnext").on("click", function () {
 		week += 1;
-		$('#weekOffset').val(week);
+		$("#weekOffset").val(week);
 		$.ajax({
 			url: "/API/event?week=" + week, success: function (result) {
 				if ((result = JSON.parse(result))) {
 					if (result.error) {
-						console.log('scheduleHandler: Request to get next week data failed!');
+						console.log("scheduleHandler: Request to get next week data failed!");
 						week -= 1;
 					} else {
-						$('#scheduleModule').html(result.data);
+						$("#scheduleModule").html(result.data);
 						refreshModalAndSchedule();
 					}
 				}
@@ -41,14 +41,14 @@ function initialiseNextButton() {
 	});
 }
 
-function refreshModalAndSchedule() {
+function refreshModalAndSchedule () {
 	initialisePreviousButton();
 	initialiseNextButton();
 	initialiseModalOpeners();
 	openTodaysSchedule();
 }
 
-function initialiseScheduleButtons() {
+function initialiseScheduleButtons () {
 	initialisePreviousButton();
 	initialiseNextButton();
 }

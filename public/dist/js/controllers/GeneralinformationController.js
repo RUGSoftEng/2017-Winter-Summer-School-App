@@ -1,6 +1,6 @@
-app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $http) {
-	var getGeneralInfo = function () {
-		$http.get('/API/generalinfo')
+app.controller("GeneralinfoController", ["$scope", "$http", function ($scope, $http) {
+	const getGeneralInfo = function () {
+		$http.get("/API/generalinfo")
 			.then(function (data) {
 				$scope.generalinfo = data.data;
 			}, function (err) {
@@ -8,11 +8,11 @@ app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $h
 			});
 	};
 
-	var resetSelectedInfo = function () {
+	const resetSelectedInfo = function () {
 		$scope.selectedInfo = {
 			title: "Click on a general info to view",
 			description: "General information description",
-			author: " ",
+			author: " "
 		};
 		$scope.deleteDisabled = false;
 	};
@@ -40,11 +40,11 @@ app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $h
 	$scope.editInfo = function () {
 		$type = 1;
 		addNewItem($type, true);
-		$(modalSelector + 'form').attr('action', links[$type]);
-		$(modalSelector).data('id', $scope.selectedInfo._id);
-		$(modalSelector).data('type', $type);
+		$(modalSelector + "form").attr("action", links[$type]);
+		$(modalSelector).data("id", $scope.selectedInfo._id);
+		$(modalSelector).data("type", $type);
 		$(titleSelector).val($scope.selectedInfo.title);
 		$(descriptionSelector).val($scope.selectedInfo.description);
-		$('#category').val($scope.selectedInfo.category);
-	}
+		$("#category").val($scope.selectedInfo.category);
+	};
 }]);
