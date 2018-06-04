@@ -50,7 +50,8 @@ router.post("/API/lecturer", upload.single("img[]"), auth.isAuthorised("ALTER_LE
 		name: req.body.title,
 		description: req.body.description,
 		imagepath: typeof req.file !== "undefined" ? "/images/" + req.file.filename : undefined,
-		website: req.body.website
+		website: req.body.website,
+		school: req.body.school
 	});
 	newLecturer.save(function (err) {
 		if (err) {

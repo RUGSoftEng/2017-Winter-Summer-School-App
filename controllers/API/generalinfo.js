@@ -2,7 +2,8 @@
 
 const router = require("express").Router();
 const auth = require("../../config/lib/authorisation.js");
-const Generalinfo = require("mongoose").model("generalinfo");
+const mongoose = require("mongoose");
+const Generalinfo = mongoose.model("generalinfo");
 const logger = require(process.cwd() + "/config/lib/logger");
 
 router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
@@ -52,10 +53,13 @@ router.get("/API/generalinfo", function (req, res) {
 		req.query._id = req.query.id;
 		delete req.query.id;
 	}
+	if (req.query.school === "undefined") {
+		req.query.school = null;
+	}
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Generalinfo
-		.find(req.query)
+		.find({ $or: [ req.query, { school: "000000000000000000000001" } ] })
 		.sort({ $natural: -1 })
 		.limit(count || 200)
 		.exec(function (err, generalinfo) {
