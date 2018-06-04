@@ -1,6 +1,6 @@
 app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $http) {
 	var getGeneralInfo = function () {
-		$http.get('/API/generalinfo')
+		$http.get("/API/generalinfo?school=" + $scope.schoolid)
 			.then(function (data) {
 				$scope.generalinfo = data.data;
 			}, function (err) {
@@ -12,7 +12,7 @@ app.controller('GeneralinfoController', ['$scope', '$http', function ($scope, $h
 		$scope.selectedInfo = {
 			title: "Click on a general info to view",
 			description: "General information description",
-			author: " ",
+			author: " "
 		};
 		$scope.deleteDisabled = false;
 	};

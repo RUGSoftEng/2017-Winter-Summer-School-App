@@ -22,7 +22,19 @@ const GeneralinfoSchema = new Schema({
 		type: String,
 		enum: require("../public/dist/js/categories").categories,
 		required: "General information requires a category"
+	},
+	school: {
+		type: Schema.Types.ObjectId,
+		required: "General information requires a school or to be null"
 	}
 });
 
+GeneralinfoSchema.pre("validate", function (next) {
+	const generalinfo = this;
+	if (generalinfo.school == null) {
+		generalinfo.school = require("mongoose").Types.ObjectId("000000000000000000000001");
+	}
+
+	next();
+});
 mongoose.model("generalinfo", GeneralinfoSchema);
