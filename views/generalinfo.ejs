@@ -46,11 +46,13 @@
 						<div class="pull-right">
 							<i class="glyphicon glyphicon-pencil"
 							   ng-show ="deleteDisabled"
+							   ng-if="!(selectedInfo.school === '000000000000000000000001' && !isAuthorised('VIEW_OPTIONS'))"
 							   ng-click="editInfo()"
 							   data-toggle="modal"
 							   data-target="#add-announcement"></i>
 							<i class="glyphicon glyphicon-trash open-modal"
 							   ng-show="deleteDisabled"
+							   ng-if="!(selectedInfo.school === '000000000000000000000001' && !isAuthorised('VIEW_OPTIONS'))"
 							   ng-click="deleteInfo(selectedInfo._id)"></i>
 						</div>
 					</div>

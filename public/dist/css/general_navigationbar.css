@@ -11,6 +11,10 @@
 	padding: 0;
 }
 
+.my-disable {
+	pointer-events: none;
+}
+
 #menu-bar .navbar-brand {
 	position: relative;
 	left: 0;
