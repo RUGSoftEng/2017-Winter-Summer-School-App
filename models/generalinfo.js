@@ -31,7 +31,7 @@ const GeneralinfoSchema = new Schema({
 
 GeneralinfoSchema.pre("validate", function (next) {
 	const generalinfo = this;
-	if (generalinfo.school == null) {
+	if (!generalinfo.school) {
 		generalinfo.school = require("mongoose").Types.ObjectId("000000000000000000000001");
 	}
 

@@ -35,6 +35,10 @@ const LecturerSchema = new Schema(
 			trim: true,
 			validate: [validateUrl, "The given URL does not seem to be valid."]
 		},
+		school: {
+			type: Schema.ObjectId,
+			required: "A lecturer needs to be associated with some school."
+		},
 		imagepath: { type: String }
 	});
 
