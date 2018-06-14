@@ -1,6 +1,6 @@
 app.controller("GeneralinfoController", ["$scope", "$http", function ($scope, $http) {
 	const getGeneralInfo = function () {
-		$http.get("/API/generalinfo")
+		$http.get("/API/generalinfo?school=" + $scope.schoolid)
 			.then(function (data) {
 				$scope.generalinfo = data.data;
 			}, function (err) {

@@ -55,10 +55,13 @@ router.get("/API/generalinfo", function (req, res, next) {
 		req.query._id = req.query.id;
 		delete req.query.id;
 	}
+	if (req.query.school === "undefined") {
+		req.query.school = null;
+	}
 	const count = parseInt(req.query.count);
 	delete req.query.count;
 	Generalinfo
-		.find(req.query)
+		.find({ $or: [ req.query, { school: "000000000000000000000001" } ] })
 		.sort({ $natural: -1 })
 		.limit(count || 200)
 		.exec(function (err, generalinfo) {
