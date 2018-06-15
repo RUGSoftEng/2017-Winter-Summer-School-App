@@ -11,6 +11,7 @@ router.post("/API/loginCode", auth.isAuthorised("ALTER_LOGIN_CODES"), function (
 	code.save(function (err) {
 		if (err) {
 			err.shouldReload = true;
+			err.status = 400;
 			next(err);
 		} else {
 			res.redirect("/options");

@@ -23,7 +23,9 @@ app.controller("OptionController", ["$scope", "$http", function ($scope, $http) 
 
 	$scope.roles = exports.roles;
 	$scope.selectedRole = $scope.roles[0];
-
+	$scope.addUser = {};
+	$scope.addLoginCode = {};
+	$scope.addSchool = {};
 
 	$scope.findSchoolById = function (id) {
 		const ret = $.grep($scope.schools, function (e) {
@@ -48,6 +50,33 @@ app.controller("OptionController", ["$scope", "$http", function ($scope, $http) 
 			rows: dataArray,
 			columns: cols
 		};
+	};
+
+	$scope.optionSubmit = function (category) {
+		let path;
+		let toAdd = {};
+
+		switch (category) {
+			case "user":
+				path = "/API/user";
+				$scope.addUser.rank = $("#rank")[0].value;
+				$scope.addUser.school = $("#user_school")[0].value;
+				toAdd = $scope.addUser;
+				break;
+			case "school":
+				path = "/API/school";
+				toAdd = $scope.addSchool;
+				break;
+			case "code":
+				path = "/API/loginCode";
+				toAdd = $scope.addLoginCode;
+				break;
+		}
+		$http.post(path, toAdd).then( function (data){
+			window.location.reload();
+		}, function (error) {
+			$scope.addAlert("danger", error.data);
+		});
 	};
 
 	$scope.changeSection = function ($event) {

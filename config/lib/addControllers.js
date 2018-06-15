@@ -48,7 +48,8 @@ module.exports = function (app) {
 
 		app.use(function (err, req, res, next) {
 			if (err.shouldReload) {
-				res.redirect(req.get("referer"));
+				if (!err.status) err.status = 500;
+				res.status(err.status).send(err.message);
 				logger.warning(err.message);
 			} else {
 				next(err);

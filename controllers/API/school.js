@@ -15,6 +15,7 @@ router.post("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, re
 	school.save(function (err) {
 		if (err) {
 			err.shouldReload = true;
+			err.status = 400;
 			next(err);
 		} else {
 			res.redirect("/options");
@@ -49,6 +50,7 @@ router.delete("/API/school", auth.isAuthorised("ALTER_SCHOOLS"), function (req, 
 	School.findOneAndRemove({ "_id": req.body.id }, function (err) {
 		if (err) {
 			err.shouldReload = true;
+			err.status = 400;
 			next(err);
 		} else {
 			res.sendStatus(200);

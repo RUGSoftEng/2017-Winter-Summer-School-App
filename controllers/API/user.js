@@ -11,7 +11,7 @@ router.delete("/API/user", auth.isAuthorised("ALTER_USERS"), function (req, res,
 		User.findOneAndRemove({ "_id": req.body.id }, function (err) {
 			if (err) {
 				err.shouldReload = true;
-				res.status = 400;
+				err.status = 400;
 				next(err);
 			} else {
 				res.sendStatus(200);
@@ -26,7 +26,7 @@ router.post("/API/user", auth.isAuthorised("ALTER_USERS"), function (req, res, n
 	newAccount.save(function (err) {
 		if (err) {
 			err.shouldReload = true;
-			err.debugError = "Error adding a new user\n" + err.message;
+			err.status = 400;
 			next(err);
 		} else {
 			res.redirect("/options");
@@ -47,6 +47,7 @@ router.get("/API/user", auth.isAuthorised("VIEW_OPTIONS"), function (req, res, n
 		.exec(function (err, users) {
 			if (err) {
 				err.shouldReload = true;
+				err.status = 400;
 				next(err);
 			} else {
 				res.send(users);
