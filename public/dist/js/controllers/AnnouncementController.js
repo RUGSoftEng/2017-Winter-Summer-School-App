@@ -1,17 +1,17 @@
-app.controller('AnnouncementController', ['$scope', '$http', function($scope, $http) {
-	var getAnnouncements = function(){
-		$http.get('/API/announcement?school=' + $scope.schoolid)
-			.then(function(data) {
+app.controller("AnnouncementController", ["$scope", "$http", function ($scope, $http) {
+	const getAnnouncements = function (){
+		$http.get("/API/announcement?school=" + $scope.schoolid)
+			.then(function (data) {
 				$scope.announcements = data.data;
-			}, function(err) {
+			}, function (err) {
 				console.log(err);
 			});
 	};
-	var resetSelectedAnnouncement = function () {
+	const resetSelectedAnnouncement = function () {
 		$scope.selectedAnnouncement = {
 			title: "Click on an announcement to view",
 			description: "Announcement description",
-			author: " ",
+			author: " "
 		};
 		$scope.deleteDisabled = false;
 	};
@@ -37,11 +37,11 @@ app.controller('AnnouncementController', ['$scope', '$http', function($scope, $h
 	$scope.editInfo = function () {
 		$type = 0;
 		addNewItem($type, true);
-		$(modalSelector + 'form').attr('action', links[$type]);
-		$(modalSelector).data('id', $scope.selectedAnnouncement._id);
-		$(modalSelector).data('type', $type);
+		$(modalSelector + "form").attr("action", links[$type]);
+		$(modalSelector).data("id", $scope.selectedAnnouncement._id);
+		$(modalSelector).data("type", $type);
 		$(titleSelector).val($scope.selectedAnnouncement.title);
 		$(descriptionSelector).val($scope.selectedAnnouncement.description);
-	}
+	};
 
 }]);

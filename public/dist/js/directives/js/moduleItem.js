@@ -1,15 +1,15 @@
-app.directive('moduleItem', function() {
+app.directive("moduleItem", function () {
 	return {
-		restrict: 'E',
+		restrict: "E",
 		scope: {
-			item: '=',
-			type: '='
+			item: "=",
+			type: "="
 		},
-		templateUrl: 'directives/moduleItem.html',
-		link: function(scope, element, attrs) {
-			scope.openModal = function($event) {
+		templateUrl: "directives/moduleItem.html",
+		link: function (scope, element, attrs) {
+			scope.openModal = function ($event) {
 				openModal($event.currentTarget);
-			}
+			};
 		}
 	};
 });

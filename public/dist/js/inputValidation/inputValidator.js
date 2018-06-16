@@ -3,50 +3,50 @@
  *
  */
 
-function InputValidator(selector, validator) {
-	this.id     = selector;
+function InputValidator (selector, validator) {
+	this.id = selector;
 	this.result = handleInput(selector, validator);
 }
 
-function handleInput(selector, validator) {
+function handleInput (selector, validator) {
 	$(selector).focusout(function () {
-		var value   = $(selector).val();
-		var isValid = validator.test(value);
+		const value = $(selector).val();
+		const isValid = validator.test(value);
 		alterInputStyling(selector, validator.getDescription(), isValid);
 		return isValid;
 	});
 }
 
-function toggleAddButton(isValid) {
-	/*if(isValid)
+function toggleAddButton (isValid) {
+	/* if(isValid)
 	 $('.finish').removeClass('disabledPop');
 	 else
 	 $('.finish').addClass('disabledPop');
 	 */
 }
-function alterInputStyling(selector, text, isValid) {
+function alterInputStyling (selector, text, isValid) {
 	setHelpMessage(selector, text);
 	toggleHelpBlock(selector, isValid);
 	setInputColor(selector, isValid);
 	toggleAddButton(isValid);
 }
 
-function setHelpMessage(selector, description) {
-	$(selector).next().children('span:last-child').text(description);
+function setHelpMessage (selector, description) {
+	$(selector).next().children("span:last-child").text(description);
 }
 
-function setInputColor(selector, isValid) {
+function setInputColor (selector, isValid) {
 	if (isValid) {
-		$(selector).parent().removeClass('has-error');
-		$(selector).parent().addClass('has-success');
+		$(selector).parent().removeClass("has-error");
+		$(selector).parent().addClass("has-success");
 	} else {
-		$(selector).parent().addClass('has-error');
-		$(selector).parent().removeClass('has-success');
+		$(selector).parent().addClass("has-error");
+		$(selector).parent().removeClass("has-success");
 	}
 }
 
-function toggleHelpBlock(selector, isValid) {
-	var helpBlock = $(selector).next();
+function toggleHelpBlock (selector, isValid) {
+	const helpBlock = $(selector).next();
 	if (isValid)
 		helpBlock.hide();
 	else

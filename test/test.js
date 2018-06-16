@@ -57,7 +57,7 @@ describe("API get request", function () {
 		});
 	});
 
-	/*it('should return a JSON file of the forum', function (done) {
+	/* it('should return a JSON file of the forum', function (done) {
 		request.get(config.domain + '/forum/item', function (err, res, body) {
 			var parsed = JSON.parse(body);
 			expect(res.statusCode).to.equal(200);
@@ -97,7 +97,7 @@ describe("API receives correct information", function () {
 			});
 	});
 
-	/*it('forum route should receive correct values', function (done) {
+	/* it('forum route should receive correct values', function (done) {
 		request.post(config.domain + '/forum/thread/item',
 			{form: {title: "test", description: "test", user: "test"}},
 			function (err, res, body) {
@@ -180,7 +180,7 @@ describe("Google Calendar API", function () {
 		});
 	});
 
-	/*describe('Event retreival, modification, deletion.', function () {
+	/* describe('Event retreival, modification, deletion.', function () {
 		var startDate = eventForm.startDate + 'T' + eventForm.startHour + ':' + eventForm.startMinute + ':00-00:00';
 		var endDate = eventForm.endDate + 'T' + eventForm.endHour + ':' + eventForm.endMinute + ':00-00:00';
 		var getEvent = '?startDate=' + startDate + '&endDate=' + endDate;

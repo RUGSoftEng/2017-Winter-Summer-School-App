@@ -55,7 +55,7 @@ exports.userHasRights = function (user, name) {
 
 exports.roles = [];
 
-Object.keys(UserRights).forEach(function(key) {
+Object.keys(UserRights).forEach(function (key) {
 	exports.roles.push(key);
 });
 

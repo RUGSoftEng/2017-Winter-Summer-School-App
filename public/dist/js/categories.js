@@ -1,1 +1,1 @@
-exports.categories = ['Food', 'Location', 'Internet', 'Accommodation', 'Info'];
+exports.categories = ["Food", "Location", "Internet", "Accommodation", "Info"];

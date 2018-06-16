@@ -2,15 +2,14 @@
 
 const router = require("express").Router();
 const auth = require("../../config/lib/authorisation.js");
-const mongoose = require("mongoose");
-const Generalinfo = mongoose.model("generalinfo");
-const logger = require(process.cwd() + "/config/lib/logger");
+const Generalinfo = require("mongoose").model("generalinfo");
 
-router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res, next) {
 	Generalinfo.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {
-			logger.warning("Can not delete general info\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
@@ -18,7 +17,7 @@ router.delete("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), funct
 
 });
 
-router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res, next) {
 	Generalinfo.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			title: req.query.title,
@@ -27,8 +26,9 @@ router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function
 		}
 	}, function (err) {
 		if (err) {
-			logger.warning("Can not edit general info\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
@@ -37,18 +37,20 @@ router.put("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function
 });
 
 
-router.post("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res) {
+router.post("/API/generalinfo", auth.isAuthorised("ALTER_GENERAL_INFO"), function (req, res, next) {
 	const newGeneralInfo = new Generalinfo(req.body);
 	newGeneralInfo.save(function (err) {
 		if (err) {
-			logger.warning(err);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
+		} else {
+			res.redirect(req.get("referer"));
 		}
-		res.redirect(req.get("referer"));
 	});
-
 });
 
-router.get("/API/generalinfo", function (req, res) {
+router.get("/API/generalinfo", function (req, res, next) {
 	if (req.query.id) {
 		req.query._id = req.query.id;
 		delete req.query.id;
@@ -64,9 +66,12 @@ router.get("/API/generalinfo", function (req, res) {
 		.limit(count || 200)
 		.exec(function (err, generalinfo) {
 			if (err) {
-				logger.warning("Can not retrieve general info\n" + err);
-				res.sendStatus(400);
-			} else res.send(generalinfo);
+				err.apiCall = true;
+				err.status = 400;
+				next(err);
+			} else {
+				res.send(generalinfo);
+			}
 		});
 });
 
