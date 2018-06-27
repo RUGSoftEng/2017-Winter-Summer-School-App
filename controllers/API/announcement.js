@@ -24,7 +24,7 @@ router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 
 });
 
-router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res,next) {
+router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res, next) {
 	// deletes the announcements corresponding to the given id param
 	Announcement.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {

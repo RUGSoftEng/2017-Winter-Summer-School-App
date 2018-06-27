@@ -49,7 +49,7 @@ module.exports = function (app) {
 		app.use(function (err, req, res, next) {
 			if (err.shouldReload) {
 				if (!err.status) err.status = 500;
-				res.status(err.status).send(err.message);
+				res.status(err.status).send(err.message || "Internal server error");
 				logger.warning(err.message);
 			} else {
 				next(err);
