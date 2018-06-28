@@ -11,6 +11,7 @@
     "url": "https://github.com/RUGSoftEng/2017-Winter-Summer-School-App"
   },
   "dependencies": {
+    "@slack/client": "^4.1.0",
     "angular-ui-bootstrap": "^2.5.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.6.0",
@@ -50,6 +51,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=dev nodemon server.js",
+    "prod": "npm install && export NODE_ENV=prod && nodemon server.js",
     "test": "mocha"
   },
   "husky": {

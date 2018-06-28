@@ -4,54 +4,63 @@
 	<% include partials/web_header %>
 	<link rel="stylesheet" href="/public/dist/css/informationpages.css">
 	<script src="/public/dist/js/announcement.js"></script>
-	<script src="/public/dist/js/contentDivider.js"></script>
 	<script src="/public/dist/js/buttonHandler.js"></script>
 	<script src="/public/dist/js/loggedIn.js"></script>
 	<script src="/public/dist/js/controllers/AnnouncementController.js"></script>
 </head>
-<body class="full" ng-controller="RootController">
+<body class="full" ng-cloak ng-controller="RootController">
 <div id='wrap' class='full' ng-controller="AnnouncementController">
 	<% include partials/general_navigationbar.html %>
 	<div class="row" id="event-screen">
 		<div class="col-md-4">
 			<div id="content" class="list-group">
-				<button
-						type="button" class="list-group-item list-group-item-text" id="list-header">
+				<h2
+					class="list-group-item list-group-item-text">
 					Announcements
-				</button>
+					<span
+							class="glyphicon glyphicon-plus pull-right open-modal" data-type=0 data-toggle="modal"
+							data-target="#add-announcement" aria-hidden="true"></span>
+				</h2>
 
 				<button
-						type="button" class="list-group-item list-group-item-text change-announcement"
-						ng-repeat="announcement in announcements"
-						data-description="{{ announcement.description }}"
-						data-poster="{{ announcement.poster }}"
-						data-title="{{ announcement.title }}"
-						data-id="{{ announcement._id }}">
-					<span class='pull-left announcement-title'>{{ announcement.title  }}</span>
+						type="button" class="list-group-item list-group-item-text"
+						ng-repeat="announcement in announcements | startFrom:(currentPage-1) * pageSize | limitTo: pageSize"
+						ng-click="announceClick(announcement._id)"
+				>
+					<span class='pull-left announcement-title'>{{announcement.title}}</span>
 					<h5 class="details pull-right">
-						{{ announcement.created | date }}
+						{{announcement.created | date }}
 					</h5>
 				</button>
 			</div>
-			<ul class="pager">
-				<li class="previous">
-					<a>&larr; Newer</a>
-				</li>
-				<li class="next">
-					<a>Older &rarr;</a>
-				</li>
-			</ul>
+			<div class="list-group-item pagination-style">
+				<ul uib-pagination total-items="announcements.length" ng-model="currentPage" items-per-page="pageSize"></ul>
+			</div>
 		</div>
 		<div class="col-md-8">
 			<div class="inner-event">
-				<h3 id='changingTitle' class="underline-title">View Announcement
-				</h3>
-				<p class='lead' id="changingDescription">Click a title to select an announcement</p>
-				<button type="button" id="editSection" class="btn btn-primary open-modal" data-show='overview'
-						data-toggle="modal"
-						data-type=0 data-target="#add-announcement" data-page="true">Edit
-				</button>
-				<div id='authorContainer'><h5 class="details" id="changingPoster"></h5></div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left">{{selectedAnnouncement.title}}</h3>
+						<div class="pull-right">
+							<i class="glyphicon glyphicon-pencil"
+							   ng-click="editInfo()"
+							   ng-show="deleteDisabled"
+							   data-toggle="modal"
+							   data-target="#add-announcement"></i>
+							<i class="glyphicon glyphicon-trash open-modal"
+							   ng-show="deleteDisabled"
+							   ng-click="deleteAnnouncement(selectedAnnouncement._id)"></i>
+						</div>
+					</div>
+					<div class='panel-body'>
+						<p class="card-text">{{selectedAnnouncement.description}}</p>
+					</div>
+					<div class="panel-footer">
+						<h5 class="pull-left footer-poster">Posted by: {{selectedAnnouncement.poster}}</h5>
+						<h6 class="text-right">{{ selectedAnnouncement.created | date }}</h6>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

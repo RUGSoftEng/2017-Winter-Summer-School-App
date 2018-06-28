@@ -1,5 +1,5 @@
-app.controller('ForumController', ['$scope', '$http', function ($scope, $http) {
-	let getComments = function (id) {
+app.controller("ForumController", ["$scope", "$http", function ($scope, $http) {
+	const getComments = function (id) {
 		$http.get("/API/forum/comment?parentThread=" + id)
 			.then(function (data) {
 				$scope.selectedThreadComments = data.data;
@@ -7,7 +7,7 @@ app.controller('ForumController', ['$scope', '$http', function ($scope, $http) {
 				alert("Could not retrieve comments" + err);
 			});
 	};
-	let getThreads = function () {
+	const getThreads = function () {
 		$http.get("/API/forum/thread?school=" + $scope.schoolid)
 			.then(function (data) {
 				$scope.threads = data.data;
@@ -15,11 +15,11 @@ app.controller('ForumController', ['$scope', '$http', function ($scope, $http) {
 				alert("Could not retrieve threads" + err);
 			});
 	};
-	let resetSelectedThread = function () {
+	const resetSelectedThread = function () {
 		$scope.selectedThread = {
 			title: "Click on a thread to view",
 			description: "Thread description",
-			author: " ",
+			author: " "
 		};
 		$scope.deleteDisabled = true;
 	};

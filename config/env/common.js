@@ -10,5 +10,6 @@ module.exports = {
 	domain: process.env.DOMAIN || ("http://" + host + ":" + port),
 	sessionSecret: process.env.SESSION_SECRET || "default_secret",
 	application: require(dir + "/package.json"),
-	dir: dir
+	dir: dir,
+	slack: {}
 };

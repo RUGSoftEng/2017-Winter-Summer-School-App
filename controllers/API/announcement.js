@@ -3,9 +3,8 @@
 const router = require("express").Router();
 const auth = require("../../config/lib/authorisation.js");
 const Announcement = require("mongoose").model("announcement");
-const logger = require(process.cwd() + "/config/lib/logger");
 
-router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res, next) {
 	// updates the description and title of an announcement
 	// corresponding to the given id param.
 	Announcement.findOneAndUpdate({ "_id": req.query.id }, {
@@ -15,8 +14,9 @@ router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 		}
 	}, function (err) {
 		if (err) {
-			logger.warning("Unable to edit announcement.\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
@@ -24,12 +24,13 @@ router.put("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), functi
 
 });
 
-router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res, next) {
 	// deletes the announcements corresponding to the given id param
 	Announcement.findOneAndRemove({ "_id": req.query.id }, function (err) {
 		if (err) {
-			logger.warning("Unable to delete announcement.\n" + err);
-			res.sendStatus(400);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
@@ -37,17 +38,19 @@ router.delete("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), fun
 
 });
 
-router.post("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res) {
+router.post("/API/announcement", auth.isAuthorised("ALTER_ANNOUNCEMENTS"), function (req, res, next) {
 	new Announcement(req.body).save(function (err) {
 		if (err) {
-			logger.warning("Unable to post announcement.\n" + err);
+			err.shouldReload = true;
+			err.status = 400;
+			next(err);
+		} else {
+			res.redirect(req.get("referer"));
 		}
-		res.redirect("/main");
 	});
-
 });
 
-router.get("/API/announcement", function (req, res) {
+router.get("/API/announcement", function (req, res, next) {
 	if (req.query.id) {
 		req.query._id = req.query.id;
 		delete req.query.id;
@@ -60,8 +63,9 @@ router.get("/API/announcement", function (req, res) {
 		.limit(count || 200)
 		.exec(function (err, announcements) {
 			if (err) {
-				logger.warning("Can not retrieve announcements\n" + err);
-				res.sendStatus(400);
+				err.apiCall = true;
+				err.status = 400;
+				next(err);
 			} else res.send(announcements);
 		});
 });

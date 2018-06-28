@@ -9,15 +9,15 @@
 
 const router = require("express").Router();
 const Token = require("mongoose").model("token");
-const logger = require(process.cwd() + "/config/lib/logger");
 
-router.post("/API/token", function (req, res) {
+router.post("/API/token", function (req, res, next) {
 	const newToken = new Token(req.body);
 
 	newToken.save(function (err) {
 		if (err) {
-			logger.warning("Can not add token\n" + err);
-			res.sendStatus(400);
+			err.apiCall = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}

@@ -1,6 +1,6 @@
-app.controller('CalendarController', ['$scope', '$http', function ($scope, $http) {
+app.controller("CalendarController", ["$scope", "$http", function ($scope, $http) {
 	$scope.isToday = function (eventDay) {
-		return moment().isSame(eventDay, 'day');
+		return moment().isSame(eventDay, "day");
 	};
 
 	/**
@@ -11,30 +11,30 @@ app.controller('CalendarController', ['$scope', '$http', function ($scope, $http
 	 * @returns {Array}
 	 */
 	$scope.splitInDays = function (events) {
-		let days = [];
+		const days = [];
 		let currentDay = new Date($scope.school.startDate);
 		const lastDay = new Date($scope.school.endDate);
 
-		let dateToIndexMap = [];
+		const dateToIndexMap = [];
 		let i = 0;
 		while (currentDay <= lastDay) {
 			days[i] = [];
 			days[i]["date"] = currentDay;
-			dateToIndexMap[moment(currentDay).format("dd, MM, YY")] = i;
+			dateToIndexMap[moment(currentDay).format("DD, MM, YY")] = i;
 			currentDay = new Date(currentDay.valueOf() + 864E5); // Increment by a single day.
 			++i;
 		}
 
 		for (let i = 0; i < events.length; ++i) {
 			const day = events[i].startDate;
-			const arrIndex = dateToIndexMap[moment(day).format("dd, MM, YY")];
+			const arrIndex = dateToIndexMap[moment(day).format("DD, MM, YY")];
 			days[arrIndex].push(events[i]);
 		}
 		return days;
 	};
 
-	$http.get('/API/school?_id=' + $scope.schoolid)
-		.then(function(data) {
+	$http.get("/API/school?_id=" + $scope.schoolid)
+		.then(function (data) {
 			$scope.school = data.data[0];
 			const filterBySchoolTimeframe = jQuery.param({
 				startDate: {
@@ -42,13 +42,13 @@ app.controller('CalendarController', ['$scope', '$http', function ($scope, $http
 					$lt: $scope.school.endDate
 				}
 			});
-			$http.get('/API/event?school=' + $scope.schoolid + "&" + filterBySchoolTimeframe)
+			$http.get("/API/event?school=" + $scope.schoolid + "&" + filterBySchoolTimeframe)
 				.then(function (res) {
 					$scope.calendar = $scope.splitInDays(res.data);
 				}, function (err) {
 					console.log(err);
 				});
-		}, function(err) {
+		}, function (err) {
 			console.log(err);
 		});
 }]);

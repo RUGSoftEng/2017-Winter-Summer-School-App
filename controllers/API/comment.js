@@ -3,30 +3,30 @@
 const router = require("express").Router();
 const Comment = require("mongoose").model("comment");
 const Thread = require("mongoose").model("thread");
-const logger = require(process.cwd() + "/config/lib/logger");
 
 
-router.post("/API/forum/comment", function (req, res) {
+router.post("/API/forum/comment", function (req, res, next) {
 	const newComment = new Comment(req.body);
 	newComment.save(function (err, result) {
 		if (err) {
-			res.status(400);
-			res.send(err);
-			logger.warning("Can't save the comment in the database " + err);
+			err.apiCall = true;
+			err.status = 400;
+			next(err);
 		} else {
 			Thread.findById(req.body.parentThread, function (err2, thread) {
 				if (err2 || !thread) {
-					res.status(400);
-					res.send(err2);
-					logger.warning("Can't find the associated thread "
-						+ (err2 || "Threadid does not exist."));
+					const errToSend = (err2 || new Error);
+					errToSend.message = (err2 || "The thread you try to add a comment to, does not exist");
+					errToSend.apiCall = true;
+					errToSend.status = 400;
+					next(errToSend);
 				} else {
 					thread.comments.push(result._id);
 					thread.save(function (err3) {
 						if (err3) {
-							res.status(400);
-							res.send(err3);
-							logger.warning("Can't update the comment array of the associated thread ", err3);
+							err3.apiCall = true;
+							err3.status = 400;
+							next(err3);
 						} else {
 							res.sendStatus(200);
 						}
@@ -39,25 +39,25 @@ router.post("/API/forum/comment", function (req, res) {
 });
 
 router.delete("/API/forum/comment", function (req, res) {
-	Comment.findOne({ "_id": req.query.id }, function (err, comment) {
+	Comment.findOne({ "_id": req.query.id }, function (err, comment, next) {
 		if (err) {
-			res.status(400);
-			res.send(err);
-			logger.warning("Can't find comment with the specified id " + err);
+			err.apiCall = true;
+			err.status = 400;
+			next(err);
 		} else {
 			Thread.findOneAndUpdate({ "_id": comment.parentThread },
 				{ $pop: { "comments": req.query.id } },
 				function (err2) {
 					if (err2) {
-						res.status(400);
-						res.send(err2);
-						logger.warning("Can't update comment array of associated thread " + err2);
+						err2.apiCall = true;
+						err2.status = 400;
+						next(err2);
 					} else {
 						Comment.findOneAndRemove({ "_id": req.query.id }, function (err3) {
 							if (err3) {
-								res.status(400);
-								res.send(err3);
-								logger.warning("Can't delete comment" + err3);
+								err2.apiCall = true;
+								err2.status = 400;
+								next(err2);
 							} else {
 								res.sendStatus(200);
 							}
@@ -69,7 +69,7 @@ router.delete("/API/forum/comment", function (req, res) {
 
 });
 
-router.put("/API/forum/comment", function (req, res) {
+router.put("/API/forum/comment", function (req, res, next) {
 	Comment.findOneAndUpdate({ "_id": req.query.id }, {
 		$set: {
 			text: req.query.text,
@@ -77,16 +77,16 @@ router.put("/API/forum/comment", function (req, res) {
 		}
 	}, function (err) {
 		if (err) {
-			res.status(400);
-			res.send(err);
-			logger.warning("Can't edit comment " + err);
+			err.apiCall = true;
+			err.status = 400;
+			next(err);
 		} else {
 			res.sendStatus(200);
 		}
 	});
 });
 
-router.get("/API/forum/comment", function (req, res) {
+router.get("/API/forum/comment", function (req, res, next) {
 	if (req.query.id) {
 		req.query._id = req.query.id;
 		delete req.query.id;
@@ -95,9 +95,9 @@ router.get("/API/forum/comment", function (req, res) {
 		.find(req.query)
 		.exec(function (err, comment) {
 			if (err) {
-				res.status(400);
-				res.send(err);
-				logger.warning("Can't get comment with specified id " + err);
+				err.apiCall = true;
+				err.status = 400;
+				next(err);
 			} else {
 				res.status(200);
 				res.send(comment);

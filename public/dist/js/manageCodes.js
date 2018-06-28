@@ -1,1 +1,1 @@
-new InputValidator('#code', new CodeValidator());
+new InputValidator("#code", new CodeValidator());
