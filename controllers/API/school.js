@@ -33,7 +33,7 @@ router.get("/API/school", function (req, res, next) {
 	delete req.query.count;
 	School
 		.find(req.query)
-		.limit(count || 10)
+		.limit(count || 200)
 		.exec(function (err, schools) {
 			if (err) {
 				err.apiCall = true;
