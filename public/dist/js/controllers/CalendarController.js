@@ -20,14 +20,14 @@ app.controller("CalendarController", ["$scope", "$http", function ($scope, $http
 		while (currentDay <= lastDay) {
 			days[i] = [];
 			days[i]["date"] = currentDay;
-			dateToIndexMap[moment(currentDay).format("dd, MM, YY")] = i;
+			dateToIndexMap[moment(currentDay).format("DD, MM, YY")] = i;
 			currentDay = new Date(currentDay.valueOf() + 864E5); // Increment by a single day.
 			++i;
 		}
 
 		for (let i = 0; i < events.length; ++i) {
 			const day = events[i].startDate;
-			const arrIndex = dateToIndexMap[moment(day).format("dd, MM, YY")];
+			const arrIndex = dateToIndexMap[moment(day).format("DD, MM, YY")];
 			days[arrIndex].push(events[i]);
 		}
 		return days;
