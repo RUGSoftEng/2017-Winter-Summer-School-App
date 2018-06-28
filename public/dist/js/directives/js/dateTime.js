@@ -1,10 +1,10 @@
-app.directive('dateTime', function() {
+app.directive("dateTime", function () {
 	return {
-		restrict: 'E',
+		restrict: "E",
 		scope: {
-			datetime: '=',
-			range: '='
+			datetime: "=",
+			range: "="
 		},
-		templateUrl: 'directives/dateTime.html'
+		templateUrl: "directives/dateTime.html"
 	};
 });

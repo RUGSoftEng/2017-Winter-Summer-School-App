@@ -1,8 +1,8 @@
 $(document).ready(function () {
-	$('#announcementDescription').markItUp(mySettings);
+	$("#announcementDescription").markItUp(mySettings);
 });
 
-function initialiseScheduleDatePicker() {
+function initialiseScheduleDatePicker () {
 }
-function initialiseScheduleButtons() {
+function initialiseScheduleButtons () {
 }

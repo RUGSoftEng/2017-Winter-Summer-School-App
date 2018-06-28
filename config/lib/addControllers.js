@@ -37,6 +37,7 @@ module.exports = function (app) {
 		app.use("/partials", express.static("views/partials"));
 
 		app.use("/*", require(controllerLocation + "/404"));
+
 		app.use(function (err, req, res, next) {
 			if (err.status === 403) {
 				res.render("403.ejs", { user: req.user });
@@ -45,6 +46,27 @@ module.exports = function (app) {
 			}
 		});
 
+		app.use(function (err, req, res, next) {
+			if (err.shouldReload) {
+				if (!err.status) err.status = 500;
+				res.status(err.status).send(err.message || "Internal server error");
+				logger.warning(err.message);
+			} else {
+				next(err);
+			}
+		});
+		app.use(function (err, req, res, next) {
+			if (err.apiCall) {
+				if (err.status) {
+					res.status(err.status).send(err.message);
+				} else {
+					res.status(500).send(err.message);
+				}
+				logger.warning(err.message);
+			} else {
+				next(err);
+			}
+		});
 		app.use(function (err, req, res, next) {
 			logger.error(err.stack);
 			logger.debug(next);

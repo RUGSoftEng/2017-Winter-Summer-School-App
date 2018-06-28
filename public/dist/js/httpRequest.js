@@ -5,30 +5,30 @@
  * @param {function} callback
  */
 
-var httpRequest = function (requestType, $event, callback) {
-	var requestToString = function (requestType) {
+const httpRequest = function (requestType, $event, callback) {
+	const requestToString = function (requestType) {
 		switch (requestType) {
-			case 'post':
-				return 'add';
-			case 'put' :
-				return 'edit';
-			case 'get' :
-				return 'retrieve';
-			default    :
-				return requestType;
+		case "post":
+			return "add";
+		case "put" :
+			return "edit";
+		case "get" :
+			return "retrieve";
+		default :
+			return requestType;
 		}
 	};
 
 
-	var data = $($event.target).data();
-	var entityType = data.entityType;
+	const data = $($event.target).data();
+	const entityType = data.entityType;
 	delete data.reload;
 	delete data.entityType;
 
-	if (requestType === 'get' || confirm('Are you sure you want to ' + requestToString(requestType) + ' this ' +
-			entityType + '?')) {
+	if (requestType === "get" || confirm("Are you sure you want to " + requestToString(requestType) + " this " +
+			entityType + "?")) {
 		$.ajax({
-			url: '/API/' + entityType,
+			url: "/API/" + entityType,
 			type: requestType,
 			data: data,
 			success: function (result) {
@@ -38,8 +38,8 @@ var httpRequest = function (requestType, $event, callback) {
 					location.reload();
 				}
 			},
-			error: function () {
-				alert('Error: could not ' + requestToString(requestType) + ' ' + entityType + '.');
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(errorThrown);
 			}
 		});
 	}

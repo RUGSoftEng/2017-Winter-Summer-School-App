@@ -8,12 +8,12 @@
 <div class='tab-content'>
 	<div role='tabpanel' class='tab-pane fade in active' id='addSchool'>
 		<h3>Add a summer/winter school</h3>
-		<form method='post' enctype='application/json' action='API/school'>
+		<form method='post' ng-submit="optionSubmit('school')">
 			<div class='modal-body modal-add-body'>
 
 				<div class='form-group'>
 					<label class='control-label' for='schoolName'>Name of the school</label>
-					<input type='name' class='form-control' id='schoolName' placeholder='Name'
+					<input type='name' class='form-control' ng-model="addSchool.schoolName" id='schoolName' placeholder='Name'
 						   name='schoolName'>
 					<span class='help-block'>
                                 <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
@@ -23,7 +23,7 @@
 
 				<div class='form-group'>
 					<label class='control-label' for='startDate'>Start date</label>
-					<input type='date' class='form-control' id='startDate' placeholder='31-01-2000'
+					<input type='date' class='form-control' id='startDate' ng-model="addSchool.startDate" placeholder='31-01-2000'
 						   name='startDate'>
 					<span class='help-block'>
                                 <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
@@ -33,7 +33,7 @@
 
 				<div class='form-group'>
 					<label class='control-label' for='endDate'>End date</label>
-					<input type='date' class='form-control' id='endDate' placeholder='28-02-2000'
+					<input type='date' class='form-control' id='endDate' ng-model="addSchool.endDate" placeholder='28-02-2000'
 						   name='endDate'>
 					<span class='help-block'>
                                 <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
