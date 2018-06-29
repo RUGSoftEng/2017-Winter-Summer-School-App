@@ -36,19 +36,21 @@ router.get("/API/loginCode", function (req, res, next) {
 				res.send(code);
 			}
 		});
-	} else if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
-		LoginCode
-			.find({})
-			.limit(count || 20)
-			.exec(function (err, codes) {
-				if (err) {
-					err.apiCall = true;
-					err.status = 400;
-					next(err);
-				} else {
-					res.send(codes);
-				}
-			});
+	} else if (req.user) {
+		if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")){
+			LoginCode
+				.find({})
+				.limit(count || 20)
+				.exec(function (err, codes) {
+					if (err) {
+						err.apiCall = true;
+						err.status = 400;
+						next(err);
+					} else {
+						res.send(codes);
+					}
+				});
+		}
 	} else res.sendStatus(403);
 });
 
