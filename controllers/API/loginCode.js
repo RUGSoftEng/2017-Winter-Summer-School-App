@@ -27,7 +27,9 @@ router.get("/API/loginCode", function (req, res, next) {
 			if (err || !code) {
 				const err2 = (err || new Error());
 				err2.status = 400;
-				err2.message = (err.message || "The code does not exist");
+				if(!err) {
+					err2.message = "Code does not exist";
+				}
 				err2.apiCall = true;
 				next(err2);
 			} else {
