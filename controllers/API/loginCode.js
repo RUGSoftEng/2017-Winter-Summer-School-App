@@ -27,26 +27,30 @@ router.get("/API/loginCode", function (req, res, next) {
 			if (err || !code) {
 				const err2 = (err || new Error());
 				err2.status = 400;
-				err2.message = (err.message || "The code does not exist");
+				if(!err) {
+					err2.message = "Code does not exist";
+				}
 				err2.apiCall = true;
 				next(err2);
 			} else {
 				res.send(code);
 			}
 		});
-	} else if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")) {
-		LoginCode
-			.find({})
-			.limit(count || 20)
-			.exec(function (err, codes) {
-				if (err) {
-					err.apiCall = true;
-					err.status = 400;
-					next(err);
-				} else {
-					res.send(codes);
-				}
-			});
+	} else if (req.user) {
+		if (UserRights.userHasRights(req.user, "VIEW_OPTIONS")){
+			LoginCode
+				.find({})
+				.limit(count || 20)
+				.exec(function (err, codes) {
+					if (err) {
+						err.apiCall = true;
+						err.status = 400;
+						next(err);
+					} else {
+						res.send(codes);
+					}
+				});
+		}
 	} else res.sendStatus(403);
 });
 
